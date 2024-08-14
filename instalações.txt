@@ -1,0 +1,8 @@
+// INSTALAR AGENDA
+    npm install fullcalendar
+
+// INSTALAR PLUGIN's' AGENDA
+    npm install --save @fullcalendar/core @fullcalendar/daygrid @fullcalendar/interaction
+
+// INSTALAR BIBLIOTECA SWEETALERT2
+    npm install sweetalert2
