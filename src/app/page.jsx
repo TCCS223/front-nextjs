@@ -45,8 +45,10 @@ export default function Home() {
                         </p>
                     </section>
 
+                    <div className={styles.divider}></div>
+
                     {/* Seção 2 */}
-                    <section className={styles.section}>
+                    {/* <section className={styles.section}>
                         <h2 className={styles.sectionHeading}>Nossos Serviços</h2>
                         <div className={styles.cardContainer}>
                             <div className={styles.card}>
@@ -74,7 +76,31 @@ export default function Home() {
                                 <p className={styles.cardDescription}>Identificação precisa de falhas no sistema eletrônico do veículo.</p>
                             </div>
                         </div>
+                    </section> */}
+
+                    <section className={styles.section2}>
+                        <div className={styles.section2Image}>
+                            <Image src='/servicomecanico1233.png' alt="Imagem de serviço" width={500} height={520} />
+                        </div>
+                        <div className={styles.section2Content}>
+                            <h2 className={styles.section2Title}>Nossos Serviços</h2>
+                            <p className={styles.section2Description}>
+                                Oferecemos uma ampla gama de serviços para garantir que seu veículo esteja sempre em ótimo estado.
+                                Desde manutenção preventiva até reparos complexos, temos a expertise que você precisa.
+                            </p>
+                            <div className={styles.section2ButtonContainer}>
+                                <input type="checkbox" id="menuToggle" className={styles.section2MenuCheckbox} />
+                                <label htmlFor="menuToggle" className={styles.section2Button}>Veja mais</label>
+                                <div className={styles.section2DropdownMenu}>
+                                    <Link href="#servico1" className={styles.section2DropdownLink}>Serviço 1</Link>
+                                    <Link href="#servico2" className={styles.section2DropdownLink}>Serviço 2</Link>
+                                    <Link href="#servico3" className={styles.section2DropdownLink}>Serviço 3</Link>
+                                </div>
+                            </div>
+                        </div>
                     </section>
+
+                    <div className={styles.divider}></div>
 
                     {/* Seção 3 */}
 
@@ -83,7 +109,7 @@ export default function Home() {
                         <div className={styles.employeeContainer}>
                             <div className={styles.employeeCard}>
                                 <Image
-                                    src='/mecanico1.png'
+                                    src='/mecanico.png'
                                     alt="Carlos Silva"
                                     width={150}
                                     height={150}
@@ -95,7 +121,7 @@ export default function Home() {
                             </div>
                             <div className={styles.employeeCard}>
                                 <Image
-                                    src='/mecanico1.png'
+                                    src='/mecanico.png'
                                     alt="Carlos Silva"
                                     width={150}
                                     height={150}
@@ -107,7 +133,7 @@ export default function Home() {
                             </div>
                             <div className={styles.employeeCard}>
                                 <Image
-                                    src='/mecanico1.png'
+                                    src='/mecanico.png'
                                     alt="Carlos Silva"
                                     width={150}
                                     height={150}
@@ -119,7 +145,7 @@ export default function Home() {
                             </div>
                             <div className={styles.employeeCard}>
                                 <Image
-                                    src='/mecanico1.png'
+                                    src='/mecanico.png'
                                     alt="Carlos Silva"
                                     width={150}
                                     height={150}
