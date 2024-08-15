@@ -88,14 +88,17 @@ export default function Home() {
                                 Oferecemos uma ampla gama de serviços para garantir que seu veículo esteja sempre em ótimo estado.
                                 Desde manutenção preventiva até reparos complexos, temos a expertise que você precisa.
                             </p>
-                            <div className={styles.section2ButtonContainer}>
+                            {/* <div className={styles.section2ButtonContainer}>
                                 <input type="checkbox" id="menuToggle" className={styles.section2MenuCheckbox} />
                                 <label htmlFor="menuToggle" className={styles.section2Button}>Veja mais</label>
                                 <div className={styles.section2DropdownMenu}>
-                                    <Link href="#servico1" className={styles.section2DropdownLink}>Serviço 1</Link>
-                                    <Link href="#servico2" className={styles.section2DropdownLink}>Serviço 2</Link>
-                                    <Link href="#servico3" className={styles.section2DropdownLink}>Serviço 3</Link>
+                                    <Link href="" className={styles.section2DropdownLink}>Serviço 1</Link>
                                 </div>
+                            </div> */}
+                            <div>
+                                <Link href="/telas/servicos">
+                                    <button className={styles.section2Button}>Veja mais</button>
+                                </Link>
                             </div>
                         </div>
                     </section>
@@ -181,7 +184,7 @@ export default function Home() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#SERVICOS" className={styles.footerLink}>
+                                <Link href="/telas/servicos" className={styles.footerLink}>
                                     <span className={styles.icon}></span>Serviços
                                 </Link>
                             </li>
