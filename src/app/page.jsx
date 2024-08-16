@@ -163,8 +163,51 @@ export default function Home() {
 
 
                     <section className={styles.section4}>
-                            <p className={styles.title_questions}>Perguntas frequentes</p>
-                            
+                        <p className={styles.title_questions}>Perguntas frequentes</p>
+                        <div className={styles.container_questions}>
+
+                            <details class={styles.details}>
+                                <summary class={styles.summary}>Stage 01</summary>
+                                <div class={styles.description}>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At, possimus! Fugiat ad sapiente aspernatur similique assumenda illo molestias veniam eos atque, et dolore facilis? Voluptatem non dicta fugit laboriosam veritatis!
+                                </div>
+                            </details>
+
+                            <details class={styles.details}>
+                                <summary class={styles.summary}>Stage 01</summary>
+                                <div class={styles.description}>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At, possimus! Fugiat ad sapiente aspernatur similique assumenda illo molestias veniam eos atque, et dolore facilis? Voluptatem non dicta fugit laboriosam veritatis!
+                                </div>
+                            </details>
+
+                            <details class={styles.details}>
+                                <summary class={styles.summary}>Stage 01</summary>
+                                <div class={styles.description}>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At, possimus! Fugiat ad sapiente aspernatur similique assumenda illo molestias veniam eos atque, et dolore facilis? Voluptatem non dicta fugit laboriosam veritatis!
+                                </div>
+                            </details>
+
+                            <details class={styles.details}>
+                                <summary class={styles.summary}>Stage 01</summary>
+                                <div class={styles.description}>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At, possimus! Fugiat ad sapiente aspernatur similique assumenda illo molestias veniam eos atque, et dolore facilis? Voluptatem non dicta fugit laboriosam veritatis!
+                                </div>
+                            </details>
+
+                            <details class={styles.details}>
+                                <summary class={styles.summary}>Stage 01</summary>
+                                <div class={styles.description}>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At, possimus! Fugiat ad sapiente aspernatur similique assumenda illo molestias veniam eos atque, et dolore facilis? Voluptatem non dicta fugit laboriosam veritatis!
+                                </div>
+                            </details>
+
+                            <details class={styles.details}>
+                                <summary class={styles.summary}>Stage 01</summary>
+                                <div class={styles.description}>
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At, possimus! Fugiat ad sapiente aspernatur similique assumenda illo molestias veniam eos atque, et dolore facilis? Voluptatem non dicta fugit laboriosam veritatis!
+                                </div>
+                            </details>
+                        </div>
                     </section>
 
                 </main>
