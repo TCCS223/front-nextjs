@@ -36,40 +36,49 @@ export default function VerticalTabs() {
 
 
       <main className={styles.main}>
-        <div className={styles.containerservicos}>
+        <section className={styles.section}>
           <h2 className={styles.titleservicos}>Vertical Tabs</h2>
-          <div className={styles.tabs}>
-            <input type="radio" id="tab1" name="tab" defaultChecked />
-            <label htmlFor="tab1" className={styles.tabLabel}>Tab 1</label>
-            <div className={styles.tabContent}>
-              <p>Welcome to our wonderful world...</p>
-            </div>
+          <div className={styles.verticaltabs}>
+            <div className={styles.tabs}>
+                <input type="radio" id="tab1" name="tab" defaultChecked />
+                <label htmlFor="tab1" className={styles.tabLabel}>Tab 1</label>
+                <div className={styles.tabContent}>
+                  <p>Welcome to our wonderful world... Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aliquid quae praesentium rem error perspiciatis veritatis animi incidunt dolorum necessitatibus cumque exercitationem provident vel, quam, rerum ab deserunt debitis quia. </p>
+                
+              </div>
 
-            <input type="radio" id="tab2" name="tab" />
-            <label htmlFor="tab2" className={styles.tabLabel}>Tab 2</label>
-            <div className={styles.tabContent}>
-              <p>More amazing content...</p>
-            </div>
+              <input type="radio" id="tab2" name="tab" />
+              <label htmlFor="tab2" className={styles.tabLabel}>Tab 2</label>
+              <div className={styles.tabContent}>
+                <p>More amazing content... Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates error, quia possimus sint aspernatur officiis, ipsa totam molestiae consectetur non doloribus sed esse beatae et autem. Eos commodi obcaecati quos.</p>
+              </div>
+             
 
-            <input type="radio" id="tab3" name="tab" />
-            <label htmlFor="tab3" className={styles.tabLabel}>Tab 3</label>
-            <div className={styles.tabContent}>
-              <p>Even more interesting content...</p>
-            </div>
+              <input type="radio" id="tab3" name="tab" />
+              <label htmlFor="tab3" className={styles.tabLabel}>Tab 3</label>
+              <div className={styles.tabContent}>
+                <p>Even more interesting content...</p>
+              </div>
+              
 
-            <input type="radio" id="tab4" name="tab" />
-            <label htmlFor="tab4" className={styles.tabLabel}>Tab 4</label>
-            <div className={styles.tabContent}>
-              <p>More cool stuff...</p>
-            </div>
+              
+              <input type="radio" id="tab4" name="tab" />
+              <label htmlFor="tab4" className={styles.tabLabel}>Tab 4</label>
+              <div className={styles.tabContent}>
+                <p>More cool stuff...</p>
+              </div>
+              
 
-            <input type="radio" id="tab5" name="tab" />
-            <label htmlFor="tab5" className={styles.tabLabel}>Tab 5</label>
-            <div className={styles.tabContent}>
-              <p>Last bit of content...</p>
+
+              <input type="radio" id="tab5" name="tab" />
+              <label htmlFor="tab5" className={styles.tabLabel}>Tab 5</label>
+              <div className={styles.tabContent}>
+                <p>Last bit of content...</p>
+              </div>
+              
             </div>
           </div>
-        </div>
+        </section>
       </main>
 
 

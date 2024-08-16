@@ -142,7 +142,7 @@
 .divider {
   width: 50%;
   height: 2px;
-  background-color: #ff9d00; 
+  background-color: #ff9d00;
   margin: 40px auto;
   position: relative;
   left: 0;
@@ -166,7 +166,7 @@
   overflow: hidden;
   white-space: nowrap;
   animation: caret .5s step-end infinite alternate,
-             type 5s steps(23, end)
+    type 5s steps(23, end)
 }
 
 @keyframes type {
@@ -175,8 +175,9 @@
   }
 
 }
-@keyframes caret { 
-  50% { 
+
+@keyframes caret {
+  50% {
     box-shadow: .6em 0 0 transparent;
   }
 }
@@ -267,7 +268,7 @@
   padding: 0.5rem 2.3rem;
   font-size: 1rem;
   background-color: #ff9900;
-  
+
   color: white;
   border: none;
   cursor: pointer;
@@ -300,11 +301,11 @@
 
 .section2ButtonContainer:hover .section2DropdownMenu,
 .section2DropdownMenu:hover {
-    display: block;
+  display: block;
 }
 
 /* Exibe o menu quando o checkbox está marcado */
-.section2MenuCheckbox:checked + label + .section2DropdownMenu {
+.section2MenuCheckbox:checked+label+.section2DropdownMenu {
   display: block;
 }
 
@@ -329,12 +330,15 @@
 .section2ButtonContainer:hover .section2DropdownMenu {
   opacity: 1;
 }
+
 .section2ButtonContainer:hover .section2DropdownMenu:hover {
   opacity: 1;
 }
+
 .section2ButtonContainer:hover .section2DropdownMenu:hover .section2DropdownMenu {
   opacity: 1;
 }
+
 .section2DropdownMenu:not(:hover) {
   opacity: 0;
   display: none;
@@ -394,10 +398,21 @@
 
 
 
+/* SEÇÃO 4 */
 
+.section4 {
+    width: 100%;
+    height: 100vh;
+    background-color: red;
+}
 
-
-
+.title_questions{
+  width: 100%;
+  background-color: blue;
+padding: 15px 0;
+ text-align: center;
+ font-size: 3rem;
+}
 
 
 

@@ -162,6 +162,11 @@ export default function Home() {
                     </section>
 
 
+                    <section className={styles.section4}>
+                            <p className={styles.title_questions}>Perguntas frequentes</p>
+                            
+                    </section>
+
                 </main>
 
 
