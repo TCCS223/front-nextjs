@@ -121,9 +121,69 @@
 
 .section {
   width: 100%;
-  height: 100vh;
-  border: 2px solid blue;
-  /* position: relative; */
+  height: 90vh;
+  /* border: 2px solid blue; */
+}
+
+
+
+
+
+/* SECTION 1 */
+
+
+.container {
+  width: 75.7%;
+  height: 70%;
+  padding: 2rem;
+  position: absolute;
+  /* background-color: rgb(125, 34, 34); */
+}
+
+.tabsContainer {
+  display: flex;
+  flex-direction: column;
+  /* background-color: yellowgreen; */
+  width: 25%;
+  position: relative;
+}
+
+.input {
+  display: none;
+}
+
+.tab {
+  padding: 2rem;
+  cursor: pointer;
+  background-color: #333;
+  color: white;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.tab:hover,
+.input:checked+.tab {
+  background-color: #ff9d00;
+  color: #333;
+}
+
+.content {
+  display: none;
+  padding: 15px;
+  border-left: 5px solid #ff9d00;
+  background-color: #333;
+  color: #ececec;
+  position: absolute;
+  width: 280%;
+  height: 93%;
+  left: 18rem;
+  line-height: 1.7rem;
+  font-size: 24px;
+  text-align: center;
+}
+
+.input:checked+.tab+.content {
+  display: block;
 }
 
 
@@ -131,87 +191,6 @@
 
 
 
-/* 
-
-.containerservicos {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    background-color: #333;
-    color: #fff;
-    min-height: 100vh;
-  } */
-
-  .verticaltabs{
-    background-color: red;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
- 
-  
-  .titleservicos {
-    margin-bottom: 20px;
-    font-size: 32px;
-    color: #fff;
-  }
-  
-  .tabs {
-    display: flex;
-    flex-direction: column;
-    /* width: 30%; */
-    flex-wrap: wrap;
-  }
-  
-  .tabs input[type="radio"] {
-    display: none;
-  }
-  
-  .manutabs{
-    display: flex;
-    width: 100%;
-    gap: 20px;
-  }
-
-  .tabLabel {
-    width: 30%;
-    background-color: #444;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.8s;
-    display: flex;
-    justify-content: center;
-    align-items: center;    
-  }
-  
-  .tabLabel:hover {
-    background-color: #555;
-  }
-  
-  .tabContent {
-    display: none;
-    padding: 20px;
-    background-color: #555;
-    color: #fff;
-    flex: 1;
-    /* position: absolute; */
-    /* top: 0; */
-    /* width: 200%; */
-    /* height: 100%; */
-    /* left: 25.7rem; */
-  }
-  
-  input[type="radio"]:checked + .tabLabel {
-    background-color: #ff9d00;
-    color: #333;
-  }
-  
-  input[type="radio"]:checked + .tabLabel + .tabContent {
-    display: block;
-  }
-  
 
 
 
@@ -219,7 +198,28 @@
 
 
 
-  
+/* Botão de voltar */
+
+.backButton {
+  display: inline-block;
+  padding: 1rem 3rem;
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+  background-color: #ff9d00;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.backButton:hover {
+  background-color: #ff9d00;
+  color: #333;
+}
+
+
 /* FOOTER */
 
 .footerContainer {

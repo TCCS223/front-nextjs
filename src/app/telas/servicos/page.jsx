@@ -2,6 +2,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './page.module.css';
 
+
+
 export default function VerticalTabs() {
   return (
     <body>
@@ -37,47 +39,94 @@ export default function VerticalTabs() {
 
       <main className={styles.main}>
         <section className={styles.section}>
-          <h2 className={styles.titleservicos}>Vertical Tabs</h2>
-          <div className={styles.verticaltabs}>
-            <div className={styles.tabs}>
-                <input type="radio" id="tab1" name="tab" defaultChecked />
-                <label htmlFor="tab1" className={styles.tabLabel}>Tab 1</label>
-                <div className={styles.tabContent}>
-                  <p>Welcome to our wonderful world... Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore aliquid quae praesentium rem error perspiciatis veritatis animi incidunt dolorum necessitatibus cumque exercitationem provident vel, quam, rerum ab deserunt debitis quia. </p>
-                
+          <div className={styles.container}>
+            <div className={styles.tabsContainer}>
+              <input type="radio" id="tab1" name="tabs" className={styles.input} defaultChecked />
+              <label htmlFor="tab1" className={styles.tab}>Troca de Óleo e Filtro</label>
+              <div className={styles.content}>
+                <Image
+                  src={'/trocadeoleo1.png'}
+                  alt={"Troca de Óleo"}
+                  width={300}
+                  height={300}
+                  unoptimized={true}
+                />
+                <p>A troca de óleo e filtro é essencial para manter o motor do veículo funcionando suavemente. O óleo lubrifica as partes móveis do motor, reduzindo o desgaste e a fricção. O filtro de óleo remove impurezas do óleo para garantir que apenas óleo limpo circule pelo motor, aumentando sua vida útil e desempenho.
+                </p>
               </div>
 
-              <input type="radio" id="tab2" name="tab" />
-              <label htmlFor="tab2" className={styles.tabLabel}>Tab 2</label>
-              <div className={styles.tabContent}>
-                <p>More amazing content... Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates error, quia possimus sint aspernatur officiis, ipsa totam molestiae consectetur non doloribus sed esse beatae et autem. Eos commodi obcaecati quos.</p>
+              <input type="radio" id="tab2" name="tabs" className={styles.input} />
+              <label htmlFor="tab2" className={styles.tab}>Alinhamento e Balanceamento</label>
+              <div className={styles.content}>
+                <Image
+                  src={'/alinhamentocarro.png'}
+                  alt={"Alinhamento e Balanceamento"}
+                  width={320}
+                  height={320}
+                  unoptimized={true}
+                />
+                <p>O alinhamento e balanceamento das rodas são fundamentais para garantir a segurança e o conforto ao dirigir. O alinhamento corrige a direção das rodas para que estejam paralelas entre si e perpendiculares ao solo, enquanto o balanceamento assegura que as rodas girem sem causar vibrações. Esses serviços prolongam a vida útil dos pneus e melhoram a dirigibilidade do veículo.</p>
               </div>
-             
 
-              <input type="radio" id="tab3" name="tab" />
-              <label htmlFor="tab3" className={styles.tabLabel}>Tab 3</label>
-              <div className={styles.tabContent}>
-                <p>Even more interesting content...</p>
+              <input type="radio" id="tab3" name="tabs" className={styles.input} />
+              <label htmlFor="tab3" className={styles.tab}>Revisão de freios</label>
+              <div className={styles.content}>
+                <Image
+                  src={'/revisaodefreio.png'}
+                  alt={"Revisão de freios"}
+                  width={300}
+                  height={300}
+                  unoptimized={true}
+                />
+                <p> A revisão de freios é crucial para a segurança do veículo. Esse serviço envolve a inspeção e substituição de componentes como pastilhas, discos, fluido de freio e outras partes do sistema de frenagem. Freios bem mantidos garantem uma resposta rápida e eficaz em situações de emergência.</p>
               </div>
-              
 
-              
-              <input type="radio" id="tab4" name="tab" />
-              <label htmlFor="tab4" className={styles.tabLabel}>Tab 4</label>
-              <div className={styles.tabContent}>
-                <p>More cool stuff...</p>
+              <input type="radio" id="tab4" name="tabs" className={styles.input} />
+              <label htmlFor="tab4" className={styles.tab}>Inspeção e Substituição de Baterias</label>
+              <div className={styles.content}>
+                <Image
+                  src={'/bateriatrocar.png'}
+                  alt={"Substituição de Baterias"}
+                  width={500}
+                  height={310}
+                  unoptimized={true}
+                />
+                <p>A bateria é responsável por fornecer a energia necessária para dar partida no motor e alimentar os sistemas elétricos do veículo. A inspeção regular da bateria inclui a verificação de sua carga, terminais e estado geral. Quando necessário, a substituição da bateria garante que o veículo tenha sempre a energia necessária para funcionar corretamente e evita problemas de partida e falhas elétricas.</p>
               </div>
-              
 
-
-              <input type="radio" id="tab5" name="tab" />
-              <label htmlFor="tab5" className={styles.tabLabel}>Tab 5</label>
-              <div className={styles.tabContent}>
-                <p>Last bit of content...</p>
+              <input type="radio" id="tab5" name="tabs" className={styles.input} />
+              <label htmlFor="tab5" className={styles.tab}>Manutenção da Suspensão</label>
+              <div className={styles.content}>
+                <Image
+                  src={'/suspensao.png'}
+                  alt={"Manutenção da Suspensão"}
+                  width={300}
+                  height={300}
+                  unoptimized={true}
+                />
+                <p>A suspensão do veículo absorve os impactos da estrada e mantém o controle e a estabilidade durante a condução. O serviço de manutenção da suspensão inclui a inspeção e substituição de amortecedores, molas e outros componentes. Um sistema de suspensão bem mantido proporciona uma condução mais suave e segura.</p>
               </div>
-              
+
+              <input type="radio" id="tab6" name="tabs" className={styles.input} />
+              <label htmlFor="tab6" className={styles.tab}>Diagnóstico Eletrônico</label>
+              <div className={styles.content}>
+                <Image
+                  src={'/revisaoeletronica.png'}
+                  alt={"Diagnóstico Eletrônico"}
+                  width={400}
+                  height={300}
+                  unoptimized={true}
+                />
+                <p>O diagnóstico eletrônico é um serviço que utiliza equipamentos modernos para verificar o sistema eletrônico do veículo. Ele permite a identificação de falhas no motor, sistema de injeção, ABS, entre outros. Esse serviço é essencial para detectar e corrigir problemas antes que se tornem graves, garantindo a eficiência e confiabilidade do veículo.</p>
+              </div>
             </div>
+            <Link href="/" className={styles.backButton}>
+            Voltar
+          </Link>
           </div>
+
+          
+
         </section>
       </main>
 

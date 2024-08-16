@@ -39,7 +39,7 @@ export default function Home() {
                 <main className={styles.main}>
                     {/* Seção 1 */}
                     <section className={styles.section}>
-                        <h2 className={styles.sectionTitle1}>Seu carro na melhor perfomance!</h2>
+                        <h2 className={styles.sectionTitle1}>Seu carro na melhor performance!</h2>
                         <p className={styles.sectionContent1}>
                             Revele a essência do seu automóvel
                         </p>

@@ -105,6 +105,7 @@
   .dropdownmenu {
     position: static;
     box-shadow: none;
+    z-index: 7;
   }
 }
 
@@ -162,7 +163,7 @@
   font-weight: bold;
   border-right: 4px solid #333;
   margin: 2rem 1rem;
-  width: 23ch;
+  width: 23.5ch;
   overflow: hidden;
   white-space: nowrap;
   animation: caret .5s step-end infinite alternate,
