@@ -167,44 +167,59 @@ export default function Home() {
                         <div className={styles.container_questions}>
 
                             <details class={styles.details}>
-                                <summary class={styles.summary}>Stage 01</summary>
+                                <summary class={styles.summary}>
+                                <div class={styles.title_summary}>
+                                    Qual é o horário de funcionamento da mecânica?
+                                    </div>
+                                    <span className={styles.arrow_down}></span>
+                                </summary>
                                 <div class={styles.description}>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At, possimus! Fugiat ad sapiente aspernatur similique assumenda illo molestias veniam eos atque, et dolore facilis? Voluptatem non dicta fugit laboriosam veritatis!
+                                    Nossa mecânica funciona de segunda a sexta, das 8h às 18h, e aos sábados das 8h às 13h. Não abrimos aos domingos e feriados.
                                 </div>
                             </details>
 
                             <details class={styles.details}>
-                                <summary class={styles.summary}>Stage 01</summary>
+                                <summary class={styles.summary}>
+                                    Preciso agendar um horário para realizar a manutenção do meu veículo?
+                                </summary>
                                 <div class={styles.description}>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At, possimus! Fugiat ad sapiente aspernatur similique assumenda illo molestias veniam eos atque, et dolore facilis? Voluptatem non dicta fugit laboriosam veritatis!
+                                    Sim, recomendamos que você agende um horário para garantir que possamos atender seu veículo no melhor momento para você. Entre em contato pelo telefone ou pelo nosso site para agendar.
                                 </div>
                             </details>
 
                             <details class={styles.details}>
-                                <summary class={styles.summary}>Stage 01</summary>
+                                <summary class={styles.summary}>
+                                    Quais serviços de manutenção são oferecidos pela mecânica?
+                                </summary>
                                 <div class={styles.description}>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At, possimus! Fugiat ad sapiente aspernatur similique assumenda illo molestias veniam eos atque, et dolore facilis? Voluptatem non dicta fugit laboriosam veritatis!
+                                    Oferecemos uma ampla gama de serviços, incluindo troca de óleo, alinhamento e balanceamento, revisões periódicas, conserto de freios, suspensão, entre outros. Consulte nossa seção de serviços para mais detalhes.
                                 </div>
                             </details>
 
                             <details class={styles.details}>
-                                <summary class={styles.summary}>Stage 01</summary>
+                                <summary class={styles.summary}>
+                                    Quanto tempo leva para realizar uma revisão completa do veículo?
+                                </summary>
                                 <div class={styles.description}>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At, possimus! Fugiat ad sapiente aspernatur similique assumenda illo molestias veniam eos atque, et dolore facilis? Voluptatem non dicta fugit laboriosam veritatis!
+                                    O tempo para uma revisão completa pode variar de acordo com o estado do veículo e o tipo de serviço necessário. Em média, uma revisão completa leva de 2 a 4 horas.
                                 </div>
                             </details>
 
                             <details class={styles.details}>
-                                <summary class={styles.summary}>Stage 01</summary>
+                                <summary class={styles.summary}>
+                                    Vocês utilizam peças originais nos reparos?
+                                </summary>
                                 <div class={styles.description}>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At, possimus! Fugiat ad sapiente aspernatur similique assumenda illo molestias veniam eos atque, et dolore facilis? Voluptatem non dicta fugit laboriosam veritatis!
+                                    Sim, sempre que possível, utilizamos peças originais ou de alta qualidade, garantindo a durabilidade e o bom funcionamento do seu veículo.
                                 </div>
                             </details>
 
                             <details class={styles.details}>
-                                <summary class={styles.summary}>Stage 01</summary>
+                                <summary class={styles.summary}>
+                                    Quais formas de pagamento são aceitas?
+                                </summary>
                                 <div class={styles.description}>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At, possimus! Fugiat ad sapiente aspernatur similique assumenda illo molestias veniam eos atque, et dolore facilis? Voluptatem non dicta fugit laboriosam veritatis!
+                                    Aceitamos pagamentos em dinheiro, cartões de crédito e débito, e transferência bancária. Também trabalhamos com algumas opções de parcelamento, consulte nossa equipe para mais detalhes.
                                 </div>
                             </details>
                         </div>
@@ -275,6 +290,6 @@ export default function Home() {
                     </div>
                 </footer>
             </body>
-        </html>
+        </html >
     );
 }
