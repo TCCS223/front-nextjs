@@ -33,7 +33,7 @@
 
 .form {
   margin: 20px 0;
-  background-color: #f9f9f9;
+  background-color: #c51a1a;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -454,10 +454,8 @@
 @media only screen and (max-width: 500px) {
   .form {
     background-color: #f9f9f9;
-    /* background-color: #ff1010; */
     border-radius: .5rem;
     grid-template-columns: repeat(4, 1fr);
-    /* gap: 30px 15px; */
   }
 
   .grid_codigo,
@@ -475,5 +473,18 @@
 
   .input_cliente, .select_cliente {
     width: 100%;
+  }
+
+  .footer_form {
+    padding: 0 20px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .button_submit {
+    grid-area: 1 / 2 / 2 / 3;
+  }
+ 
+  .button_cancel {
+    grid-area: 1 / 1 / 2 / 2;
   }
 }

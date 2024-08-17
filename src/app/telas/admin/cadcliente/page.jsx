@@ -1,6 +1,6 @@
 'use client';
 
-import styles from './index.module.css';
+import styles from './page.module.css';
 import Swal from 'sweetalert2';
 import { useState } from 'react';
 import React, { useRef } from "react";
@@ -135,11 +135,11 @@ import React, { useRef } from "react";
                 </div>
 
             </form>
-
             <div className={styles.footer_form}>
                 <button type="reset" onClick={Cancelar} className={styles.button_cancel}>Cancelar</button>
                 <button type="submit" className={styles.button_submit}>Salvar</button>
             </div>
+
 
             {/* MODAL */}
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from './index.module.css';
+import styles from './page.module.css';
 
 import ConsultaVeiculo from '@/components/modais/modais_clientes';
 

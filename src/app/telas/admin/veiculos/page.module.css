@@ -1,18 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-.title_page{
+.title_page {
   padding-left: 20px;
   color: #ff9d00;
-	border-bottom: 2px solid #ff9d00;
-	padding: 15px;
-	font-size: 22px;
+  border-bottom: 2px solid #ff9d00;
+  padding: 15px;
+  font-size: 22px;
 }
 
 .button_group {
   padding: 20px;
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  gap:  0 15px;
+  gap: 0 15px;
 }
 
 .button_group button {
@@ -99,7 +99,10 @@
   color: #222;
 }
 
-.select_proprietario, .select_modelo, .select_cor, .select_combustivel {
+.select_proprietario,
+.select_modelo,
+.select_cor,
+.select_combustivel {
   width: calc(100% - 20px);
   padding: 8px;
   margin-top: 5px;
@@ -127,22 +130,33 @@
   flex-direction: column;
 }
 
-.grid_codigo, .grid_categoria, .grid_placa, .grid_situacao{
+.grid_codigo,
+.grid_categoria,
+.grid_placa,
+.grid_situacao {
   grid-column: span 2;
 }
 
 
-.grid_modelo, .grid_marca, .grid_ano, .grid_cor, .grid_combustivel, .grid_proprietario{
+.grid_modelo,
+.grid_marca,
+.grid_ano,
+.grid_cor,
+.grid_combustivel,
+.grid_proprietario {
   grid-column: span 3;
 }
 
-.grid_observacoes{
+.grid_observacoes {
   grid-column: span 10;
 }
 
- .input_situacao, .input_proprietario, .input_modelo {
+.input_situacao,
+.input_proprietario,
+.input_modelo {
   flex: 1;
 }
+
 /* .grid_item_small {
   grid-column: span 2;
 }
@@ -235,3 +249,47 @@
   gap: 15px;
   margin: 100px 40px;
 }
+
+
+
+
+@media only screen and (max-width: 500px) {
+  .form {
+    background-color: #f9f9f9;
+    border-radius: .5rem;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .grid_codigo,
+  .grid_categoria,
+  .grid_placa,
+  .grid_situacao,
+  .grid_modelo,
+  .grid_marca,
+  .grid_ano,
+  .grid_cor,
+  .grid_combustivel,
+  .grid_proprietario, .grid_observacoes {
+    grid-column: span 4;
+  }
+
+  .input_veiculos, .select_veiculos{
+    width: 100%;
+  }
+
+  .footer_form {
+    padding: 0 20px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .button_submit {
+    grid-area: 1 / 2 / 2 / 3;
+  }
+ 
+  .button_cancel {
+    grid-area: 1 / 1 / 2 / 2;
+  }
+}
+
+
+

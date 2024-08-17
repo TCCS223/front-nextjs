@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 
 import styles from "./page.module.css";
-import CadCliente from "./cadcliente";
-import Veiculos from "./veiculos";
-import Servicos from "./servicos";
-import FullCalendar from "./agenda";
+import CadCliente from "./cadcliente/page";
+import Veiculos from "./veiculos/page";
+import Servicos from "./servicos/page";
+import FullCalendar from "./agenda/page";
 // import Localizar2 from "./components/modais/modais_clientes/modal_localizar";
 // import img from '../../public/logo.png'
 
@@ -83,7 +83,7 @@ export default function Home() {
                 }
             </div>
 
-            <div className={styles.logo}>
+            {/* <div className={styles.logo}>
             <Image
               src={'logo.png'}
               width={190}
@@ -91,7 +91,7 @@ export default function Home() {
               alt={"logo"}
               unoptimized={true}
             />
-            </div>
+            </div> */}
 
         </div>
     )

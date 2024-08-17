@@ -6,7 +6,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import ptLocale from '@fullcalendar/core/locales/pt-br';
-import styles from './index.module.css';
+import styles from './page.module.css';
 
 const FullCalendar = () => {
    

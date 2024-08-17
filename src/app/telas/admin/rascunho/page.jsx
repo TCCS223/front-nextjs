@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import styles from "./index.module.css";
+import styles from "./page.module.css";
 import FullCalendar from "./components/agenda/page";
 
 export default function Home() {

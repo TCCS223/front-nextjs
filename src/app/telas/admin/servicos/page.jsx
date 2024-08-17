@@ -1,6 +1,6 @@
 'use client'
 
-import styles from './index.module.css';
+import styles from './page.module.css';
 import { useState } from 'react';
 import ConsultaServico from '@/components/modais/modais_serviços';
 
