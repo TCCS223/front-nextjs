@@ -59,11 +59,11 @@ export default function Veiculos() {
     ];
 
     const [isModalOpen, setIsModalOpen] = useState(false); // Declara um estado chamado 'isModalOpen' com valor inicial 'false'. 'setIsModalOpen' é a função para atualizar o valor de 'isModalOpen'.
-    
+
     const openModal = () => { // Define uma função chamada 'openModal' que altera o estado 'isModalOpen' para 'true'.
         setIsModalOpen(true); // Altera o estado 'isModalOpen' para 'true', o que pode ser usado para abrir um modal.
     };
-    
+
     const closeModal = () => { // Define uma função chamada 'closeModal' que altera o estado 'isModalOpen' para 'false'.
         setIsModalOpen(false); // Altera o estado 'isModalOpen' para 'false', o que pode ser usado para fechar um modal.
     };
@@ -89,7 +89,7 @@ export default function Veiculos() {
                 <button id="localizarCliente" onClick={openModal}>Localizar</button>
             </div>
 
-<ConsultaVeiculo isOpen={isModalOpen} onClose={closeModal} />
+            <ConsultaVeiculo isOpen={isModalOpen} onClose={closeModal} />
 
             <form id="veiculoForm" className={styles.form}>
                 <input type="hidden" id="veiculoId" className={styles.input_veiculos} />
@@ -107,7 +107,7 @@ export default function Veiculos() {
 
                     <div className={`${styles.grid_item} ${styles.grid_categoria}`}>
                         <label htmlFor="categoria_veiculo" className={styles.label_veiculos}>Categoria</label>
-                        <select id="categoria_veiculo" name="categoria_veiculo" required className={`${styles.select_proprietario} ${styles.input_proprietario}`}>
+                        <select id="categoria_veiculo" name="categoria_veiculo" required className={`${styles.select_veiculos} ${styles.input_proprietario}`}>
                             <option value="" disabled selected>Selecionar</option>
                             <option value="1">Caminhão</option>
                             <option value="2">Carro</option>
@@ -119,7 +119,7 @@ export default function Veiculos() {
 
                     <div className={`${styles.grid_item} ${styles.grid_marca}`}>
                         <label htmlFor="marca_veiculo" className={styles.label_veiculos}>Marca</label>
-                        <select id="marca" name="marca" required className={`${styles.select_proprietario} ${styles.input_proprietario}`} onChange={handleMarcaChange}>
+                        <select id="marca" name="marca" required className={`${styles.select_veiculos} ${styles.input_proprietario}`} onChange={handleMarcaChange}>
                             <option value="" disabled selected>Selecionar</option>
                             {marcas.map((name) => (
                                 <option key={name} value={name}>{name}</option>
@@ -129,7 +129,7 @@ export default function Veiculos() {
 
                     <div className={`${styles.grid_item} ${styles.grid_modelo}`}>
                         <label htmlFor="modelo_veiculo" className={styles.label_veiculos}>Modelo</label>
-                        <select id="categoria_veiculo" name="categoria_veiculo" required className={`${styles.select_modelo} ${styles.input_modelo}`}>
+                        <select id="categoria_veiculo" name="categoria_veiculo" required className={`${styles.select_veiculos} ${styles.input_modelo}`}>
                             <option value="" disabled selected>Selecionar</option>
                             <option value="1">Caminhão</option>
                             <option value="2">Carro</option>
@@ -144,7 +144,7 @@ export default function Veiculos() {
                     </div>
                     <div className={`${styles.grid_item} ${styles.grid_cor}`}>
                         <label htmlFor="cor_veiculo" className={styles.label_veiculos}>Cor</label>
-                        <select id="cor" name="cor" required className={`${styles.select_cor} ${styles.input_small_select}`} defaultValue="">
+                        <select id="cor" name="cor" required className={`${styles.select_veiculos} ${styles.input_cor}`} defaultValue="">
                             <option value="" disabled selected>Selecionar</option>
                             <option value="Amarelo">Amarelo</option>
                             <option value="Azul">Azul</option>
@@ -167,7 +167,7 @@ export default function Veiculos() {
 
                     <div className={`${styles.grid_item} ${styles.grid_combustivel}`}>
                         <label htmlFor="combustivel_veiculo" className={styles.label_veiculos}>Combustível</label>
-                        <select id="combustivel_veiculo" name="combustivel_veiculo" required className={`${styles.select_combustivel} ${styles.input_medium_select}`}>
+                        <select id="combustivel_veiculo" name="combustivel_veiculo" required className={`${styles.select_veiculos} ${styles.input_combustivel}`}>
                             <option value="" disabled selected>Selecionar</option>
                             <option value="gasolina">Gasolina</option>
                             <option value="alcool">Álcool</option>
@@ -182,7 +182,7 @@ export default function Veiculos() {
                     <div className={`${styles.grid_item} ${styles.grid_proprietario}`}>
                         <label htmlFor="proprietario_veiculo" className={styles.label_veiculos}>Você é proprietário?</label>
                         <select id="nivel_acesso" name="nivel_acesso"
-                            className={`${styles.select_proprietario} ${styles.input_proprietario}`}>
+                            className={`${styles.select_veiculos} ${styles.input_proprietario}`}>
                             <option value="" disabled selected>Selecionar</option>
                             <option value="0" className={styles.option}>Sim</option>
                             <option value="1" className={styles.option}>Não</option>
@@ -203,15 +203,11 @@ export default function Veiculos() {
                         </select>
                     </div>
 
-
-
-
-
                 </div>
             </form>
             <div className={styles.footer_form}>
-                <button type="submit" className={styles.button_submit}>Salvar</button>
                 <button type="reset" className={styles.button_cancel}>Cancelar</button>
+                <button type="submit" className={styles.button_submit}>Salvar</button>
             </div>
         </div>
     );
