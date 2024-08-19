@@ -56,6 +56,10 @@ export default function VerticalTabs() {
               <div className={styles.botao4}>
               Teste Numero 4
               </div>
+
+              
+                <button className={styles.return}>VOLTAR</button>
+              
             </div>
 
             <div className={styles.fundocomentarios}>

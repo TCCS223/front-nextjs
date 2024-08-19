@@ -220,6 +220,14 @@
   display: flex;
 }
 
+.return{
+  background-color: #333;
+  width: 40%;
+  height: 7%;
+  cursor: pointer;
+  color: white;
+}
+
 
 .fundocomentarios {
   background-color: deeppink;
