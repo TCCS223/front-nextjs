@@ -39,7 +39,39 @@ export default function VerticalTabs() {
 
       <main className={styles.main}>
         <section className={styles.section}>
-          <div className={styles.container}>
+
+
+          <div className={styles.servicosgeral}>
+            
+            <div className={styles.tabservicos}>
+              <div className={styles.botao1}>
+              Teste Numero 1
+              </div>
+              <div className={styles.botao2}>
+              Teste Numero 2
+              </div>
+              <div className={styles.botao3}>
+              Teste Numero 3
+              </div>
+              <div className={styles.botao4}>
+              Teste Numero 4
+              </div>
+            </div>
+
+            <div className={styles.fundocomentarios}>
+            <div className={styles.imagemcomentarios}>IMAGEM</div>
+            <div className={styles.comentarios}>
+              <p>
+                DESCRIÇÃO
+              </p>
+            </div>
+          </div>
+
+          </div>
+
+          
+
+          {/* <div className={styles.container}>
             <div className={styles.tabsContainer}>
               <input type="radio" id="tab1" name="tabs" className={styles.input} defaultChecked />
               <label htmlFor="tab1" className={styles.tab}>Troca de Óleo e Filtro</label>
@@ -123,7 +155,7 @@ export default function VerticalTabs() {
             <Link href="/" className={styles.backButton}>
             Voltar
           </Link>
-          </div>
+          </div> */}
 
           
 
