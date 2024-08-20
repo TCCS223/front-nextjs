@@ -17,7 +17,7 @@ export default function Servico2() {
 
             </div>
             <div className={styles.image_descricao}>
-                A suspensão do veículo absorve os impactos da estrada e mantém o controle e a estabilidade durante a condução. O serviço de manutenção da suspensão inclui a inspeção e substituição de amortecedores, molas e outros componentes. Um sistema de suspensão bem mantido proporciona uma condução mais suave e segura.
+            Elimine imperfeições, riscos profundos e manchas na pintura com nosso serviço de correção. Utilizamos técnicas avançadas para restaurar a superfície original do seu veículo, garantindo um acabamento impecável e duradouro, sem a necessidade de repintura completa.
             </div>
         </>
     )

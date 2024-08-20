@@ -15,7 +15,7 @@ export default function Servico2() {
       />
       </div>
       <div className={styles.image_descricao}>
-        O alinhamento e balanceamento das rodas são fundamentais para garantir a segurança e o conforto ao dirigir. O alinhamento corrige a direção das rodas para que estejam paralelas entre si e perpendiculares ao solo, enquanto o balanceamento assegura que as rodas girem sem causar vibrações. Esses serviços prolongam a vida útil dos pneus e melhoram a dirigibilidade do veículo.
+        Mantenha o interior do seu carro sempre limpo e agradável. Nosso serviço de higienização interna inclui a limpeza profunda de estofados, carpetes, painéis e portas, utilizando produtos que eliminam odores, manchas e sujeira, garantindo um ambiente fresco e saudável para você e seus passageiros.
       </div>
     </>
   )

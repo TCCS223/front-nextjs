@@ -16,7 +16,8 @@ export default function Servico2() {
                 />
 
             </div>
-            <div className={styles.image_descricao}>A bateria é responsável por fornecer a energia necessária para dar partida no motor e alimentar os sistemas elétricos do veículo. A inspeção regular da bateria inclui a verificação de sua carga, terminais e estado geral. Quando necessário, a substituição da bateria garante que o veículo tenha sempre a energia necessária para funcionar corretamente e evita problemas de partida e falhas elétricas.
+            <div className={styles.image_descricao}>
+            Melhore a visibilidade e segurança ao dirigir com nosso tratamento de vitrificação de vidros. Criamos uma camada repelente de água e sujeira sobre o para-brisa e vidros laterais, facilitando a remoção de detritos e garantindo uma visão clara em qualquer condição climática.
             </div>
         </>
     )

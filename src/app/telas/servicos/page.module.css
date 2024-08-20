@@ -83,10 +83,10 @@
   height: 90vh;
 }
 
-.sidebar_servicos {
+.geral_servicos {
   width: 100%;
   height: 100%;
-  /* background-color: rgb(230, 230, 230); */
+  /* background-color : rgb(230, 230, 230); */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -108,7 +108,7 @@
 .link_button {
   width: 100%;
   height: 12.5%;
-  font-size: 1.4rem;
+  font-size: 1rem;
   background-color: #ff9d00;
   justify-content: center;
   align-items: center;
@@ -120,8 +120,9 @@
 }
 
 .link_button:hover {
-  background-color: #dd8800;
+  background-color: #f59b09;
   color: white;
+  opacity: 1;
 }
 
 .link_button:focus{
@@ -130,8 +131,17 @@
 }
 
 
-
 .link_button:not(focus){
+  opacity: 0.5;
+}
+
+.link_button.active {
+  background-color: #ff9d00;
+  color: #ffffff;
+  opacity: 1;
+}
+
+.link_button:not(.active) {
   opacity: 0.5;
 }
 

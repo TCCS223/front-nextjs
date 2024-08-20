@@ -10,8 +10,8 @@ export default function Header() {
                     <div className={styles.logo}>Logo</div>
                     <div className={styles.navbar}>
                         <ul className={styles.navlist}>
-                            <li><Link href="#" className={styles.linkNav}>Home</Link></li>
-                            <li><Link href="#" className={styles.linkNav}>Sobre</Link></li>
+                            <li><Link href="/" className={styles.linkNav}>Home</Link></li>
+                            <li><Link href="/telas/sobrenos" className={styles.linkNav}>Sobre</Link></li>
                             <li><Link href="#" className={styles.linkNav}>Contato</Link></li>
                             {/* <li><Link href="/app/telas/cadastro" className={styles.linkNav}>Cadastro</Link></li> */}
                             <li><Link href="/telas/admin" className={styles.linkNav}>Login</Link></li>

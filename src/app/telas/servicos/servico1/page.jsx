@@ -22,7 +22,7 @@ export default function Servico1() {
       <hr className={styles.hr}></hr>
 
       <div className={styles.image_descricao}>
-        A troca de óleo e filtro é essencial para manter o motor do veículo funcionando suavemente. O óleo lubrifica as partes móveis do motor, reduzindo o desgaste e a fricção. O filtro de óleo remove impurezas do óleo para garantir que apenas óleo limpo circule pelo motor, aumentando sua vida útil e desempenho.
+        Revitalize o brilho e a profundidade da cor do seu veículo com nosso serviço de polimento e cristalização. Removemos micro-riscos, manchas e marcas superficiais, aplicando uma camada de proteção que prolonga o efeito visual e protege contra agentes externos, como raios UV e poluição.
       </div>
     </>
   )

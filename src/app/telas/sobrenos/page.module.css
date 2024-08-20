@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+
+
+
+
+.main {
+    display: flex;
+    padding: 0 10%;
+    /* background-color: #00ff15; */
+}
+
+
+.section {
+    width: 100%;
+    height: 100%;
+    
+    /* background-color: tomato; */
+}
+
+.container_sobre {
+    /* background-color: aquamarine; */
+    width: 100%;
+   
+}
+
+.titulosobre {
+    font-size: 4rem;
+    margin: 1.6rem auto;
+    width: 100%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.bloco1 {
+    font-size: 1.5rem;
+    width: 50%;
+    padding: 2rem;
+    margin-top: 1rem;
+    background-color: #cccccc;
+    border-radius: 1rem;
+    border-bottom-right-radius: 0;
+}
+
+.bloco2{
+    font-size: 1.5rem;
+    width: 50%;
+    padding: 2rem;
+    margin: 0 40%;
+    background-color: #cccccc;
+    border-radius: 1rem;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.bloco3{
+    font-size: 1.5rem;
+    width: 50%;
+    padding: 2rem;
+    border-radius: 1rem;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    background-color: #cccccc;
+}
+
+.bloco4 {
+    font-size: 1.5rem;
+    width: 50%;
+    padding: 2rem;
+    margin: 0 40%;
+    background-color: #cccccc;
+    border-radius: 1rem;
+    border-top-left-radius: 0;
+    margin-bottom: 5%;
+}

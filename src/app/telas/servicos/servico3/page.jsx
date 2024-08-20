@@ -17,7 +17,7 @@ export default function Servico2() {
 
             </div>
             <div className={styles.image_descricao}>
-                A revisão de freios é crucial para a segurança do veículo. Esse serviço envolve a inspeção e substituição de componentes como pastilhas, discos, fluido de freio e outras partes do sistema de frenagem. Freios bem mantidos garantem uma resposta rápida e eficaz em situações de emergência.
+            Dê uma nova cara ao seu carro com o nosso serviço de envelopamento automotivo. Oferecemos uma ampla variedade de cores e acabamentos, incluindo fosco, brilhante e metálico. Além de alterar a estética do veículo, o envelopamento protege a pintura original contra arranhões e desgaste.
             </div>
         </>
     )
