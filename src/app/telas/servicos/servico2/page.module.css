@@ -22,3 +22,8 @@
   /* background-color: darkslateblue; */
   /* position: absolute; */
 }
+
+.hr {
+  width: 90%;
+  border-top: 3px solid #ff9d00;
+}

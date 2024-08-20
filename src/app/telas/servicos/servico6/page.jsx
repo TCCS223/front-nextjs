@@ -16,8 +16,11 @@ export default function Servico2() {
                 />
 
             </div>
+
+            <hr className={styles.hr}></hr>
+
             <div className={styles.image_descricao}>
-            Proteja a pintura do seu carro com nosso serviço de aplicação de proteção cerâmica. Esse revestimento cria uma barreira resistente contra contaminantes, UV, e desgaste, além de oferecer um brilho duradouro. Ideal para quem deseja preservar a beleza e valor do veículo por mais tempo.
+                Proteja a pintura do seu carro com nosso serviço de aplicação de proteção cerâmica. Esse revestimento cria uma barreira resistente contra contaminantes, UV, e desgaste, além de oferecer um brilho duradouro. Ideal para quem deseja preservar a beleza e valor do veículo por mais tempo.
             </div>
         </>
     )

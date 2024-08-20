@@ -58,12 +58,22 @@ export default function Servicos() {
             </div>
 
             <div className={styles.container_servicos}>
-              {tela === 1 && <Servico1 />}
-              {tela === 2 && <Servico2 />}
-              {tela === 3 && <Servico3 />}
-              {tela === 4 && <Servico4 />}
-              {tela === 5 && <Servico5 />}
-              {tela === 6 && <Servico6 />}
+            {
+                    tela === 1 ?
+                        <Servico1 />
+                        : tela === 2 ?
+                            <Servico2 />
+                            : tela === 3 ?
+                                <Servico3 />
+                                : tela === 4 ?
+                                    <Servico4 />
+                                    : tela === 5 ?
+                                        <Servico5 /> // trocar pelo histórico
+                                        : tela === 6 ?
+                                          <Servico6 /> 
+                                          : <></>
+                }
+              
             </div>
 
           </div>
