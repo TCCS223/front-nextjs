@@ -1,79 +1,85 @@
-import Image from 'next/image';
+'use client'
+
 import Link from 'next/link';
 import styles from './page.module.css';
+import { useState } from 'react';
+
+import Servico1 from './servico1/page';
+import Servico2 from './servico2/page';
+import Servico3 from './servico3/page';
+import Servico4 from './servico4/page';
+import Servico5 from './servico5/page';
+import Servico6 from './servico6/page';
+
+import Header from '@/components/header';
+import Footer from '@/components/footer';
 
 
 
-export default function VerticalTabs() {
+export default function Servicos() {
+  const [tela, setTela] = useState(1);
+
   return (
     <body>
 
-      <header className={styles.header}>
-        <div className={styles.logo}>Logo</div>
-        <nav className={styles.nav}>
-          <ul className={styles.navlist}>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Sobre</a></li>
-            <li><a href="#">Contato</a></li>
-            <li><Link href="/telas/cadastro" className={styles.qualqueruma}>Cadastro</Link></li>
-            <li><Link href="/telas/login" className={styles.qualqueruma}>Login</Link></li>
-            <li className={styles.dropdown}>
-              <Image
-                src={'/menuham.png'}
-                alt={"Menu"}
-                width={24}
-                height={24}
-                unoptimized={true}
-                className={styles.menuIcon}
-              />
-              <ul className={styles.dropdownmenu}>
-                <li><a href="#">Desenvolvimento Web</a></li>
-                <li><a href="#">Design Gráfico</a></li>
-                <li><a href="#">Marketing Digital</a></li>
-              </ul>
-            </li>
-          </ul>
-        </nav>
-      </header>
-
+      <Header />
 
       <main className={styles.main}>
         <section className={styles.section}>
 
+          <div className={styles.sidebar_servicos}>
+            <div className={styles.sidebar_buttons}>
 
-          <div className={styles.servicosgeral}>
-            
-            <div className={styles.tabservicos}>
-              <div className={styles.botao1}>
-              Teste Numero 1
-              </div>
-              <div className={styles.botao2}>
-              Teste Numero 2
-              </div>
-              <div className={styles.botao3}>
-              Teste Numero 3
-              </div>
-              <div className={styles.botao4}>
-              Teste Numero 4
-              </div>
+              <Link href='' className={styles.link_button}onClick={() => setTela(1)}>
+                Serviço 1
+              </Link>
 
-              
-                <button className={styles.return}>VOLTAR</button>
-              
+              <Link href='' className={styles.link_button}onClick={() => setTela(2)}>
+                Serviço 2
+              </Link>
+
+              <Link href='' className={styles.link_button}onClick={() => setTela(3)}>
+                Serviço 3
+              </Link>
+
+              <Link href='' className={styles.link_button}onClick={() => setTela(4)}>
+                Serviço 4
+              </Link>
+
+              <Link href='' className={styles.link_button}onClick={() => setTela(5)}>
+                Serviço 5
+              </Link>
+
+              <Link href='' className={styles.link_button}onClick={() => setTela(6)}>
+                Serviço 6
+              </Link>
+
+
+              {/* <button className={styles.return}>VOLTAR</button> */}
+
             </div>
 
-            <div className={styles.fundocomentarios}>
-            <div className={styles.imagemcomentarios}>IMAGEM</div>
-            <div className={styles.comentarios}>
-              <p>
-                DESCRIÇÃO
-              </p>
+            <div className={styles.container_servicos}>
+            {
+                    tela === 1 ?
+                        <Servico1 />
+                        : tela === 2 ?
+                            <Servico2 />
+                            : tela === 3 ?
+                                <Servico3 />
+                                : tela === 4 ?
+                                    <Servico4 />
+                                    : tela === 5 ?
+                                        <Servico5 /> // trocar pelo histórico
+                                        : tela === 6 ?
+                                          <Servico6 /> 
+                                          : <></>
+                }
             </div>
-          </div>
 
           </div>
 
-          
+
 
           {/* <div className={styles.container}>
             <div className={styles.tabsContainer}>
@@ -161,73 +167,13 @@ export default function VerticalTabs() {
           </Link>
           </div> */}
 
-          
+
 
         </section>
       </main>
 
 
-      <footer>
-        <div className={styles.footerContainer}>
-          <div className={styles.footerLogoSocial}>
-            <div className={styles.footerLogo}>Urban</div>
-            <div className={styles.footerSocialIcons}>
-              <span className={`${styles.socialIcon} ${styles.facebook}`}></span>
-              <span className={`${styles.socialIcon} ${styles.instagram}`}></span>
-              <span className={`${styles.socialIcon} ${styles.whatsapp}`}></span>
-            </div>
-          </div>
-
-          <ul className={styles.footerLinks}>
-            <h2 className={styles.footerHeading}>Links</h2>
-            <li>
-              <Link href="/" className={styles.footerLink}>
-                <span className={styles.icon}></span>Início
-              </Link>
-            </li>
-            <li>
-              <Link href="#SERVICOS" className={styles.footerLink}>
-                <span className={styles.icon}></span>Serviços
-              </Link>
-            </li>
-            <li>
-              <Link href="#GALERIA" className={styles.footerLink}>
-                <span className={styles.icon}></span>Galeria
-              </Link>
-            </li>
-            <li>
-              <Link href="#SOBRENOS" className={styles.footerLink}>
-                <span className={styles.icon}></span>Sobre Nós
-              </Link>
-            </li>
-            <li>
-              <Link href="#CONTATO" className={styles.footerLink}>
-                <span className={styles.icon}></span>Contato
-              </Link>
-            </li>
-          </ul>
-
-          <ul className={styles.footerContact}>
-            <h2 className={styles.footerHeading}>Contato</h2>
-            <li>
-              <h3 className={styles.contactTitle}><span className={styles.icon}></span>Telefone</h3>
-              <p className={styles.contactDetail}>(99) 9999-9999</p>
-            </li>
-            <li>
-              <h3 className={styles.contactTitle}><span className={styles.icon}></span>Email</h3>
-              <p className={styles.contactDetail}>urban@gmail.com</p>
-            </li>
-            <li>
-              <h3 className={styles.contactTitle}><span className={styles.icon}></span>Endereço</h3>
-              <p className={styles.contactDetail}>Av. São Cristovão, 22 / Tupã-SP</p>
-            </li>
-          </ul>
-        </div>
-        <div className={styles.footerBottom}>
-          <p>Urban © 2024 / Todos os direitos reservados.</p>
-          <Link href="#" className={styles.footerTerms}>Termos & Políticas</Link>
-        </div>
-      </footer>
+      <Footer />
     </body>
 
   );

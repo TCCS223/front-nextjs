@@ -1,12 +1,21 @@
-.footerContainer {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 20px;
-    background-color: #000;
-    border-top: 0.3rem solid #ff9d00;
-    /* Borda superior laranja */
-  }
+.footer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 25vh;
+  padding: 1rem 10%;
+  background-color: #000000;
+  /* box-shadow: 0 4px 10px rgba(255, 157, 0, 0.8); */
+  flex-wrap: wrap;
+}
+
+
+.footerContainer{
+  width: 90%;
+  background-color: blue;
+  height: 100%;
+}
+
   
   .footerLogoSocial,
   .footerLinks,
@@ -19,13 +28,16 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    background-color: red;
+    height: 50%;
   }
   
   .footerLogo {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
+    font-size: 2rem;
+    font-weight: bold; 
     color: #fff;
+
+    background-color: violet;
   }
   
   .footerSocialIcons {

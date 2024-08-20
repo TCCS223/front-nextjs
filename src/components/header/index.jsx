@@ -13,8 +13,8 @@ export default function Header() {
                             <li><Link href="#" className={styles.linkNav}>Home</Link></li>
                             <li><Link href="#" className={styles.linkNav}>Sobre</Link></li>
                             <li><Link href="#" className={styles.linkNav}>Contato</Link></li>
-                            <li><Link href="/app/telas/cadastro" className={styles.linkNav}>Cadastro</Link></li>
-                            <li><Link href="/app/telas/login" className={styles.linkNav}>Login</Link></li>
+                            {/* <li><Link href="/app/telas/cadastro" className={styles.linkNav}>Cadastro</Link></li> */}
+                            <li><Link href="/telas/admin" className={styles.linkNav}>Login</Link></li>
                         </ul>
                         <div className={styles.menuMobile}>
                             <Image

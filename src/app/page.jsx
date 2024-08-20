@@ -10,9 +10,9 @@ export default function Home() {
         <html>
             <body>
 
-                <Header />
 
 
+                    <Header />
                 <main className={styles.main}>
                     {/* Seção 1 */}
                     <section className={styles.section}>
@@ -23,37 +23,6 @@ export default function Home() {
                     </section>
 
                     <div className={styles.divider}></div>
-
-                    {/* Seção 2 */}
-                    {/* <section className={styles.section}>
-                        <h2 className={styles.sectionHeading}>Nossos Serviços</h2>
-                        <div className={styles.cardContainer}>
-                            <div className={styles.card}>
-                                <h3 className={styles.cardTitle}>Troca de Óleo</h3>
-                                <p className={styles.cardDescription}>Serviço completo de troca de óleo para garantir o melhor desempenho do seu motor.</p>
-                            </div>
-                            <div className={styles.card}>
-                                <h3 className={styles.cardTitle}>Alinhamento e Balanceamento</h3>
-                                <p className={styles.cardDescription}>Correção da geometria das rodas para uma condução mais segura e confortável.</p>
-                            </div>
-                            <div className={styles.card}>
-                                <h3 className={styles.cardTitle}>Revisão Geral</h3>
-                                <p className={styles.cardDescription}>Inspeção completa do veículo para identificar e resolver problemas potenciais.</p>
-                            </div>
-                            <div className={styles.card}>
-                                <h3 className={styles.cardTitle}>Troca de Pneus</h3>
-                                <p className={styles.cardDescription}>Substituição e ajuste dos pneus para uma dirigibilidade mais estável.</p>
-                            </div>
-                            <div className={styles.card}>
-                                <h3 className={styles.cardTitle}>Serviços de Freio</h3>
-                                <p className={styles.cardDescription}>Manutenção e reparo do sistema de freios para uma segurança garantida.</p>
-                            </div>
-                            <div className={styles.card}>
-                                <h3 className={styles.cardTitle}>Diagnóstico Eletrônico</h3>
-                                <p className={styles.cardDescription}>Identificação precisa de falhas no sistema eletrônico do veículo.</p>
-                            </div>
-                        </div>
-                    </section> */}
 
                     <section className={styles.section2}>
                         <div className={styles.section2Image}>

@@ -5,8 +5,11 @@ import Image from 'next/image'
 
 export default function Footer() {
     return (
-        <footer>
+        <footer className={styles.footer}>
             <div className={styles.footerContainer}>
+                teste
+            </div>
+            {/* <div className={styles.footerContainer}>
                 <div className={styles.footerLogoSocial}>
                     <div className={styles.footerLogo}>Urban</div>
                     <div className={styles.footerSocialIcons}>
@@ -64,7 +67,7 @@ export default function Footer() {
             <div className={styles.footerBottom}>
                 <p>Urban © 2024 / Todos os direitos reservados.</p>
                 <Link href="#" className={styles.footerTerms}>Termos & Políticas</Link>
-            </div>
+            </div> */}
         </footer>
     )
 }
