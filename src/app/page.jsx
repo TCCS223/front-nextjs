@@ -26,7 +26,7 @@ export default function Home() {
 
                     <section className={styles.section2}>
                         <div className={styles.section2Image}>
-                            <Image src='/servicomecanico1233.png' alt="Imagem de serviço" width={500} height={520} />
+                            <Image src='/servicomecanico1233.png' alt="Imagem de serviço" width={500} height={520} className={styles.imagememsi} />
                         </div>
                         <div className={styles.section2Content}>
                             <h2 className={styles.section2Title}>Nossos Serviços</h2>
@@ -53,7 +53,7 @@ export default function Home() {
 
                     {/* Seção 3 */}
 
-                    <section className={styles.section}>
+                    <section className={styles.section3}>
                         <h2 className={styles.sectionHeading}>Nossa Equipe</h2>
                         <div className={styles.employeeContainer}>
                             <div className={styles.employeeCard}>
@@ -107,6 +107,8 @@ export default function Home() {
                         </div>
                     </section>
 
+
+                    <div className={styles.divider}></div>
 
                     <section className={styles.section4}>
                         <p className={styles.title_questions}>Perguntas frequentes</p>
