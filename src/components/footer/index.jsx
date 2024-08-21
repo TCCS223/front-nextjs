@@ -7,7 +7,29 @@ export default function Footer() {
     return (
         <footer className={styles.footer}>
             <div className={styles.footerContainer}>
-                <div className={styles.footerNavigation}>
+                <div className={styles.footerIcons}>
+                    <span className={styles.footerLogo}></span>
+                    <div className={styles.footerSocialIcons}>
+                            <Link href={'https://instagram.com'}>
+                                <span className={styles.iconInstagram}></span>
+                            </Link>
+                            <Link href={'https://whatsapp.com'}>
+                                <span className={styles.iconWhatsapp}></span>
+                            </Link>
+                            <Link href={'https://facebook.com'}>
+                                <span className={styles.iconFacebook}></span>
+                            </Link>
+                            <Link href={'https://youtube.com'}>
+                                <span className={styles.iconYoutube}></span>
+                            </Link>
+                        </div>
+                </div>
+                <div className={styles.footerLinks}>
+                <h2 className={styles.footerHeading}>Links</h2>
+                </div>
+                <div className={styles.footerAddress}></div>
+                <div className={styles.footerLicense}></div>
+                {/* <div className={styles.footerNavigation}>
                     <div className={styles.footerImages}>
                         <Image
                             src={"/logo50.png"}
@@ -42,7 +64,7 @@ export default function Footer() {
 
                 </div>
 
-                <div className={styles.footerLicense}></div>
+                <div className={styles.footerLicense}></div> */}
 
 
             </div>
