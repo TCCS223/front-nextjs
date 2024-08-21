@@ -7,32 +7,51 @@ export default function Footer() {
     return (
         <footer className={styles.footer}>
             <div className={styles.footerContainer}>
-                <div className={styles.footerImages}>
-                    <Image
-                        src={"/logo50.png"}
-                        width={306}
-                        height={61}
-                        alt='logo'
-                        className={styles.footerLogo}
-                    />
-                    <div className={styles.footerSocialIcons}>
+                <div className={styles.footerNavigation}>
+                    <div className={styles.footerImages}>
+                        <Image
+                            src={"/logo50.png"}
+                            width={306}
+                            height={61}
+                            alt='logo'
+                            className={styles.footerLogo}
+                        />
 
-                        <Link href={'https://instagram.com'}>
-                            <span className={styles.iconInstagram}></span>
-                        </Link>
-                        <Link href={'https://whatsapp.com'}>
-                            <span className={styles.iconWhatsapp}></span>
-                        </Link>
-                        <Link href={'https://facebook.com'}>
-                            <span className={styles.iconFacebook}></span>
-                        </Link>
-                        <Link href={'https://youtube.com'}>
-                            <span className={styles.iconYoutube}></span>
-                        </Link>
-
+                        <div className={styles.footerSocialIcons}>
+                            <Link href={'https://instagram.com'}>
+                                <span className={styles.iconInstagram}></span>
+                            </Link>
+                            <Link href={'https://whatsapp.com'}>
+                                <span className={styles.iconWhatsapp}></span>
+                            </Link>
+                            <Link href={'https://facebook.com'}>
+                                <span className={styles.iconFacebook}></span>
+                            </Link>
+                            <Link href={'https://youtube.com'}>
+                                <span className={styles.iconYoutube}></span>
+                            </Link>
+                        </div>
                     </div>
+
+                    <hr className={styles.hr} />
+
+                    <div className={styles.footerLinks}></div>
+                    <hr className={styles.hr} />
+
+                    <div className={styles.footerLinks}></div>
+
                 </div>
+
+                <div className={styles.footerLicense}></div>
+
+
             </div>
+
+
+
+
+
+
             {/* <div className={styles.footerContainer}>
                 <div className={styles.footerLogoSocial}>
                     <div className={styles.footerLogo}>Urban</div>
