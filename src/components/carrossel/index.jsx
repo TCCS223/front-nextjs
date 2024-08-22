@@ -25,8 +25,8 @@ export default function CarouselComponent() {
                         <Image
                             src='/mecanico.png'
                             alt="Carlos Silva"
-                            width={150}
-                            height={150}
+                            width={450}
+                            height={450}
                             className={styles.employeeImage}
                         />
                         <h3 className={styles.employeeName}>Carlos Silva</h3>
@@ -37,8 +37,8 @@ export default function CarouselComponent() {
                         <Image
                             src='/mecanico.png'
                             alt="Ana Costa"
-                            width={150}
-                            height={150}
+                            width={450}
+                            height={450}
                             className={styles.employeeImage}
                         />
                         <h3 className={styles.employeeName}>Ana Costa</h3>
@@ -52,8 +52,8 @@ export default function CarouselComponent() {
                         <Image
                             src='/mecanico.png'
                             alt="Marcos Pereira"
-                            width={150}
-                            height={150}
+                            width={450}
+                            height={450}
                             className={styles.employeeImage}
                         />
                         <h3 className={styles.employeeName}>Marcos Pereira</h3>
@@ -64,8 +64,8 @@ export default function CarouselComponent() {
                         <Image
                             src='/mecanico.png'
                             alt="João Lima"
-                            width={150}
-                            height={150}
+                            width={450}
+                            height={450}
                             className={styles.employeeImage}
                         />
                         <h3 className={styles.employeeName}>João Lima</h3>
