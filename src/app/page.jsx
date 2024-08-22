@@ -56,8 +56,9 @@ export default function Home() {
                     {/* Seção 3 */}
 
                     
-
+                    <section className={styles.secao3}>
                     <CarouselComponent />
+                    </section>
 
                     
 

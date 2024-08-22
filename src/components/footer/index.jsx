@@ -25,7 +25,59 @@ export default function Footer() {
                     </div>
                 </div>
 
-                <div className={styles.footerLinks}>
+                <div className={styles.footerAddress}>
+
+                    {/* <h2 className={styles.footerContact}>Contato</h2> */}
+
+          
+                        <div className={styles.phone}>
+                            <span className={styles.iconPhone}></span>
+                            <div className={styles.infoPhone}>
+                                <div className={styles.titlePhone}>Telefone</div>
+                                <div className={styles.numberPhone}>(99) 9999-9999</div>
+                            </div>
+                        </div>
+
+                        <div className={styles.tell}>
+                            <span className={styles.iconTell}></span>
+                            <div className={styles.infoTell}>
+                                <div className={styles.titleTell}>Telefone</div>
+                                <div className={styles.numberTell}>(99) 9999-9999</div>
+                            </div>
+                        </div>
+
+                        <div className={styles.email}>
+                            <span className={styles.iconEmail}></span>
+                            <div className={styles.infoEmail}>
+                                <div className={styles.titleEmail}>Email</div>
+                                <div className={styles.addressEmail}>urban@teste.com</div>
+                            </div>
+                        </div>
+
+                        <div className={styles.address}>
+                            <span className={styles.iconAddress}></span>
+                            <div className={styles.infoAddress}>
+                                <div className={styles.titleAddress}>Endereço</div>
+                                <div className={styles.localizationEmail}>Av. Massuyuki, 22 / Tupã-SP</div>
+                            </div>
+                        </div>
+                    
+                </div>
+
+                <div className={styles.footerLicense}>
+                    <span className={styles.copyright}>Urban © 2024 / Todos os direitos reservados</span>
+                    <Link href="#" className={styles.footerTerms}>Termos & Políticas</Link>
+                </div>
+            </div>
+        </footer >
+    )
+}
+
+
+
+
+
+ {/* <div className={styles.footerLinks}>
 
                     <h2 className={styles.footerHeading}>Links de navegação</h2>
 
@@ -50,70 +102,4 @@ export default function Footer() {
                             <span class={styles.arrowLink}></span>Login
                         </Link>
                     </div>
-                </div>
-
-                <div className={styles.footerAddress}>
-
-                    <h2 className={styles.footerContact}>Contato</h2>
-
-                    <div className={styles.informations}>
-                        <div className={styles.phone}>
-                            <span class={styles.iconPhone}></span>
-                            <div className={styles.infoPhone}>
-                                <div className={styles.titlePhone}>Telefone</div>
-                                <div className={styles.numberPhone}>(99) 9999-9999</div>
-                            </div>
-                        </div>
-
-                        <div className={styles.email}>
-                            <span class={styles.iconEmail}></span>
-                            <div className={styles.infoEmail}>
-                                <div className={styles.titleEmail}>Email</div>
-                                <div className={styles.addressEmail}>urban@teste.com</div>
-                            </div>
-                        </div>
-
-                        <div className={styles.address}>
-                            <span class={styles.iconAddress}></span>
-                            <div className={styles.infoAddress}>
-                                <div className={styles.titleAddress}>Endereço</div>
-                                <div className={styles.localizationEmail}>Av. São Cristovão, 22 / Tupã-SP</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className={styles.footerLicense}>
-                    <span className={styles.copyright}>Urban © 2024 / Todos os direitos reservados</span>
-                    <Link href="#" className={styles.footerTerms}>Termos & Políticas</Link>
-                </div>
-            </div>
-        </footer >
-    )
-}
-
-
-
-
-
-/*
-                <ul className={styles.footerContact}>
-                    <h2 className={styles.footerHeading}>Contato</h2>
-                    <li>
-                        <h3 className={styles.contactTitle}><span className={styles.icon}></span>Telefone</h3>
-                        <p className={styles.contactDetail}>(99) 9999-9999</p>
-                    </li>
-                    <li>
-                        <h3 className={styles.contactTitle}><span className={styles.icon}></span>Email</h3>
-                        <p className={styles.contactDetail}>urban@gmail.com</p>
-                    </li>
-                    <li>
-                        <h3 className={styles.contactTitle}><span className={styles.icon}></span>Endereço</h3>
-                        <p className={styles.contactDetail}>Av. São Cristovão, 22 / Tupã-SP</p>
-                    </li>
-                </ul>
-            </div>
-            <div className={styles.footerBottom}>
-                <p>Urban © 2024 / Todos os direitos reservados.</p>
-                <Link href="#" className={styles.footerTerms}>Termos & Políticas</Link>
-            </div> */
+                </div> */}

@@ -19,6 +19,30 @@ export default function CarouselComponent() {
                 showStatus={false}
                 stopOnHover={true}
                 className={styles.carousel}
+                renderArrowPrev={(clickHandler, hasPrev, labelPrev) =>
+                    hasPrev && (
+                      <button
+                        type="button"
+                        onClick={clickHandler}
+                        className={styles.customPrevArrow}
+                        aria-label={labelPrev}
+                      >
+                        &#9664; {/* Setinha para esquerda */}
+                      </button>
+                    )
+                  }
+                  renderArrowNext={(clickHandler, hasNext, labelNext) =>
+                    hasNext && (
+                      <button
+                        type="button"
+                        onClick={clickHandler}
+                        className={styles.customNextArrow}
+                        aria-label={labelNext}
+                      >
+                        &#9654; {/* Setinha para direita */}
+                      </button>
+                    )
+                }
             >
                 <div className={styles.employeeContainer}>
                     <div className={styles.employeeCard}>
