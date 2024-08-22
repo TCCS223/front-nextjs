@@ -54,7 +54,7 @@ export default function Footer() {
 
                 <div className={styles.footerAddress}>
 
-                    <h2 className={styles.footerHeading}>Contato</h2>
+                    <h2 className={styles.footerContact}>Contato</h2>
 
                     <div className={styles.informations}>
                         <div className={styles.phone}>
