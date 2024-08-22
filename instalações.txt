@@ -6,3 +6,7 @@
 
 // INSTALAR BIBLIOTECA SWEETALERT2
     npm install sweetalert2
+
+
+// CARROSSEL 
+npm install react-responsive-carousel

@@ -1,0 +1,63 @@
+.section3 {
+    width: 100%;
+  }
+  
+  .sectionHeading {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 40px;
+    color: #333;
+  }
+  
+  .employeeContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  
+  .employeeCard {
+    background-color: #fff;
+    padding: 20px;
+    height: 27rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 40%;
+  }
+  
+  .employeeImage {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    margin-bottom: 15px;
+  }
+  
+  .employeeName {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .employeePosition {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #777;
+  }
+  
+  .employeeDescription {
+    font-size: 1rem;
+    color: #666;
+  }
+
+
+
+
+  .carouselWrapper {
+    margin: auto; 
+    /* background-color: black; */
+  }
+  
+  .carousel .control-next.control-arrow:before,
+  .carousel .control-prev.control-arrow:before {
+    color: #000; /* Cor das setas */
+  }
