@@ -304,12 +304,11 @@
     grid-area: address;
     padding: 1rem 0;
     display: grid;
-    padding: 1rem 3rem;
+    padding: 1rem 3rem 2rem;
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(4, minmax(5rem, 1fr));
+    grid-template-rows: repeat(3, minmax(5rem, 1fr));
     grid-template-areas:
       "phone"
-      "tell"
       "email"
       "address";
   }
@@ -325,7 +324,7 @@
 
   }
 
-  /* .email,
+  .email,
   .address,
   .tell,
   .phone {
@@ -339,6 +338,7 @@
   .localizationEmail {
     width: 100%;
     display: flex;
+    margin-top: 1rem;
     justify-content: center;
   }
 
@@ -355,7 +355,11 @@
   .infoAddress, .infoEmail, .infoPhone, .infoTell{
     
     flex-direction: row;
-  } */
+  }
+
+  .tell{
+    display: none;
+  }
   /* .iconAddress, .iconEmail, .iconPhone, .iconTell{
     display: none;
   } */
