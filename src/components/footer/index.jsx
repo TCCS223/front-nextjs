@@ -50,7 +50,7 @@ export default function Footer() {
                             <span className={styles.iconEmail}></span>
                             <div className={styles.infoEmail}>
                                 <div className={styles.titleEmail}>Email</div>
-                                <Link href='mailto: urban@teste.com' className={styles.addressEmail}>urban_esteticaautomotiva@teste.com</Link>
+                                <Link href='mailto: urban@teste.com' className={styles.addressEmail}>urban_estetica@teste.com</Link>
                             </div>
                         </div>
 
@@ -58,7 +58,7 @@ export default function Footer() {
                             <span className={styles.iconAddress}></span>
                             <div className={styles.infoAddress}>
                                 <div className={styles.titleAddress}>Endereço</div>
-                                <div className={styles.localizationEmail}>Av. Prof Massuyuki, 22 / Tupã-SP</div>
+                                <div className={styles.localizationEmail}>Av. Massuyuki, 22 / Tupã-SP</div>
                             </div>
                         </div>
                     
