@@ -321,7 +321,6 @@
   .footerSocialIcons {
     width: 80%;
     min-height: 50%;
-
   }
 
   .email,
@@ -330,8 +329,7 @@
   .phone {
     flex-direction: column;
   }
-
-
+  
   .numberPhone,
   .numberTell,
   .addressEmail,
