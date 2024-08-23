@@ -59,7 +59,7 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/*-----------------------------------------------*/}
+              {/* FOOTER MOBILE -> @media screen and (max-width: 577px) */}
 
                 <div className={styles.footerAddressMobile}>
                     
