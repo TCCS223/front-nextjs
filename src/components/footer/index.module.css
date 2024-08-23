@@ -212,9 +212,10 @@
 .numberTell,
 .addressEmail,
 .localizationEmail {
-  font-size: clamp(0.8rem, 0.7471rem + 0.2824vw, 1.1rem);
+  font-size: clamp(1rem, 0.9726rem + 0.1019vw, 1.1rem);
   padding: .15rem 0;
   color: #fff;
+  text-decoration: none;
 }
 
 .infoPhone,
@@ -246,7 +247,7 @@
 
 @media screen and (max-width: 1128px) {
 
-  .footer{
+  .footer {
     padding: 1.2rem 5.8%;
   }
 
@@ -273,14 +274,95 @@
 
 /* Responsividade */
 @media (max-width: 775px) {
-  .footer{
+  .footer {
     padding: 1.2rem 4%;
+  }
+
+  .footerContainer {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr minmax(50px, 8vh);
+    grid-template-areas:
+      "icons"
+      "address"
+      "license";
   }
 }
 
 
+@media screen and (max-width: 480px) {
 
-@media screen and (max-width: 500px) {
+  .footerContainer {
+    grid-template-columns: 1fr;
+    grid-template-rows: 200px 1fr minmax(50px, 8vh);
+    grid-template-areas:
+      "icons"
+      "address"
+      "license";
+  }
+
+  .footerAddress {
+    grid-area: address;
+    padding: 1rem 0;
+    display: grid;
+    padding: 1rem 3rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, minmax(5rem, 1fr));
+    grid-template-areas:
+      "phone"
+      "tell"
+      "email"
+      "address";
+  }
+
+  .footerLogo {
+    width: 80%;
+    height: 50%;
+  }
+
+  .footerSocialIcons {
+    width: 80%;
+    min-height: 50%;
+
+  }
+
+  /* .email,
+  .address,
+  .tell,
+  .phone {
+    flex-direction: column;
+  }
+
+
+  .numberPhone,
+  .numberTell,
+  .addressEmail,
+  .localizationEmail {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .titleAddress,
+  .titleEmail,
+  .titleTell,
+  .titlePhone{
+    display: none;
+
+  }
+
+
+
+  .infoAddress, .infoEmail, .infoPhone, .infoTell{
+    
+    flex-direction: row;
+  } */
+  /* .iconAddress, .iconEmail, .iconPhone, .iconTell{
+    display: none;
+  } */
+}
+
+
+/* @media screen and (max-width: 500px) {
   .footer {
     height: 90vh;
     min-height: 80vh;
@@ -329,7 +411,7 @@
   }
 
 
-}
+} */
 
 
 

@@ -34,7 +34,7 @@ export default function Footer() {
                             <span className={styles.iconPhone}></span>
                             <div className={styles.infoPhone}>
                                 <div className={styles.titlePhone}>Telefone</div>
-                                <div className={styles.numberPhone}>(99) 9999-9999</div>
+                                <Link href='tel:(00) 12345-6789' className={styles.numberPhone}>(00) 12345-6789</Link>
                             </div>
                         </div>
 
@@ -42,7 +42,7 @@ export default function Footer() {
                             <span className={styles.iconTell}></span>
                             <div className={styles.infoTell}>
                                 <div className={styles.titleTell}>Telefone</div>
-                                <div className={styles.numberTell}>(99) 9999-9999</div>
+                                <Link href='tel:(00) 1234-5678' className={styles.numberTell}>(00) 1234-5678</Link>
                             </div>
                         </div>
 
@@ -50,7 +50,7 @@ export default function Footer() {
                             <span className={styles.iconEmail}></span>
                             <div className={styles.infoEmail}>
                                 <div className={styles.titleEmail}>Email</div>
-                                <div className={styles.addressEmail}>urban@teste.com</div>
+                                <Link href='mailto: urban@teste.com' className={styles.addressEmail}>urban@teste.com</Link>
                             </div>
                         </div>
 
