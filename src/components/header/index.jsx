@@ -25,7 +25,7 @@ export default function Header() {
         <header className={styles.header}>
             <div className={styles.containerNav}>
                 <div className={styles.menu}>
-                    <div className={styles.logo}>Logo</div>
+                    <span className={styles.logo}>Logo</span>
                     <nav className={styles.navbar}>
                         <ul className={styles.navlist}>
                             <li><Link href="/" className={styles.linkNav}>Home</Link></li>
