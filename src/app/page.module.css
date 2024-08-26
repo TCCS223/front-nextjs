@@ -36,21 +36,30 @@
 .sectionTitle1 {
   color: #ff9d00;
   background-color: #222;
-  padding: 2rem 0;
-  font-size: 4.5rem;
-  font-weight: bold;
+  padding: 2rem 1rem;
+  /* font-size: 4rem; */
+  font-size: clamp(2rem, 1.1159rem + 3.2897vw, 4.2rem);
+  display: block;
+    font-weight: bold;
   border-right: 4px solid #333;
   margin: 0 auto;
   overflow: hidden;
   white-space: nowrap;
-  animation:
-    typing 3.5s steps(30, end),
-    blink-caret .5s step-end infinite;
+  animation: caret 4.5s step-end infinite alternate,
+    type 5s steps(23, end)
 }
 
 /* animation: caret .5s step-end infinite alternate,
     type 5s steps(23, end)
 } */
+
+@media screen and (max-width:834px) {
+  .sectionTitle1{
+    display: flex;
+    height: auto;
+    flex-wrap: wrap;
+  }
+}
 
 /* The typing effect */
 @keyframes typing {
@@ -59,7 +68,7 @@
   }
 
   to {
-    width: 85%
+    width: 85%;
   }
 }
 
@@ -77,9 +86,13 @@
   }
 }
 
-/* @keyframes type {
-  0% {
-    width: 0;
+@keyframes type {
+  from {
+    width: 0
+  }
+
+  to {
+    width: 85%;
   }
 
 }
@@ -88,7 +101,7 @@
   50% {
     box-shadow: .6em 0 0 transparent;
   }
-} */
+}
 
 .sectionContent1 {
   font-size: 2rem;
@@ -451,28 +464,6 @@ details[open] .description {
 }
 
 
-
-/* FOOTER */
-
-
-
-/* Ajustes para responsividade */
-@media (max-width: 768px) {
-  .footerContainer {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .footerLogoSocial,
-  .footerLinks,
-  .footerContact {
-    margin-right: 0;
-    margin-bottom: 20px;
-  }
-}
-
-
 /* Responsividade */
 @media (max-width: 1024px) {
   .main {
@@ -504,7 +495,7 @@ details[open] .description {
 }
 
 @media (max-width: 768px) {
-  .sectionTitle1 {
+  /* .sectionTitle1 {
     font-size: 2.5rem;
     color: #ff9d00;
     position: relative;
@@ -524,7 +515,7 @@ details[open] .description {
     text-wrap: wrap;
     position: relative;
     top: 40%;
-  }
+  } */
 
 
   .section2Button {
@@ -548,13 +539,13 @@ details[open] .description {
 }
 
 @media (max-width: 480px) {
-  .sectionTitle1 {
+  /* .sectionTitle1 {
     font-size: 2.5rem;
   }
 
   .sectionContent1 {
     font-size: 1.2rem;
-  }
+  } */
 
   .section2Title {
     font-size: 2.7rem;

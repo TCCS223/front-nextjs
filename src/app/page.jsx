@@ -6,6 +6,7 @@ import CarouselComponent from "@/components/carrossel";
 
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import TypingEffect from "@/components/teste";
 
 export default function Home() {
     return (
@@ -18,7 +19,8 @@ export default function Home() {
                 <main className={styles.main}>
                     {/* Seção 1 */}
                     <section className={styles.section}>
-                            <h2 className={styles.sectionTitle1}>Seu carro na melhor performance!</h2>
+                        <TypingEffect />
+                            {/* <h2 className={styles.sectionTitle1}>Seu carro na melhor performance!</h2> */}
                             {/* <p className={styles.sectionContent1}>Revele a essência do seu automóvel</p> */}
                     </section>
 
