@@ -19,9 +19,9 @@ export default function Home() {
                 <main className={styles.main}>
                     {/* Seção 1 */}
                     <section className={styles.section}>
-                        <TypingEffect />
-                            {/* <h2 className={styles.sectionTitle1}>Seu carro na melhor performance!</h2> */}
-                            {/* <p className={styles.sectionContent1}>Revele a essência do seu automóvel</p> */}
+                        {/* <TypingEffect /> */}
+                            <h2 className={styles.sectionTitle1}>Seu carro na melhor performance!</h2>
+                            <p className={styles.sectionContent1}>Revele a essência do seu automóvel</p>
                     </section>
 
                     <div className={styles.divider}></div>
