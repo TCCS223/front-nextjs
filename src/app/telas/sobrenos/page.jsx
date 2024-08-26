@@ -20,6 +20,8 @@ export default function Sobre() {
 
                         </div>
 
+                        
+
                         <div className={styles.bloco2}>
 
                             Nossa equipe é composta por profissionais altamente qualificados e dedicados, com anos de experiência em estética automotiva. Utilizamos técnicas de ponta e os melhores produtos do mercado para garantir que cada detalhe do seu veículo receba o cuidado que merece. Desde o polimento e cristalização da pintura até a higienização interna completa, tratamos cada carro como se fosse o nosso.
