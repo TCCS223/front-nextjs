@@ -3,6 +3,7 @@ import Link from "next/link";
 import styles from "./page.module.css";
 
 import CarouselComponent from "@/components/carrossel";
+import CarrosselInicial from "@/components/carrossel1";
 
 import Header from "@/components/header";
 import Footer from "@/components/footer";
@@ -16,17 +17,21 @@ export default function Home() {
                 <Header />
 
 
-                <main className={styles.main}>
-                    {/* Seção 1 */}
+                
                     <section className={styles.section}>
-                        {/* <TypingEffect /> */}
+                    <CarrosselInicial />
+                        <div className={styles.backgroundSection}>
                             <h2 className={styles.sectionTitle1}>Seu carro na melhor performance!</h2>
                             <p className={styles.sectionContent1}>Revele a essência do seu automóvel</p>
+                        </div>
                     </section>
+
+                <main className={styles.main}>
+                    {/* Seção 1 */}
 
                     <div className={styles.divider}></div>
 
-                    {/* <section className={styles.section2}>
+                    <section className={styles.section2}>
                         <div className={styles.section2Image}>
                             <Image src='/servicomecanico1233.png' alt="Imagem de serviço" width={500} height={520} className={styles.imagememsi} />
                         </div>
@@ -43,6 +48,7 @@ export default function Home() {
                             </div>
                         </div>
                     </section>
+                    {/* 
 
                     <div className={styles.divider}></div> */}
 

@@ -30,6 +30,7 @@
   width: 60%;
   height: 50%;
   background-image: url("../../../public/logo50.png");
+  background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
 }
