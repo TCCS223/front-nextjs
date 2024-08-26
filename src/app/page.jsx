@@ -18,17 +18,13 @@ export default function Home() {
                 <main className={styles.main}>
                     {/* Seção 1 */}
                     <section className={styles.section}>
-                        <div className={styles.content}>
                             <h2 className={styles.sectionTitle1}>Seu carro na melhor performance!</h2>
-                            <p className={styles.sectionContent1}>
-                                Revele a essência do seu automóvel
-                            </p>
-                        </div>
+                            {/* <p className={styles.sectionContent1}>Revele a essência do seu automóvel</p> */}
                     </section>
 
                     <div className={styles.divider}></div>
 
-                    <section className={styles.section2}>
+                    {/* <section className={styles.section2}>
                         <div className={styles.section2Image}>
                             <Image src='/servicomecanico1233.png' alt="Imagem de serviço" width={500} height={520} className={styles.imagememsi} />
                         </div>
@@ -38,13 +34,6 @@ export default function Home() {
                                 Oferecemos uma ampla gama de serviços para garantir que seu veículo esteja sempre em ótimo estado.
                                 Desde manutenção preventiva até reparos complexos, temos a expertise que você precisa.
                             </p>
-                            {/* <div className={styles.section2ButtonContainer}>
-                                <input type="checkbox" id="menuToggle" className={styles.section2MenuCheckbox} />
-                                <label htmlFor="menuToggle" className={styles.section2Button}>Veja mais</label>
-                                <div className={styles.section2DropdownMenu}>
-                                    <Link href="" className={styles.section2DropdownLink}>Serviço 1</Link>
-                                </div>
-                            </div> */}
                             <div>
                                 <Link href="/telas/servicos">
                                     <button className={styles.section2Button}>Veja mais</button>
@@ -53,20 +42,20 @@ export default function Home() {
                         </div>
                     </section>
 
-                    <div className={styles.divider}></div>
+                    <div className={styles.divider}></div> */}
 
                     {/* Seção 3 */}
 
 
-                    <section className={styles.secao3}>
+                    {/* <section className={styles.secao3}>
                         <CarouselComponent />
                     </section>
 
 
 
-                    <div className={styles.divider}></div>
+                    <div className={styles.divider}></div> */}
 
-                    <section className={styles.section4}>
+                    {/* <section className={styles.section4}>
                         <p className={styles.title_questions}>Perguntas frequentes</p>
                         <div className={styles.container_questions}>
 
@@ -165,9 +154,8 @@ export default function Home() {
                                     Nossa oficina funciona de segunda a sexta, das 8h às 18h, e aos sábados das 8h às 13h. Não abrimos aos domingos e feriados.
                                 </div>
                             </details>
-
-                        </div>
-                    </section>
+                        </div> 
+                    </section>*/}
 
                 </main>
 
