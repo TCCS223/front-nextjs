@@ -18,10 +18,12 @@ export default function Home() {
                 <main className={styles.main}>
                     {/* Seção 1 */}
                     <section className={styles.section}>
-                        <h2 className={styles.sectionTitle1}>Seu carro na melhor performance!</h2>
-                        <p className={styles.sectionContent1}>
-                            Revele a essência do seu automóvel
-                        </p>
+                        <div className={styles.content}>
+                            <h2 className={styles.sectionTitle1}>Seu carro na melhor performance!</h2>
+                            <p className={styles.sectionContent1}>
+                                Revele a essência do seu automóvel
+                            </p>
+                        </div>
                     </section>
 
                     <div className={styles.divider}></div>
@@ -55,12 +57,12 @@ export default function Home() {
 
                     {/* Seção 3 */}
 
-                    
+
                     <section className={styles.secao3}>
-                    <CarouselComponent />
+                        <CarouselComponent />
                     </section>
 
-                    
+
 
                     <div className={styles.divider}></div>
 
