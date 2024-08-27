@@ -18,8 +18,6 @@ export default function Home() {
 
                 <Header />
 
-
-
                 <section className={styles.section}>
 
                     <div className={styles.carrosselInicial}>

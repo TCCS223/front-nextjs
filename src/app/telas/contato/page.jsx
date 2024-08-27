@@ -7,14 +7,14 @@ import Footer from '@/components/footer';
 export default function Contato() {
     return (
         <div>
-            <Header />
-
+            <Header/>
+            <div className={styles.backgroundcontato}>
             <main className={styles.main}>
                 <section className={styles.section}>
                     <div className={styles.container_contato}>
                         <div className={styles.titulocontato}>Fale conosco</div>
                         <div className={styles.bloco}>
-                            <div className={styles.fontblocotitulo}>Dúvidas</div>
+                            <div className={styles.fontblocotituloinicial}>Dúvidas</div>
                             <div className={styles.fontblocotxt}>Telefone: (XX)XXXX-XXXX</div>
                             <div className={styles.fontblocotxt}>WhatsApp: (XX)XXXX-XXXX</div>
                             <div className={styles.fontblocotxt}>Email: urban_ouvidoria@teste.com</div>
@@ -32,7 +32,9 @@ export default function Contato() {
                         </div>
                     </div>
                 </section>
+               
             </main>
+            </div>
             <Footer />
         </div>
     )

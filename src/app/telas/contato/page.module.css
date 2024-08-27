@@ -17,7 +17,6 @@
 .container_contato {
     width: 100%;
     justify-content: center;  
-   
 }
 
 .titulocontato {
@@ -35,12 +34,18 @@
     padding: 4rem;
     margin: 2rem;
     background-color: #cccccc;
-    border-radius: 1rem;
-    
-    
+    border-radius: 1rem;  
 }
 
 .fontblocotitulo {
+    font-size: 2rem;
+    margin-top: 2.5rem;
+    margin-bottom: 0.5rem;
+    justify-content: center;
+    display: flex;
+}
+
+.fontblocotituloinicial {
     font-size: 2rem;
     margin-bottom: 0.5rem;
     justify-content: center;
@@ -49,8 +54,18 @@
 
 .fontblocotxt {
     font-size: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.backgroundcontato {
+    background-image: url(https://evolux.net.br/wp-content/uploads/2022/06/relatoriosdecallcenter.png);
+    display: flex;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center;
+    justify-content: center;
 }
