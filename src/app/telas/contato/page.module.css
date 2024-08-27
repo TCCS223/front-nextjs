@@ -16,7 +16,7 @@
 
 .container_contato {
     width: 100%;
-    align-items: center;  
+    justify-content: center;  
 }
 
 .titulocontato {
@@ -34,21 +34,14 @@
     margin-top: 1rem;
     background-color: #cccccc;
     border-radius: 1rem;
-    align-items: center;
-    justify-content: center;
 }
 
 .fontblocotitulo {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
-    align-items: center;
-    justify-content: center;
 }
 
 .fontblocotxt {
     font-size: 1rem;
-    margin-bottom: 0.3rem;   
-    align-items: center;
-    justify-content: center;
-
+    margin-bottom: 0.3rem;
 }

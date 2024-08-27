@@ -19,6 +19,7 @@ export default function CarouselComponent() {
                 showStatus={false}
                 stopOnHover={true}
                 className={styles.carousel}
+                renderIndicator={false}
                 renderArrowPrev={(clickHandler, hasPrev, labelPrev) =>
                     hasPrev && (
                         <button

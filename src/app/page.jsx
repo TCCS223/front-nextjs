@@ -3,7 +3,9 @@ import Link from "next/link";
 import styles from "./page.module.css";
 
 import CarouselComponent from "@/components/carrossel";
-import CarrosselInicial from "@/components/carrossel1";
+import CarrosselInicial from "@/components/carrosselPage";
+import CarrosselMobile from "@/components/carrosselMobile";
+import CarrosselMobileMedium from "@/components/carrosselMobileMedium";
 
 import Header from "@/components/header";
 import Footer from "@/components/footer";
@@ -17,14 +19,25 @@ export default function Home() {
                 <Header />
 
 
-                
-                    <section className={styles.section}>
-                    <CarrosselInicial />
-                        <div className={styles.backgroundSection}>
-                            <h2 className={styles.sectionTitle1}>Seu carro na melhor performance!</h2>
-                            <p className={styles.sectionContent1}>Revele a essência do seu automóvel</p>
-                        </div>
-                    </section>
+
+                <section className={styles.section}>
+
+                    <div className={styles.carrosselInicial}>
+                        <CarrosselInicial />
+                    </div>
+                    <div className={styles.carrosselMobile}>
+                        <CarrosselMobile />
+                    </div>
+                    <div className={styles.CarrosselMobileMedium}>
+                        <CarrosselMobileMedium />
+                    </div>
+                    
+
+                    <div className={styles.backgroundSection}>
+                        <h2 className={styles.sectionTitle1}>Seu carro na melhor performance!</h2>
+                        <p className={styles.sectionContent1}>Revele a essência do seu automóvel</p>
+                    </div>
+                </section>
 
                 <main className={styles.main}>
                     {/* Seção 1 */}
@@ -48,22 +61,22 @@ export default function Home() {
                             </div>
                         </div>
                     </section>
-                    {/* 
+                    
 
-                    <div className={styles.divider}></div> */}
+                    <div className={styles.divider}></div>
 
                     {/* Seção 3 */}
 
 
-                    {/* <section className={styles.secao3}>
+                     <section className={styles.secao3}>
                         <CarouselComponent />
                     </section>
 
 
 
-                    <div className={styles.divider}></div> */}
+                    <div className={styles.divider}></div> 
 
-                    {/* <section className={styles.section4}>
+                     <section className={styles.section4}>
                         <p className={styles.title_questions}>Perguntas frequentes</p>
                         <div className={styles.container_questions}>
 
@@ -163,7 +176,7 @@ export default function Home() {
                                 </div>
                             </details>
                         </div> 
-                    </section>*/}
+                    </section>
 
                 </main>
 
