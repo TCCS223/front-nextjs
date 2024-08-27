@@ -18,6 +18,8 @@ export default function CarouselComponent() {
                 interval={7000}
                 showStatus={false}
                 stopOnHover={true}
+                swipeable={true}
+                emulateTouch={true}
                 className={styles.carousel}
                 renderIndicator={false}
                 renderArrowPrev={(clickHandler, hasPrev, labelPrev) =>

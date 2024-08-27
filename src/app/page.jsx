@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
 
-import CarouselComponent from "@/components/carrossel";
+import CarouselComponent from "@/components/carrosselEquipe";
 import CarrosselInicial from "@/components/carrosselPage";
 import CarrosselMobile from "@/components/carrosselMobile";
 import CarrosselMobileMedium from "@/components/carrosselMobileMedium";

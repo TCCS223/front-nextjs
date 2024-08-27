@@ -15,6 +15,7 @@ export default function CarrosselInicial() {
                 showThumbs={false}
                 infiniteLoop={true}
                 autoPlay={true}
+                transitionTime={1500}
                 interval={4000}
                 className={styles.carousel}
                 showStatus={false}
@@ -23,7 +24,6 @@ export default function CarrosselInicial() {
                 <div className={styles.carrossel}>
                     <Image
                         src='/imgCarrossel/img11.jpg'
-                        alt="Ana Costa"
                         width={4256}
                         height={2832}
                         className={styles.testeImg}
@@ -32,7 +32,6 @@ export default function CarrosselInicial() {
                 <div className={styles.carrossel}>
                     <Image
                         src='/imgCarrossel/img2.jpg'
-                        alt="Ana Costa"
                         width={2000}
                         height={1423}
                         className={styles.testeImg}
@@ -41,7 +40,6 @@ export default function CarrosselInicial() {
                 <div className={styles.carrossel}>
                     <Image
                         src='/imgCarrossel/img3.jpg'
-                        alt="Ana Costa"
                         width={2400}
                         height={1522}
                         className={styles.testeImg}
@@ -50,7 +48,6 @@ export default function CarrosselInicial() {
                 <div className={styles.carrossel}>
                     <Image
                         src='/imgCarrossel/img4.jpg'
-                        alt="Ana Costa"
                         width={2400}
                         height={1350}
                         className={styles.testeImg}
@@ -59,7 +56,6 @@ export default function CarrosselInicial() {
                 <div className={styles.carrossel}>
                     <Image
                         src='/imgCarrossel/img5.jpg'
-                        alt="Ana Costa"
                         width={2400}
                         height={1600}
                         className={styles.testeImg}
