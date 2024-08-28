@@ -35,7 +35,8 @@ export default function Header() {
                         <ul className={styles.navlist}>
                             {/* Links de navegação principais */}
                             <li><Link href="/" className={styles.linkNav}>Home</Link></li>
-                            <li><Link href="/telas/sobrenos" className={styles.linkNav}>Sobre</Link></li>
+                            {/* <li><Link href="/telas/sobrenos" className={styles.linkNav}>Sobre</Link></li> */}
+                            <li><Link href="/telas/sobre" className={styles.linkNav}>Sobre</Link></li>
                             <li><Link href="/telas/contato" className={styles.linkNav}>Contato</Link></li>
                             <li><Link href="/telas/admin" className={styles.linkNav}>Login</Link></li>
                             
