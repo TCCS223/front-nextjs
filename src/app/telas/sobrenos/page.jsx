@@ -30,13 +30,9 @@ export default function Sobre() {
 
                         </div>
 
-                        {/* <div className={styles.img}></div> */}
-                        <Image
-                        src='/imgCarrossel/img2.jpg'
-                        width={250}
-                        height={160}
-                        className={styles.img}
-                    />
+                        <div className={styles.img}>
+                            </div>
+
                     </div>
                     {/*
                             <div className={styles.sectionContainer}> </div>

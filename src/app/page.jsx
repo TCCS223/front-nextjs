@@ -9,7 +9,6 @@ import CarrosselMobileMedium from "@/components/carrosselMobileMedium";
 
 import Header from "@/components/header";
 import Footer from "@/components/footer";
-import TypingEffect from "@/components/teste";
 
 export default function Home() {
     return (
