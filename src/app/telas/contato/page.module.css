@@ -9,9 +9,8 @@
 }
 
 .section {
-    width: auto;
-    height: auto;
-    margin-bottom: 1rem;
+    width: 100%;
+    height: 100%;
 }
 
 .container_contato {
@@ -65,10 +64,20 @@
 .backgroundcontato {
     background-image: url(https://evolux.net.br/wp-content/uploads/2022/06/relatoriosdecallcenter.png);
     display: flex;
-    width: 100%;
+    height: 150vh;
+    background-size: cover;
     background-repeat: no-repeat;
-    background-size: 100%;
     background-position: center;
     justify-content: center;
 }
 
+.localmapa {
+    display: flex;
+    width: 100%;
+    height: 40vh;
+}
+
+.maps{ 
+    width: 100%;
+    border-radius: 10%;
+}
