@@ -47,11 +47,11 @@
     height: 90%;
     background-color: red;
     /* background: url(../../../../public/imgCarrossel/img2.jpg); */
-    /* background-size: cover;
-    border-radius: 1.6rem;
+    /* ckground-size: cover; */
+    /* border-radius: 1.6rem;
     background-position: center center;
-    background-repeat: no-repeat;
-    box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.5); */
+    background-repeat: no-repeat; */
+    /* box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.5); */
 }
 
 .image2 {
@@ -80,10 +80,10 @@
     width: 40%;
     height: 90%;
     background: url(../../../../public/imgCarrossel/img2.jpg);
-    border-radius: 1.6rem;
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
+    border-radius: 1.6rem;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
 }
 
@@ -160,7 +160,7 @@
 
 
 @media screen and (max-width: 1080px) {
-    .description{
+    .description {
         line-height: 2.1rem;
     }
 }
