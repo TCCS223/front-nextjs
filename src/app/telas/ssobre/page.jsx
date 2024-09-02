@@ -54,7 +54,7 @@ export default function Sobre() {
                         </div>
                         <div className={styles.container_right}>
                             <p className={styles.description}>
-                                Na Urban - Estética Automotiva, valorizamos a excelência em cada detalhe e estamos profundamente comprometidos com a satisfação total do cliente. Acreditamos firmemente que a qualidade nunca deve ser comprometida, independentemente das circunstâncias. Nossos valores são um reflexo do nosso empenho em entregar resultados impecáveis, com perfeição e atenção minuciosa a cada etapa do processo. Respeitamos profundamente nossos clientes e seus veículos, tratando cada um de forma única e dedicada, sempre buscando superar expectativas. A confiança dos clientes é essencial para nós, e retribuímos com resultados que falam por si, construindo relacionamentos duradouros.
+                            Na Urban - Estética Automotiva, priorizamos a excelência em cada detalhe e a plena satisfação do cliente. Acreditamos que a qualidade é inegociável. Tratamos cada veículo com dedicação única, buscando sempre superar expectativas. A confiança dos clientes é fundamental, e nossos resultados impecáveis falam por si, fortalecendo relacionamentos duradouros.
                             </p>
                         </div>
                     </div>
@@ -70,7 +70,7 @@ export default function Sobre() {
                         </div>
                         <div className={styles.container_left}>
                             <p className={styles.description}>
-                                A Urban - Estética Automotiva nasceu para transformar a estética automotiva, estabelecendo um novo padrão de qualidade e inovação. Com uma paixão inabalável por carros e uma busca constante pela perfeição, enfrentamos desafios que nos impulsionaram a crescer e evoluir, sempre com o objetivo de oferecer serviços excepcionais. Contamos com anos de experiência e formamos uma equipe qualificada que compartilha nossa visão e valores. Hoje, somos uma referência no setor, reconhecidos pela excelência e pela confiança dos nossos clientes. Eles sabem que tratamos seus veículos com o mesmo cuidado e atenção como se fossem nossos próprios carros.
+                            A Urban - Estética Automotiva redefine a estética automotiva com qualidade e inovação. Apaixonados por carros e comprometidos com a perfeição, superamos desafios para oferecer serviços excepcionais. Com anos de experiência e uma equipe dedicada, somos referência no setor, reconhecidos pela excelência e confiança de nossos clientes, cuidando de seus veículos como se fossem nossos.
                             </p>
                         </div>
                     </div>
@@ -105,7 +105,7 @@ export default function Sobre() {
                         </div>
                         <div className={styles.container_right}>
                             <p className={styles.description}>
-                                Na Urban - Estética Automotiva, combinamos nossa paixão por carros com um forte senso de responsabilidade ambiental. Usamos apenas produtos ecológicos e otimizamos recursos como água e energia para minimizar o impacto ambiental em cada etapa do processo. Nosso foco é oferecer serviços de qualidade superior, cuidando dos veículos de nossos clientes com dedicação e do planeta com consciência. Estamos profundamente comprometidos em garantir um futuro mais verde e sustentável, onde a preservação do meio ambiente e a satisfação dos nossos clientes caminhem juntas. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Lorem, ipsum dolor sit amet consectetur.
+                            Na Urban - Estética Automotiva, unimos nossa paixão por carros com responsabilidade ambiental. Utilizamos produtos ecológicos e otimizamos recursos como água e energia para reduzir o impacto ambiental. Comprometidos com um futuro sustentável, oferecemos serviços de qualidade, cuidando dos veículos de nossos clientes e preservando o planeta com consciência.
                             </p>
                         </div>
                     </div>
