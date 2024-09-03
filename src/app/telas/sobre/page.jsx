@@ -1,6 +1,9 @@
+// import Image from 'next/image'
+
 import styles from './page.module.css';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
+import Image from 'next/image';
 
 export default function Sobre() {
     return (
@@ -8,31 +11,50 @@ export default function Sobre() {
             <Header />
             <main className={styles.main}>
                 <section className={styles.sectionOne}>
-                    <div className={styles.container}>
-                        <div className={styles.containerTitle}>
-                            <p className={styles.title}>Nossa Missão</p>
+                    <div className={styles.textContainer}>
+                        <div className={styles.containerTitle_left}>
+                            <p className={styles.title_left}>Nossa Missão</p>
                             <hr className={styles.hr} />
                         </div>
-                        <div className={styles.containerText}>
+                        <div className={styles.container_left}>
                             <p className={styles.description}>
-                            Na Urban - Estética Automotiva, nossa missão é transformar cada veículo em uma obra-prima, refletindo o cuidado que cada proprietário dedica ao seu carro. Nossa paixão por automóveis nos leva a oferecer serviços de alta qualidade, utilizando as melhores técnicas e produtos do mercado. Mais do que polir ou lavar, buscamos realçar a personalidade de cada veículo, preservando sua essência e garantindo que cada cliente sinta orgulho ao ver seu carro sair de nossas instalações. Acreditamos que o carro de um cliente é uma extensão de sua identidade, e nossa missão é cuidar dessa identidade com o respeito que ela merece.Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                Na Urban - Estética Automotiva, nossa missão é transformar cada veículo, refletindo o cuidado e a dedicação do proprietário. Oferecemos serviços de alta qualidade, utilizando as melhores técnicas e produtos do mercado. Buscamos realçar a personalidade única de cada veículo, garantindo que o cliente sinta orgulho e satisfação ao ver seu carro sair de nossas instalações.
+                            </p>
                         </div>
                     </div>
-                    <div className={styles.image1}></div>
+
+                    <div className={styles.imageContainer}>
+                        <Image
+                            src={"/imgCarrossel/img2.jpg"}
+                            alt={"imagem"}
+                            width={2000}
+                            height={1424}
+                            className={styles.imagem}
+                        />
+                    </div>
                 </section>
 
                 <hr className={styles.line} />
 
                 <section className={styles.sectionTwo}>
-                    <div className={styles.image2}></div>
-                    <div className={styles.container}>
-                        <div className={styles.containerTitle2}>
-                            <p className={styles.title2}>Nossos Valores</p>
-                            <div className={styles.hr}></div>
+                    <div className={styles.imageContainer}>
+                        <Image
+                            src={"/imgCarrossel/img3m.jpg"}
+                            alt={"imagem"}
+                            width={1920}
+                            height={2880}
+                            className={styles.imagem}
+                        />
+                    </div>
+
+                    <div className={styles.textContainer}>
+                        <div className={styles.containerTitle_right}>
+                            <p className={styles.title_right}>Nossos Valores</p>
+                            <hr className={styles.hr}></hr>
                         </div>
-                        <div className={styles.containerText2}>
+                        <div className={styles.container_right}>
                             <p className={styles.description}>
-                            Na Urban - Estética Automotiva, valorizamos a excelência em cada detalhe e estamos profundamente comprometidos com a satisfação total do cliente. Acreditamos firmemente que a qualidade nunca deve ser comprometida, independentemente das circunstâncias. Nossos valores são um reflexo do nosso empenho em entregar resultados impecáveis, com perfeição e atenção minuciosa a cada etapa do processo. Respeitamos profundamente nossos clientes e seus veículos, tratando cada um de forma única e dedicada, sempre buscando superar expectativas. A confiança dos clientes é essencial para nós, e retribuímos com resultados que falam por si, construindo relacionamentos duradouros.
+                                Na Urban - Estética Automotiva, priorizamos a excelência e a satisfação do cliente. Acreditamos que a qualidade é inegociável. Tratamos cada veículo com dedicação, buscando sempre superar expectativas. A confiança dos clientes é fundamental, e nossos resultados impecáveis fortalecem relacionamentos duradouros.
                             </p>
                         </div>
                     </div>
@@ -41,34 +63,149 @@ export default function Sobre() {
                 <hr className={styles.line} />
 
                 <section className={styles.sectionThree}>
-                    <div className={styles.container}>
-                        <div className={styles.containerTitle}>
-                            <p className={styles.title}>Nossa História</p>
+                    <div className={styles.textContainer}>
+                        <div className={styles.containerTitle_left}>
+                            <p className={styles.title_left}>Nossa História</p>
                             <hr className={styles.hr} />
                         </div>
-                        <div className={styles.containerText}>
+                        <div className={styles.container_left}>
                             <p className={styles.description}>
-                            A Urban - Estética Automotiva nasceu para transformar a estética automotiva, estabelecendo um novo padrão de qualidade e inovação. Com uma paixão inabalável por carros e uma busca constante pela perfeição, enfrentamos desafios que nos impulsionaram a crescer e evoluir, sempre com o objetivo de oferecer serviços excepcionais. Contamos com anos de experiência e formamos uma equipe qualificada que compartilha nossa visão e valores. Hoje, somos uma referência no setor, reconhecidos pela excelência e pela confiança dos nossos clientes. Eles sabem que tratamos seus veículos com o mesmo cuidado e atenção como se fossem nossos próprios carros.
+                                A Urban - Estética Automotiva redefine a estética automotiva com qualidade e inovação. Apaixonados por carros e comprometidos com a perfeição, superamos desafios para oferecer serviços excepcionais. Com anos de experiência, somos referência no setor, reconhecidos pela excelência e confiança dos clientes, cuidando de seus veículos como se fossem nossos.
                             </p>
                         </div>
                     </div>
-                    <div className={styles.image3}></div>
+
+                    <div className={styles.imageContainer}>
+                        <Image
+                            src={"/imgCarrossel/img5m.jpg"}
+                            alt={"imagem"}
+                            width={2848}
+                            height={4272}
+                            className={styles.imagem}
+                        />
+                    </div>
                 </section>
 
                 <hr className={styles.line} />
 
                 <section className={styles.sectionFour}>
-                    <div className={styles.image4}></div>
-                    <div className={styles.container}>
-                        <div className={styles.containerTitle2}>
-                            <p className={styles.title2}>Nosso Compromisso</p>
+                    <div className={styles.imageContainer}>
+                        <Image
+                            src={"/imgCarrossel/img5.jpg"}
+                            alt={"imagem"}
+                            width={2400}
+                            height={1600}
+                            className={styles.imagem}
+                        />
+                    </div>
+                    
+                    <div className={styles.textContainer}>
+                        <div className={styles.containerTitle_right}>
+                            <p className={styles.title_right}>Nossos Compromissos</p>
                             <hr className={styles.hr} />
                         </div>
-                        <div className={styles.containerText2}>
+                        <div className={styles.container_right}>
                             <p className={styles.description}>
-                            Na Urban - Estética Automotiva, combinamos nossa paixão por carros com um forte senso de responsabilidade ambiental. Usamos apenas produtos ecológicos e otimizamos recursos como água e energia para minimizar o impacto ambiental em cada etapa do processo. Nosso foco é oferecer serviços de qualidade superior, cuidando dos veículos de nossos clientes com dedicação e do planeta com consciência. Estamos profundamente comprometidos em garantir um futuro mais verde e sustentável, onde a preservação do meio ambiente e a satisfação dos nossos clientes caminhem juntas. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Lorem, ipsum dolor sit amet consectetur.
+                                Na Urban - Estética Automotiva, unimos nossa paixão por carros com responsabilidade ambiental. Utilizamos produtos ecológicos e otimizamos recursos como água e energia para reduzir o impacto ambiental. Comprometidos com um futuro sustentável, oferecemos serviços de qualidade, cuidando dos veículos de nossos clientes e preservando o planeta com consciência.
                             </p>
                         </div>
+                    </div>
+                </section>
+            </main>
+
+
+            {/* MAIN MOBILE ----------------------------------------------- */}
+
+            <main className={styles.mainMobile}>
+                <section className={styles.sectionMobile}>
+                    <div className={styles.containerTitleMobile}>
+                        <p className={styles.titleMobile}>Nossa Missão</p>
+                        <hr className={styles.hrMobile}></hr>
+                    </div>
+
+                    <div className={styles.imageMobile}>
+                        <Image
+                            src={"/imgCarrossel/img5.jpg"}
+                            alt={"imagem"}
+                            width={1920}
+                            height={2880}
+                            className={styles.imgMobile}
+                        />
+                    </div>
+
+                    <div className={styles.containerMobile}>
+                        <p className={styles.descriptionMobile}>
+                            Na Urban - Estética Automotiva, priorizamos a excelência e a satisfação do cliente. Acreditamos que a qualidade é inegociável. Tratamos cada veículo com dedicação, buscando sempre superar expectativas. A confiança dos clientes é fundamental, e nossos resultados impecáveis fortalecem relacionamentos duradouros.
+                        </p>
+                    </div>
+                </section>
+
+                <section className={styles.sectionMobile}>
+                    <div className={styles.containerTitleMobile}>
+                        <p className={styles.titleMobile}>Nossos Valores</p>
+                        <hr className={styles.hrMobile}></hr>
+                    </div>
+
+                    <div className={styles.imageMobile}>
+                        <Image
+                            src={"/imgCarrossel/img5.jpg"}
+                            alt={"imagem"}
+                            width={1920}
+                            height={2880}
+                            className={styles.imgMobile}
+                        />
+                    </div>
+
+                    <div className={styles.containerMobile}>
+                        <p className={styles.descriptionMobile}>
+                            Na Urban - Estética Automotiva, priorizamos a excelência e a satisfação do cliente. Acreditamos que a qualidade é inegociável. Tratamos cada veículo com dedicação, buscando sempre superar expectativas. A confiança dos clientes é fundamental, e nossos resultados impecáveis fortalecem relacionamentos duradouros.
+                        </p>
+                    </div>
+                </section>
+
+                <section className={styles.sectionMobile}>
+                    <div className={styles.containerTitleMobile}>
+                        <p className={styles.titleMobile}>Nossa História</p>
+                        <hr className={styles.hrMobile}></hr>
+                    </div>
+
+                    <div className={styles.imageMobile}>
+                        <Image
+                            src={"/imgCarrossel/img5.jpg"}
+                            alt={"imagem"}
+                            width={1920}
+                            height={2880}
+                            className={styles.imgMobile}
+                        />
+                    </div>
+
+                    <div className={styles.containerMobile}>
+                        <p className={styles.descriptionMobile}>
+                            A Urban - Estética Automotiva redefine a estética automotiva com qualidade e inovação. Apaixonados por carros e comprometidos com a perfeição, superamos desafios para oferecer serviços excepcionais. Com anos de experiência, somos referência no setor, reconhecidos pela excelência e confiança dos clientes, cuidando de seus veículos como se fossem nossos.
+                        </p>
+                    </div>
+                </section>
+
+                <section className={styles.sectionMobile}>
+                    <div className={styles.containerTitleMobile}>
+                        <p className={styles.titleMobile}>Compromissos</p>
+                        <hr className={styles.hrMobile}></hr>
+                    </div>
+
+                    <div className={styles.imageMobile}>
+                        <Image
+                            src={"/imgCarrossel/img5.jpg"}
+                            alt={"imagem"}
+                            width={1920}
+                            height={2880}
+                            className={styles.imgMobile}
+                        />
+                    </div>
+
+                    <div className={styles.containerMobile}>
+                        <p className={styles.descriptionMobile}>
+                            Na Urban - Estética Automotiva, unimos nossa paixão por carros com responsabilidade ambiental. Utilizamos produtos ecológicos e otimizamos recursos como água e energia para reduzir o impacto ambiental. Comprometidos com um futuro sustentável, oferecemos serviços de qualidade, cuidando dos veículos de nossos clientes e preservando o planeta com consciência.
+                        </p>
                     </div>
                 </section>
             </main>
