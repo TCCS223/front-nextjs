@@ -10,6 +10,7 @@ import styles from './index.module.css';
 export default function CarrosselInicial() {
     return (
         <div className={styles.carouselWrapper}>
+            
             <Carousel
                 showArrows={false}
                 showThumbs={false}
@@ -61,56 +62,6 @@ export default function CarrosselInicial() {
                         className={styles.testeImg}
                     />
                 </div>
-
-               
-{/* 
-                <div className={styles.carrosselMobile}>
-                    <Image
-                        src='/imgCarrossel/img1.jpg'
-                        alt="Ana Costa"
-                        width={1920}
-                        height={2880}
-                        className={styles.testeImg}
-                    />
-                </div>
-                <div className={styles.carrosselMobile}>
-                    <Image
-                        src='/imgCarrossel/img1.jpg'
-                        alt="Ana Costa"
-                        width={1920}
-                        height={2880}
-                        className={styles.testeImg}
-                    />
-                </div>
-                <div className={styles.carrosselMobile}>
-                    <Image
-                        src='/imgCarrossel/img1.jpg'
-                        alt="Ana Costa"
-                        width={1920}
-                        height={2880}
-                        className={styles.testeImg}
-                    />
-                </div>
-                <div className={styles.carrosselMobile}>
-                    <Image
-                        src='/imgCarrossel/img1.jpg'
-                        alt="Ana Costa"
-                        width={1920}
-                        height={2880}
-                        className={styles.testeImg}
-                    />
-                </div>
-                <div className={styles.carrosselMobile}>
-                    <Image
-                        src='/imgCarrossel/img1.jpg'
-                        alt="Ana Costa"
-                        width={1920}
-                        height={2880}
-                        className={styles.testeImg}
-                    />
-                </div> */}
-
-
             </Carousel>
         </div>
     )
