@@ -1,0 +1,148 @@
+.main {
+    display: flex;
+    padding: 0 10%;
+    justify-content: center;
+    background-image: url(https://evolux.net.br/wp-content/uploads/2022/06/relatoriosdecallcenter.png);
+   
+    display: flex;
+    height: 90vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    /* background-Color: rgba(155, 155, 155, 0.342); */
+
+    border-radius: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: minmax(0, 210px) 1fr;
+    grid-template-areas:
+        "title title "
+        "info map";
+}
+
+.title {
+    /* background-color: red; */
+    grid-area: title;
+    font-size: 5rem;
+    font-weight: 600;
+    color: #ff9d00;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.info {
+    /* background-color: rgb(9, 9, 128); */
+    grid-area: info;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: ; */
+    align-items: center;
+}
+
+.address {
+    width: 100%;
+    height: 20%;
+    /* background-color: #ff9d00; */
+    align-items: self-end;
+    display: flex;
+    justify-content: center;
+}
+
+.linkAddress {
+    text-decoration: none;
+    color: #ff9d00;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.map {
+    /* background-color: green; */
+    grid-area: map;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: space-evenly; */
+    align-items: center;
+
+}
+
+.maps {
+    width: 80%;
+    height: 70%;
+    outline: none;
+    border-radius: 5px;
+    /* margin: auto; */
+}
+
+.infoDuvidas {
+
+    flex-direction: column;
+
+    grid-area: duvidas;
+}
+
+.infoDuvidasTitulo,
+.infoContatosTitulo,
+.infoParceriasTitulo {
+    /* width: 100%; */
+    height: 25%;
+    /* background-color: red; */
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: #ff9d00;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.6);
+}
+
+.infos {
+    height: 75%;
+    /* background-color: rgb(116, 108, 108); */
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+
+.infoContatos {
+    flex-direction: column;
+    grid-area: contatos;
+}
+
+.infoParcerias {
+    flex-direction: column;
+    grid-area: parcerias;
+}
+
+.card {
+    background-Color: rgba(233, 233, 233, 0.719);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    width: 70%;
+    height: 90%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas:
+        "duvidas"
+        "contatos"
+        "parcerias";
+}
+
+.informacao {
+    height: 30%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    font-size: 1.3rem;
+    align-items: center;
+    /* background-color: pink; */
+}
