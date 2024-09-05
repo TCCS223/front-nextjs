@@ -1,1 +1,2 @@
--trocar imagens da page sobre mo
+-trocar imagens da page sobre mobile
+-trocar texto da page contato

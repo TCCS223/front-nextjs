@@ -58,18 +58,14 @@ export default function Home() {
                             </div>
                         </div>
                     </section>
-                    
 
                     <div className={styles.divider}></div>
 
                     {/* Seção 3 */}
 
-
                      <section className={styles.secao3}>
                         <CarouselComponent />
                     </section>
-
-
 
                     <div className={styles.divider}></div> 
 

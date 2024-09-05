@@ -22,7 +22,6 @@ export default function Home() {
                   unoptimized={true}
                 />
               </div>
-
               <div className={styles.email_login}>
                 <span className={styles.icone_email}></span>
                 <input className={styles.input} type="email" name="email" placeholder="Email" />

@@ -3,9 +3,8 @@
     padding: 0 10%;
     justify-content: center;
     background-image: url(https://evolux.net.br/wp-content/uploads/2022/06/relatoriosdecallcenter.png);
-   
     display: flex;
-    height: 90vh;
+    height: 100vh;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -16,8 +15,6 @@
     width: 100%;
     height: 100%;
     display: grid;
-    /* background-Color: rgba(155, 155, 155, 0.342); */
-
     border-radius: 1rem;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: minmax(0, 210px) 1fr;
@@ -27,30 +24,27 @@
 }
 
 .title {
-    /* background-color: red; */
     grid-area: title;
-    font-size: 5rem;
+    font-size: clamp(3rem, 2.3333rem + 2.6667vw, 5rem);
     font-weight: 600;
     color: #ff9d00;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .info {
-    /* background-color: rgb(9, 9, 128); */
     grid-area: info;
     display: flex;
     flex-direction: column;
-    /* justify-content: ; */
     align-items: center;
 }
 
 .address {
     width: 100%;
-    height: 20%;
-    /* background-color: #ff9d00; */
-    align-items: self-end;
+    height: 30%;
+    align-items: center;
     display: flex;
     justify-content: center;
 }
@@ -59,19 +53,17 @@
     text-decoration: none;
     color: #ff9d00;
     margin-bottom: 2rem;
-    font-size: 1.5rem;
+    font-size: clamp(1.2rem, 0.9rem + 0.6vw, 1.5rem);
     font-weight: 500;
     text-align: center;
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.6);
 }
 
 .map {
-    /* background-color: green; */
     grid-area: map;
     display: flex;
     flex-direction: column;
-    /* justify-content: space-evenly; */
     align-items: center;
-
 }
 
 .maps {
@@ -79,34 +71,28 @@
     height: 70%;
     outline: none;
     border-radius: 5px;
-    /* margin: auto; */
 }
 
 .infoDuvidas {
-
     flex-direction: column;
-
     grid-area: duvidas;
 }
 
 .infoDuvidasTitulo,
 .infoContatosTitulo,
 .infoParceriasTitulo {
-    /* width: 100%; */
     height: 25%;
-    /* background-color: red; */
     justify-content: center;
     align-items: center;
     display: flex;
     color: #ff9d00;
-    font-size: 2.5rem;
+    font-size: clamp(1.8rem, 1.6333rem + 0.6667vw, 2.3rem);
     font-weight: bold;
-    text-shadow: 2px 2px 0px rgba(0,0,0,0.6);
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.6);
 }
 
 .infos {
     height: 75%;
-    /* background-color: rgb(116, 108, 108); */
     display: flex;
     justify-content: space-evenly;
     flex-direction: column;
@@ -135,6 +121,7 @@
         "duvidas"
         "contatos"
         "parcerias";
+    padding: 1rem 0;
 }
 
 .informacao {
@@ -142,7 +129,75 @@
     margin: auto;
     display: flex;
     justify-content: center;
-    font-size: 1.3rem;
+    font-size: clamp(1rem, 0.91rem + 0.24vw, 1.15rem);
     align-items: center;
-    /* background-color: pink; */
+}
+
+
+@media screen and (max-width: 1128px) {
+    .main {
+        height: 110vh;
+    }
+
+    .address {
+        height: 25%;
+    }
+
+    .card {
+        width: 90%;
+    }
+
+    .maps {
+        width: 85%;
+    }
+}
+
+
+@media screen and (max-width: 850px) {
+    .card {
+        width: 100%;
+    }
+
+    .linkAddress {
+        text-decoration: none;
+        color: #ff9d00;
+        display: flex;
+        align-items: center;
+        margin: 0;
+    }
+
+    .address {
+        width: 100%;
+        height: 20%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .maps {
+        width: 90%;
+    }
+}
+
+
+@media screen and (max-width: 780px) {
+    .main {
+        padding: 0 5%;
+        height: 150vh;
+    }
+
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 120px) 1fr 1fr;
+        grid-template-areas:
+            "title"
+            "info"
+            "map";
+        gap: 2rem 0;
+    }
+
+    .maps {
+        width: 100%;
+        height: 80%;
+    }
 }
