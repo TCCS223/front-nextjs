@@ -1,7 +1,7 @@
-/* Estilos principais */
+/* Estilos principais - versão light */
 .main {
-    color: #fff;
-    background-color: #1c1c1c;
+    color: #333; /* Texto mais escuro para contraste */
+    background-color: #f5f5f5; /* Fundo claro */
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -24,7 +24,7 @@
     width: 50%;
     height: 100%;
     display: flex;
-    background-color: #121212;
+    background-color: #e0e0e0; /* Fundo claro para o lado da imagem */
 }
 
 .img {
@@ -33,19 +33,18 @@
     object-fit: cover;
 }
 
-/* Caixa de login (aumentada) */
+/* Caixa de login */
 .boxLogin {
     width: 100%;
-    
-     max-width: 600px; /*Aumentei o max-width */
-    background-color: #2c2c2c;
-    padding: 3rem; /* Aumentei o padding */
-    border-radius: 15px; /* Aumentei o arredondamento */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7); /* Sombra mais intensa */
+    max-width: 600px;
+    background-color: #ffffff; /* Fundo claro para o box de login */
+    padding: 3rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* Sombra mais suave */
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2.5rem; /* Aumentei o espaçamento entre elementos */
+    gap: 2.5rem;
 }
 
 /* Logo */
@@ -53,7 +52,7 @@
     width: 70%;
     display: flex;
     justify-content: center;
-    margin-bottom: 2.5rem; /* Mais espaço abaixo da logo */
+    margin-bottom: 2.5rem;
 }
 
 .imgLogo {
@@ -62,7 +61,7 @@
 
 /* Título de login */
 .titleLogin {
-    font-size: 3rem; /* Aumentei o tamanho do título */
+    font-size: 3rem;
     color: #ff9d00;
     font-weight: bold;
     margin-bottom: 1.5rem;
@@ -74,7 +73,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 2.5rem; /* Mais espaço entre os campos */
+    gap: 2.5rem;
 }
 
 /* Grupos de entrada */
@@ -85,25 +84,25 @@
 }
 
 .labelLogin {
-    font-size: 1.3rem; /* Aumentei o tamanho da fonte do rótulo */
-    color: #ffffff;
-    margin-bottom: 1rem; /* Aumentei o espaço abaixo do rótulo */
+    font-size: 1.3rem;
+    color: #333333; /* Texto mais escuro */
+    margin-bottom: 1rem;
 }
 
 /* Campo de entrada */
 .inputLogin {
-    padding: 1rem; /* Aumentei o padding para campos maiores */
+    padding: 1rem;
     font-size: 1.2rem;
-    background-color: #3a3a3a;
-    color: #ffffff;
-    border: 1px solid #555555;
-    border-radius: 8px; /* Aumentei o arredondamento dos cantos */
+    background-color: #f0f0f0; /* Fundo claro para o campo */
+    color: #333333;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
     transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .inputLogin:focus {
     border-color: #ff9d00;
-    box-shadow: 0 0 6px rgba(255, 157, 0, 0.7);
+    box-shadow: 0 0 6px rgba(255, 157, 0, 0.5);
     outline: none;
 }
 
@@ -117,11 +116,11 @@
 .loginButton {
     width: 100%;
     padding: 1rem;
-    font-size: 1.3rem; /* Aumentei o tamanho da fonte do botão */
+    font-size: 1.3rem;
     background-color: #ff9d00;
     color: #ffffff;
     border: none;
-    border-radius: 8px; /* Aumentei o arredondamento dos cantos */
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
@@ -133,13 +132,13 @@
 /* Link de cadastro */
 .registerLink {
     text-align: center;
-    color: #ffffff;
+    color: #333333;
 }
 
 .link {
     color: #ff9d00;
     text-decoration: none;
-    font-size: 1.2rem; /* Aumentei o tamanho da fonte do link */
+    font-size: 1.2rem;
     font-weight: bold;
 }
 
@@ -147,14 +146,13 @@
     text-decoration: underline;
 }
 
-
 /* Container do checkbox */
 .checkboxContainer {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-top: -1rem; /* Aproxima do campo de senha */
-    margin-bottom: 1.5rem; /* Espaço abaixo do checkbox */
+    margin-top: -1rem;
+    margin-bottom: 1.5rem;
 }
 
 /* Estilização personalizada do checkbox */
@@ -168,7 +166,7 @@
     border-radius: 4px;
     position: relative;
     cursor: pointer;
-    background-color: #2c2c2c;
+    background-color: #f0f0f0;
     transition: background-color 0.3s, border-color 0.3s;
 }
 
@@ -192,6 +190,6 @@
 /* Estilo do rótulo do checkbox */
 .checkboxLabel {
     font-size: 1.2rem;
-    color: #ffffff;
+    color: #333333;
     cursor: pointer;
 }
