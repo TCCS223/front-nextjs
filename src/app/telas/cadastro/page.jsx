@@ -153,7 +153,7 @@ export default function Cadastro() {
             </form>
 
             <div className={styles.loginLink}>
-              Já tem uma conta? <Link href="/telas/logiin" className={styles.link}>Faça login</Link>
+              Já tem uma conta? <Link href="/telas/login" className={styles.link}>Faça login</Link>
             </div>
           </div>
         </div>
