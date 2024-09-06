@@ -14,7 +14,7 @@ export default function Sobre() {
                     <div className={styles.textContainer}>
                         <div className={styles.containerTitle_left}>
                             <p className={styles.title_left}>Nossa Missão</p>
-                            <hr className={styles.hr} />
+                            <hr className={styles.hr}/>
                         </div>
                         <div className={styles.container_left}>
                             <p className={styles.description}>
@@ -125,7 +125,7 @@ export default function Sobre() {
 
                     <div className={styles.imageMobile}>
                         <Image
-                            src={"/imgCarrossel/img5.jpg"}
+                            src={"/imgCarrossel/lambo.jpeg"}
                             alt={"imagem"}
                             width={1920}
                             height={2880}
@@ -171,7 +171,7 @@ export default function Sobre() {
 
                     <div className={styles.imageMobile}>
                         <Image
-                            src={"/imgCarrossel/img5.jpg"}
+                            src={"/imgCarrossel/motasso.jpg"}
                             alt={"imagem"}
                             width={1920}
                             height={2880}
@@ -194,7 +194,7 @@ export default function Sobre() {
 
                     <div className={styles.imageMobile}>
                         <Image
-                            src={"/imgCarrossel/img5.jpg"}
+                            src={"/imgCarrossel/original.jpg"}
                             alt={"imagem"}
                             width={1920}
                             height={2880}

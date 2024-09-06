@@ -93,27 +93,29 @@
 }
 
 .sidebar_buttons {
-  width: 25%;
+  width: 30%;
   height: 80%;
+  border-radius: 10px;
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
-  justify-content: space-between;
-  /* margin-top: 2rem; */
-  /* margin-left: 2.5rem; */
-  /* background-color: green */
+  justify-content: space-evenly;
+  background-color: #cccccc;
   position: relative;
+  margin-right: 15px;
 }
 
 
 .link_button {
-  width: 100%;
+  width: 90%;
   height: 12.5%;
   font-size: 1.2rem;
-  background-color: #ffc74e;
+  background-color: #eb940a;
   justify-content: center;
   align-items: center;
   display: flex;
-  border-radius: 5px;
+  border-radius: 10px;
   text-decoration: none;
   box-shadow: 4px 4px 14px -7px rgba(0,0,0,0.5);
   color: #333;
@@ -126,29 +128,13 @@
   
 }
 
-/* .link_button:focus{
-  background-color: #ff9d00;
-  opacity: 1; 
-  color: black;
-  font-weight: 600;
-} */
-
-
-/* .link_button:not(focus){
-  opacity: 0.5;
-} */
-
 .link_button.active {
   background-color: #ff9d00;
-  border: 0.15rem solid #e07000;
+  border: 0.15rem solid gray;
   color: black;
   opacity: 1;
   font-weight: 600;
 }
-
-/* .link_button:not(.active) {
-  opacity: 0.5;
-} */
 
 .container_servicos {
   /* background-color: #cccccc; */

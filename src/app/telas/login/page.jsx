@@ -84,10 +84,10 @@ export default function Home() {
 
                 <div className={styles.image}>
                     <Image
-                        src='/imgCarrossel/img2.jpg'
+                        src='/lambo2.jpeg'
                         alt="Background Image"
-                        width={4256}
-                        height={2832}
+                        width={1700}
+                        height={2560}
                         className={styles.img}
                     />
                 </div>

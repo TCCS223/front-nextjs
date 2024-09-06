@@ -22,7 +22,7 @@ export default function Cadastro() {
       <main className={styles.main}>
         <div className={styles.image}>
           <Image
-            src="/imgCarrossel/img2.jpg"
+            src="/mac.jpeg"
             alt="Background Image"
             width={4256}
             height={2832}
@@ -34,7 +34,7 @@ export default function Cadastro() {
           <div className={styles.boxCadastro}>
             <div className={styles.logoImg}>
               <Image
-                src="/logo50.png"
+                src='/logo50.png'
                 alt="logo"
                 width={393}
                 height={78}
@@ -57,7 +57,7 @@ export default function Cadastro() {
                     required
                   />
                 </div>
-                
+
                 <div className={styles.inputGroup}>
                   <label htmlFor="cpf" className={styles.labelCadastro}>CPF</label>
                   <input
@@ -121,7 +121,7 @@ export default function Cadastro() {
               </div>
 
               <div className={styles.doubleInputGroup}>
-                <div className={styles.inputGroup}>
+                <div className={`${styles.inputGroup} ${styles.teste}`}>
                   <label htmlFor="password" className={styles.labelCadastro}>Senha</label>
                   <input
                     type={showPassword ? "text" : "password"}
@@ -131,6 +131,9 @@ export default function Cadastro() {
                     placeholder="Digite sua senha"
                     required
                   />
+
+
+
                 </div>
 
                 <div className={styles.checkboxContainer}>

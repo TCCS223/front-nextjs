@@ -224,7 +224,7 @@
         width: 100%;
         text-align: justify;
         font-size: clamp(1rem, 0.8304rem + 0.7143vw, 1.5rem);
-        line-height: 2.5rem;
+        line-height: 2.3rem;
     }
 }
 
@@ -265,6 +265,10 @@
     .imageMobile {
         width: 100%;
         height: 30%;
+    }
+
+    .descriptionMobile {
+        margin-top: 1rem;
     }
 
     .containerTitleMobile {

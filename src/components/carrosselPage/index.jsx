@@ -56,9 +56,9 @@ export default function CarrosselInicial() {
                 </div>
                 <div className={styles.carrossel}>
                     <Image
-                        src='/imgCarrossel/img5.jpg'
-                        width={2400}
-                        height={1600}
+                        src='/motorcycle.jpg'
+                        width={1500}
+                        height={1200}
                         className={styles.testeImg}
                     />
                 </div>

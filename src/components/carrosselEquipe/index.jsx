@@ -74,9 +74,6 @@ export default function CarouselComponent() {
                     </div>
                 </div>
 
-
-
-
                 <div className={styles.employeeContainer}>
                     <div className={styles.employeeCard}>
                         <Image
@@ -120,12 +117,12 @@ export default function CarouselComponent() {
                     <div className={styles.employeeCard}>
                         <Image
                             src='/mecanico.png'
-                            alt="João Lima"
+                            alt="Calabreso"
                             width={450}
                             height={450}
                             className={styles.employeeImage}
                         />
-                        <h3 className={styles.employeeName}>Cléber Santana</h3>
+                        <h3 className={styles.employeeName}>Calma Calabreso</h3>
                         <p className={styles.employeePosition}>Assistente de Oficina</p>
                         <p className={styles.employeeDescription}>Auxilia nos serviços gerais e manutenção preventiva.</p>
                     </div>
