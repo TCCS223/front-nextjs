@@ -1,61 +1,97 @@
+"use client"
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
 
 export default function Home() {
-  return (
-    <html>
-      <head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </head>
-      <body >
-        <div className={styles.backgroundform}>
-          <div className={styles.geral}>
-            <div className={styles.login}>
-              <div className={styles.logo}>
-                <Image
-                  src={'LOGO.png'}
-                  width={240}
-                  height={50}
-                  alt={"logo"}
-                  unoptimized={true}
-                />
-              </div>
-              <div className={styles.email_login}>
-                <span className={styles.icone_email}></span>
-                <input className={styles.input} type="email" name="email" placeholder="Email" />
-              </div>
+    const [showPassword, setShowPassword] = useState(false);
 
-              <div className={styles.senha_login}>
-                <span className={styles.icone_senha}></span>
-                <input className={styles.input} type="password" name="senha" placeholder="Senha" />
-              </div>
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
-              <Link href="./admin">
-                {/* <button className={styles.button} type="submit">ADMIN</button> */}
-                <button type="submit">ADMIN</button>
-              </Link>
+    const teste = () => {
+        alert("funcionou");
+    };
 
-              <Link href="">
-                {/* <button className={styles.button} type="submit">USUARIO</button> */}
-                <button type="submit">USUARIO</button>
-              </Link>
+    return (
+        <>
+            <main className={styles.main}>
+                <div className={styles.container}>
+                    <div className={styles.boxLogin}>
+                        <div className={styles.logoImg}>
+                            <Image
+                                src='/logo50.png'
+                                alt="logo"
+                                width={393}
+                                height={78}
+                                className={styles.imgLogo}
+                            />
+                        </div>
 
-              <span className={styles.link_cadastro}>
-                Não tem uma conta? Inscrever-se no
-                <Link href={'./cadastro'} className={styles.link}>&nbsp;&nbsp;URBAN</Link>
-              </span>
-            </div>
+                        <span className={styles.titleLogin}>LOGIN</span>
 
-            <div className={styles.imagemform}></div>
+                        <form className={styles.formLogin}>
+                            <div className={styles.inputGroup}>
+                                <label htmlFor="email" className={styles.labelLogin}>Email</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    className={styles.inputLogin}
+                                    placeholder="Digite seu email"
+                                    required
+                                />
+                            </div>
 
-          </div>
-        </div>
+                            <div className={styles.inputGroup}>
+                                <label htmlFor="password" className={styles.labelLogin}>Senha</label>
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    id="password"
+                                    name="password"
+                                    className={styles.inputLogin}
+                                    placeholder="Digite sua senha"
+                                    required
+                                />
+                            </div>
 
-        <Link href={"/"}>voltar</Link>
+                            <div className={styles.checkboxContainer}>
+                                <input
+                                    type="checkbox"
+                                    id="showPassword"
+                                    checked={showPassword}
+                                    onChange={togglePasswordVisibility}
+                                    className={styles.checkbox}
+                                />
+                                <label htmlFor="showPassword" className={styles.checkboxLabel}>
+                                    Mostrar senha
+                                </label>
+                            </div>
 
-      </body>
-    </html>
-  );
+                            <div className={styles.loginButtonContainer}>
+                                <button type="submit" className={styles.loginButton} onClick={teste}>Entrar</button>
+                            </div>
+
+                            <div className={styles.registerLink}>
+                                Não tem uma conta? <Link href="/telas/cadastro" className={styles.link}>Cadastre-se</Link>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div className={styles.image}>
+                    <Image
+                        src='/imgCarrossel/img2.jpg'
+                        alt="Background Image"
+                        width={4256}
+                        height={2832}
+                        className={styles.img}
+                    />
+                </div>
+            </main>
+        </>
+    );
 }

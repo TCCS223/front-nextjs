@@ -38,7 +38,7 @@ export default function Header() {
                             {/* <li><Link href="/telas/sobrenos" className={styles.linkNav}>Sobre</Link></li> */}
                             <li><Link href="/telas/sobre" className={styles.linkNav}>Sobre</Link></li>
                             <li><Link href="/telas/contatos" className={styles.linkNav}>Contato</Link></li>
-                            <li><Link href="/telas/logiin" className={styles.linkNav}>Login</Link></li>
+                            <li><Link href="/telas/login" className={styles.linkNav}>Login</Link></li>
                         </ul>
                     </nav>
                     <div className={styles.menuMobile} onClick={ativaMenuMobile}>
@@ -73,8 +73,8 @@ export default function Header() {
                         {/* Links de navegação no menu mobile */}
                         <Link href="/" className={styles.linkNavMobile} onClick={() => ativaMenuMobile()}>Home</Link>
                         <Link href="/telas/sobre" className={styles.linkNavMobile} onClick={() => ativaMenuMobile()}>Sobre</Link>
-                        <Link href="/telas/contato" className={styles.linkNavMobile} onClick={() => ativaMenuMobile()}>Contato</Link>
-                        <Link href="/telas/admin" className={styles.linkNavMobile} onClick={() => ativaMenuMobile()}>Login</Link>
+                        <Link href="/telas/contatos" className={styles.linkNavMobile} onClick={() => ativaMenuMobile()}>Contato</Link>
+                        <Link href="/telas/login" className={styles.linkNavMobile} onClick={() => ativaMenuMobile()}>Login</Link>
                     </nav>
                 </div>
             </div>
