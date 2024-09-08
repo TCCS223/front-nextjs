@@ -27,6 +27,7 @@ export default function Cadastro() {
                         width={4256}
                         height={2832}
                         className={styles.img}
+                        priority={true}
                     />
                 </div>
 

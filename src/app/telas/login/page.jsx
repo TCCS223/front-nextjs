@@ -127,6 +127,7 @@ export default function LoginUsu() {
                         width={1700}
                         height={2560}
                         className={styles.img}
+                        priority={true}
                     />
                 </div>
             </main>
