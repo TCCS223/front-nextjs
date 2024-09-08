@@ -1,21 +1,54 @@
 "use client"
 
 import { useState } from "react";
+// import { useRouter } from "next/navigation";
+
 import Image from "next/image";
 import Link from "next/link";
+
 import styles from "./page.module.css";
 
-export default function Home() {
+import api from "@/services/api";
+
+export default function LoginUsu() {
+
+
+    const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
-    const togglePasswordVisibility = () => {
+
+    const alternarVisibilidadeSenha = () => {
         setShowPassword(!showPassword);
     };
 
-    const teste = () => {
-        alert("funcionou");
-    };
 
+    function handleSubmit(event) {
+        event.preventDefault();
+        logar();
+    }
+
+    function teste() {
+        console.log(email);
+        console.log(senha);
+        
+    }
+   
+    async function logar() {
+
+        try {
+            const dados = {
+                usu_email: email,
+                usu_senha: senha
+            }
+
+            const response = await api.post('/telas/admin/cadcliente', dados);
+
+            
+        } catch (error) {
+
+        }
+    }
     return (
         <>
             <main className={styles.main}>
@@ -33,7 +66,7 @@ export default function Home() {
 
                         <span className={styles.titleLogin}>LOGIN</span>
 
-                        <form className={styles.formLogin}>
+                        <form id="form" className={styles.formLogin} onSubmit={handleSubmit}>
                             <div className={styles.inputGroup}>
                                 <label htmlFor="email" className={styles.labelLogin}>Email</label>
                                 <input
@@ -42,6 +75,8 @@ export default function Home() {
                                     name="email"
                                     className={styles.inputLogin}
                                     placeholder="Digite seu email"
+                                    onChange={e => setEmail(e.target.value)}
+                                    value={email}
                                     required
                                 />
                             </div>
@@ -54,6 +89,8 @@ export default function Home() {
                                     name="password"
                                     className={styles.inputLogin}
                                     placeholder="Digite sua senha"
+                                    onChange={e => setSenha(e.target.value)}
+                                    value={senha}
                                     required
                                 />
                             </div>
@@ -63,7 +100,7 @@ export default function Home() {
                                     type="checkbox"
                                     id="showPassword"
                                     checked={showPassword}
-                                    onChange={togglePasswordVisibility}
+                                    onChange={alternarVisibilidadeSenha}
                                     className={styles.checkbox}
                                 />
                                 <label htmlFor="showPassword" className={styles.checkboxLabel}>
@@ -72,6 +109,7 @@ export default function Home() {
                             </div>
 
                             <div className={styles.loginButtonContainer}>
+                                {/* <button type="submit" className={styles.loginButton}>Entrar</button> */}
                                 <button type="submit" className={styles.loginButton} onClick={teste}>Entrar</button>
                             </div>
 

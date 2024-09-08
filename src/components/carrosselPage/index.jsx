@@ -10,7 +10,7 @@ import styles from './index.module.css';
 export default function CarrosselInicial() {
     return (
         <div className={styles.carouselWrapper}>
-            
+
             <Carousel
                 showArrows={false}
                 showThumbs={false}
@@ -25,6 +25,7 @@ export default function CarrosselInicial() {
                 <div className={styles.carrossel}>
                     <Image
                         src='/imgCarrossel/img11.jpg'
+                        alt='imagem'
                         width={4256}
                         height={2832}
                         className={styles.testeImg}
@@ -33,6 +34,7 @@ export default function CarrosselInicial() {
                 <div className={styles.carrossel}>
                     <Image
                         src='/imgCarrossel/img2.jpg'
+                        alt='imagem'
                         width={2000}
                         height={1423}
                         className={styles.testeImg}
@@ -41,6 +43,7 @@ export default function CarrosselInicial() {
                 <div className={styles.carrossel}>
                     <Image
                         src='/imgCarrossel/img3.jpg'
+                        alt='imagem'
                         width={2400}
                         height={1522}
                         className={styles.testeImg}
@@ -49,6 +52,7 @@ export default function CarrosselInicial() {
                 <div className={styles.carrossel}>
                     <Image
                         src='/imgCarrossel/img4.jpg'
+                        alt='imagem'
                         width={2400}
                         height={1350}
                         className={styles.testeImg}
@@ -56,7 +60,8 @@ export default function CarrosselInicial() {
                 </div>
                 <div className={styles.carrossel}>
                     <Image
-                        src='/motorcycle.jpg'
+                        src='/imgCarrossel/motorcycle.jpg'
+                        alt='imagem'
                         width={1500}
                         height={1200}
                         className={styles.testeImg}

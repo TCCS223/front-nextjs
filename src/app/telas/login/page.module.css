@@ -48,7 +48,7 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.2);
-    border-radius: 15px;
+    /* border-radius: 15px; */
     z-index: 2;
 }
 
@@ -158,7 +158,7 @@
     color: #ff9d00;
     text-decoration: none;
     font-size: 1.2rem;
-    font-weight: bold;
+    font-weight: 500;
 }
 
 .link:hover {
@@ -208,7 +208,7 @@
 
 /* Estilo do rótulo do checkbox */
 .checkboxLabel {
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     color: #ffffff;
     cursor: pointer;
 }
@@ -266,9 +266,13 @@
     .container {
         width: 70%;
         padding: 1.5rem;
+        /* background-color: #e68900; */
     }
 
     .boxLogin {
+        height: 65%;
+        display: flex;
+        justify-content: space-evenly;
         padding: 2.5rem;
     }
 
@@ -279,14 +283,37 @@
     .formLogin {
         gap: 2rem;
     }
+
+    .logoImg {
+        width: 60%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
 }
 
 /* Responsividade para dispositivos móveis grandes (telas menores que 768px) */
 @media (max-width: 768px) {
+
+    .main {
+        color: #fff;
+        background-color: #1c1c1c;
+        /* background-color: red; */
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        overflow-x: hidden;
+        padding: 0;
+        margin: 0;
+    }
+
     .container {
-        width: 80%;
-        padding: 1.5rem;
-        flex-direction: column;
+        width: 95%;
+        /* background-color: #e68900; */
+       
+        padding: 0;
     }
 
     .image {
@@ -295,27 +322,69 @@
 
     .boxLogin {
         width: 100%;
-        padding: 2rem;
+        height: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        padding: 3rem 2rem;
+        background-color: transparent;
+        /* background-color: blue; */
     }
 
     .titleLogin {
-        font-size: 2rem;
+        font-size: 3rem;
     }
 
     .formLogin {
-        gap: 1.5rem;
+        gap: 2rem;
+
+    }
+}
+
+
+@media (max-width: 575px) {
+
+    .logoImg {
+        width: 70%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+
+    .container {
+        width: 95%;
+
+        flex-direction: column;
+        display: flex;
+    }
+
+    .boxLogin {
+        width: 90%;
+        height: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        padding: 1rem;
+        background-color: transparent;
+    }
+
+    .cadastroButton {
+        font-size: 1rem;
+        padding: .8rem;
+    }
+
+    .checkboxLabel {
+        font-size: 0.9rem;
     }
 }
 
 /* Responsividade para dispositivos móveis pequenos (telas menores que 480px) */
-@media (max-width: 480px) {
+/* @media (max-width: 480px) {
     .container {
-        width: 90%;
-        padding: 1rem;
+        width: 100%;
+       
     }
 
     .boxLogin {
-        padding: 1.5rem;
+       height: 100%;
     }
 
     .titleLogin {
@@ -324,6 +393,7 @@
 
     .formLogin {
         gap: 1rem;
+        height: 100%;
     }
 
     .loginButton {
@@ -343,4 +413,4 @@
     .checkboxLabel {
         font-size: 1rem;
     }
-}
+} */
