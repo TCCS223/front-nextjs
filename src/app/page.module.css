@@ -411,9 +411,7 @@ details[open] .description {
         font-size: 2.5rem;
     }
 
-    .secao3 {
-        height: 70vh;
-    }
+    
 }
 
 @media (max-width: 480px) {
