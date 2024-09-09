@@ -55,6 +55,7 @@ export default function LoginUsu() {
                 <div className={styles.container}>
                     <div className={styles.boxLogin}>
                         <div className={styles.logoImg}>
+                            <Link href="/">
                             <Image
                                 src='/logo50.png'
                                 alt="logo"
@@ -62,6 +63,7 @@ export default function LoginUsu() {
                                 height={78}
                                 className={styles.imgLogo}
                             />
+                            </Link>
                         </div>
 
                         <span className={styles.titleLogin}>LOGIN</span>
