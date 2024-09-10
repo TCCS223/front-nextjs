@@ -9,6 +9,7 @@ import CarrosselMobileMedium from "@/components/carrosselMobileMedium";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import CarrosselEquipe from "@/components/carrosselEquipe";
+import CarrosselEquipeMobile from "@/components/carrosselEquipeMobile";
 
 export default function Home() {
     return (
@@ -44,11 +45,11 @@ export default function Home() {
                     <section className={styles.section2}>
                         <div className={styles.section2Image}>
                             <Image
-                            src='/servicomecanico1233.png' 
-                            alt="Imagem de serviço" 
-                            width={500} 
-                            height={520} 
-                            className={styles.imagememsi} />
+                                src='/servicomecanico1233.png'
+                                alt="Imagem de serviço"
+                                width={500}
+                                height={520}
+                                className={styles.imagememsi} />
                         </div>
                         <div className={styles.section2Content}>
                             <h2 className={styles.section2Title}>Nossos Serviços</h2>
@@ -69,7 +70,12 @@ export default function Home() {
                     {/* Seção 3 */}
 
                     <section className={styles.secao3}>
-                        <CarrosselEquipe />
+                        <div className={styles.carrouselEquipe}>
+                            <CarrosselEquipe />
+                        </div>
+                        <div className={styles.carrouselEquipeMobile}>
+                            <CarrosselEquipeMobile />
+                        </div>
                     </section>
 
                     <div className={styles.divider}></div>

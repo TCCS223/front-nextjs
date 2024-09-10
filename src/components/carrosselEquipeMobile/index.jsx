@@ -5,7 +5,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Image from 'next/image';
 import styles from "./index.module.css";
 
-export default function CarrosselEquipe() {
+export default function CarrosselEquipeMobile() {
     return (
         <>
             <div className={styles.carouselWrapper}>
@@ -59,7 +59,9 @@ export default function CarrosselEquipe() {
                             <p className={styles.employeePosition}>Mecânico Chefe</p>
                             <p className={styles.employeeDescription}>Especialista em diagnósticos complexos.</p>
                         </div>
+                    </div>
 
+                    <div className={styles.employeeContainer}>
                         <div className={styles.employeeCard}>
                             <Image
                                 src='/mecanico.png'
@@ -87,7 +89,9 @@ export default function CarrosselEquipe() {
                             <p className={styles.employeePosition}>Técnico em Eletrônica</p>
                             <p className={styles.employeeDescription}>Especializado em sistemas eletrônicos de veículos.</p>
                         </div>
+                    </div>
 
+                    <div className={styles.employeeContainer}>
                         <div className={styles.employeeCard}>
                             <Image
                                 src='/mecanico.png'
@@ -115,7 +119,9 @@ export default function CarrosselEquipe() {
                             <p className={styles.employeePosition}>Técnico em Eletrônica</p>
                             <p className={styles.employeeDescription}>Especializado em sistemas eletrônicos de veículos.</p>
                         </div>
+                    </div>
 
+                    <div className={styles.employeeContainer}>
                         <div className={styles.employeeCard}>
                             <Image
                                 src='/mecanico.png'

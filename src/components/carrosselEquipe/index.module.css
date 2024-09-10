@@ -1,13 +1,13 @@
 .sectionHeading {
   text-align: center;
-  font-size: 2rem;
+  font-size: 3.5rem;
+  color: #ff9d00;
   margin-bottom: 2rem;
-  color: #333;
 }
 
 .employeeContainer {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
   grid-gap: 20px;
   width: 100%;
   margin: 0 auto;

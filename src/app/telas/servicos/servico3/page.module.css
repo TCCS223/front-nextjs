@@ -7,7 +7,7 @@
     align-items: center;
     justify-content: center;
     color: black;
-    font-size: 25px;
+    font-size: clamp(1.2rem, 0.4615rem + 0.9231vw, 1.5rem);
     text-align: center;
     line-height: 2rem;
     

@@ -159,10 +159,15 @@
     color: #eeeeee;
 }
 
+
+
 /* SEÇÃO 3 */
 
 .secao3 {
     width: 100%;
+    height: 85vh;
+    display: flex;
+    align-items: center;
 }
 
 .sectionHeading {
@@ -208,6 +213,15 @@
 .employeeDescription {
     font-size: 1rem;
     color: #666;
+}
+
+.carrouselEquipe{
+    display: flex;
+    width: 100%;
+}
+
+.carrouselEquipeMobile{
+    display: none;
 }
 
 /* SEÇÃO 4 */
@@ -391,6 +405,10 @@ details[open] .description {
         padding: 0;
     }
 
+    .section2 {
+        height: 100vh;
+    }
+
     .section2Button {
         width: 100%;
     }
@@ -407,13 +425,22 @@ details[open] .description {
         font-size: 2.5rem;
     }
 
+    .carrouselEquipe{
+        display: none;
+        
+    }
+    
+    .carrouselEquipeMobile{
+        display: flex;
+        width: 100%;
+    }
 
 }
 
 @media (max-width: 480px) {
 
     .section2 {
-        height: 100vh;
+        height: 110vh;
     }
 
     .container_questions {
