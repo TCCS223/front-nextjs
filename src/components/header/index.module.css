@@ -75,7 +75,6 @@
     display: none;
 }
 
-
 @media only screen and (max-width: 884px) {
     .navbar {
         display: none;
@@ -145,7 +144,8 @@
         border-radius: 5px;
     }
 
-    .linkNavMobile:hover,  .linkNavMobile:active{
+    .linkNavMobile:hover,
+    .linkNavMobile:active {
         background-color: #ff9d00;
         color: #000000;
         transition: all 0.2s ease-in;
@@ -160,14 +160,12 @@
     }
 }
 
-
 @media only screen and (max-width: 700px) {
     .logo {
         width: 45%;
         height: 120%;
     }
 }
-
 
 @media only screen and (max-width: 480px) {
     .menuMobileActive {
@@ -180,8 +178,6 @@
     }
 }
 
-
-/* Animações */
 @keyframes slideIn {
     from {
         transform: translateX(100%);
@@ -206,7 +202,6 @@
     0% {
         opacity: .6;
     }
-
 
     50% {
         opacity: 1;

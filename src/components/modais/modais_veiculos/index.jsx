@@ -68,15 +68,15 @@ export default function ConsultaVeiculo({ isOpen, onClose }) {
                     <div className={styles.resultTableContainer}>
                         <table className={styles.resultTable}>
                             <thead className={styles.tableHead}>
-                                    <th className={`${styles.tableHeader} ${styles.id}`}>Código</th>
-                                    <th className={`${styles.tableHeader} ${styles.modelo}`}>Modelo</th>
-                                    <th className={`${styles.tableHeader} ${styles.placa}`}>Placa</th>
-                                    <th className={`${styles.tableHeader} ${styles.ano}`}>Ano</th>
-                                    <th className={`${styles.tableHeader} ${styles.cor}`}>Cor</th>
-                                    <th className={`${styles.tableHeader} ${styles.combustivel}`}>Combustível</th>
-                                    <th className={`${styles.tableHeader} ${styles.proprietario}`}>CPF Proprietário</th> {/* Nova coluna */}
-                                    <th className={`${styles.tableHeader} ${styles.observ}`}>Observações</th>
-                                    <th className={`${styles.tableHeader} ${styles.situacao}`}>Situação</th>
+                                <th className={`${styles.tableHeader} ${styles.id}`}>Código</th>
+                                <th className={`${styles.tableHeader} ${styles.modelo}`}>Modelo</th>
+                                <th className={`${styles.tableHeader} ${styles.placa}`}>Placa</th>
+                                <th className={`${styles.tableHeader} ${styles.ano}`}>Ano</th>
+                                <th className={`${styles.tableHeader} ${styles.cor}`}>Cor</th>
+                                <th className={`${styles.tableHeader} ${styles.combustivel}`}>Combustível</th>
+                                <th className={`${styles.tableHeader} ${styles.proprietario}`}>CPF Proprietário</th>
+                                <th className={`${styles.tableHeader} ${styles.observ}`}>Observações</th>
+                                <th className={`${styles.tableHeader} ${styles.situacao}`}>Situação</th>
                             </thead>
                             <tbody className={styles.tableBody}>
                                 <tr>

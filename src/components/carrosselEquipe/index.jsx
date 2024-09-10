@@ -1,26 +1,23 @@
 'use client'
 
-// components/CarouselComponent.js
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Image from 'next/image';
 import styles from "./index.module.css";
 
-export default function CarouselComponent() {
+export default function CarrosselEquipe() {
     return (
         <>
             <div className={styles.carouselWrapper}>
                 <h2 className={styles.sectionHeading}>Nossa Equipe</h2>
                 <Carousel
                     showArrows={true}
-                    showThumbs={true}
+                    showThumbs={false}
                     infiniteLoop={true}
                     autoPlay={true}
                     interval={7000}
                     showStatus={false}
                     stopOnHover={true}
-                    swipeable={true}
-                    emulateTouch={true}
                     className={styles.carousel}
                     renderIndicator={false}
                     renderArrowPrev={(clickHandler, hasPrev, labelPrev) =>
@@ -48,6 +45,7 @@ export default function CarouselComponent() {
                         )
                     }
                 >
+
                     <div className={styles.employeeContainer}>
                         <div className={styles.employeeCard}>
                             <Image
@@ -61,6 +59,9 @@ export default function CarouselComponent() {
                             <p className={styles.employeePosition}>Mecânico Chefe</p>
                             <p className={styles.employeeDescription}>Especialista em diagnósticos complexos.</p>
                         </div>
+                    </div>
+
+                    <div className={styles.employeeContainer}>
                         <div className={styles.employeeCard}>
                             <Image
                                 src='/mecanico.png'
@@ -88,6 +89,9 @@ export default function CarouselComponent() {
                             <p className={styles.employeePosition}>Técnico em Eletrônica</p>
                             <p className={styles.employeeDescription}>Especializado em sistemas eletrônicos de veículos.</p>
                         </div>
+                    </div>
+
+                    <div className={styles.employeeContainer}>
                         <div className={styles.employeeCard}>
                             <Image
                                 src='/mecanico.png'
@@ -115,6 +119,9 @@ export default function CarouselComponent() {
                             <p className={styles.employeePosition}>Técnico em Eletrônica</p>
                             <p className={styles.employeeDescription}>Especializado em sistemas eletrônicos de veículos.</p>
                         </div>
+                    </div>
+
+                    <div className={styles.employeeContainer}>
                         <div className={styles.employeeCard}>
                             <Image
                                 src='/mecanico.png'
@@ -128,13 +135,9 @@ export default function CarouselComponent() {
                             <p className={styles.employeeDescription}>Auxilia nos serviços gerais e manutenção preventiva.</p>
                         </div>
                     </div>
-                </Carousel>
-            </div>
 
-
-
-            {/*--------------------------------------------------------*/}
-            <div className={styles.carouselWrapperMobile}>teste</div>
+                </Carousel >
+            </div >
         </>
     );
 }

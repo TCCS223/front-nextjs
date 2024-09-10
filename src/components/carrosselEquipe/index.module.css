@@ -1,86 +1,62 @@
-.section3 {
-    width: 100%;
-  }
-  
-  .sectionHeading {
-    text-align: center;
-    font-size: 3rem;
-    margin-bottom: 40px;
-    color: #333;
-  }
-  
-  .employeeContainer {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    width: 100%;
-    gap: 20px;
-  }
-  
-  .employeeCard {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    height: 80%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 40%;
-  }
-  
-  .employeeImage {
-    /* background-color: black; */
-    max-width: 300px;
-    max-height: 300px;
-    border-radius: 50%;
-    margin-bottom: 15px;
-  }
-  
-  .employeeName {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #333;
-  }
-  
-  .employeePosition {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: #777;
-  }
-  
-  .employeeDescription {
-    font-size: 1rem;
-    color: #666;
-  }
+.sectionHeading {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
 
-  .carousel{
-    color: black;
-  }
+.employeeContainer {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 20px;
+  width: 100%;
+  margin: 0 auto;
+}
 
-  .carouselWrapper {
-    margin: auto; 
-    /* background-color: black; */
-  }
-  
-  .carousel .control-next.control-arrow,
-  .carousel .control-prev.control-arrow {
-    color: #000; /* Cor das setas */
-  }
+.employeeCard {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+}
 
-  .carousel.carousel-slider .control-arrow{
-    background-color: black;
-  }
+.employeeImage {
+  max-width: 300px;
+  max-height: 300px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
 
+.employeeName {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+}
 
-/* components/CustomCarousel.module.css */
+.employeePosition {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #777;
+}
+
+.employeeDescription {
+  font-size: 1rem;
+  color: #666;
+}
+
+.carouselWrapper {
+  width: 100%;
+  margin: 0 auto;
+}
 
 .customPrevArrow {
   position: absolute;
-  top: 40%;
+  top: 50%;
   transform: translateY(-50%);
   background-color: transparent;
-  border: none; 
+  border: none;
   padding: 10px;
   cursor: pointer;
   color: #777;
@@ -91,7 +67,7 @@
 
 .customNextArrow {
   position: absolute;
-  top: 40%;
+  top: 50%;
   right: 0;
   transform: translateY(-50%);
   background-color: transparent;
@@ -106,20 +82,13 @@
 
 .customPrevArrow:hover,
 .customNextArrow:hover {
-  /* background-color: black; */
   color: #ff9d00;
 }
 
-
-
+/* Ajustes no Mobile */
 @media (max-width: 768px) {
-  .customNextArrow, .customPrevArrow {
-    margin-top: 4rem;
-  }
-
-  .employeeContainer{    
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
+  .employeeCard {
+      max-width: 100%;
+      margin: 0 auto;
   }
 }
-

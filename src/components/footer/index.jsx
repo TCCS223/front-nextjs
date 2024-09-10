@@ -1,102 +1,90 @@
-import styles from './index.module.css' // Importa os estilos CSS específicos para este componente
-import Link from 'next/link' // Importa o componente Link do Next.js para navegação interna
+import styles from './index.module.css'
+import Link from 'next/link'
 
-export default function Footer() { // Define o componente Footer como a exportação padrão
+export default function Footer() {
     return (
-        <footer className={styles.footer}> {/* Define o elemento footer e aplica a classe CSS correspondente */}
-            <div className={styles.footerContainer}> {/* Container principal do footer */}
-
-                {/* Seção para os ícones do footer */}
+        <footer className={styles.footer}>
+            <div className={styles.footerContainer}>
                 <div className={styles.footerIcons}>
-                    <span className={styles.footerLogo}></span> {/* Logotipo do footer, estilizado via CSS */}
-
-                    {/* Seção de ícones de redes sociais */}
+                    <span className={styles.footerLogo}></span>
                     <div className={styles.footerSocialIcons}>
                         <Link href={'https://instagram.com'}>
-                            <span className={styles.iconInstagram}></span> {/* Ícone do Instagram */}
+                            <span className={styles.iconInstagram}></span>
                         </Link>
                         <Link href={'https://whatsapp.com'}>
-                            <span className={styles.iconWhatsapp}></span> {/* Ícone do WhatsApp */}
+                            <span className={styles.iconWhatsapp}></span>
                         </Link>
                         <Link href={'https://facebook.com'}>
-                            <span className={styles.iconFacebook}></span> {/* Ícone do Facebook */}
+                            <span className={styles.iconFacebook}></span>
                         </Link>
                         <Link href={'https://youtube.com'}>
-                            <span className={styles.iconYoutube}></span> {/* Ícone do YouTube */}
+                            <span className={styles.iconYoutube}></span>
                         </Link>
                     </div>
                 </div>
-
-                {/* Seção de informações de contato */}
                 <div className={styles.footerAddress}>
-                    <div className={styles.phone}> {/* Informação de telefone */}
-                        <span className={styles.iconPhone}></span> {/* Ícone de telefone */}
+                    <div className={styles.phone}>
+                        <span className={styles.iconPhone}></span>
                         <div className={styles.infoPhone}>
-                            <div className={styles.titlePhone}>Telefone</div> {/* Título para a informação de telefone */}
-                            <Link href='tel:(00) 12345-6789' className={styles.numberPhone}>(00) 12345-6789</Link> {/* Número de telefone com link para ligar */}
+                            <div className={styles.titlePhone}>Telefone</div>
+                            <Link href='tel:(00) 12345-6789' className={styles.numberPhone}>(00) 12345-6789</Link>
                         </div>
                     </div>
 
-                    <div className={styles.tell}> {/* Informação de outro telefone */}
-                        <span className={styles.iconTell}></span> {/* Ícone de telefone alternativo */}
+                    <div className={styles.tell}>
+                        <span className={styles.iconTell}></span>
                         <div className={styles.infoTell}>
-                            <div className={styles.titleTell}>Telefone</div> {/* Título para o segundo telefone */}
-                            <Link href='tel:(00) 1234-5678' className={styles.numberTell}>(00) 1234-5678</Link> {/* Número de telefone alternativo com link para ligar */}
+                            <div className={styles.titleTell}>Telefone</div>
+                            <Link href='tel:(00) 1234-5678' className={styles.numberTell}>(00) 1234-5678</Link>
                         </div>
                     </div>
 
-                    <div className={styles.email}> {/* Informação de email */}
-                        <span className={styles.iconEmail}></span> {/* Ícone de email */}
+                    <div className={styles.email}>
+                        <span className={styles.iconEmail}></span>
                         <div className={styles.infoEmail}>
-                            <div className={styles.titleEmail}>Email</div> {/* Título para o email */}
-                            <Link href='mailto: urban_estetica@teste.com' className={styles.addressEmail}>urban_estetica@teste.com</Link> {/* Endereço de email com link para enviar email */}
+                            <div className={styles.titleEmail}>Email</div>
+                            <Link href='mailto: urban_estetica@teste.com' className={styles.addressEmail}>urban_estetica@teste.com</Link>
                         </div>
                     </div>
 
-                    <div className={styles.address}> {/* Informação de endereço */}
-                        <span className={styles.iconAddress}></span> {/* Ícone de endereço */}
+                    <div className={styles.address}>
+                        <span className={styles.iconAddress}></span>
                         <div className={styles.infoAddress}>
-                            <div className={styles.titleAddress}>Endereço</div> {/* Título para o endereço */}
-                            <div className={styles.localizationEmail}>R Prof Massuyuki, 22, Tupã</div> {/* Endereço físico */}
+                            <div className={styles.titleAddress}>Endereço</div>
+                            <div className={styles.localizationEmail}>R Prof Massuyuki, 22, Tupã</div>
                         </div>
                     </div>
                 </div>
 
-                {/* FOOTER MOBILE -> Estilos aplicados para telas com largura máxima de 577px */}
-
-                {/* Seção de contato para dispositivos móveis */}
                 <div className={styles.footerAddressMobile}>
-                    <div className={styles.phoneMobile}> {/* Informação de telefone para dispositivos móveis */}
-                        <span className={styles.iconPhoneMobile}></span> {/* Ícone de telefone para mobile */}
+                    <div className={styles.phoneMobile}> 
+                        <span className={styles.iconPhoneMobile}></span>
                         <div className={styles.infoPhoneMobile}>
-                            <div className={styles.titlePhoneMobile}>Telefone</div> {/* Título para o telefone em mobile */}
-                            <Link href='tel:(00) 1234-5678' className={styles.numberPhoneMobile}>(00) 12345-6789 / (00) 1234-5678</Link> {/* Números de telefone para mobile */}
+                            <div className={styles.titlePhoneMobile}>Telefone</div>
+                            <Link href='tel:(00) 1234-5678' className={styles.numberPhoneMobile}>(00) 12345-6789 / (00) 1234-5678</Link>
                         </div>
                     </div>
 
-                    <div className={styles.emailMobile}> {/* Informação de email para dispositivos móveis */}
-                        <span className={styles.iconEmailMobile}></span> {/* Ícone de email para mobile */}
+                    <div className={styles.emailMobile}>
+                        <span className={styles.iconEmailMobile}></span>
                         <div className={styles.infoEmailMobile}>
-                            <div className={styles.titleEmailMobile}>Email</div> {/* Título para o email em mobile */}
-                            <Link href='mailto: urban_estetica@teste.com' className={styles.addressEmailMobile}>urban_estetica@teste.com</Link> {/* Endereço de email para mobile */}
+                            <div className={styles.titleEmailMobile}>Email</div>
+                            <Link href='mailto: urban_estetica@teste.com' className={styles.addressEmailMobile}>urban_estetica@teste.com</Link>
                         </div>
                     </div>
 
-                    <div className={styles.addressMobile}> {/* Informação de endereço para dispositivos móveis */}
-                        <span className={styles.iconAddressMobile}></span> {/* Ícone de endereço para mobile */}
+                    <div className={styles.addressMobile}>
+                        <span className={styles.iconAddressMobile}></span>
                         <div className={styles.infoAddressMobile}>
-                            <div className={styles.titleAddressMobile}>Endereço</div> {/* Título para o endereço em mobile */}
-                            <div className={styles.localizationEmailMobile}>R Prof Massuyuki, 22, Tupã</div> {/* Endereço físico para mobile */}
+                            <div className={styles.titleAddressMobile}>Endereço</div>
+                            <div className={styles.localizationEmailMobile}>R Prof Massuyuki, 22, Tupã</div>
                         </div>
                     </div>
                 </div>
 
-                {/*-----------------------------------------------*/}
-
-                {/* Seção para direitos autorais e termos */}
                 <div className={styles.footerLicense}>
-                    <span className={styles.copyright}>Urban © 2024 - Todos os direitos reservados</span> {/* Texto de direitos autorais */}
-                    <Link href="#" className={styles.footerTerms}>Termos & Políticas</Link> {/* Link para termos e políticas */}
+                    <span className={styles.copyright}>Urban © 2024 - Todos os direitos reservados</span>
+                    <Link href="#" className={styles.footerTerms}>Termos & Políticas</Link>
                 </div>
             </div>
         </footer >

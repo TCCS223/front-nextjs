@@ -71,7 +71,7 @@ export default function ConsultaServico({ isOpen, onClose }) {
                                 <tr>
                                     <th className={`${styles.tableHeader} ${styles.id}`}>Código</th>
                                     <th className={`${styles.tableHeader} ${styles.nome}`}>Nome</th>
-                                    <th className={`${styles.tableHeader} ${styles.categoria}`}>Categoria</th> {/* Novo cabeçalho */}
+                                    <th className={`${styles.tableHeader} ${styles.categoria}`}>Categoria</th>
                                     <th className={`${styles.tableHeader} ${styles.duracao}`}>Duração</th>
                                     <th className={`${styles.tableHeader} ${styles.preco}`}>Preço</th>
                                     <th className={`${styles.tableHeader} ${styles.descricao}`}>Descrição</th>
@@ -82,7 +82,7 @@ export default function ConsultaServico({ isOpen, onClose }) {
                                 <tr>
                                     <td>1</td>
                                     <td>Manutenção de Computador</td>
-                                    <td>Serviços Gerais</td> {/* Categoria do serviço */}
+                                    <td>Serviços Gerais</td>
                                     <td>02:00:00</td>
                                     <td>150.00</td>
                                     <td>Serviço de manutenção geral de computadores</td>
@@ -91,7 +91,7 @@ export default function ConsultaServico({ isOpen, onClose }) {
                                 <tr>
                                     <td>2</td>
                                     <td>Instalação de Impressora</td>
-                                    <td>Periféricos</td> {/* Categoria do serviço */}
+                                    <td>Periféricos</td>
                                     <td>01:00:00</td>
                                     <td>80.00</td>
                                     <td>Instalação e configuração de impressoras</td>
@@ -100,7 +100,7 @@ export default function ConsultaServico({ isOpen, onClose }) {
                                 <tr>
                                     <td>3</td>
                                     <td>Assistência Técnica de Redes</td>
-                                    <td>Redes</td> {/* Categoria do serviço */}
+                                    <td>Redes</td>
                                     <td>03:00:00</td>
                                     <td>200.00</td>
                                     <td>Diagnóstico e reparo de problemas de rede</td>
@@ -109,7 +109,7 @@ export default function ConsultaServico({ isOpen, onClose }) {
                                 <tr>
                                     <td>4</td>
                                     <td>Consultoria em TI</td>
-                                    <td>Consultoria</td> {/* Categoria do serviço */}
+                                    <td>Consultoria</td>
                                     <td>01:30:00</td>
                                     <td>120.00</td>
                                     <td>Consultoria especializada em tecnologia da informação</td>
@@ -118,7 +118,7 @@ export default function ConsultaServico({ isOpen, onClose }) {
                                 <tr>
                                     <td>5</td>
                                     <td>Desenvolvimento de Software</td>
-                                    <td>Desenvolvimento</td> {/* Categoria do serviço */}
+                                    <td>Desenvolvimento</td>
                                     <td>05:00:00</td>
                                     <td>1000.00</td>
                                     <td>Desenvolvimento e customização de software</td>
@@ -127,7 +127,7 @@ export default function ConsultaServico({ isOpen, onClose }) {
                                 <tr>
                                     <td>6</td>
                                     <td>Backup de Dados</td>
-                                    <td>Segurança</td> {/* Categoria do serviço */}
+                                    <td>Segurança</td>
                                     <td>01:00:00</td>
                                     <td>90.00</td>
                                     <td>Serviço de backup e recuperação de dados</td>
@@ -136,7 +136,7 @@ export default function ConsultaServico({ isOpen, onClose }) {
                                 <tr>
                                     <td>7</td>
                                     <td>Segurança de Rede</td>
-                                    <td>Segurança</td> {/* Categoria do serviço */}
+                                    <td>Segurança</td>
                                     <td>02:30:00</td>
                                     <td>250.00</td>
                                     <td>Implementação de soluções de segurança para redes</td>
@@ -145,7 +145,7 @@ export default function ConsultaServico({ isOpen, onClose }) {
                                 <tr>
                                     <td>8</td>
                                     <td>Treinamento em TI</td>
-                                    <td>Educação</td> {/* Categoria do serviço */}
+                                    <td>Educação</td>
                                     <td>03:00:00</td>
                                     <td>180.00</td>
                                     <td>Treinamento para equipes em ferramentas e práticas de TI</td>
@@ -154,7 +154,7 @@ export default function ConsultaServico({ isOpen, onClose }) {
                                 <tr>
                                     <td>9</td>
                                     <td>Manutenção de Impressora</td>
-                                    <td>Periféricos</td> {/* Categoria do serviço */}
+                                    <td>Periféricos</td>
                                     <td>01:00:00</td>
                                     <td>70.00</td>
                                     <td>Serviço de manutenção e reparo de impressoras</td>
@@ -163,7 +163,7 @@ export default function ConsultaServico({ isOpen, onClose }) {
                                 <tr>
                                     <td>10</td>
                                     <td>Atualização de Sistema</td>
-                                    <td>Sistemas</td> {/* Categoria do serviço */}
+                                    <td>Sistemas</td>
                                     <td>02:00:00</td>
                                     <td>130.00</td>
                                     <td>Atualização de sistemas operacionais e softwares</td>

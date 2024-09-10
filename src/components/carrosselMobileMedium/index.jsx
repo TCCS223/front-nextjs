@@ -17,7 +17,6 @@ export default function CarrosselMobileMedium() {
                 interval={4000}
                 className={styles.carousel}
                 showStatus={false}
-            // renderIndicator={false}    
             >
                 <div className={styles.carrosselMobile}>
                     <Image
@@ -37,12 +36,6 @@ export default function CarrosselMobileMedium() {
                         className={styles.testeImg}
                     />
                 </div>
-
-
-
-
-
-
             </Carousel>
         </div>
     )

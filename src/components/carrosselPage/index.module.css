@@ -1,26 +1,17 @@
-
-
-
 .carrossel {
   width: 100%;
   height: 100vh;
-  /* background-color: url(../../../public/imgCarrossel/img1.jpg); */
 }
 
 .carouselWrapper {
   margin: auto;
-  /* background-color: black; */
 }
 
 @media (max-width: 768px) {
-
   .carrossel {
     display: none;
   }
-
-
 }
-
 
 .testeImg {
   width: 100%;

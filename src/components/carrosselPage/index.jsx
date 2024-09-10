@@ -20,7 +20,6 @@ export default function CarrosselInicial() {
                 interval={4000}
                 className={styles.carousel}
                 showStatus={false}
-            // renderIndicator={false}    
             >
                 <div className={styles.carrossel}>
                     <Image

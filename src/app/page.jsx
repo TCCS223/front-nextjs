@@ -2,13 +2,13 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
 
-import CarouselComponent from "@/components/carrosselEquipe";
 import CarrosselInicial from "@/components/carrosselPage";
 import CarrosselMobile from "@/components/carrosselMobile";
 import CarrosselMobileMedium from "@/components/carrosselMobileMedium";
 
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import CarrosselEquipe from "@/components/carrosselEquipe";
 
 export default function Home() {
     return (
@@ -69,7 +69,7 @@ export default function Home() {
                     {/* Seção 3 */}
 
                     <section className={styles.secao3}>
-                        <CarouselComponent />
+                        <CarrosselEquipe />
                     </section>
 
                     <div className={styles.divider}></div>

@@ -22,7 +22,6 @@ export default function CarrosselMobile() {
                 <div className={styles.carrosselMobile}>
                     <Image
                         src='/imgCarrossel/img1m.jpg'
-                        alt="Ana Costa"
                         width={4256}
                         height={2832}
                         className={styles.testeImg}
@@ -31,7 +30,6 @@ export default function CarrosselMobile() {
                 <div className={styles.carrosselMobile}>
                     <Image
                         src='/imgCarrossel/img2m.jpg'
-                        alt="Ana Costa"
                         width={2000}
                         height={1423}
                         className={styles.testeImg}
@@ -40,7 +38,6 @@ export default function CarrosselMobile() {
                 <div className={styles.carrosselMobile}>
                     <Image
                         src='/imgCarrossel/img3m.jpg'
-                        alt="Ana Costa"
                         width={2400}
                         height={1522}
                         className={styles.testeImg}
@@ -49,7 +46,6 @@ export default function CarrosselMobile() {
                 <div className={styles.carrosselMobile}>
                     <Image
                         src='/imgCarrossel/img4m.jpg'
-                        alt="Ana Costa"
                         width={2400}
                         height={1350}
                         className={styles.testeImg}
@@ -58,17 +54,11 @@ export default function CarrosselMobile() {
                 <div className={styles.carrosselMobile}>
                     <Image
                         src='/imgCarrossel/img5m.jpg'
-                        alt="Ana Costa"
                         width={2400}
                         height={1600}
                         className={styles.testeImg}
                     />
                 </div>
-
-
-
-
-
             </Carousel>
         </div>
     )

@@ -1,9 +1,9 @@
-'use client' // Indica que este código deve ser executado no cliente (navegador)
+'use client'
 
-import styles from './index.module.css' // Importa as classes CSS do arquivo de estilos
-import Link from 'next/link' // Importa o componente Link para navegação entre páginas
-import Image from 'next/image' // Importa o componente Image para otimizar o carregamento de imagens
-import { useState } from 'react' // Importa o hook useState para gerenciar o estado local do componente
+import styles from './index.module.css'
+import Link from 'next/link'
+import Image from 'next/image'
+import { useState } from 'react'
 
 export default function Header() {
     // Define dois estados: um para controlar a abertura do menu mobile (mobile) e outro para controlar o fechamento com animação (closing)
@@ -30,19 +30,16 @@ export default function Header() {
         <header className={styles.header}>
             <div className={styles.containerNav}>
                 <div className={styles.menu}>
-                    <span className={styles.logo}></span> {/* Espaço reservado para o logo */}
+                    <span className={styles.logo}></span>
                     <nav className={styles.navbar}>
                         <ul className={styles.navlist}>
-                            {/* Links de navegação principais */}
                             <li><Link href="/" className={styles.linkNav}>Home</Link></li>
-                            {/* <li><Link href="/telas/sobrenos" className={styles.linkNav}>Sobre</Link></li> */}
                             <li><Link href="/telas/sobre" className={styles.linkNav}>Sobre</Link></li>
                             <li><Link href="/telas/contatos" className={styles.linkNav}>Contato</Link></li>
                             <li><Link href="/telas/login" className={styles.linkNav}>Login</Link></li>
                         </ul>
                     </nav>
                     <div className={styles.menuMobile} onClick={ativaMenuMobile}>
-                        {/* Ícone do menu mobile */}
                         <Image
                             src={'/icons/menuMobile.svg'}
                             width={32}
@@ -60,7 +57,6 @@ export default function Header() {
                 {/* Renderiza o menu mobile com diferentes classes de estilo dependendo se está abrindo, fechando, ou oculto */}
                 <div className={mobile ? (closing ? styles.menuMobileClosing : styles.menuMobileActive) : styles.hidden}>
                     <div className={styles.closeMenu} onClick={() => ativaMenuMobile()}>
-                        {/* Ícone de fechar o menu mobile */}
                         <Image
                             src={'/icons/closeMenu.svg'}
                             width={32}
@@ -70,7 +66,6 @@ export default function Header() {
                     </div>
                     
                     <nav className={styles.navlistMobile}>
-                        {/* Links de navegação no menu mobile */}
                         <Link href="/" className={styles.linkNavMobile} onClick={() => ativaMenuMobile()}>Home</Link>
                         <Link href="/telas/sobre" className={styles.linkNavMobile} onClick={() => ativaMenuMobile()}>Sobre</Link>
                         <Link href="/telas/contatos" className={styles.linkNavMobile} onClick={() => ativaMenuMobile()}>Contato</Link>
