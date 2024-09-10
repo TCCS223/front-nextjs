@@ -134,7 +134,7 @@ export default function CarouselComponent() {
 
 
             {/*--------------------------------------------------------*/}
-            <div className={styles.carouselWrapperMobile}></div>
+            <div className={styles.carouselWrapperMobile}>teste</div>
         </>
     );
 }
