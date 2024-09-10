@@ -1,4 +1,6 @@
-
+.section3 {
+    width: 100%;
+  }
   
   .sectionHeading {
     text-align: center;
@@ -13,10 +15,6 @@
     width: 100%;
     gap: 20px;
   }
-
-  .employeeContainerMobile {
-    display: none;
-  }
   
   .employeeCard {
     background-color: #fff;
@@ -29,10 +27,6 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 40%;
-  }
-  
-  .employeeCardMobile {
-    display: none;
   }
   
   .employeeImage {
@@ -62,22 +56,11 @@
 
   .carousel{
     color: black;
-    display: flex;
-    width: 100%;
-    background-color: pink;
-  }
-
-  .carouselMobile {
-    display: none;
   }
 
   .carouselWrapper {
     margin: auto; 
     /* background-color: black; */
-  }
-
-  .carouselWrapperMobile {
-    display: none;
   }
   
   .carousel .control-next.control-arrow,
@@ -92,7 +75,7 @@
 
 /* components/CustomCarousel.module.css */
 
-/* .customPrevArrow {
+.customPrevArrow {
   position: absolute;
   top: 40%;
   transform: translateY(-50%);
@@ -123,9 +106,9 @@
 
 .customPrevArrow:hover,
 .customNextArrow:hover {
-  /* background-color: black; 
-
-*/
+  /* background-color: black; */
+  color: #ff9d00;
+}
 
 
 
@@ -135,54 +118,8 @@
   }
 
   .employeeContainer{    
-    display: none;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
   }
-
-  .carouselWrapper {
-    display: none;
-  }
-
-  .carousel {
-    display: none;
-  }
-  
-  .carouselWrapperMobile {
-    display: flex;
-    flex-direction: column;  
-    width: 100%;
-    height: 100%;
-    
-    background-color: green;
-  }
-
-  .carouselMobile {
-    width: 100%;
-    height: 80%;
-    background-color: blue;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .employeeContainerMobile {
-    width: 100%;
-    height: 100%;
-    display: flex;
-  }
-
-  .employeeCard {
-    display: none;
-  }
-  
-  .employeeCardMobile {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    background-color: #666;
-    padding: 10px 0;
-    flex-direction: column;
-  }
-
-  
 }
 

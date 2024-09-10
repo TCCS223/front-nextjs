@@ -168,9 +168,52 @@
 
 .secao3 {
     width: 100%;
-    height: 90vh;
 }
 
+.sectionHeading {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.employeeContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.employeeCard {
+    background-color: #fff;
+    padding: 20px;
+    height: 27rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.employeeImage {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
+
+.employeeName {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.employeePosition {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #777;
+}
+
+.employeeDescription {
+    font-size: 1rem;
+    color: #666;
+}
 
 /* SEÇÃO 4 */
 
@@ -389,7 +432,10 @@ details[open] .description {
         font-size: 1.5rem;
     }
 
-  
+    .employeeCard {
+        height: auto;
+    }
+
     .divider {
         width: 90%;
     }
