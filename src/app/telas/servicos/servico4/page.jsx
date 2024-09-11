@@ -11,7 +11,7 @@ export default function Servico2() {
                     src={'/bateriatrocar.png'}
                     alt={"Substituição de Baterias"}
                     width={500}
-                    height={310}
+                    height={250}
                     unoptimized={true}
                 />
 
