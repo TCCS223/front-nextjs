@@ -37,6 +37,7 @@ export default function Header() {
                             <li><Link href="/telas/sobre" className={styles.linkNav}>Sobre</Link></li>
                             <li><Link href="/telas/contatos" className={styles.linkNav}>Contato</Link></li>
                             <li><Link href="/telas/login" className={styles.linkNav}>Login</Link></li>
+                            <li><Link href="/telas/usuario" className={styles.linkNav}>Usúario</Link></li>
                         </ul>
                     </nav>
                     <div className={styles.menuMobile} onClick={ativaMenuMobile}>
