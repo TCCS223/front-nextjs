@@ -2,6 +2,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 import styles from "./page.module.css";
 import CadCliente from "./cadcliente/page";
@@ -53,7 +54,10 @@ export default function Home() {
         <div className={styles.grid_container}>
             <div className={styles.header}>
                 <h1 className={styles.title}>Painel Administrativo da Mecânica</h1>
-                <span className={styles.power} onClick={teste}></span>
+                
+                {/* <span className={styles.power} onClick={teste}><Link href="/"></Link></span> */}
+                <Link href="/" className={styles.linkPower}><span className={styles.power} ></span></Link>
+                
                 
                 {/* <div className={styles.button_logout}>
                 <button onClick={() => setModalOpen(true)}>Logout</button>

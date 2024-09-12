@@ -206,6 +206,7 @@ height: 80vh;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    
   }
 
   .um{
@@ -214,23 +215,18 @@ height: 80vh;
   }
   .dois{
     grid-area: servico2;
-    background-color: red;
   }
   .tres{
     grid-area: servico3;
-    background-color: blue;
   }
   .quatro{
     grid-area: servico4;
-    background-color: green;
   }
   .cinco{
     grid-area: servico5;
-    background-color: pink;
   }
   .seis{
     grid-area: servico6;
-    background-color: yellow;
   }
 
 

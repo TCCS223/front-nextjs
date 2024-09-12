@@ -152,7 +152,7 @@ export default function Cadastro() {
                             </div>
 
                             <div className={styles.cadastroButtonContainer}>
-                                <button type="submit" className={styles.cadastroButton}><Link href="/telas/admin">Cadastrar</Link></button>
+                                <button type="submit" className={styles.cadastroButton}><Link href="/telas/admin" className={styles.linkCad}>Cadastrar</Link></button>
                             </div>
                         </form>
 
