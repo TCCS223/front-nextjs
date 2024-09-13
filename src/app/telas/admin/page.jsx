@@ -21,34 +21,6 @@ export default function Home() {
     const teste = () => {
         alert('Você clicou no ícone de power!');
       };
-    // const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-    useEffect(() => {
-        const buttons = document.querySelectorAll(`.${styles.sidebar} button`);
-        const sections = document.querySelectorAll(`.${styles.content_section}`);
-
-        buttons.forEach(button => {
-            button.addEventListener("click", () => {
-                const targetId = button.getAttribute("data-target").substring(1);
-
-                sections.forEach(section => {
-                    if (section.id === targetId) {
-                        section.classList.remove(styles.hidden);
-                    } else {
-                        section.classList.add(styles.hidden);
-                    }
-                });
-
-                buttons.forEach(btn => {
-                    if (btn === button) {
-                        btn.classList.add(styles.active);
-                    } else {
-                        btn.classList.remove(styles.active);
-                    }
-                });
-            });
-        });
-    }, []);
 
     return (
         <div className={styles.grid_container}>

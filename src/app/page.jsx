@@ -38,7 +38,7 @@ export default function Home() {
                 </section>
 
                 <main className={styles.main}>
-                    {/* Seção 1 */}
+                    {/* Seção 2 */}
 
                     <div className={styles.divider}></div>
 
