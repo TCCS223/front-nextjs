@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
-
+import { useRouter } from 'next/navigation';
 import styles from "./page.module.css";
 
 import api from "@/services/api";
@@ -16,6 +16,8 @@ export default function LoginUsu() {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+
+    const router = useRouter();
 
 
     const alternarVisibilidadeSenha = () => {
@@ -42,7 +44,23 @@ export default function LoginUsu() {
                 usu_senha: senha
             }
 
-            const response = await api.post('/telas/admin/cadcliente', dados);
+            const response = await api.post('/login', dados);
+
+            if (response.data.sucesso == true) {
+                const usuario = response.data.dados; 
+                const objLogado = {
+                    "id": usuario.usu_id,
+                    "nome": usuario.usu_nome
+                };
+                console.log(objLogado);
+                // signin(JSON.stringify(objLogado));                
+                localStorage.clear();
+                localStorage.setItem('user', JSON.stringify(objLogado));                
+                router.push('/telas/admin'); // é possível direcionar de acordo com a situação
+
+            } else {
+                alert('Erro: ' + error.response.data.mensagem + '\n' + error.response.data.dados)
+            }
 
             
         } catch (error) {
@@ -112,7 +130,7 @@ export default function LoginUsu() {
 
                             <div className={styles.loginButtonContainer}>
                                 {/* <button type="submit" className={styles.loginButton}>Entrar</button> */}
-                                <button type="submit" className={styles.loginButton} onClick={teste}>Entrar</button>
+                                <button type="submit" className={styles.loginButton} >Entrar</button>
                             </div>
 
                             <div className={styles.registerLink}>
