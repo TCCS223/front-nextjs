@@ -74,13 +74,15 @@ export default function LoginUsu() {
             // Aqui você trata o erro de login (403)
             if (error.response && error.response.status === 403) {
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Erro',
-                    text: 'Email e/ou senha inválidos.',
-                    confirmButtonText: 'OK',
+                    icon: "error",
+                    title: "Erro",
+                    text: "Email e/ou senha inválidos.",
+                    confirmButtonText: "OK",
                     backdrop: "rgba(0,0,0,0.7)",
-                    scrollbarPadding: false
+                    scrollbarPadding: false,
                 });
+                setSenha(""); // Limpa o campo de senha
+                setEmail(""); // Limpa o campo de email
             } else {
                 // Tratamento de erros de conexão ou outros problemas
                 Swal.fire({
@@ -156,7 +158,7 @@ export default function LoginUsu() {
 
                             <div className={styles.loginButtonContainer}>
                                 {/* <button type="submit" className={styles.loginButton}>Entrar</button> */}
-                                <button type="submit" className={styles.loginButton} onClick={teste}>Entrar</button>
+                                <button type="submit" className={styles.loginButton} >Entrar</button>
                             </div>
 
                             <div className={styles.registerLink}>
