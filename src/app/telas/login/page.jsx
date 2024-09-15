@@ -1,11 +1,13 @@
 "use client"
 
-import { useState } from "react";
-// import { useRouter } from "next/navigation";
-
 import Image from "next/image";
 import Link from "next/link";
+
+import { useState } from "react";
 import { useRouter } from 'next/navigation';
+
+import Swal from "sweetalert2";
+
 import styles from "./page.module.css";
 
 import api from "@/services/api";
@@ -18,6 +20,15 @@ export default function LoginUsu() {
     const [showPassword, setShowPassword] = useState(false);
 
     const router = useRouter();
+
+const loginIncorreto =() => {
+    Swal.fire({
+        icon: 'error',
+        title: 'Erro',
+        text: 'Email e/ou senha inválidos.',
+        confirmButtonText: 'OK'
+    });
+};
 
 
     const alternarVisibilidadeSenha = () => {
@@ -33,124 +44,128 @@ export default function LoginUsu() {
     function teste() {
         console.log(email);
         console.log(senha);
-        
     }
-   
-    async function logar() {
 
+
+    async function logar() {
         try {
             const dados = {
                 usu_email: email,
                 usu_senha: senha
             }
-
+    
             const response = await api.post('/login', dados);
-
-            if (response.data.sucesso == true) {
-                const usuario = response.data.dados; 
+    
+            if (response.data.sucesso === true) {
+                const usuario = response.data.dados;
                 const objLogado = {
                     "id": usuario.usu_id,
-                    "nome": usuario.usu_nome
+                    "nome": usuario.usu_nome,
+                    "acesso": usuario.usu_acesso
                 };
                 console.log(objLogado);
-                // signin(JSON.stringify(objLogado));                
                 localStorage.clear();
-                localStorage.setItem('user', JSON.stringify(objLogado));                
-                router.push('/telas/admin'); // é possível direcionar de acordo com a situação
-
+                localStorage.setItem('user', JSON.stringify(objLogado));
+    
+                if (usuario.usu_acesso === 1) {
+                    router.push('/telas/admin');
+                } else {
+                    router.push('/telas/usuario');
+                }
             } else {
-                alert('Erro: ' + error.response.data.mensagem + '\n' + error.response.data.dados)
+                // Exibe um alerta com SweetAlert2
+                console.log(response.data.mensagem)
             }
-
-            
         } catch (error) {
-
+            // Exibe um alerta com SweetAlert2 em caso de erro de conexão ou outros erros
+           
         }
     }
+    
     return (
-        <>
-            <main className={styles.main}>
-                <div className={styles.container}>
-                    <div className={styles.boxLogin}>
-                        <div className={styles.logoImg}>
-                            <Link href="/">
-                            <Image
-                                src='/logo50.png'
-                                alt="logo"
-                                width={393}
-                                height={78}
-                                className={styles.imgLogo}
-                            />
-                            </Link>
+            <>
+                <main className={styles.main}>
+                    <div className={styles.container}>
+                        <div className={styles.boxLogin}>
+                            <div className={styles.logoImg}>
+                                <Link href="/">
+                                    <Image
+                                        src='/logo50.png'
+                                        alt="logo"
+                                        width={393}
+                                        height={78}
+                                        className={styles.imgLogo}
+                                    />
+                                </Link>
+                            </div>
+
+                            <span className={styles.titleLogin}>LOGIN</span>
+
+                            <form id="form" className={styles.formLogin} onSubmit={handleSubmit}>
+                                <div className={styles.inputGroup}>
+                                    <label htmlFor="email" className={styles.labelLogin}>Email</label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        className={styles.inputLogin}
+                                        placeholder="Digite seu email"
+                                        onChange={e => setEmail(e.target.value)}
+                                        value={email}
+                                        required
+                                    />
+                                </div>
+
+                                <div className={styles.inputGroup}>
+                                    <label htmlFor="password" className={styles.labelLogin}>Senha</label>
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        id="password"
+                                        name="password"
+                                        className={styles.inputLogin}
+                                        placeholder="Digite sua senha"
+                                        onChange={e => setSenha(e.target.value)}
+                                        value={senha}
+                                        required
+                                    />
+                                </div>
+
+                                <div className={styles.checkboxContainer}>
+                                    <input
+                                        type="checkbox"
+                                        id="showPassword"
+                                        checked={showPassword}
+                                        onChange={alternarVisibilidadeSenha}
+                                        className={styles.checkbox}
+                                    />
+                                    <label htmlFor="showPassword" className={styles.checkboxLabel}>
+                                        Mostrar senha
+                                    </label>
+                                </div>
+
+                                <div className={styles.loginButtonContainer}>
+                                    {/* <button type="submit" className={styles.loginButton}>Entrar</button> */}
+                                    <button type="submit" className={styles.loginButton} >Entrar</button>
+                                </div>
+
+                                <div className={styles.registerLink}>
+                                    Não tem uma conta? <Link href="/telas/cadastro" className={styles.link}>Cadastre-se</Link>
+                                </div>
+                            </form>
                         </div>
-
-                        <span className={styles.titleLogin}>LOGIN</span>
-
-                        <form id="form" className={styles.formLogin} onSubmit={handleSubmit}>
-                            <div className={styles.inputGroup}>
-                                <label htmlFor="email" className={styles.labelLogin}>Email</label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    className={styles.inputLogin}
-                                    placeholder="Digite seu email"
-                                    onChange={e => setEmail(e.target.value)}
-                                    value={email}
-                                    required
-                                />
-                            </div>
-
-                            <div className={styles.inputGroup}>
-                                <label htmlFor="password" className={styles.labelLogin}>Senha</label>
-                                <input
-                                    type={showPassword ? "text" : "password"}
-                                    id="password"
-                                    name="password"
-                                    className={styles.inputLogin}
-                                    placeholder="Digite sua senha"
-                                    onChange={e => setSenha(e.target.value)}
-                                    value={senha}
-                                    required
-                                />
-                            </div>
-
-                            <div className={styles.checkboxContainer}>
-                                <input
-                                    type="checkbox"
-                                    id="showPassword"
-                                    checked={showPassword}
-                                    onChange={alternarVisibilidadeSenha}
-                                    className={styles.checkbox}
-                                />
-                                <label htmlFor="showPassword" className={styles.checkboxLabel}>
-                                    Mostrar senha
-                                </label>
-                            </div>
-
-                            <div className={styles.loginButtonContainer}>
-                                {/* <button type="submit" className={styles.loginButton}>Entrar</button> */}
-                                <button type="submit" className={styles.loginButton} >Entrar</button>
-                            </div>
-
-                            <div className={styles.registerLink}>
-                                Não tem uma conta? <Link href="/telas/cadastro" className={styles.link}>Cadastre-se</Link>
-                            </div>
-                        </form>
                     </div>
-                </div>
 
-                <div className={styles.image}>
-                    <Image
-                        src='/lambo2.jpeg'
-                        alt="Background Image"
-                        width={1700}
-                        height={2560}
-                        className={styles.img}
-                        priority={true}
-                    />
-                </div>
-            </main>
-        </>
-    );
-}
+                    <div className={styles.image}>
+                        <Image
+                            src='/lambo2.jpeg'
+                            alt="Background Image"
+                            width={1700}
+                            height={2560}
+                            className={styles.img}
+                            priority={true}
+                        />
+                    </div>
+                </main>
+            </>
+        );
+    }
