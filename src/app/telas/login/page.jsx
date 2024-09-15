@@ -6,14 +6,13 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
 
+import api from "@/services/api";
 import Swal from "sweetalert2";
 
 import styles from "./page.module.css";
 
-import api from "@/services/api";
 
 export default function LoginUsu() {
-
 
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
@@ -21,28 +20,9 @@ export default function LoginUsu() {
 
     const router = useRouter();
 
-    // const loginIncorreto = () => {
-    //     Swal.fire({
-    //         icon: 'error',
-    //         title: 'Erro',
-    //         text: 'Email e/ou senha inválidos.',
-    //         confirmButtonText: 'OK'
-    //     });
-    // };
-
-    // const loginIncorreto = () => {
-    //     Swal.fire({
-    //         icon: 'error',
-    //         title: 'Erro',
-    //         text: 'Ocorreu um erro ao processar a solicitação. Tente novamente mais tarde.',
-    //         confirmButtonText: 'OK'
-    //     });
-    // }
-
     const alternarVisibilidadeSenha = () => {
         setShowPassword(!showPassword);
     };
-
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -53,7 +33,6 @@ export default function LoginUsu() {
         console.log(email);
         console.log(senha);
     }
-
 
     async function logar() {
         try {
@@ -71,7 +50,7 @@ export default function LoginUsu() {
                     "nome": usuario.usu_nome,
                     "acesso": usuario.usu_acesso
                 };
-                console.log(objLogado);
+                // console.log(objLogado);
                 localStorage.clear();
                 localStorage.setItem('user', JSON.stringify(objLogado));
 
@@ -80,20 +59,37 @@ export default function LoginUsu() {
                 } else {
                     router.push('/telas/usuario');
                 }
-
-            } else {
-                // Swal.fire({
-                //             icon: 'error',
-                //             title: 'Erro',
-                //             text: 'Email e/ou senha inválidos.',
-                //             confirmButtonText: 'OK'
-                //         });
             }
+            // else {
+            //     Swal.fire({
+            //                 icon: 'error',
+            //                 title: 'Erro',
+            //                 text: 'Email e/ou senha inválidos.',
+            //                 confirmButtonText: 'OK'
+            //             });
+            // }
 
 
         } catch (error) {
-            //Exibe um alerta com SweetAlert2 em caso de erro de conexão ou outros erros
-
+            // Aqui você trata o erro de login (403)
+            if (error.response && error.response.status === 403) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: 'Email e/ou senha inválidos.',
+                    confirmButtonText: 'OK',
+                    backdrop: "rgba(0,0,0,0.7)",
+                    scrollbarPadding: false
+                });
+            } else {
+                // Tratamento de erros de conexão ou outros problemas
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro na Conexão',
+                    text: 'Ocorreu um erro ao tentar realizar o login. Verifique sua conexão e tente novamente.',
+                    confirmButtonText: 'Ok'
+                });
+            }
         }
     }
 
