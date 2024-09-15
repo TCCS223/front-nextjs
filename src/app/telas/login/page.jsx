@@ -21,15 +21,23 @@ export default function LoginUsu() {
 
     const router = useRouter();
 
-const loginIncorreto =() => {
-    Swal.fire({
-        icon: 'error',
-        title: 'Erro',
-        text: 'Email e/ou senha inválidos.',
-        confirmButtonText: 'OK'
-    });
-};
+    // const loginIncorreto = () => {
+    //     Swal.fire({
+    //         icon: 'error',
+    //         title: 'Erro',
+    //         text: 'Email e/ou senha inválidos.',
+    //         confirmButtonText: 'OK'
+    //     });
+    // };
 
+    // const loginIncorreto = () => {
+    //     Swal.fire({
+    //         icon: 'error',
+    //         title: 'Erro',
+    //         text: 'Ocorreu um erro ao processar a solicitação. Tente novamente mais tarde.',
+    //         confirmButtonText: 'OK'
+    //     });
+    // }
 
     const alternarVisibilidadeSenha = () => {
         setShowPassword(!showPassword);
@@ -53,9 +61,9 @@ const loginIncorreto =() => {
                 usu_email: email,
                 usu_senha: senha
             }
-    
+
             const response = await api.post('/login', dados);
-    
+
             if (response.data.sucesso === true) {
                 const usuario = response.data.dados;
                 const objLogado = {
@@ -66,106 +74,113 @@ const loginIncorreto =() => {
                 console.log(objLogado);
                 localStorage.clear();
                 localStorage.setItem('user', JSON.stringify(objLogado));
-    
+
                 if (usuario.usu_acesso === 1) {
                     router.push('/telas/admin');
                 } else {
                     router.push('/telas/usuario');
                 }
+
             } else {
-                // Exibe um alerta com SweetAlert2
-                console.log(response.data.mensagem)
+                // Swal.fire({
+                //             icon: 'error',
+                //             title: 'Erro',
+                //             text: 'Email e/ou senha inválidos.',
+                //             confirmButtonText: 'OK'
+                //         });
             }
+
+
         } catch (error) {
-            // Exibe um alerta com SweetAlert2 em caso de erro de conexão ou outros erros
-           
+            //Exibe um alerta com SweetAlert2 em caso de erro de conexão ou outros erros
+
         }
     }
-    
+
     return (
-            <>
-                <main className={styles.main}>
-                    <div className={styles.container}>
-                        <div className={styles.boxLogin}>
-                            <div className={styles.logoImg}>
-                                <Link href="/">
-                                    <Image
-                                        src='/logo50.png'
-                                        alt="logo"
-                                        width={393}
-                                        height={78}
-                                        className={styles.imgLogo}
-                                    />
-                                </Link>
+        <>
+            <main className={styles.main}>
+                <div className={styles.container}>
+                    <div className={styles.boxLogin}>
+                        <div className={styles.logoImg}>
+                            <Link href="/">
+                                <Image
+                                    src='/logo50.png'
+                                    alt="logo"
+                                    width={393}
+                                    height={78}
+                                    className={styles.imgLogo}
+                                />
+                            </Link>
+                        </div>
+
+                        <span className={styles.titleLogin}>LOGIN</span>
+
+                        <form id="form" className={styles.formLogin} onSubmit={handleSubmit}>
+                            <div className={styles.inputGroup}>
+                                <label htmlFor="email" className={styles.labelLogin}>Email</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    className={styles.inputLogin}
+                                    placeholder="Digite seu email"
+                                    onChange={e => setEmail(e.target.value)}
+                                    value={email}
+                                    required
+                                />
                             </div>
 
-                            <span className={styles.titleLogin}>LOGIN</span>
+                            <div className={styles.inputGroup}>
+                                <label htmlFor="password" className={styles.labelLogin}>Senha</label>
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    id="password"
+                                    name="password"
+                                    className={styles.inputLogin}
+                                    placeholder="Digite sua senha"
+                                    onChange={e => setSenha(e.target.value)}
+                                    value={senha}
+                                    required
+                                />
+                            </div>
 
-                            <form id="form" className={styles.formLogin} onSubmit={handleSubmit}>
-                                <div className={styles.inputGroup}>
-                                    <label htmlFor="email" className={styles.labelLogin}>Email</label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                        className={styles.inputLogin}
-                                        placeholder="Digite seu email"
-                                        onChange={e => setEmail(e.target.value)}
-                                        value={email}
-                                        required
-                                    />
-                                </div>
+                            <div className={styles.checkboxContainer}>
+                                <input
+                                    type="checkbox"
+                                    id="showPassword"
+                                    checked={showPassword}
+                                    onChange={alternarVisibilidadeSenha}
+                                    className={styles.checkbox}
+                                />
+                                <label htmlFor="showPassword" className={styles.checkboxLabel}>
+                                    Mostrar senha
+                                </label>
+                            </div>
 
-                                <div className={styles.inputGroup}>
-                                    <label htmlFor="password" className={styles.labelLogin}>Senha</label>
-                                    <input
-                                        type={showPassword ? "text" : "password"}
-                                        id="password"
-                                        name="password"
-                                        className={styles.inputLogin}
-                                        placeholder="Digite sua senha"
-                                        onChange={e => setSenha(e.target.value)}
-                                        value={senha}
-                                        required
-                                    />
-                                </div>
+                            <div className={styles.loginButtonContainer}>
+                                {/* <button type="submit" className={styles.loginButton}>Entrar</button> */}
+                                <button type="submit" className={styles.loginButton} onClick={teste}>Entrar</button>
+                            </div>
 
-                                <div className={styles.checkboxContainer}>
-                                    <input
-                                        type="checkbox"
-                                        id="showPassword"
-                                        checked={showPassword}
-                                        onChange={alternarVisibilidadeSenha}
-                                        className={styles.checkbox}
-                                    />
-                                    <label htmlFor="showPassword" className={styles.checkboxLabel}>
-                                        Mostrar senha
-                                    </label>
-                                </div>
-
-                                <div className={styles.loginButtonContainer}>
-                                    {/* <button type="submit" className={styles.loginButton}>Entrar</button> */}
-                                    <button type="submit" className={styles.loginButton} >Entrar</button>
-                                </div>
-
-                                <div className={styles.registerLink}>
-                                    Não tem uma conta? <Link href="/telas/cadastro" className={styles.link}>Cadastre-se</Link>
-                                </div>
-                            </form>
-                        </div>
+                            <div className={styles.registerLink}>
+                                Não tem uma conta? <Link href="/telas/cadastro" className={styles.link}>Cadastre-se</Link>
+                            </div>
+                        </form>
                     </div>
+                </div>
 
-                    <div className={styles.image}>
-                        <Image
-                            src='/lambo2.jpeg'
-                            alt="Background Image"
-                            width={1700}
-                            height={2560}
-                            className={styles.img}
-                            priority={true}
-                        />
-                    </div>
-                </main>
-            </>
-        );
-    }
+                <div className={styles.image}>
+                    <Image
+                        src='/lambo2.jpeg'
+                        alt="Background Image"
+                        width={1700}
+                        height={2560}
+                        className={styles.img}
+                        priority={true}
+                    />
+                </div>
+            </main>
+        </>
+    );
+}
