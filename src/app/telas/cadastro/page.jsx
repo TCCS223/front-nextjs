@@ -302,3 +302,13 @@ export default function Cadastro() {
         </>
     );
 }
+
+
+
+
+
+
+
+
+
+// https://chatgpt.com/share/66e8dfe4-62f8-8001-8460-eac63d4b4404
