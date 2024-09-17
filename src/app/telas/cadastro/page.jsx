@@ -22,6 +22,7 @@ export default function Cadastro() {
         usu_situacao: 1,
     });
     const [cpfError, setCpfError] = useState('');
+    const [emailError, setEmailError] = useState('');
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -37,7 +38,12 @@ export default function Cadastro() {
             setCpfError('CPF inválido');
             return;
         }
+        if (!validarEmail(usuario.usu_email)) {
+            setEmailError('Email inválido');
+            return;
+        }
         setCpfError('');
+        setEmailError('');
         cadastrar();
         console.log(usuario);
     };
@@ -68,6 +74,11 @@ export default function Cadastro() {
         if (resto !== parseInt(numbersOnly.substring(10, 11))) return false;
 
         return true;
+    }
+
+    function validarEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
     }
 
     const clearInputs = () => {
@@ -231,18 +242,19 @@ export default function Cadastro() {
                                     />
                                 </div>
 
-                                <div className={styles.inputGroup}>
+                                <div className={`${styles.inputGroup} ${emailError ? styles.errorActive : ''}`}>
                                     <label htmlFor="email" className={styles.labelCadastro}>Email</label>
                                     <input
                                         type="email"
                                         id="email"
                                         name="usu_email"
-                                        className={styles.inputCadastro}
+                                        className={`${styles.inputCadastro} ${emailError ? styles.errorActive : ''}`}
                                         placeholder="Digite seu email"
                                         value={usuario.usu_email}
                                         onChange={handleChange}
                                         required
                                     />
+                                    <span className={styles.error}>{emailError}</span>
                                 </div>
                             </div>
 
@@ -269,7 +281,7 @@ export default function Cadastro() {
                                         onChange={togglePasswordVisibility}
                                         className={styles.checkbox}
                                     />
-                                  
+
                                     <label htmlFor="showPassword" className={styles.checkboxLabel}>
                                         Mostrar senha
                                     </label>
