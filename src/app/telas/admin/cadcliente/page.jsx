@@ -2,29 +2,30 @@
 
 import styles from './page.module.css';
 import Swal from 'sweetalert2';
-import { useState } from 'react';
-import React, { useRef } from "react";
- import ConsultaCliente from '@/components/modais/modais_clientes';
+import { useState, useEffect, useRef } from 'react';
+import React from "react";
+import ConsultaCliente from '@/components/modais/modais_clientes';
 
- export default function CadCliente() {
+import api from '@/services/api';
 
-    const [isModalOpen, setIsModalOpen] = useState(false); // Declara um estado chamado 'isModalOpen' com valor inicial 'false'. 'setIsModalOpen' é a função para atualizar o valor de 'isModalOpen'.
+export default function CadCliente() {
+    const [usuarios, setUsuarios] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const selectSexo = useRef(null); // Declara uma referência chamada 'selectSexo' e a inicializa com 'null'. 'useRef' cria uma referência que pode ser atribuída a um elemento DOM.
+    const selectSexo = useRef(null);
 
-    const openModal = () => { // Define uma função chamada 'openModal' que altera o estado 'isModalOpen' para 'true'.
-        setIsModalOpen(true); // Altera o estado 'isModalOpen' para 'true', o que pode ser usado para abrir um modal.
+    const openModal = () => {
+        setIsModalOpen(true);
     };
 
-    const closeModal = () => { // Define uma função chamada 'closeModal' que altera o estado 'isModalOpen' para 'false'.
-        setIsModalOpen(false); // Altera o estado 'isModalOpen' para 'false', o que pode ser usado para fechar um modal.
+    const closeModal = () => {
+        setIsModalOpen(false);
     };
 
     const handleselectSexo = () => {
         const sexo = selectSexo.current.value;
-        console.log(sexo)
-
-    }
+        console.log(sexo);
+    };
 
     const Cancelar = () => {
         Swal.fire({
@@ -39,22 +40,42 @@ import React, { useRef } from "react";
             confirmButtonText: "Confirmar",
             reverseButtons: true,
             backdrop: "rgba(0,0,0,0.7)",
-
         }).then((result) => {
             if (result.isConfirmed) {
                 Swal.fire({
-                    title: "Deleted!",
-                    text: "Your file has been deleted.",
+                    title: "Cancelado!",
+                    text: "As alterações foram canceladas.",
                     icon: "success",
                     iconColor: "rgb(40, 167, 69)",
                     confirmButtonColor: "rgb(40, 167, 69)",
                 });
             }
         });
+    };
+
+    // Função para buscar os usuários do banco
+    async function fetchUsuarios() {
+        try {
+            const response = await api.get('/usuarios');
+            // console.log(Array.isArray(teste)); // Adicionando um log para inspecionar os dados
+            setUsuarios(response.data.dados); // Atualiza o estado com os dados dos usuários
+        } catch (error) {
+            console.error("Erro ao buscar os usuários:", error.response ? error.response.data : error.message);
+            Swal.fire({
+                title: "Erro!",
+                text: "Não foi possível carregar os usuários.",
+                icon: "error",
+                confirmButtonColor: "rgb(40, 167, 69)",
+            });
+        }
     }
 
+    useEffect(() => {
+        fetchUsuarios(); // Chama a função quando o componente é montado
+    }, []);
+
     return (
-        <div id="clientes" className={`${styles.content_section}`}>
+        <div id="clientes" className={styles.content_section}>
             <h2 className={styles.title_page}>Gerenciamento de Clientes</h2>
             <div className={styles.button_group}>
                 <button id="novoCliente">Novo</button>
@@ -66,10 +87,9 @@ import React, { useRef } from "react";
             <ConsultaCliente isOpen={isModalOpen} onClose={closeModal} />
 
             <form id="clienteForm" className={styles.form}>
+                    {/* <input type="hidden" id="clienteId" className={styles.input_cliente} /> */}
 
-                {/* <input type="hidden" id="clienteId" className={styles.input_cliente} /> */}
-
-                <div className={styles.grid}>
+                    <div className={styles.grid}>
                     <div className={`${styles.grid_item} ${styles.grid_codigo}`}>
                         <label for="codigo_cliente" className={styles.label_cliente}>Código</label>
                         <input type="number" id="codigo_cliente" name="codigo_cliente" required className={styles.input_cliente} />
@@ -133,17 +153,45 @@ import React, { useRef } from "react";
                         </select>
                     </div>
                 </div>
-
             </form>
+
             <div className={styles.footer_form}>
                 <button type="reset" onClick={Cancelar} className={styles.button_cancel}>Cancelar</button>
                 <button type="submit" className={styles.button_submit}>Salvar</button>
             </div>
 
-
-            {/* MODAL */}
-
-
+            {/* Tabela de Usuários */}
+            <div className={styles.user_table}>
+                <h3>Lista de Usuários</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>CPF</th>
+                            <th>Email</th>
+                            <th>Situação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {usuarios.length > 0 ? (
+                            usuarios.map((usuario) => (                                                              
+                                <tr key={usuario.usu_id}>
+                                    <td>{usuario.usu_id}</td>
+                                    <td>{usuario.usu_nome}</td>
+                                    <td>{usuario.usu_cpf}</td>
+                                    <td>{usuario.usu_email}</td>
+                                    <td>{usuario.usu_situacao}</td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="5">Nenhum usuário encontrado</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

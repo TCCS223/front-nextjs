@@ -8,6 +8,8 @@ import { useRouter } from 'next/navigation';
 
 import api from "@/services/api";
 import Swal from "sweetalert2";
+import { ToastContainer, toast } from 'react-toastify';
+
 
 import styles from "./page.module.css";
 
@@ -158,7 +160,9 @@ export default function LoginUsu() {
 
                             <div className={styles.loginButtonContainer}>
                                 {/* <button type="submit" className={styles.loginButton}>Entrar</button> */}
-                                <button type="submit" className={styles.loginButton} >Entrar</button>
+                                <button type="submit" className={styles.loginButton}>
+                                    
+                                    Entrar</button>
                             </div>
 
                             <div className={styles.registerLink}>

@@ -19,6 +19,7 @@
     "react-dom": "^18",
     "react-input-mask": "^2.0.4",
     "react-responsive-carousel": "^3.2.23",
+    "react-toastify": "^10.0.5",
     "sweetalert2": "^11.12.4"
   }
 }
