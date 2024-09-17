@@ -5,6 +5,7 @@ import { useState } from "react";
 import InputMask from "react-input-mask";
 import styles from "./page.module.css";
 import api from "@/services/api";
+import Swal from "sweetalert2";
 
 export default function Cadastro() {
     const [showPassword, setShowPassword] = useState(false);
@@ -38,34 +39,29 @@ export default function Cadastro() {
         }
         setCpfError('');
         cadastrar();
+        console.log(usuario);
     };
 
-    console.log(usuario);
-
-    // Função para validar o CPF no formato XXX.XXX.XXX-XX
     function validarCPF(cpf) {
-        const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/; // Expressão regular para validar o formato
+        const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;
 
         if (!cpfRegex.test(cpf)) {
-            return false; // Retorna falso se o CPF não estiver no formato correto
+            return false;
         }
 
-        // Mantemos o formato e validamos os dígitos verificadores
-        const numbersOnly = cpf.replace(/[^\d]/g, ''); // Remove os caracteres não numéricos para a verificação dos dígitos
+        const numbersOnly = cpf.replace(/[^\d]/g, '');
 
-        if (numbersOnly.length !== 11 || /^(\d)\1+$/.test(numbersOnly)) return false; // Verifica se tem 11 dígitos e se não são todos iguais
+        if (numbersOnly.length !== 11 || /^(\d)\1+$/.test(numbersOnly)) return false;
 
         let soma = 0;
         let resto;
 
-        // Validação do primeiro dígito verificador
         for (let i = 1; i <= 9; i++) soma += parseInt(numbersOnly.substring(i - 1, i)) * (11 - i);
         resto = (soma * 10) % 11;
         if (resto === 10 || resto === 11) resto = 0;
         if (resto !== parseInt(numbersOnly.substring(9, 10))) return false;
 
         soma = 0;
-        // Validação do segundo dígito verificador
         for (let i = 1; i <= 10; i++) soma += parseInt(numbersOnly.substring(i - 1, i)) * (12 - i);
         resto = (soma * 10) % 11;
         if (resto === 10 || resto === 11) resto = 0;
@@ -73,6 +69,21 @@ export default function Cadastro() {
 
         return true;
     }
+
+    const clearInputs = () => {
+        setUsuario({
+            usu_nome: '',
+            usu_cpf: '',
+            usu_data_nasc: '',
+            usu_sexo: '',
+            usu_telefone: '',
+            usu_email: '',
+            usu_observ: '',
+            usu_acesso: 0,
+            usu_senha: '',
+            usu_situacao: 1,
+        });
+    };
 
     async function cadastrar() {
         try {
@@ -92,6 +103,14 @@ export default function Cadastro() {
                 };
                 console.log("Usuário criado:", objCriado);
 
+                Swal.fire({
+                    title: 'Conta criada!',
+                    text: 'Sua conta foi cadastrada',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+
+                clearInputs();
                 localStorage.clear();
                 localStorage.setItem('user', JSON.stringify(objCriado));
             } else {
@@ -100,7 +119,6 @@ export default function Cadastro() {
             }
         } catch (error) {
             console.error('Erro no cadastro:', error.response.data);
-            console.log('parou aqui');
         }
     }
 
@@ -142,24 +160,26 @@ export default function Cadastro() {
                                         name="usu_nome"
                                         className={styles.inputCadastro}
                                         placeholder="Digite seu nome"
+                                        value={usuario.usu_nome}
                                         onChange={handleChange}
                                         required
                                     />
                                 </div>
 
-                                <div className={styles.inputGroup}>
+                                <div className={`${styles.inputGroup} ${cpfError ? styles.errorActive : ''}`}>
                                     <label htmlFor="cpf" className={styles.labelCadastro}>CPF</label>
                                     <InputMask
                                         mask="999.999.999-99"
                                         type="text"
                                         id="cpf"
                                         name="usu_cpf"
-                                        className={styles.inputCadastro}
+                                        className={`${styles.inputCadastro} ${cpfError ? styles.errorActive : ''}`}
                                         placeholder="Digite seu CPF"
+                                        value={usuario.usu_cpf}
                                         onChange={handleChange}
                                         required
                                     />
-                                    {cpfError && <span className={styles.error}>{cpfError}</span>} {/* Exibe erro se houver */}
+                                    <span className={styles.error}>{cpfError}</span>
                                 </div>
                             </div>
 
@@ -171,6 +191,7 @@ export default function Cadastro() {
                                         id="dataNascimento"
                                         name="usu_data_nasc"
                                         className={styles.inputCadastro}
+                                        value={usuario.usu_data_nasc}
                                         onChange={handleChange}
                                         required
                                     />
@@ -178,8 +199,15 @@ export default function Cadastro() {
 
                                 <div className={styles.inputGroup}>
                                     <label htmlFor="sexo" className={styles.labelCadastro}>Sexo</label>
-                                    <select id="sexo" name="usu_sexo" className={styles.inputCadastro} onChange={handleChange} required>
-                                        <option value="">Selecione</option>
+                                    <select
+                                        id="sexo"
+                                        name="usu_sexo"
+                                        className={styles.inputCadastro}
+                                        value={usuario.usu_sexo}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value="" disabled>Selecione</option>
                                         <option value="1">Masculino</option>
                                         <option value="2">Feminino</option>
                                         <option value="3">Outro</option>
@@ -197,6 +225,7 @@ export default function Cadastro() {
                                         name="usu_telefone"
                                         className={styles.inputCadastro}
                                         placeholder="Digite seu telefone"
+                                        value={usuario.usu_telefone}
                                         onChange={handleChange}
                                         required
                                     />
@@ -210,6 +239,7 @@ export default function Cadastro() {
                                         name="usu_email"
                                         className={styles.inputCadastro}
                                         placeholder="Digite seu email"
+                                        value={usuario.usu_email}
                                         onChange={handleChange}
                                         required
                                     />
@@ -225,6 +255,7 @@ export default function Cadastro() {
                                         name="usu_senha"
                                         className={styles.inputCadastro}
                                         placeholder="Digite sua senha"
+                                        value={usuario.usu_senha}
                                         onChange={handleChange}
                                         required
                                     />
@@ -238,6 +269,7 @@ export default function Cadastro() {
                                         onChange={togglePasswordVisibility}
                                         className={styles.checkbox}
                                     />
+                                  
                                     <label htmlFor="showPassword" className={styles.checkboxLabel}>
                                         Mostrar senha
                                     </label>
