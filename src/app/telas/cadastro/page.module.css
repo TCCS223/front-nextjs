@@ -455,3 +455,10 @@
         width: 80%;
     }
     }
+
+    .error {
+        color: #ff6b6b; /* Cor vermelha suave para erros */
+        font-size: 1rem; /* Tamanho da fonte ajustável */
+        margin-top: 0.5rem; /* Espaço acima do aviso */
+        display: block; /* Garante que o aviso ocupe uma linha */
+    }

@@ -20,6 +20,7 @@ export default function Cadastro() {
         usu_senha: '',
         usu_situacao: 1,
     });
+    const [cpfError, setCpfError] = useState('');
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -27,21 +28,52 @@ export default function Cadastro() {
 
     const handleChange = (e) => {
         setUsuario(prev => ({ ...prev, [e.target.name]: e.target.value }));
-       
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-         // Log dos dados antes do envio
+        if (!validarCPF(usuario.usu_cpf)) {
+            setCpfError('CPF inválido');
+            return;
+        }
+        setCpfError('');
         cadastrar();
     };
 
-    // function teste(){
-    //     console.log(usuario.data);
-    // }
-
     console.log(usuario);
-    
+
+    // Função para validar o CPF no formato XXX.XXX.XXX-XX
+    function validarCPF(cpf) {
+        const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/; // Expressão regular para validar o formato
+
+        if (!cpfRegex.test(cpf)) {
+            return false; // Retorna falso se o CPF não estiver no formato correto
+        }
+
+        // Mantemos o formato e validamos os dígitos verificadores
+        const numbersOnly = cpf.replace(/[^\d]/g, ''); // Remove os caracteres não numéricos para a verificação dos dígitos
+
+        if (numbersOnly.length !== 11 || /^(\d)\1+$/.test(numbersOnly)) return false; // Verifica se tem 11 dígitos e se não são todos iguais
+
+        let soma = 0;
+        let resto;
+
+        // Validação do primeiro dígito verificador
+        for (let i = 1; i <= 9; i++) soma += parseInt(numbersOnly.substring(i - 1, i)) * (11 - i);
+        resto = (soma * 10) % 11;
+        if (resto === 10 || resto === 11) resto = 0;
+        if (resto !== parseInt(numbersOnly.substring(9, 10))) return false;
+
+        soma = 0;
+        // Validação do segundo dígito verificador
+        for (let i = 1; i <= 10; i++) soma += parseInt(numbersOnly.substring(i - 1, i)) * (12 - i);
+        resto = (soma * 10) % 11;
+        if (resto === 10 || resto === 11) resto = 0;
+        if (resto !== parseInt(numbersOnly.substring(10, 11))) return false;
+
+        return true;
+    }
+
     async function cadastrar() {
         try {
             const response = await api.post('/usuarios', usuario);
@@ -58,7 +90,7 @@ export default function Cadastro() {
                     cpf: usuario.usu_cpf,
                     telefone: usuario.usu_telefone,
                 };
-                console.log("Usuário criado:", objCriado); // Log do usuário criado
+                console.log("Usuário criado:", objCriado);
 
                 localStorage.clear();
                 localStorage.setItem('user', JSON.stringify(objCriado));
@@ -67,8 +99,8 @@ export default function Cadastro() {
                 alert('Erro: ' + response.data.mensagem + '\n' + response.data.dados);
             }
         } catch (error) {
-            console.error('Erro no cadastro:', error.response.data); // Log de erro
-            
+            console.error('Erro no cadastro:', error.response.data);
+            console.log('parou aqui');
         }
     }
 
@@ -127,6 +159,7 @@ export default function Cadastro() {
                                         onChange={handleChange}
                                         required
                                     />
+                                    {cpfError && <span className={styles.error}>{cpfError}</span>} {/* Exibe erro se houver */}
                                 </div>
                             </div>
 
@@ -146,7 +179,6 @@ export default function Cadastro() {
                                 <div className={styles.inputGroup}>
                                     <label htmlFor="sexo" className={styles.labelCadastro}>Sexo</label>
                                     <select id="sexo" name="usu_sexo" className={styles.inputCadastro} onChange={handleChange} required>
-                                    
                                         <option value="">Selecione</option>
                                         <option value="1">Masculino</option>
                                         <option value="2">Feminino</option>
