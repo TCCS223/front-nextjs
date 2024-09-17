@@ -16,9 +16,9 @@ export default function Cadastro() {
         usu_telefone: '',
         usu_email: '',
         usu_observ: '',
-        usu_acesso: '',
+        usu_acesso: 0,
         usu_senha: '',
-        usu_situacao: '',
+        usu_situacao: 1,
     });
 
     const togglePasswordVisibility = () => {
@@ -36,10 +36,12 @@ export default function Cadastro() {
         cadastrar();
     };
 
-    function teste(){
-        console.log(usuario.data);
-    }
+    // function teste(){
+    //     console.log(usuario.data);
+    // }
 
+    console.log(usuario);
+    
     async function cadastrar() {
         try {
             const response = await api.post('/usuarios', usuario);
@@ -65,7 +67,8 @@ export default function Cadastro() {
                 alert('Erro: ' + response.data.mensagem + '\n' + response.data.dados);
             }
         } catch (error) {
-            console.error('Erro no cadastro:', error); // Log de erro
+            console.error('Erro no cadastro:', error.response.data); // Log de erro
+            
         }
     }
 
@@ -143,10 +146,11 @@ export default function Cadastro() {
                                 <div className={styles.inputGroup}>
                                     <label htmlFor="sexo" className={styles.labelCadastro}>Sexo</label>
                                     <select id="sexo" name="usu_sexo" className={styles.inputCadastro} onChange={handleChange} required>
+                                    
                                         <option value="">Selecione</option>
-                                        <option value="masculino">Masculino</option>
-                                        <option value="feminino">Feminino</option>
-                                        <option value="outro">Outro</option>
+                                        <option value="1">Masculino</option>
+                                        <option value="2">Feminino</option>
+                                        <option value="3">Outro</option>
                                     </select>
                                 </div>
                             </div>
@@ -209,7 +213,7 @@ export default function Cadastro() {
                             </div>
 
                             <div className={styles.cadastroButtonContainer}>
-                                <button type="submit" className={styles.cadastroButton} onClick={teste}>Cadastrar</button>
+                                <button type="submit" className={styles.cadastroButton}>Cadastrar</button>
                             </div>
                         </form>
 
