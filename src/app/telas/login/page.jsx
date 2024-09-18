@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 
 import api from "@/services/api";
 import Swal from "sweetalert2";
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -49,25 +50,11 @@ export default function LoginUsu() {
                 localStorage.clear();
                 localStorage.setItem('user', JSON.stringify(objLogado));
 
-                // Exibe o toast de sucesso
-                toast.success('Logado com sucesso!', {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                });
-
-                setTimeout(() => {
-                    if (usuario.usu_acesso === 1) {
-                        router.push('/telas/admin');
-                    } else {
-                        router.push('/telas/usuario');
-                    }
-                }, 2000);
+                if (usuario.usu_acesso === 1) {
+                    router.push('/telas/admin');
+                } else {
+                    router.push('/telas/usuario');
+                }
 
             } else {
                 Swal.fire({
@@ -185,7 +172,7 @@ export default function LoginUsu() {
                         priority={true}
                     />
                 </div>
-                <ToastContainer />
+
             </main>
         </>
     );
