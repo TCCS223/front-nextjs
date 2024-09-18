@@ -20,11 +20,11 @@ export default function UsuarioVeiculos() {
                         <span className={styles.modelo}>Z-4</span>
                     </div>
                 </li>
-                <li className={styles.lista}>
+                {/* <li className={styles.lista}>
                     <span className={styles.placa}>Placa</span>
                     <span className={styles.marca}>Marca</span>
                     <span className={styles.modelo}>Modelo</span>
-                </li>
+                </li> */}
                 {/* <div className={styles.card1}>
             
             </div>

@@ -1,4 +1,4 @@
-.input{
+.input {
     background-color: red;
     padding: 0;
 }
@@ -106,7 +106,35 @@
     display: flex;
     flex-direction: column;
     position: relative;
+    /* Certifique-se de que o inputGroup tenha position: relative */
 }
+
+.error {
+    position: absolute;
+    bottom: -20px;
+    /* Posiciona a mensagem abaixo do input */
+    left: 0;
+    color: #ff4d4d;
+    /* Cor vermelha para destacar o erro */
+    font-size: 1rem;
+    /* Tamanho menor para a mensagem */
+    font-weight: 500;
+    visibility: hidden;
+    /* Escondido por padrão */
+}
+
+.inputGroup.errorActive .error {
+    visibility: visible;
+    /* Mostra a mensagem quando houver erro */
+}
+
+.inputCadastro.errorActive {
+    border-color: #ff4d4d;
+    /* Muda a cor da borda quando houver erro */
+    box-shadow: 0 0 6px rgba(255, 77, 77, 0.7);
+    /* Efeito de sombra para destacar o erro */
+}
+
 
 .labelCadastro {
     font-size: 1.2rem;
@@ -214,7 +242,7 @@
     text-decoration: none;
 }
 
-.linkCad{
+.linkCad {
     text-decoration: none;
     color: #fff;
 
@@ -276,7 +304,7 @@
 @media (max-width: 997px) {
     .container {
         width: 90%;
-        
+
     }
 
     .image {
@@ -328,7 +356,7 @@
         width: 100%;
         display: flex;
     }
-    
+
     .formCadastro {
         padding: 2rem;
     }
@@ -350,11 +378,11 @@
         justify-content: flex-start;
     }
 
-    
+
     .titleCadastro {
         font-size: 2.2rem;
     }
-    
+
 }
 
 @media (max-width: 767px) {
@@ -399,14 +427,15 @@
 }
 
 @media (max-width: 575px) {
-   
+
     .logoImg {
         width: 70%;
     }
 
-.main{
-    height: 105vh;
-}
+    .main {
+        height: 105vh;
+    }
+
     .boxCadastro {
         padding: 2rem 1rem;
         height: auto;
@@ -435,23 +464,30 @@
 
 @media (max-width: 480px) {
 
-.logoImg {
-    width: 80%;
-}
+    .logoImg {
+        width: 80%;
+    }
 }
 
 @media (max-width: 470px) {
 
-    .main{
+    .main {
         height: 120vh;
     }
 
     .boxCadastro {
-        padding:  1rem;
+        padding: 1rem;
         height: auto;
     }
 
     .logoImg {
         width: 80%;
     }
-    }
+}
+
+.inputCadastro[type="date"]::-webkit-calendar-picker-indicator {
+    background-color: #ff9d00;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 3px;
+}
