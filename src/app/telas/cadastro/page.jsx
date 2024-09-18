@@ -7,6 +7,10 @@ import styles from "./page.module.css";
 import api from "@/services/api";
 import Swal from "sweetalert2";
 
+import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export default function Cadastro() {
     const [showPassword, setShowPassword] = useState(false);
     const [usuario, setUsuario] = useState({
@@ -23,6 +27,8 @@ export default function Cadastro() {
     });
     const [cpfError, setCpfError] = useState('');
     const [emailError, setEmailError] = useState('');
+
+    const router = useRouter();
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -45,7 +51,6 @@ export default function Cadastro() {
         setCpfError('');
         setEmailError('');
         cadastrar();
-        console.log(usuario);
     };
 
     function validarCPF(cpf) {
@@ -114,19 +119,44 @@ export default function Cadastro() {
                 };
                 console.log("Usuário criado:", objCriado);
 
-                Swal.fire({
-                    title: 'Conta criada!',
-                    text: 'Sua conta foi cadastrada',
-                    icon: 'success',
-                    confirmButtonText: 'OK'
-                });
+                // Swal.fire({
+                //     title: 'Conta criada!',
+                //     text: 'Sua conta foi cadastrada',
+                //     icon: 'success',
+                //     confirmButtonText: 'OK'
+                // });
 
                 clearInputs();
                 localStorage.clear();
                 localStorage.setItem('user', JSON.stringify(objCriado));
+
+                toast.success('Cadastrado com sucesso!', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
+
+                setTimeout(() => {
+                    router.push('/telas/login');
+                }, 2000);
+
             } else {
                 console.error('Erro:', response.data.mensagem, response.data.dados);
-                alert('Erro: ' + response.data.mensagem + '\n' + response.data.dados);
+                toast.error('Erro no cadastro. Tente novamente.', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
             }
         } catch (error) {
             console.error('Erro no cadastro:', error.response.data);
@@ -298,6 +328,7 @@ export default function Cadastro() {
                         </div>
                     </div>
                 </div>
+                <ToastContainer />
             </main>
         </>
     );

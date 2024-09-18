@@ -38,7 +38,7 @@
 
 .icone {
     grid-area: icone;
-    background-color: aquamarine;
+    /* background-color: aquamarine; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -46,7 +46,7 @@
 
 .content {
     grid-area: content;
-    background-color: rgb(24, 250, 175);
+    /* background-color: rgb(24, 250, 175); */
     display: flex;
     flex-direction: column;
 }
@@ -62,11 +62,8 @@
 
 .marca,
 .modelo {
-    color: white;
+    color: rgb(255, 255, 255);
     padding: .5rem .5rem;
     font-size: 1.5rem;
-
-
     margin-bottom: .25rem;
-
 }

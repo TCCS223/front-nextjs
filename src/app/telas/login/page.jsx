@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -9,13 +9,11 @@ import { useRouter } from 'next/navigation';
 import api from "@/services/api";
 import Swal from "sweetalert2";
 import { ToastContainer, toast } from 'react-toastify';
-
+import 'react-toastify/dist/ReactToastify.css';
 
 import styles from "./page.module.css";
 
-
 export default function LoginUsu() {
-
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -31,17 +29,12 @@ export default function LoginUsu() {
         logar();
     }
 
-    function teste() {
-        console.log(email);
-        console.log(senha);
-    }
-
     async function logar() {
         try {
             const dados = {
                 usu_email: email,
                 usu_senha: senha
-            }
+            };
 
             const response = await api.post('/login', dados);
 
@@ -52,28 +45,40 @@ export default function LoginUsu() {
                     "nome": usuario.usu_nome,
                     "acesso": usuario.usu_acesso
                 };
-                // console.log(objLogado);
+
                 localStorage.clear();
                 localStorage.setItem('user', JSON.stringify(objLogado));
 
-                if (usuario.usu_acesso === 1) {
-                    router.push('/telas/admin');
-                } else {
-                    router.push('/telas/usuario');
-                }
-            }
-            // else {
-            //     Swal.fire({
-            //                 icon: 'error',
-            //                 title: 'Erro',
-            //                 text: 'Email e/ou senha inválidos.',
-            //                 confirmButtonText: 'OK'
-            //             });
-            // }
+                // Exibe o toast de sucesso
+                toast.success('Logado com sucesso!', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
 
+                setTimeout(() => {
+                    if (usuario.usu_acesso === 1) {
+                        router.push('/telas/admin');
+                    } else {
+                        router.push('/telas/usuario');
+                    }
+                }, 2000);
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: 'Email e/ou senha inválidos.',
+                    confirmButtonText: 'OK'
+                });
+            }
 
         } catch (error) {
-            // Aqui você trata o erro de login (403)
             if (error.response && error.response.status === 403) {
                 Swal.fire({
                     icon: "error",
@@ -83,10 +88,9 @@ export default function LoginUsu() {
                     backdrop: "rgba(0,0,0,0.7)",
                     scrollbarPadding: false,
                 });
-                setSenha(""); // Limpa o campo de senha
-                setEmail(""); // Limpa o campo de email
+                setSenha("");
+                setEmail("");
             } else {
-                // Tratamento de erros de conexão ou outros problemas
                 Swal.fire({
                     icon: 'error',
                     title: 'Erro na Conexão',
@@ -159,10 +163,9 @@ export default function LoginUsu() {
                             </div>
 
                             <div className={styles.loginButtonContainer}>
-                                {/* <button type="submit" className={styles.loginButton}>Entrar</button> */}
                                 <button type="submit" className={styles.loginButton}>
-                                    
-                                    Entrar</button>
+                                    Entrar
+                                </button>
                             </div>
 
                             <div className={styles.registerLink}>
@@ -182,6 +185,7 @@ export default function LoginUsu() {
                         priority={true}
                     />
                 </div>
+                <ToastContainer />
             </main>
         </>
     );

@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import styles from "./page.module.css";
 import UsuarioVeiculos from "./UsuarioVeiculos/page";
+import UsuarioDados from "./UsuarioDados/page";
 
 // import Localizar2 from "./components/modais/modais_clientes/modal_localizar";
 // import img from '../../public/logo.png'
