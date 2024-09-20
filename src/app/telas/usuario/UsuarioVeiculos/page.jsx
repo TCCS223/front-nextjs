@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
+import { useState, useEffect } from 'react';
 import Link from "next/link";
 import styles from "./page.module.css";
+import Swal from "sweetalert2";
 
 export default function UsuarioVeiculos() {
   const [showForm, setShowForm] = useState(false);
@@ -28,6 +30,28 @@ export default function UsuarioVeiculos() {
     console.log("Dados atualizados do veículo:", selectedVehicle);
     setShowForm(false);
   };
+
+  const [usuarioVeiculo, setUsuarioVeiculo] = useState([]);
+
+  async function fetchUsuarioVeiculo() {
+    try {
+        const response = await api.get('/veiculoUsuario');
+        // console.log(Array.isArray(teste)); // Adicionando um log para inspecionar os dados
+        setUsuarioVeiculo(response.data.dados); // Atualiza o estado com os dados dos usuários
+    } catch (error) {
+        console.error("Erro ao buscar os usuários:", error.response ? error.response.data : error.message);
+        Swal.fire({
+            title: "Erro!",
+            text: "Não foi possível carregar os usuários.",
+            icon: "error",
+            confirmButtonColor: "rgb(40, 167, 69)",
+        });
+    }
+}
+
+useEffect(() => {
+  fetchUsuarioVeiculo(); // Chama a função quando o componente é montado
+}, []);
 
   return (
     <>
@@ -126,7 +150,6 @@ export default function UsuarioVeiculos() {
                   <option value="Azul">Azul</option>
                   <option value="Branco">Branco</option>
                   <option value="Preto">Preto</option>
-                  {/* ... outras opções de cores */}
                 </select>
               </div>
 
