@@ -5,6 +5,9 @@ import Swal from 'sweetalert2';
 import { useState, useEffect, useRef } from 'react';
 import React from "react";
 import ConsultaCliente from '@/components/modais/modais_clientes';
+import { MdRemoveRedEye, MdEdit } from "react-icons/md";
+import { IoMdTrash } from "react-icons/io";
+
 import { format } from 'date-fns';
 
 import api from '@/services/api';
@@ -94,7 +97,7 @@ export default function CadCliente() {
 
             <ConsultaCliente isOpen={isModalOpen} onClose={closeModal} />
 
-            <form id="clienteForm" className={styles.form}>
+            {/* <form id="clienteForm" className={styles.form}>
                     <input type="hidden" id="clienteId" className={styles.input_cliente} />
 
                     <div className={styles.grid}>
@@ -128,12 +131,12 @@ export default function CadCliente() {
                                 <option value="2">Outro</option>
                             </select>
 
-                            {/* <select ref={selectSexo} onChange={handleselectSexo} id="sexo_cliente" name="sexo_cliente" required className={`${styles.select_cliente} ${styles.input_sexo}`}>
+                            <select ref={selectSexo} onChange={handleselectSexo} id="sexo_cliente" name="sexo_cliente" required className={`${styles.select_cliente} ${styles.input_sexo}`}>
                                 <option value="" disabled>Selecionar</option>
                                 <option value="0">Masculino</option>
                                 <option value="1">Feminino</option>
                                 <option value="2">Outro</option>
-                            </select> */}
+                            </select>
                         </div>
 
                         <div className={`${styles.grid_item} ${styles.grid_acesso}`}>
@@ -168,7 +171,7 @@ export default function CadCliente() {
                             </select>
                         </div>
                     </div>
-                </form> 
+                </form>  */}
             {/* 
             <div className={styles.footer_form}>
                 <button type="reset" onClick={Cancelar} className={styles.button_cancel}>Cancelar</button>
@@ -177,73 +180,60 @@ export default function CadCliente() {
 
             {/* Tabela de Usuários */}
             <div className={styles.user_table}>
-                <div className={styles.resultTableContainer}>
-                    <table className={styles.resultTable}>
-                        <thead className={styles.tableHead}>
-                            <th className={`${styles.tableHeader} ${styles.id}`}>Código</th>
-                            <th className={`${styles.tableHeader} ${styles.nome}`}>Nome</th>
-                            <th className={`${styles.tableHeader} ${styles.cpf}`}>CPF</th>
-                            <th className={`${styles.tableHeader} ${styles.dataNasc}`}>Data de Nascimento</th>
-                            <th className={`${styles.tableHeader} ${styles.sexo}`}>Sexo</th>
-                            <th className={`${styles.tableHeader} ${styles.telefone}`}>Telefone</th>
-                            <th className={`${styles.tableHeader} ${styles.email}`}>Email</th>
-                            <th className={`${styles.tableHeader} ${styles.observ}`}>Observações</th>
-                            <th className={`${styles.tableHeader} ${styles.acesso}`}>Acesso</th>
-                            <th className={`${styles.tableHeader} ${styles.situacao}`}>Situação</th>
-                        </thead>
+    <div className={styles.resultTableContainer}>
+        <table className={styles.resultTable}>
+            <thead className={styles.tableHead}>
+                <tr>
+                    <th className={`${styles.tableHeader} ${styles.id}`}>Código</th>
+                    <th className={`${styles.tableHeader} ${styles.nome}`}>Nome</th>
+                    <th className={`${styles.tableHeader} ${styles.cpf}`}>CPF</th>
+                    <th className={`${styles.tableHeader} ${styles.dataNasc}`}>Data de Nascimento</th>
+                    <th className={`${styles.tableHeader} ${styles.sexo}`}>Sexo</th>
+                    <th className={`${styles.tableHeader} ${styles.telefone}`}>Telefone</th>
+                    <th className={`${styles.tableHeader} ${styles.email}`}>Email</th>
+                    <th className={styles.tableHeader}>Ações</th>
+                </tr>
+            </thead>
 
-                        <tbody className={styles.tableBody}>
-                            {usuarios.length > 0 ? (
-                                usuarios.map((usuario) => (
-                                    <tr key={usuario.usu_id}>
-                                        <td >{usuario.usu_id}</td>
-                                        <td>{usuario.usu_nome}</td>
-                                        <td>{usuario.usu_cpf}</td>
-                                        <td>{format(new Date(usuario.usu_data_nasc), 'dd/MM/yyyy')}</td>
-                                        <td>{sexoMap[usuario.usu_sexo] || 'Desconhecido'}</td>
-                                        <td>{usuario.usu_telefone}</td>
-                                        <td>{usuario.usu_email}</td>
-                                        <td className={styles.observ}>{usuario.usu_observ}</td>
-                                        <td>{usuario.usu_acesso === 0  ? 'Usuário' : 'Administrador'}</td>
-                                        <td>{usuario.usu_situacao === 1 ? 'Ativo' : 'Inativo'}</td>
-                                    </tr>))
-                            ) : (
-                                <tr>
-                                    <td colSpan="5">Nenhum usuário encontrado</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-                {/* <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nome</th>
-                            <th>CPF</th>
-                            <th>Email</th>
-                            <th>Situação</th>
+            <tbody className={styles.tableBody}>
+                {usuarios.length > 0 ? (
+                    usuarios.map((usuario) => (
+                        <tr key={usuario.usu_id}>
+                            <td>{usuario.usu_id}</td>
+                            <td>{usuario.usu_nome}</td>
+                            <td>{usuario.usu_cpf}</td>
+                            <td>{format(new Date(usuario.usu_data_nasc), 'dd/MM/yyyy')}</td>
+                            <td>{sexoMap[usuario.usu_sexo] || 'Desconhecido'}</td>
+                            <td>{usuario.usu_telefone}</td>
+                            <td>{usuario.usu_email}</td>
+                            <td className={styles.teste}>
+                                <div className={styles.teste2}>
+                                <i>
+                                <MdRemoveRedEye title="Visualizar" />
+                                </i>
+                                <i>
+                                <MdEdit title="Editar" />
+                                </i>
+                                <i>
+
+                                <IoMdTrash title="Excluir" />
+                                </i>
+                                </div>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {usuarios.length > 0 ? (
-                            usuarios.map((usuario) => (
-                                <tr key={usuario.usu_id}>
-                                    <td>{usuario.usu_id}</td>
-                                    <td>{usuario.usu_nome}</td>
-                                    <td>{usuario.usu_cpf}</td>
-                                    <td>{usuario.usu_email}</td>
-                                    <td>{usuario.usu_situacao}</td>
-                                </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan="5">Nenhum usuário encontrado</td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table> */}
-            </div>
+                    ))
+                ) : (
+                    <tr>
+                        <td colSpan="8">Nenhum usuário encontrado</td>
+                    </tr>
+                )}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
         </div>
     );
 }

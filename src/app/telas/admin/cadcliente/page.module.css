@@ -210,86 +210,87 @@
 .resultTableContainer {
     display: flex;
     align-items: start;
-    padding: 0 ;
+    padding: 0;
     width: 100%;
-    /* background-color: #00f335; */
     margin-top: 20px;
     border-radius: 0.3125rem;
     height: 58vh;
-    overflow: auto; 
+    overflow: auto;
 }
 
 .resultTable {
-    min-width: 120rem; 
+    width: 100%; /* Ajuste para não gerar rolagem lateral */
     border-collapse: collapse;
     text-align: left;
     color: #222;
     margin: 0;
-    
 }
 
 .tableHead {
     background-color: #ff9d00;
     color: white;
-    width: auto;
 }
 
 .tableHeader {
     padding: 0 .75rem;
     height: 3rem;
-      /* text-align: center; Centraliza o texto horizontalmente */
-      vertical-align: middle; /* Centraliza o texto verticalmente */
-background-color: #ff9d00;
+    vertical-align: middle;
+    background-color: #ff9d00;
     color: #ffffff;
     font-weight: 500;
     text-align: left;
     white-space: nowrap;
-    position: -webkit-sticky; 
     position: sticky;
-    top: 0; 
-    z-index: 10; 
+    top: 0;
+    z-index: 10;
 }
 
-.id, .acesso, .situacao, .sexo {
+.id, .sexo {
     width: 5rem;
 }
 
 .nome, .email {
-    width: 12em;
+    width: 12rem;
 }
 
-
- .dataNasc, .telefone {
+.dataNasc {
     width: 7rem;
+}
+
+.dataNasc, .cpf {
+    width: 8rem;
 }
 
 .tableBody {
     background-color: #f5f5f5;
 }
 
-.tdResult{
-    display: flex;
-    align-items: center;
-}
-
 .tableBody tr:hover {
     background-color: #e2e2e2;
-    
 }
 
 .tableBody td {
     padding: 0 .75rem;
     height: 2rem;
     border-bottom: 1px solid #ddd;
-    /* text-align: center; Centraliza o texto horizontalmente */
-    vertical-align: middle; /* Centraliza o texto verticalmente */
+    vertical-align: middle;
 }
 
-.observ {
-    white-space: nowrap; /* Impede a quebra de linha */
-    overflow: hidden; /* Oculta o texto que excede o tamanho da célula */
-    text-overflow: ellipsis; /* Adiciona "..." no final do texto se ele exceder o tamanho da célula */
+.teste2{
+    display: flex;
+    justify-content: space-between;
 }
+
+.actionIcons svg {
+    cursor: pointer;
+    color: #222222;
+    font-size: 1.2rem;
+}
+
+.actionIcons svg:hover {
+    color: #ff9d00;
+}
+
 
 /*--------------------*/
 
