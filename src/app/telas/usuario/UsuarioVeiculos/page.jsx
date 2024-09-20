@@ -46,8 +46,8 @@ export default function UsuarioVeiculos() {
               </div>
 
               <div className={styles.botoeslink}>
-                <button 
-                  className={styles.link} 
+                <button
+                  className={styles.link}
                   onClick={() =>
                     handleAlterarClick({
                       placa: "PLA-4884",
@@ -72,53 +72,102 @@ export default function UsuarioVeiculos() {
             </li>
           </ol>
         ) : (
-          <form onSubmit={handleFormSubmit} className={styles.form}>
-            <div className={`${styles.grid_item} ${styles.grid_placa}`}>
-              <label className={styles.label_veiculos} htmlFor="placa">Placa:</label>
-              <input
-                type="text"
-                id="placa"
-                name="placa"
-                className={styles.input_veiculos}
-                value={selectedVehicle.placa}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
+          <form id="veiculoForm" className={styles.form}>
+            <input type="hidden" id="veiculoId" className={styles.input_veiculos} />
 
-            <div className={`${styles.grid_item} ${styles.grid_marca}`}>
-              <label className={styles.label_veiculos} htmlFor="marca">Marca:</label>
-              <input
-                type="text"
-                id="marca"
-                name="marca"
-                className={styles.input_veiculos}
-                value={selectedVehicle.marca}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
+            <div className={styles.grid}>
+              <div className={`${styles.grid_item} ${styles.grid_codigo}`}>
+                <label htmlFor="codigo_veiculo" className={styles.label_veiculos}>Código</label>
+                <input type="text" id="placa_veiculo" name="placa_veiculo" required disabled className={styles.input_veiculos} />
+              </div>
 
-            <div className={`${styles.grid_item} ${styles.grid_modelo}`}>
-              <label className={styles.label_veiculos} htmlFor="modelo">Modelo:</label>
-              <input
-                type="text"
-                id="modelo"
-                name="modelo"
-                className={styles.input_veiculos}
-                value={selectedVehicle.modelo}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
+              <div className={`${styles.grid_item} ${styles.grid_placa}`}>
+                <label htmlFor="placa_veiculo" className={styles.label_veiculos}>Placa</label>
+                <input type="text" id="placa_veiculo" name="placa_veiculo_veiculo" required className={styles.input_veiculos} placeholder="Letras e números" />
+              </div>
 
-            <div className={styles.formActions}>
-              <button type="submit" className={styles.btnSalvar}>Salvar</button>
-              <button type="button" onClick={() => setShowForm(false)} className={styles.btnCancelar}>
-                Cancelar
-              </button>
+              <div className={`${styles.grid_item} ${styles.grid_categoria}`}>
+                <label htmlFor="categoria_veiculo" className={styles.label_veiculos}>Categoria</label>
+                <select id="categoria_veiculo" name="categoria_veiculo" required className={`${styles.select_veiculos} ${styles.input_proprietario}`}>
+                  <option value="" disabled selected>Selecionar</option>
+                  <option value="1">Caminhão</option>
+                  <option value="2">Carro</option>
+                  <option value="3">Moto</option>
+                </select>
+              </div>
+
+              <div className={`${styles.grid_item} ${styles.grid_marca}`}>
+                <label htmlFor="marca_veiculo" className={styles.label_veiculos}>Marca</label>
+                <select id="marca" name="marca" required className={`${styles.select_veiculos} ${styles.input_proprietario}`}>
+                  <option value="" disabled selected>Selecionar</option>
+                  
+                </select>
+              </div>
+
+              <div className={`${styles.grid_item} ${styles.grid_modelo}`}>
+                <label htmlFor="modelo_veiculo" className={styles.label_veiculos}>Modelo</label>
+                <select id="modelo_veiculo" name="modelo_veiculo" required className={`${styles.select_veiculos} ${styles.input_modelo}`}>
+                  <option value="" disabled selected>Selecionar</option>
+                  <option value="1">Modelo A</option>
+                  <option value="2">Modelo B</option>
+                </select>
+              </div>
+
+              <div className={`${styles.grid_item} ${styles.grid_ano}`}>
+                <label htmlFor="ano_veiculo" className={styles.label_veiculos}>Ano</label>
+                <input type="number" id="ano_veiculo" name="ano_veiculo" required className={styles.input_veiculos} />
+              </div>
+
+              <div className={`${styles.grid_item} ${styles.grid_cor}`}>
+                <label htmlFor="cor_veiculo" className={styles.label_veiculos}>Cor</label>
+                <select id="cor" name="cor" required className={`${styles.select_veiculos} ${styles.input_cor}`} defaultValue="">
+                  <option value="" disabled selected>Selecionar</option>
+                  <option value="Amarelo">Amarelo</option>
+                  <option value="Azul">Azul</option>
+                  <option value="Branco">Branco</option>
+                  <option value="Preto">Preto</option>
+                  {/* ... outras opções de cores */}
+                </select>
+              </div>
+
+              <div className={`${styles.grid_item} ${styles.grid_combustivel}`}>
+                <label htmlFor="combustivel_veiculo" className={styles.label_veiculos}>Combustível</label>
+                <select id="combustivel_veiculo" name="combustivel_veiculo" required className={`${styles.select_veiculos} ${styles.input_combustivel}`}>
+                  <option value="" disabled selected>Selecionar</option>
+                  <option value="gasolina">Gasolina</option>
+                  <option value="alcool">Álcool</option>
+                  <option value="diesel">Diesel</option>
+                  <option value="flex">Flex</option>
+                  <option value="gnv">GNV</option>
+                  <option value="eletrico">Elétrico</option>
+                  <option value="hibrido">Híbrido</option>
+                </select>
+              </div>
+
+              <div className={`${styles.grid_item} ${styles.grid_proprietario}`}>
+                <label htmlFor="proprietario_veiculo" className={styles.label_veiculos}>Você é proprietário?</label>
+                <select id="nivel_acesso" name="nivel_acesso" className={`${styles.select_veiculos} ${styles.input_proprietario}`}>
+                  <option value="" disabled selected>Selecionar</option>
+                  <option value="0">Sim</option>
+                  <option value="1">Não</option>
+                </select>
+              </div>
+
+              <div className={`${styles.grid_item} ${styles.grid_observacoes}`}>
+                <label htmlFor="observacoes_veiculo" className={styles.label_veiculos}>Observações</label>
+                <input type="text" id="observacoes_veiculo" name="observacoes_veiculo" className={styles.input_veiculos} />
+              </div>
+
+              <div className={`${styles.grid_item} ${styles.grid_situacao}`}>
+                <label htmlFor="situacao_veiculo" className={styles.label_veiculos}>Situação</label>
+                <select id="situacao_veiculo" name="situacao_veiculo" className={`${styles.select_veiculos} ${styles.input_situacao}`}>
+                  <option value="ativo">Ativo</option>
+                  <option value="inativo">Inativo</option>
+                </select>
+              </div>
             </div>
           </form>
+
         )}
       </div>
     </>

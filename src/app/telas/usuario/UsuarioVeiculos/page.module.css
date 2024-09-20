@@ -129,23 +129,25 @@
 
 .form {
     margin: 20px 0;
-    background-color: #cccccc;
+    background-color: #f9f9f9;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     gap: 30px 15px;
-}
-
-.label_veiculos {
+  }
+  
+  /* Labels */
+  .label_veiculos {
     display: block;
     margin-bottom: 8px;
-    color: #222;
+    color: #333;
     font-family: "Kanit", sans-serif;
-}
-
-.input_veiculos {
+  }
+  
+  /* Inputs */
+  .input_veiculos {
     width: calc(100% - 20px);
     padding: 10px;
     margin-top: 5px;
@@ -154,51 +156,184 @@
     box-sizing: border-box;
     font-size: 18px;
     background-color: #f9f9f9;
-}
-
-.grid_item {
+  }
+  
+  /* Grid items */
+  .grid {
+    display: contents;
+  }
+  
+  .grid_item {
     display: flex;
     flex-direction: column;
-}
-
-.grid_placa {
+  }
+  
+  /* Configurações de grid para os diferentes campos */
+  .grid_codigo,
+  .grid_categoria,
+  .grid_placa,
+  .grid_situacao {
+    grid-column: span 2;
+  }
+  
+  .grid_modelo,
+  .grid_marca,
+  .grid_ano,
+  .grid_cor,
+  .grid_combustivel,
+  .grid_proprietario {
     grid-column: span 3;
-}
-
-.grid_marca {
-    grid-column: span 4;
-}
-
-.grid_modelo {
-    grid-column: span 5;
-}
-
-.formActions {
-    grid-column: span 12;
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
-
-.btnSalvar {
-    background-color: #FF9D00;
+  }
+  
+  .grid_observacoes {
+    grid-column: span 10;
+  }
+  
+  /* Estilos para selects e inputs de categorias específicas */
+  .input_combustivel,
+  .input_cor,
+  .input_situacao,
+  .input_proprietario,
+  .input_modelo {
+    flex: 1;
+  }
+  
+  /* Tabelas */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .th,
+  .td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .th {
+    background-color: #333;
     color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
+  }
+  
+  .td {
+    background-color: #fff;
+  }
+  
+  /* Selects */
+  .select_veiculos {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 5px;
+    border: 2px solid #8d8c8c;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 18px;
+    background-color: #f9f9f9;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M7 10l5 5 5-5H7z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
     cursor: pointer;
-}
-
-.btnSalvar:hover {
-    background-color: #e08f0b;
-    color: white;
-}
-
-.btnCancelar {
-    background-color: #f44336;
-    color: white;
+  }
+  
+  .select_veiculos:hover {
+    border-color: #ff9d00;
+  }
+  
+  .select_veiculos:focus, .input_veiculos:focus {
+    border-color: #ff9d00;
+    outline: none;
+  }
+  
+  /* Footer do formulário */
+  .footer_form {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 15px;
+    padding: 50px 40px 50px 20px;
+  }
+  
+  /* Botão de envio */
+  .button_submit {
     padding: 10px 20px;
+    background-color: #ff9d00;
+    color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 4px;
     cursor: pointer;
-}
+    font-size: 1em;
+    transition: background-color 0.3s;
+    grid-column: span 1;
+    grid-area: 1 / 8 / 2 / 9;
+  }
+  
+  .button_submit:hover {
+    background-color: #f39200;
+    color: #222;
+  }
+  
+  /* Botão de cancelar */
+  .button_cancel {
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+    grid-column: span 1;
+    grid-area: 1 / 7 / 2 / 8;
+  }
+  
+  .button_cancel:hover {
+    background-color: #ff9d00;
+    color: #222;
+  }
+  
+  /* Responsividade para telas menores */
+  @media only screen and (max-width: 500px) {
+    .form {
+      background-color: #f9f9f9;
+      border-radius: .5rem;
+      grid-template-columns: repeat(4, 1fr);
+    }
+  
+    .grid_codigo,
+    .grid_categoria,
+    .grid_placa,
+    .grid_situacao,
+    .grid_modelo,
+    .grid_marca,
+    .grid_ano,
+    .grid_cor,
+    .grid_combustivel,
+    .grid_proprietario,
+    .grid_observacoes {
+      grid-column: span 4;
+    }
+  
+    .input_veiculos,
+    .select_veiculos {
+      width: 100%;
+    }
+  
+    .footer_form {
+      padding: 20px 20px;
+      grid-template-columns: repeat(2, 1fr);
+    }
+  
+    .button_submit {
+      grid-area: 1 / 2 / 2 / 3;
+    }
+  
+    .button_cancel {
+      grid-area: 1 / 1 / 2 / 2;
+    }
+  }
+  
