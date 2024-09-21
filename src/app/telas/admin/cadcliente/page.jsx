@@ -43,10 +43,33 @@ export default function CadCliente() {
         setIsViewing(false); // Muda para modo de edição
     };
 
-    const handleSubmit = (event) => {
+    console.log(selectedUser); // Verifique se todos os campos estão preenchidos corretamente
+
+
+    const handleSubmit = async (event) => {
+         console.log("Dados enviados:", selectedUser);
         event.preventDefault();
-        // Aqui você pode coletar os dados do formulário e enviar uma requisição para atualizar os dados
+        try {
+            const response = await api.patch(`/usuarios/${selectedUser.usu_id}`, selectedUser);
+            console.log(response); // Verifique o que está sendo retornado
+            Swal.fire({
+                title: 'Sucesso!',
+                text: response.data.mensagem,
+                icon: 'success',
+            });
+            ListarUsuarios(); // Atualize a lista de usuários após a edição
+            setShowForm(false); // Feche o formulário após a atualização
+        } catch (error) {
+            console.error("Erro ao atualizar:", error);
+            Swal.fire({
+                title: 'Erro!',
+                text: error.response ? error.response.data.mensagem : 'Erro desconhecido.',
+                icon: 'error',
+            });
+        }
     };
+
+
 
     const sexoMap = {
         0: 'Feminino',
@@ -115,6 +138,9 @@ export default function CadCliente() {
             });
         }
     }
+
+
+
 
     useEffect(() => {
         ListarUsuarios(); // Chama a função quando o componente é montado
@@ -244,6 +270,7 @@ export default function CadCliente() {
                                 name="nome_cliente"
                                 required
                                 value={selectedUser ? selectedUser.usu_nome : ''}
+                                onChange={(e) => setSelectedUser({ ...selectedUser, usu_nome: e.target.value })}
                                 disabled={isViewing}
                                 className={styles.input_cliente}
                                 placeholder="Nome Completo"
@@ -258,6 +285,7 @@ export default function CadCliente() {
                                 name="cpf_cliente"
                                 required
                                 value={selectedUser ? selectedUser.usu_cpf : ''}
+                                onChange={(e) => setSelectedUser({ ...selectedUser, usu_cpf: e.target.value })}
                                 disabled={isViewing}
                                 className={styles.input_cliente}
                                 placeholder="xxx.xxx.xxx - xx"
@@ -272,6 +300,7 @@ export default function CadCliente() {
                                 name="data_nasc_cliente"
                                 required
                                 value={selectedUser ? format(new Date(selectedUser.usu_data_nasc), 'yyyy-MM-dd') : ''}
+                                onChange={(e) => setSelectedUser({ ...selectedUser, usu_data_nasc: e.target.value })}
                                 disabled={isViewing}
                                 className={styles.input_cliente}
                             />
@@ -285,12 +314,14 @@ export default function CadCliente() {
                                 name="sexo_cliente"
                                 required
                                 className={`${styles.select_cliente} ${styles.input_sexo}`}
+                                value={selectedUser ? selectedUser.usu_sexo : ''} // Atualize aqui
+                                onChange={(e) => setSelectedUser({ ...selectedUser, usu_sexo: parseInt(e.target.value) })}
                                 disabled={isViewing}
                             >
                                 <option value="" disabled>Selecionar</option>
-                                <option value="0" selected={selectedUser && selectedUser.usu_sexo === 0}>Masculino</option>
-                                <option value="1" selected={selectedUser && selectedUser.usu_sexo === 1}>Feminino</option>
-                                <option value="2" selected={selectedUser && selectedUser.usu_sexo === 2}>Outro</option>
+                                <option value="0">Feminino</option>
+                                <option value="1">Masculino</option>
+                                <option value="2">Outro</option>
                             </select>
                         </div>
 
@@ -300,10 +331,12 @@ export default function CadCliente() {
                                 id="nivel_acesso"
                                 name="nivel_acesso"
                                 className={`${styles.select_cliente} ${styles.input_acesso}`}
+                                value={selectedUser ? selectedUser.usu_acesso : ''} // Atualize aqui
+                                onChange={(e) => setSelectedUser({ ...selectedUser, usu_acesso: parseInt(e.target.value) })}
                                 disabled={isViewing}
                             >
-                                <option value="0" className={styles.option}>Usuário</option>
-                                <option value="1" className={styles.option}>Administrador</option>
+                                <option value="0">Usuário</option>
+                                <option value="1">Administrador</option>
                             </select>
                         </div>
 
@@ -315,9 +348,10 @@ export default function CadCliente() {
                                 name="telefone_cliente"
                                 required
                                 value={selectedUser ? selectedUser.usu_telefone : ''}
+                                onChange={(e) => setSelectedUser({ ...selectedUser, usu_telefone: e.target.value })}
                                 disabled={isViewing}
                                 className={`${styles.input_cliente}`}
-                                placeholder="(xx) xxxxx - xxxxx"
+                                placeholder="(xx) xxxxx - xxxx"
                             />
                         </div>
 
@@ -329,6 +363,7 @@ export default function CadCliente() {
                                 name="email_cliente"
                                 required
                                 value={selectedUser ? selectedUser.usu_email : ''}
+                                onChange={(e) => setSelectedUser({ ...selectedUser, usu_email: e.target.value })}
                                 disabled={isViewing}
                                 className={styles.input_cliente}
                                 placeholder="exemplo@exemplo.com"
@@ -343,6 +378,7 @@ export default function CadCliente() {
                                 name="observacoes_cliente"
                                 required
                                 value={selectedUser ? selectedUser.usu_observacoes : ''}
+                                onChange={(e) => setSelectedUser({ ...selectedUser, usu_observ: e.target.value })}
                                 disabled={isViewing}
                                 className={styles.input_cliente}
                             />
@@ -353,7 +389,7 @@ export default function CadCliente() {
                             <select
                                 id="situacao_cliente"
                                 name="situacao_cliente"
-                                className={`${styles.select_cliente} ${styles.input_situacao}`}
+                                className={`${styles.select_cliente} ${styles.input_situacao}`} onChange={(e) => setSelectedUser({ ...selectedUser, usu_situacao: e.target.value })}
                                 disabled={isViewing}
                             >
                                 <option value="ativo" className={styles.option} selected={selectedUser && selectedUser.usu_situacao === 'ativo'}>Ativo</option>
@@ -369,7 +405,8 @@ export default function CadCliente() {
 
                 <div className={styles.footer_form}>
                     <button type="reset" onClick={Cancelar} className={styles.button_cancel}>Cancelar</button>
-                    <button type="submit" className={styles.button_submit} disabled={!isViewing}>Salvar</button>
+                    <button type="button" className={styles.button_submit} onClick={handleSubmit} disabled={isViewing}>Salvar</button>
+
 
                 </div>
             </>)}
