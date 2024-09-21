@@ -94,9 +94,33 @@ export default function CadCliente() {
     };
 
     const Cancelar = () => {
-        setShowForm(false);
-        setSelectedUser(null);
-    };
+        Swal.fire({
+            title: "Deseja Cancelar?",
+            text: "As informações não serão salvas",
+            icon: "warning",
+            iconColor: "orange",
+            showCancelButton: true,
+            cancelButtonColor: "#d33",
+            confirmButtonColor: "rgb(40, 167, 69)",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Confirmar",
+            reverseButtons: true,
+            backdrop: "rgba(0,0,0,0.7)",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Cancelado!",
+                    text: "As alterações foram canceladas.",
+                    icon: "success",
+                    iconColor: "rgb(40, 167, 69)",
+                    confirmButtonColor: "rgb(40, 167, 69)",
+                }).then(() => {
+                    setShowForm(false);
+                    setSelectedUser(null); // Mostrar a tabela novamente após confirmação
+                });
+            }
+        });
+    }
 
     // Paginação
     const indexOfLastUser = currentPage * usersPerPage;
@@ -197,6 +221,7 @@ export default function CadCliente() {
                     </div>
                     <div className={styles.pagination}>
                         <button
+                        className={styles.buttonPrev}
                             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                             disabled={currentPage === 1}
                         >
@@ -211,7 +236,7 @@ export default function CadCliente() {
                         </button>
                     </div>
                 </>
-            ) : (
+            ) : (<>
                 <FormCliente
                     selectedUser={selectedUser}
                     setSelectedUser={setSelectedUser}
@@ -219,6 +244,14 @@ export default function CadCliente() {
                     handleSubmit={handleSubmit}
                     Cancelar={Cancelar}
                 />
+                
+                <div className={styles.footer_form}>
+                    <button type="reset" onClick={Cancelar} className={styles.button_cancel}>Cancelar</button>
+                    <button type="button" className={styles.button_submit} onClick={handleSubmit} disabled={isViewing}>Salvar</button>
+
+
+                </div>
+                </>
             )}
         </div>
     );
