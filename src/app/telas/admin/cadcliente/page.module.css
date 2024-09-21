@@ -328,7 +328,8 @@
     width: 100%;
     margin-top: 20px;
     border-radius: 0.3125rem;
-    height: 58vh;
+    min-height: 58hv;
+    height: auto;
     overflow: auto;
 }
 
@@ -361,6 +362,7 @@
 
 .id {
     width: 5%; /* Código */
+    
 }
 
 .nome {
@@ -401,9 +403,13 @@
 
 .tableBody td {
     padding: 0 .5rem; /* Reduzindo o padding */
-    height: 2rem;
+    height: 2.5rem;
     border-bottom: 1px solid #ddd;
     vertical-align: middle;
+}
+
+.tdId{
+    text-align: center;
 }
 
 .actionIcons {
@@ -422,6 +428,38 @@
     color: #ff9d00;
 }
 
+
+/*---------------------*/
+/*---------------------*/
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 0.3125rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+.pagination .buttonPrev{
+    background-color: red;
+}
+
+.pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination span {
+    align-self: center;
+    margin: 0 2rem;
+}
 
 /*---------------------*/
 
