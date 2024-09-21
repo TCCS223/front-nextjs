@@ -120,50 +120,47 @@ export default function CadCliente() {
             </div>
 
             {/* Tabela de Usuários */}
-            <div className={styles.user_table}>
-                <div className={styles.resultTableContainer}>
-                    <table className={styles.resultTable}>
-                        <thead className={styles.tableHead}>
-                            <tr>
-                                <th className={`${styles.tableHeader} ${styles.id}`}>Código</th>
-                                <th className={`${styles.tableHeader} ${styles.nome}`}>Nome</th>
-                                <th className={`${styles.tableHeader} ${styles.cpf}`}>CPF</th>
-                                <th className={`${styles.tableHeader} ${styles.dataNasc}`}>Data de Nascimento</th>
-                                <th className={`${styles.tableHeader} ${styles.sexo}`}>Sexo</th>
-                                <th className={`${styles.tableHeader} ${styles.telefone}`}>Telefone</th>
-                                <th className={`${styles.tableHeader} ${styles.email}`}>Email</th>
-                                <th className={styles.tableHeader}>Ações</th>
-                            </tr>
-                        </thead>
-
-                        <tbody className={styles.tableBody}>
-                            {usuarios.length > 0 ? (
-                                usuarios.map((usuario) => (
-                                    <tr key={usuario.usu_id}>
-                                        <td>{usuario.usu_id}</td>
-                                        <td>{usuario.usu_nome}</td>
-                                        <td>{usuario.usu_cpf}</td>
-                                        <td>{format(new Date(usuario.usu_data_nasc), 'dd/MM/yyyy')}</td>
-                                        <td>{sexoMap[usuario.usu_sexo] || 'Desconhecido'}</td>
-                                        <td>{usuario.usu_telefone}</td>
-                                        <td>{usuario.usu_email}</td>
-                                        <td>
-                                            <div className={styles.actionIcons}>
-                                                <i><MdRemoveRedEye title="Visualizar" /></i>
-                                                <i><MdEdit title="Editar" /> </i>
-                                                <i><IoMdTrash title="Excluir" /></i>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="8">Nenhum usuário encontrado</td>
+            <div className={styles.resultTableContainer}>
+                <table className={styles.resultTable}>
+                    <thead className={styles.tableHead}>
+                        <tr>
+                            <th className={`${styles.tableHeader} ${styles.id}`}>Código</th>
+                            <th className={`${styles.tableHeader} ${styles.nome}`}>Nome</th>
+                            <th className={`${styles.tableHeader} ${styles.cpf}`}>CPF</th>
+                            <th className={`${styles.tableHeader} ${styles.dataNasc}`}>Data de Nascimento</th>
+                            <th className={`${styles.tableHeader} ${styles.sexo}`}>Sexo</th>
+                            <th className={`${styles.tableHeader} ${styles.telefone}`}>Telefone</th>
+                            <th className={`${styles.tableHeader} ${styles.email}`}>Email</th>
+                            <th className={`${styles.tableHeader} ${styles.acao}`}>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody className={styles.tableBody}>
+                        {usuarios.length > 0 ? (
+                            usuarios.map((usuario) => (
+                                <tr key={usuario.usu_id}>
+                                    <td>{usuario.usu_id}</td>
+                                    <td>{usuario.usu_nome}</td>
+                                    <td>{usuario.usu_cpf}</td>
+                                    <td>{format(new Date(usuario.usu_data_nasc), 'dd/MM/yyyy')}</td>
+                                    <td>{sexoMap[usuario.usu_sexo] || 'Desconhecido'}</td>
+                                    <td>{usuario.usu_telefone}</td>
+                                    <td>{usuario.usu_email}</td>
+                                    <td>
+                                        <div className={styles.actionIcons}>
+                                            <i><MdRemoveRedEye title="Visualizar" /></i>
+                                            <i><MdEdit title="Editar" /></i>
+                                            <i><IoMdTrash title="Excluir" /></i>
+                                        </div>
+                                    </td>
                                 </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="8">Nenhum usuário encontrado</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
             </div>
         </div>
     );

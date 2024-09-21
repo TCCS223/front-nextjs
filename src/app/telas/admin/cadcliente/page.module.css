@@ -346,7 +346,7 @@
 }
 
 .tableHeader {
-    padding: 0 .75rem;
+    padding: 0 .5rem; /* Reduzindo o padding */
     height: 3rem;
     vertical-align: middle;
     background-color: #ff9d00;
@@ -359,20 +359,36 @@
     z-index: 10;
 }
 
-.id, .sexo {
-    width: 5rem;
+.id {
+    width: 5%; /* Código */
 }
 
-.nome, .email {
-    width: 12rem;
+.nome {
+    width: 15%; /* Nome */
+}
+
+.cpf {
+    width: 15%; /* CPF */
 }
 
 .dataNasc {
-    width: 7rem;
+    width: 15%; /* Data de Nascimento */
 }
 
-.dataNasc, .cpf {
-    width: 8rem;
+.sexo {
+    width: 10%; /* Sexo */
+}
+
+.telefone {
+    width: 15%; /* Telefone */
+}
+
+.email {
+    width: 15%; /* Email */
+}
+
+.acao {
+    width: 15%; /* Ações */
 }
 
 .tableBody {
@@ -384,15 +400,16 @@
 }
 
 .tableBody td {
-    padding: 0 .75rem;
+    padding: 0 .5rem; /* Reduzindo o padding */
     height: 2rem;
     border-bottom: 1px solid #ddd;
     vertical-align: middle;
 }
 
-.actionIcons{
+.actionIcons {
     display: flex;
     justify-content: space-between;
+    width: 70%; /* Aumenta o espaço disponível */
 }
 
 .actionIcons svg {
@@ -403,6 +420,24 @@
 
 .actionIcons svg:hover {
     color: #ff9d00;
+}
+
+
+/*---------------------*/
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .id, .sexo, .acao {
+        width: 20%; /* Aumenta a largura para telas menores */
+    }
+
+    .nome, .email {
+        width: 40%;
+    }
+
+    .dataNasc, .cpf, .telefone {
+        width: 20%;
+    }
 }
 
 
