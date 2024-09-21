@@ -18,19 +18,21 @@ export default function CadCliente() {
     const [showForm, setShowForm] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
     const [isViewing, setIsViewing] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const usersPerPage = 15;
 
     useEffect(() => {
         ListarUsuarios();
     }, []);
 
     useEffect(() => {
-        setFilteredUsers(usuarios); // Inicializa com todos os usuários
+        setFilteredUsers(usuarios);
     }, [usuarios]);
 
     const ListarUsuarios = async () => {
         try {
             const response = await api.get('/usuarios');
-            setUsuarios(response.data.dados); // Atualiza o estado com os dados dos usuários
+            setUsuarios(response.data.dados);
         } catch (error) {
             console.error("Erro ao buscar os usuários:", error);
             Swal.fire({
@@ -44,35 +46,31 @@ export default function CadCliente() {
     const handleSearch = () => {
         const result = usuarios.filter(usuario => {
             const statusMatch = statusFilter === 'todos' || usuario.usu_situacao === statusFilter;
-    
-            const tipoMatch = tipoUsuarioFilter === 'todos' || 
-                              (tipoUsuarioFilter === 'admin' && usuario.usu_acesso === 1) || 
-                              (tipoUsuarioFilter === 'usuario' && usuario.usu_acesso === 0);
-    
-            const textMatch = 
-                usuario.usu_nome.toLowerCase().includes(searchText.toLowerCase()) || 
+            const tipoMatch = tipoUsuarioFilter === 'todos' ||
+                (tipoUsuarioFilter === 'admin' && usuario.usu_acesso === 1) ||
+                (tipoUsuarioFilter === 'usuario' && usuario.usu_acesso === 0);
+            const textMatch =
+                usuario.usu_nome.toLowerCase().includes(searchText.toLowerCase()) ||
                 usuario.usu_email.toLowerCase().includes(searchText.toLowerCase()) ||
-                usuario.usu_cpf.includes(searchText); // Adicione mais campos se necessário
-    
-            // Retornar verdadeiro se todas as condições forem atendidas
+                usuario.usu_cpf.includes(searchText);
+
             return statusMatch && tipoMatch && textMatch;
         });
-    
-        setFilteredUsers(result);
-    };
-    
 
+        setFilteredUsers(result);
+        setCurrentPage(1);
+    };
 
     const handleViewUser = (usuario) => {
         setSelectedUser(usuario);
         setShowForm(true);
-        setIsViewing(true); // Muda para modo de visualização
+        setIsViewing(true);
     };
 
     const handleEditUser = (usuario) => {
         setSelectedUser(usuario);
         setShowForm(true);
-        setIsViewing(false); // Muda para modo de edição
+        setIsViewing(false);
     };
 
     const handleSubmit = async (data) => {
@@ -83,8 +81,8 @@ export default function CadCliente() {
                 text: response.data.mensagem,
                 icon: 'success',
             });
-            ListarUsuarios(); // Atualize a lista de usuários após a edição
-            setShowForm(false); // Feche o formulário após a atualização
+            ListarUsuarios();
+            setShowForm(false);
         } catch (error) {
             console.error("Erro ao atualizar:", error);
             Swal.fire({
@@ -97,8 +95,13 @@ export default function CadCliente() {
 
     const Cancelar = () => {
         setShowForm(false);
-        setSelectedUser(null); // Mostrar a tabela novamente após confirmação
+        setSelectedUser(null);
     };
+
+    // Paginação
+    const indexOfLastUser = currentPage * usersPerPage;
+    const indexOfFirstUser = indexOfLastUser - usersPerPage;
+    const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
     return (
         <div id="clientes" className={styles.content_section}>
@@ -120,10 +123,10 @@ export default function CadCliente() {
                         <div className={styles.filterButtons}>
                             <div className={styles.filterGroup}>
                                 <label htmlFor="status" className={styles.labelFilter}>Status</label>
-                                <select 
-                                    id="status" 
-                                    className={styles.filterSelect} 
-                                    value={statusFilter} 
+                                <select
+                                    id="status"
+                                    className={styles.filterSelect}
+                                    value={statusFilter}
                                     onChange={(e) => setStatusFilter(e.target.value)}
                                 >
                                     <option value="todos">Todos</option>
@@ -134,10 +137,10 @@ export default function CadCliente() {
 
                             <div className={styles.filterGroup}>
                                 <label htmlFor="tipoUsuario" className={styles.labelFilter}>Tipo de Usuário</label>
-                                <select 
-                                    id="tipoUsuario" 
-                                    className={styles.filterSelect} 
-                                    value={tipoUsuarioFilter} 
+                                <select
+                                    id="tipoUsuario"
+                                    className={styles.filterSelect}
+                                    value={tipoUsuarioFilter}
                                     onChange={(e) => setTipoUsuarioFilter(e.target.value)}
                                 >
                                     <option value="todos">Todos</option>
@@ -165,8 +168,8 @@ export default function CadCliente() {
                                 </tr>
                             </thead>
                             <tbody className={styles.tableBody}>
-                                {filteredUsers.length > 0 ? (
-                                    filteredUsers.map((usuario) => (
+                                {currentUsers.length > 0 ? (
+                                    currentUsers.map((usuario) => (
                                         <tr key={usuario.usu_id}>
                                             <td className={styles.tdId}>{usuario.usu_id}</td>
                                             <td>{usuario.usu_nome}</td>
@@ -191,6 +194,21 @@ export default function CadCliente() {
                                 )}
                             </tbody>
                         </table>
+                    </div>
+                    <div className={styles.pagination}>
+                        <button
+                            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
+                        >
+                            Anterior
+                        </button>
+                        <span>Página {currentPage}</span>
+                        <button
+                            onClick={() => setCurrentPage(prev => (filteredUsers.length > indexOfLastUser ? prev + 1 : prev))}
+                            disabled={filteredUsers.length <= indexOfLastUser}
+                        >
+                            Próxima
+                        </button>
                     </div>
                 </>
             ) : (
