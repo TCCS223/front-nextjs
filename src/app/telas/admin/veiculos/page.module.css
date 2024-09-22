@@ -452,6 +452,37 @@
 
 
 /*---------------------*/
+/*---------------------*/
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.pagination button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 0.3125rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+.pagination .buttonPrev {
+    background-color: red;
+}
+
+.pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination span {
+    align-self: center;
+    margin: 0 2rem;
+}
+/*---------------------*/
 
 
 

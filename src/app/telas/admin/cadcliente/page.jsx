@@ -257,8 +257,6 @@ export default function CadCliente() {
                 <div className={styles.footer_form}>
                     <button type="reset" onClick={Cancelar} className={styles.button_cancel}>Cancelar</button>
                     <button type="button" className={styles.button_submit} onClick={handleSubmit} disabled={isViewing}>Salvar</button>
-
-
                 </div>
             </>
             )}

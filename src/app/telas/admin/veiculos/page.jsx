@@ -13,18 +13,34 @@ import api from '@/services/api';
 
 export default function Veiculos() {
     const [veiculos, setVeiculos] = useState([]);
+    const [filteredVeiculos, setFilteredVeiculos] = useState([]);
     const [showForm, setShowForm] = useState(false);
     const [searchText, setSearchText] = useState('');
     const [statusFilter, setStatusFilter] = useState('todos');
     const [selectedVeic, setSelectedVeic] = useState(null);
-    const [selectedUser, setSelectedUser] = useState(null);
     const [isViewing, setIsViewing] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
+    const usersPerPage = 15;
 
 
     useEffect(() => {
         ListarVeiculos();
     }, []);
+
+    useEffect(() => {
+        setFilteredVeiculos(veiculos);
+    }, [veiculos]);
+
+    // Função de busca e filtro por status
+    const handleSearch = () => {
+        const result = veiculos.filter((veiculo) => {
+            const statusMatch = statusFilter === 'todos' || veiculo.situacao === statusFilter;
+            return statusMatch;
+        });
+
+        setFilteredVeiculos(result);
+        setCurrentPage(1); // Reseta a página para 1
+    };
 
 
     const handleViewVeic = (usuario) => {
@@ -102,12 +118,10 @@ export default function Veiculos() {
         });
     }
 
-    
-
-
-
-    
-
+    // Paginação
+    const indexOfLastUser = currentPage * usersPerPage;
+    const indexOfFirstUser = indexOfLastUser - usersPerPage;
+    const currentVeiculos = filteredVeiculos.slice(indexOfFirstUser, indexOfLastUser);
 
     return (
         <div id="veiculos" className={styles.content_section}>
@@ -121,23 +135,20 @@ export default function Veiculos() {
                                 type="text"
                                 placeholder="Digite aqui..."
                                 className={styles.searchInput}
-                            // value={searchText}
-                            // onChange={(e) => setSearchText(e.target.value)}
+                                value={searchText}
+                                onChange={(e) => setSearchText(e.target.value)}
                             />
-                            <button className={styles.searchButton} >Pesquisar</button>
+                            <button className={styles.searchButton} onClick={handleSearch}>Pesquisar</button>
                         </div>
 
                         <div className={styles.filterButtons}>
-
-                            <div className={`${styles.filterGroup} ${styles.filterGroupTypeUser}`}></div>
-
                             <div className={styles.filterGroup}>
                                 <label htmlFor="status" className={styles.labelFilter}>Status</label>
                                 <select
                                     id="status"
                                     className={styles.filterSelect}
-                                // value={statusFilter}
-                                // onChange={(e) => setStatusFilter(e.target.value)}
+                                    value={statusFilter}
+                                    onChange={(e) => setStatusFilter(e.target.value)}
                                 >
                                     <option value="todos">Todos</option>
                                     <option value="ativo">Ativo</option>
@@ -166,8 +177,8 @@ export default function Veiculos() {
                                 </tr>
                             </thead>
                             <tbody className={styles.tableBody}>
-                                {veiculos.length > 0 ? (
-                                    veiculos.map((veiculo) => (
+                                {currentVeiculos.length > 0 ? (
+                                    currentVeiculos.map((veiculo) => (
                                         <tr key={veiculo.veic_id}>
                                             <td className={styles.tdId}>{veiculo.veic_id}</td>
                                             <td>{veiculo.modelo}</td>
@@ -208,28 +219,41 @@ export default function Veiculos() {
                                     </tr>
                                 )}
                             </tbody>
-
-
-
                         </table>
+                    </div>
+                    <div className={styles.pagination}>
+                        <button
+                            className={styles.buttonPrev}
+                            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
+                        >
+                            Anterior
+                        </button>
+                        <span>Página {currentPage}</span>
+                        <button
+                            onClick={() => setCurrentPage(prev => (veiculos.length > indexOfLastUser ? prev + 1 : prev))}
+                            disabled={veiculos.length <= indexOfLastUser}
+                        >
+                            Próxima
+                        </button>
                     </div>
 
                 </>
             ) : (<>
 
                 <FormVeiculo
-                    selectedUser={selectedVeic}
-                    setSelectedUser={setSelectedVeic}
-                    isViewing={isViewing}
-                    handleSubmit={handleSubmit}
-                    Cancelar={Cancelar}
+                     selectedUser={selectedVeic}
+                     setSelectedVeic={setSelectedVeic}
+                     isViewing={isViewing}
+                     handleSubmit={handleSubmit}
+                     Cancelar={Cancelar}
                 />
-            </>
-            )}
-            <div className={styles.footer_form}>
+                <div className={styles.footer_form}>
                     <button type="reset" onClick={Cancelar} className={styles.button_cancel}>Cancelar</button>
                     <button type="button" className={styles.button_submit} onClick={handleSubmit} disabled={isViewing}>Salvar</button>
-            </div>
+                </div>
+            </>
+            )}
         </div>
 
 
