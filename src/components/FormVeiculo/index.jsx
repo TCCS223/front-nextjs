@@ -15,6 +15,8 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
     const [nomeMarca, setNomeMarca] = useState("");
 
 
+    
+
     const handleShowProprietarios = (proprietarios) => {
         alert(`Proprietários: ${proprietarios}`);
     };
@@ -29,10 +31,12 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                         <label htmlFor="codigo_veiculo" className={styles.label_veiculos}>Código</label>
                         <input 
                         type="text" 
-                        id="placa_veiculo" 
-                        name="placa_veiculo" 
-                        required 
+                        id="veic_id" 
+                        name="veic_id"
+                        value={selectedVeic ? selectedVeic.veic_id : ''}
+                        onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_id: e.target.value })}
                         disabled
+                        required 
                         className={styles.input_veiculos} />
                     </div>
 
@@ -40,9 +44,11 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                         <label htmlFor="placa_veiculo" className={styles.label_veiculos}>Placa</label>
                         <input 
                         type="text" 
-                        id="placa_veiculo" 
-                        name="placa_veiculo_veiculo" 
-                        required 
+                        id="veic_placa" 
+                        name="veic_placa" 
+                        value={selectedVeic ? selectedVeic.veic_placa : ''}
+                        onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_placa: e.target.value })}
+                        required
                         className={styles.input_veiculos} 
                         placeholder="Letras e números" />
                     </div>
@@ -52,6 +58,8 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                         <select 
                         id="categoria_veiculo" 
                         name="categoria_veiculo" 
+                        value={selectedVeic ? selectedVeic.cat_id : ''}
+                        onChange={(e) => setSelectedVeic({ ...selectedVeic, cat_id: parseInt (e.target.value) })}
                         required 
                         className={`${styles.select_veiculos} ${styles.input_proprietario}`}>
                             <option value="" disabled selected>Selecionar</option>
@@ -67,10 +75,11 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                         <label htmlFor="marca_veiculo" className={styles.label_veiculos}>Marca</label>
                         <select 
                         id="marca" 
-                        name="marca" 
+                        name="marca"
+                        value={selectedVeic ? selectedVeic.veic_marca : ''}
+                        onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_marca: e.target.value })} 
                         required 
-                        className={`${styles.select_veiculos} ${styles.input_proprietario}`} 
-                        onChange={handleMarcaChange}>
+                        className={`${styles.select_veiculos} ${styles.input_proprietario}`}>
                         </select>
                     </div>
 
@@ -79,6 +88,8 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                         <select 
                         id="categoria_veiculo" 
                         name="categoria_veiculo" 
+                        value={selectedVeic ? selectedVeic.mod_id : ''}
+                        onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_placa: e.target.value })}
                         required 
                         className={`${styles.select_veiculos} ${styles.input_modelo}`}>
                             <option value="" disabled selected>Selecionar</option>
@@ -95,6 +106,8 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                         type="number" 
                         id="ano_veiculo" 
                         name="ano_veiculo" 
+                        value={selectedVeic ? selectedVeic.veic_ano : ''}
+                        onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_ano: e.target.value })}
                         required 
                         className={styles.input_veiculos} />
                     </div>
@@ -103,6 +116,8 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                         <select 
                         id="cor" 
                         name="cor" 
+                        value={selectedVeic ? selectedVeic.veic_cor : ''}
+                        onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_cor: e.target.value })}
                         required 
                         className={`${styles.select_veiculos} ${styles.input_cor}`} 
                         defaultValue="">
@@ -131,6 +146,8 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                         <select 
                         id="combustivel_veiculo" 
                         name="combustivel_veiculo" 
+                        value={selectedVeic ? selectedVeic.veic_combustivel : ''}
+                        onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_combustivel: e.target.value })}
                         required 
                         className={`${styles.select_veiculos} ${styles.input_combustivel}`}>
                             <option value="" disabled selected>Selecionar</option>
@@ -149,6 +166,8 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                         <select 
                         id="nivel_acesso" 
                         name="nivel_acesso"
+                        value={selectedVeic ? selectedVeic.ehproprietario : ''}
+                        onChange={(e) => setSelectedVeic({ ...selectedVeic, ehproprietario: e.target.value })}
                         className={`${styles.select_veiculos} ${styles.input_proprietario}`}>
                             <option value="" disabled selected>Selecionar</option>
                             <option value="0" className={styles.option}>Sim</option>
@@ -162,6 +181,8 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                         type="text" 
                         id="observacoes_veiculo" 
                         name="observacoes_veiculo" 
+                        value={selectedVeic ? selectedVeic.veic_observ : ''}
+                        onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_observ: e.target.value })}
                         required 
                         className={styles.input_veiculos} />
                     </div>
@@ -171,6 +192,8 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                         <select 
                         id="situacao_veiculo" 
                         name="situacao_veiculo"
+                        value={selectedVeic ? selectedVeic.veic_situacao : ''}
+                        onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_situacao: e.target.value })}
                         className={`${styles.select_veiculos} ${styles.input_situacao}`}>
                             <option value="ativo" className={styles.option} selected>Ativo</option>
                             <option value="inativo" className={styles.option}>Inativo</option>
@@ -179,10 +202,7 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
 
                 </div>
             </form>
-            <div className={styles.footer_form}>
-                <button type="reset" className={styles.button_cancel}>Cancelar</button>
-                <button type="submit" className={styles.button_submit}>Salvar</button>
-            </div>
+            
         </>
     )
 }
