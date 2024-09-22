@@ -1,13 +1,16 @@
 'use client';
 
 import styles from './page.module.css';
-import Swal from 'sweetalert2';
 import { useState, useEffect } from 'react';
+
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 import { IoMdTrash } from "react-icons/io";
 import { format } from 'date-fns';
-import api from '@/services/api';
+import Swal from 'sweetalert2';
+
 import FormCliente from '@/components/FormCliente';
+
+import api from '@/services/api';
 
 export default function CadCliente() {
     const [usuarios, setUsuarios] = useState([]);
@@ -71,6 +74,12 @@ export default function CadCliente() {
         setSelectedUser(usuario);
         setShowForm(true);
         setIsViewing(false);
+    };
+
+    const sexoMap = {
+        0: 'Feminino',
+        1: 'Masculino',
+        2: 'Outro'
     };
 
     const handleSubmit = async (data) => {
@@ -146,20 +155,6 @@ export default function CadCliente() {
                         </div>
                         <div className={styles.filterButtons}>
                             <div className={styles.filterGroup}>
-                                <label htmlFor="status" className={styles.labelFilter}>Status</label>
-                                <select
-                                    id="status"
-                                    className={styles.filterSelect}
-                                    value={statusFilter}
-                                    onChange={(e) => setStatusFilter(e.target.value)}
-                                >
-                                    <option value="todos">Todos</option>
-                                    <option value="ativo">Ativo</option>
-                                    <option value="inativo">Inativo</option>
-                                </select>
-                            </div>
-
-                            <div className={styles.filterGroup}>
                                 <label htmlFor="tipoUsuario" className={styles.labelFilter}>Tipo de Usuário</label>
                                 <select
                                     id="tipoUsuario"
@@ -170,6 +165,20 @@ export default function CadCliente() {
                                     <option value="todos">Todos</option>
                                     <option value="admin">Admin</option>
                                     <option value="usuario">Usuário</option>
+                                </select>
+                            </div>
+
+                            <div className={styles.filterGroup}>
+                                <label htmlFor="status" className={styles.labelFilter}>Status</label>
+                                <select
+                                    id="status"
+                                    className={styles.filterSelect}
+                                    value={statusFilter}
+                                    onChange={(e) => setStatusFilter(e.target.value)}
+                                >
+                                    <option value="todos">Todos</option>
+                                    <option value="ativo">Ativo</option>
+                                    <option value="inativo">Inativo</option>
                                 </select>
                             </div>
 
@@ -199,7 +208,7 @@ export default function CadCliente() {
                                             <td>{usuario.usu_nome}</td>
                                             <td>{usuario.usu_cpf}</td>
                                             <td>{format(new Date(usuario.usu_data_nasc), 'dd/MM/yyyy')}</td>
-                                            <td>{usuario.usu_sexo}</td>
+                                            <td>{sexoMap[usuario.usu_sexo] || 'Desconhecido'}</td>
                                             <td>{usuario.usu_telefone}</td>
                                             <td>{usuario.usu_email}</td>
                                             <td>
@@ -221,7 +230,7 @@ export default function CadCliente() {
                     </div>
                     <div className={styles.pagination}>
                         <button
-                        className={styles.buttonPrev}
+                            className={styles.buttonPrev}
                             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                             disabled={currentPage === 1}
                         >
@@ -244,14 +253,14 @@ export default function CadCliente() {
                     handleSubmit={handleSubmit}
                     Cancelar={Cancelar}
                 />
-                
+
                 <div className={styles.footer_form}>
                     <button type="reset" onClick={Cancelar} className={styles.button_cancel}>Cancelar</button>
                     <button type="button" className={styles.button_submit} onClick={handleSubmit} disabled={isViewing}>Salvar</button>
 
 
                 </div>
-                </>
+            </>
             )}
         </div>
     );

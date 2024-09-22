@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import { useRef } from 'react';
 
 export default function FormCliente ({ selectedUser, setSelectedUser, isViewing, handleSubmit, Cancelar }) {
-    const selectSexo = useRef(null);
+    // const selectSexo = useRef(null);
 
             return (
                 <form id="clienteForm" className={styles.form} onSubmit={handleSubmit}>
@@ -72,7 +72,7 @@ export default function FormCliente ({ selectedUser, setSelectedUser, isViewing,
                         <div className={`${styles.grid_item} ${styles.grid_sexo}`}>
                             <label htmlFor="sexo_cliente" className={styles.label_cliente}>Sexo</label>
                             <select
-                                ref={selectSexo}
+                                // ref={selectSexo}
                                 id="sexo_cliente"
                                 name="sexo_cliente"
                                 required
