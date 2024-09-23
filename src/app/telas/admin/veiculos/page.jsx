@@ -142,6 +142,9 @@ export default function Veiculos() {
                         </div>
 
                         <div className={styles.filterButtons}>
+
+                            <div className={`${styles.filterGroup} ${styles.filterGroupTypeUser}`}></div>
+
                             <div className={styles.filterGroup}>
                                 <label htmlFor="status" className={styles.labelFilter}>Status</label>
                                 <select
@@ -187,7 +190,7 @@ export default function Veiculos() {
                                             <td>{veiculo.veic_ano}</td>
                                             <td>{veiculo.veic_cor}</td>
                                             <td>{veiculo.veic_combustivel}</td>
-                                            <td>
+                                            <td className={styles.tdProprietario}>
                                                 {veiculo.num_proprietarios > 1 ? (
                                                     <div className={styles.customSelect}>
                                                         <select>
@@ -242,11 +245,11 @@ export default function Veiculos() {
             ) : (<>
 
                 <FormVeiculo
-                     selectedUser={selectedVeic}
-                     setSelectedVeic={setSelectedVeic}
-                     isViewing={isViewing}
-                     handleSubmit={handleSubmit}
-                     Cancelar={Cancelar}
+                    selectedUser={selectedVeic}
+                    setSelectedVeic={setSelectedVeic}
+                    isViewing={isViewing}
+                    handleSubmit={handleSubmit}
+                    Cancelar={Cancelar}
                 />
                 <div className={styles.footer_form}>
                     <button type="reset" onClick={Cancelar} className={styles.button_cancel}>Cancelar</button>

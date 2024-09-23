@@ -14,12 +14,7 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
 
     const [nomeMarca, setNomeMarca] = useState("");
 
-
-    
-
-    const handleShowProprietarios = (proprietarios) => {
-        alert(`Proprietários: ${proprietarios}`);
-    };
+   
 
     return (
         <>
@@ -28,7 +23,7 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
 
                 <div className={styles.grid}>
                     <div className={`${styles.grid_item} ${styles.grid_codigo}`}>
-                        <label htmlFor="codigo_veiculo" className={styles.label_veiculos}>Código</label>
+                        <label htmlFor="veic_id" className={styles.label_veiculos}>Código</label>
                         <input 
                         type="text" 
                         id="veic_id" 
@@ -41,7 +36,7 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                     </div>
 
                     <div className={`${styles.grid_item} ${styles.grid_placa}`}>
-                        <label htmlFor="placa_veiculo" className={styles.label_veiculos}>Placa</label>
+                        <label htmlFor="veic_placa" className={styles.label_veiculos}>Placa</label>
                         <input 
                         type="text" 
                         id="veic_placa" 
@@ -56,8 +51,8 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                     <div className={`${styles.grid_item} ${styles.grid_categoria}`}>
                         <label htmlFor="categoria_veiculo" className={styles.label_veiculos}>Categoria</label>
                         <select 
-                        id="categoria_veiculo" 
-                        name="categoria_veiculo" 
+                        id="cat_id" 
+                        name="cat_id" 
                         value={selectedVeic ? selectedVeic.cat_id : ''}
                         onChange={(e) => setSelectedVeic({ ...selectedVeic, cat_id: parseInt (e.target.value) })}
                         required 
@@ -72,11 +67,11 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
 
 
                     <div className={`${styles.grid_item} ${styles.grid_marca}`}>
-                        <label htmlFor="marca_veiculo" className={styles.label_veiculos}>Marca</label>
+                        <label htmlFor="mar_id" className={styles.label_veiculos}>Marca</label>
                         <select 
-                        id="marca" 
-                        name="marca"
-                        value={selectedVeic ? selectedVeic.veic_marca : ''}
+                        id="mar_id" 
+                        name="mar_id"
+                        value={selectedVeic ? selectedVeic.mar_id : ''}
                         onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_marca: e.target.value })} 
                         required 
                         className={`${styles.select_veiculos} ${styles.input_proprietario}`}>
@@ -84,10 +79,10 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                     </div>
 
                     <div className={`${styles.grid_item} ${styles.grid_modelo}`}>
-                        <label htmlFor="modelo_veiculo" className={styles.label_veiculos}>Modelo</label>
+                        <label htmlFor="mod_id" className={styles.label_veiculos}>Modelo</label>
                         <select 
-                        id="categoria_veiculo" 
-                        name="categoria_veiculo" 
+                        id="mod_id" 
+                        name="mod_id" 
                         value={selectedVeic ? selectedVeic.mod_id : ''}
                         onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_placa: e.target.value })}
                         required 
@@ -101,21 +96,21 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                     </div>
 
                     <div className={`${styles.grid_item} ${styles.grid_ano}`}>
-                        <label htmlFor="ano_veiculo" className={styles.label_veiculos}>Ano</label>
+                        <label htmlFor="veic_ano" className={styles.label_veiculos}>Ano</label>
                         <input 
                         type="number" 
-                        id="ano_veiculo" 
-                        name="ano_veiculo" 
+                        id="veic_ano" 
+                        name="veic_ano" 
                         value={selectedVeic ? selectedVeic.veic_ano : ''}
                         onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_ano: e.target.value })}
                         required 
                         className={styles.input_veiculos} />
                     </div>
                     <div className={`${styles.grid_item} ${styles.grid_cor}`}>
-                        <label htmlFor="cor_veiculo" className={styles.label_veiculos}>Cor</label>
+                        <label htmlFor="veic_cor" className={styles.label_veiculos}>Cor</label>
                         <select 
-                        id="cor" 
-                        name="cor" 
+                        id="veic_cor" 
+                        name="veic_cor" 
                         value={selectedVeic ? selectedVeic.veic_cor : ''}
                         onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_cor: e.target.value })}
                         required 
