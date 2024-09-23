@@ -12,12 +12,12 @@ import FormVeiculo from '@/components/FormVeiculo';
 import api from '@/services/api';
 
 export default function Veiculos() {
+    const [selectedVeic, setSelectedVeic] = useState(null);
     const [veiculos, setVeiculos] = useState([]);
     const [filteredVeiculos, setFilteredVeiculos] = useState([]);
     const [showForm, setShowForm] = useState(false);
     const [searchText, setSearchText] = useState('');
     const [statusFilter, setStatusFilter] = useState('todos');
-    const [selectedVeic, setSelectedVeic] = useState(null);
     const [isViewing, setIsViewing] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const usersPerPage = 15;
@@ -43,11 +43,41 @@ export default function Veiculos() {
     };
 
 
-    const handleViewVeic = (usuario) => {
-        setSelectedVeic(usuario);
-        setShowForm(true);
-        setIsViewing(true);
+    // const handleViewVeic = (usuario) => {
+    //     setSelectedVeic(usuario);
+    //     setShowForm(true);
+    //     setIsViewing(true);
+    // };
+    const handleViewVeic = async (veiculo) => {
+        try {
+            const response = await api.get(`/veiculos/${veiculo.veic_id}`);
+            
+            // Acessando a estrutura correta da resposta
+            if (response.data.sucesso) {
+                console.log(response.data.dados);
+                setSelectedVeic(response.data.dados); // Ajuste aqui se necessário
+                setShowForm(true);
+                setIsViewing(true);
+            } else {
+                throw new Error(response.data.mensagem);
+            }
+        } catch (error) {
+            console.error("Erro ao visualizar veículo:", error);
+            if (error.response) {
+                console.error("Dados do erro:", error.response.data);
+                console.error("Status do erro:", error.response.status);
+            }
+            Swal.fire({
+                title: "Erro!",
+                text: error.response ? error.response.data.mensagem : 'Erro desconhecido ao buscar veículo.',
+                icon: "error",
+            });
+        }
     };
+    
+    console.log(selectedVeic);
+    
+    
 
     const handleEditVeic = (usuario) => {
         setSelectedVeic(usuario);
@@ -245,7 +275,7 @@ export default function Veiculos() {
             ) : (<>
 
                 <FormVeiculo
-                    selectedUser={selectedVeic}
+                    selectedVeic={selectedVeic}
                     setSelectedVeic={setSelectedVeic}
                     isViewing={isViewing}
                     handleSubmit={handleSubmit}
