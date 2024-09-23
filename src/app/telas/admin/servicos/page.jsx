@@ -2,52 +2,42 @@
 
 import styles from './page.module.css';
 import { useState, useEffect } from 'react';
-// import ConsultaServico from '@/components/modais/modais_serviços';
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 import { IoMdTrash } from "react-icons/io";
+import api from '@/services/api';
+import Swal from 'sweetalert2';
 
 import FormServicos from '@/components/FormServicos';
 
 export default function Servicos() {
-
-    const [selectedServicos, setSelectedServicos] = useState(null);
-    const [isViewing, setIsViewing] = useState(false);
     const [servicos, setServicos] = useState([]);
-    const [filteredServicos, setFilteredServicos] = useState([]);
+    const [selectedServico, setSelectedServico] = useState(null);
+    const [isViewing, setIsViewing] = useState(false);
     const [statusFilter, setStatusFilter] = useState('todos');
     const [searchText, setSearchText] = useState('');
     const [showForm, setShowForm] = useState(false);
-    // const [isModalOpen, setIsModalOpen] = useState(false); 
+    const [filteredServicos, setFilteredServicos] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const usersPerPage = 15;
 
-    const handleSearch = () => {
-        const result = servicos.filter(servicos => {
-            const statusMatch = statusFilter === 'todos' || servicos.serv_situacao === statusFilter;
-            const textMatch =
-                servicos.serv_nome.toLowerCase().includes(searchText.toLowerCase()) ||
-                servicos.serv_duracao.toLowerCase().includes(searchText.toLowerCase()) ||
-                servicos.serv_preco.includes(searchText);
 
-            return statusMatch && tipoMatch && textMatch;
-        });
 
-        setFilteredServicos(result);
-    };
+    const indexOfLastUser = currentPage * usersPerPage;
+    const indexOfFirstUser = indexOfLastUser - usersPerPage;
+    const currentServicos = filteredServicos.slice(indexOfFirstUser, indexOfLastUser);
+
+    useEffect(() => {
+        ListarServicos();
+    }, []);
 
     useEffect(() => {
         setFilteredServicos(servicos);
     }, [servicos]);
 
-    // const openModal = () => { // Define uma função chamada 'openModal' que altera o estado 'isModalOpen' para 'true'.
-    //     setIsModalOpen(true); // Altera o estado 'isModalOpen' para 'true', o que pode ser usado para abrir um modal.
-    // };
-
-    // const closeModal = () => { // Define uma função chamada 'closeModal' que altera o estado 'isModalOpen' para 'false'.
-    //     setIsModalOpen(false); // Altera o estado 'isModalOpen' para 'false', o que pode ser usado para fechar um modal.
-    // };
-
     const ListarServicos = async () => {
         try {
             const response = await api.get('/servicos');
+            console.log(response.data);
             setServicos(response.data.dados);
         } catch (error) {
             console.error("Erro ao buscar os serviços:", error);
@@ -58,6 +48,9 @@ export default function Servicos() {
             });
         }
     };
+
+    console.log(servicos);
+
 
     const handleSubmit = async (data) => {
         try {
@@ -102,16 +95,61 @@ export default function Servicos() {
                     confirmButtonColor: "rgb(40, 167, 69)",
                 }).then(() => {
                     setShowForm(false);
-                    setSelectedServicos(null); // Mostrar a tabela novamente após confirmação
+                    setSelectedServico(null); // Mostrar a tabela novamente após confirmação
                 });
             }
         });
     }
 
     const handleEditServicos = (servicos) => {
-        setSelectedServicos(servicos);
+        setSelectedServico(servicos);
         setShowForm(true);
         setIsViewing(false);
+    };
+
+    const handleViewServicos = async (servicos) => {
+        try {
+            const response = await api.get(`/servicos/${servicos.serv_id}`);
+            
+            if (response.data.sucesso) {
+                console.log(response.data.dados);
+                setSelectedServico(response.data.dados); // Ajuste aqui se necessário
+                setShowForm(true);
+                setIsViewing(true);
+            } else {
+                throw new Error(response.data.mensagem);
+            }
+        } catch (error) {
+            console.error("Erro ao visualizar serviço:", error);
+            if (error.response) {
+                console.error("Dados do erro:", error.response.data);
+                console.error("Status do erro:", error.response.status);
+            }
+            Swal.fire({
+                title: "Erro!",
+                text: error.response ? error.response.data.mensagem : 'Erro desconhecido ao buscar serviço.',
+                icon: "error",
+            });
+        }
+    };
+
+    const handleSearch = () => {
+        const result = servicos.filter((servico) => {
+            // Filtra os serviços pelo status
+            const statusMatch = statusFilter === 'todos' || servico.situacao === statusFilter;
+
+            // Filtra os serviços pelo texto de pesquisa
+            const searchTextMatch = searchText === '' ||
+                servico.serv_nome.toLowerCase().includes(searchText.toLowerCase()) ||
+                servico.cat_serv_nome.toLowerCase().includes(searchText.toLowerCase());
+
+            // Retorna apenas os serviços que correspondem aos dois critérios
+            return statusMatch && searchTextMatch;
+        });
+
+        // Atualiza a lista de serviços filtrados e reseta a página atual
+        setFilteredServicos(result);
+        setCurrentPage(1);
     };
 
 
@@ -134,6 +172,7 @@ export default function Servicos() {
                             <button className={styles.searchButton} onClick={handleSearch}>Pesquisar</button>
                         </div>
                         <div className={styles.filterButtons}>
+                            <div className={`${styles.filterGroup} ${styles.filterGroupTypeUser}`}></div>
                             <div className={styles.filterGroup}>
                                 <label htmlFor="status" className={styles.labelFilter}>Status</label>
                                 <select
@@ -158,26 +197,28 @@ export default function Servicos() {
                                 <tr>
                                     <th className={`${styles.tableHeader} ${styles.id}`}>Código</th>
                                     <th className={`${styles.tableHeader} ${styles.nome}`}>Nome do Serviço</th>
-                                    <th className={`${styles.tableHeader} ${styles.cpf}`}>Duração</th>
-                                    <th className={`${styles.tableHeader} ${styles.dataNasc}`}>Preço</th>
-                                    <th className={`${styles.tableHeader} ${styles.sexo}`}>Descrição</th>
-                                    <th className={`${styles.tableHeader} ${styles.telefone}`}>Situação</th>
+                                    <th className={`${styles.tableHeader} ${styles.categoria}`}>Categoria</th>
+                                    <th className={`${styles.tableHeader} ${styles.duracao}`}>Duração</th>
+                                    <th className={`${styles.tableHeader} ${styles.preco}`}>Preço</th>
+                                    {/* <th className={`${styles.tableHeader} ${styles.situacao}`}>Situação</th> */}
                                     <th className={`${styles.tableHeader} ${styles.acao}`}>Ações</th>
                                 </tr>
                             </thead>
                             <tbody className={styles.tableBody}>
-                                {ListarServicos.length > 0 ? (
-                                    ListarServicos.map((servicos) => (
+                                {currentServicos.length > 0 ? (
+                                    currentServicos.map((servicos) => (
                                         <tr key={servicos.serv_id}>
-                                            <td className={styles.tdId}>{servicos.cat_serv_id}</td>
+                                            <td className={styles.tdId}>{servicos.serv_id}</td>
                                             <td>{servicos.serv_nome}</td>
+                                            <td>{servicos.cat_serv_nome}</td>
                                             <td>{servicos.serv_duracao}</td>
-                                            <td>{servicos.serv_preco}</td>
-                                            <td>{servicos.serv_descricao}</td>
-                                            <td>{servicos.serv_situacao}</td>
+                                            <td>R$ {servicos.serv_preco}</td>
+                                            {/* <td>{servicos.serv_situacao}</td> */}
                                             <td>
                                                 <div className={styles.actionIcons}>
+                                                    <i><MdRemoveRedEye title="Visualizar" onClick={() => handleViewServicos(servicos)} /></i>
                                                     <i><MdEdit title="Editar" onClick={() => handleEditServicos(servicos)} /></i>
+                                                    <i><IoMdTrash title="Excluir" onClick={() => handleDeleteUser(servicos.serv_id)} /></i>
                                                 </div>
                                             </td>
                                         </tr>
@@ -190,7 +231,7 @@ export default function Servicos() {
                             </tbody>
                         </table>
                     </div>
-                    {/* <div className={styles.pagination}>
+                    <div className={styles.pagination}>
                         <button
                             className={styles.buttonPrev}
                             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
@@ -200,30 +241,30 @@ export default function Servicos() {
                         </button>
                         <span>Página {currentPage}</span>
                         <button
-                            onClick={() => setCurrentPage(prev => (filteredUsers.length > indexOfLastUser ? prev + 1 : prev))}
-                            disabled={filteredUsers.length <= indexOfLastUser}
+                            onClick={() => setCurrentPage(prev => (filteredServicos.length > indexOfLastUser ? prev + 1 : prev))}
+                            disabled={filteredServicos.length <= indexOfLastUser}
                         >
                             Próxima
                         </button>
-                    </div> */}
+                    </div>
                 </>
             ) : (<>
-            
-                
-            {/* <ConsultaServico isOpen={isModalOpen} onClose={closeModal} /> */}
 
-            <FormServicos
-                selectedUser={selectedServicos}
-                setSelectedUser={setSelectedServicos}
-                isViewing={isViewing}
-                handleSubmit={handleSubmit}
-                Cancelar={Cancelar}
-            />
 
-            <div className={styles.footer_form}>
-                <button type="reset" onClick={Cancelar} className={styles.button_cancel}>Cancelar</button>
-                <button type="button" className={styles.button_submit} onClick={handleSubmit} disabled={isViewing}>Salvar</button>
-            </div>
+                {/* <ConsultaServico isOpen={isModalOpen} onClose={closeModal} /> */}
+
+                <FormServicos
+                    selectedServicos={selectedServico}
+                    setSelectedServicos={setSelectedServico}
+                    isViewing={isViewing}
+                    handleSubmit={handleSubmit}
+                    Cancelar={Cancelar}
+                />
+
+                <div className={styles.footer_form}>
+                    <button type="reset" onClick={Cancelar} className={styles.button_cancel}>Cancelar</button>
+                    <button type="button" className={styles.button_submit} onClick={handleSubmit} disabled={isViewing}>Salvar</button>
+                </div>
             </>
             )}
         </div>

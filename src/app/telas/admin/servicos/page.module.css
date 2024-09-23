@@ -209,16 +209,22 @@
     width: 5%;
 }
 
-.nome,
-.cpf,
-.dataNasc,
-.telefone,
-.email,
-.acao {
+.nome {
+    width: 25%;
+}
+ .categoria{
+    width: 25%;
+}
+
+
+.duracao,
+.preco,
+.situacao
+ {
     width: 15%;
 }
 
-.sexo {
+.acao {
     width: 10%;
 }
 
