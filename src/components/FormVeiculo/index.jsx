@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './index.module.css';
 
-export default function FormVeiculo({ selectedVeic}) {
+export default function FormVeiculo({ selectedVeic }) {
     return (
         <>
             <form id="veiculoForm" className={styles.form}>
@@ -16,8 +16,9 @@ export default function FormVeiculo({ selectedVeic}) {
                             name="veic_id"
                             value={selectedVeic ? selectedVeic.veic_id : ''}
                             disabled
-                            className={styles.input_veiculos} />
-                        required
+                            className={styles.input_veiculos}
+                            required
+                        />
                     </div>
 
                     <div className={`${styles.grid_item} ${styles.grid_placa}`}>
@@ -47,7 +48,7 @@ export default function FormVeiculo({ selectedVeic}) {
                     <div className={`${styles.grid_item} ${styles.grid_marca}`}>
                         <label htmlFor="mar_id" className={styles.label_veiculos}>Marca</label>
                         <input
-                        type='text'
+                            type='text'
                             id="mar_id"
                             name="mar_id"
                             value={selectedVeic ? selectedVeic.mar_nome : ''}
@@ -59,7 +60,7 @@ export default function FormVeiculo({ selectedVeic}) {
                     <div className={`${styles.grid_item} ${styles.grid_modelo}`}>
                         <label htmlFor="mod_id" className={styles.label_veiculos}>Modelo</label>
                         <input
-                        type='text'
+                            type='text'
                             id="mod_id"
                             name="mod_id"
                             value={selectedVeic ? selectedVeic.mod_nome : ''}
