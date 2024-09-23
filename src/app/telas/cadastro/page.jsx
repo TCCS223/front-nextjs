@@ -260,7 +260,7 @@ export default function Cadastro() {
                                 <div className={styles.inputGroup}>
                                     <label htmlFor="telefone" className={styles.labelCadastro}>Telefone</label>
                                     <InputMask
-                                        mask="(99)99999-9999"
+                                        mask="(99) 99999 - 9999"
                                         type="tel"
                                         id="telefone"
                                         name="usu_telefone"

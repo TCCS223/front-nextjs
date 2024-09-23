@@ -1,7 +1,6 @@
 'use client';
 import React from "react";
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 
 import styles from "./page.module.css";
@@ -9,13 +8,11 @@ import CadCliente from "./cadcliente/page";
 import Veiculos from "./veiculos/page";
 import Servicos from "./servicos/page";
 import FullCalendar from "./agenda/page";
-// import Localizar2 from "./components/modais/modais_clientes/modal_localizar";
-// import img from '../../public/logo.png'
 
 
 export default function Home() {
 
-    const [modalOpen, setModalOpen] = useState(false); // Estado para controlar a exibição do modal
+    
     const [tela, setTela] = useState(0);
 
     const teste = () => {
@@ -25,15 +22,10 @@ export default function Home() {
     return (
         <div className={styles.grid_container}>
             <div className={styles.header}>
-                <h1 className={styles.title}>Painel Administrativo da Mecânica</h1>
+                <h1 className={styles.title}>Painel Administrativo</h1>
+            
+                <Link href="/" className={styles.linkPower}><span className={styles.power} title="Sair"></span></Link>
                 
-                {/* <span className={styles.power} onClick={teste}><Link href="/"></Link></span> */}
-                <Link href="/" className={styles.linkPower}><span className={styles.power} ></span></Link>
-                
-                
-                {/* <div className={styles.button_logout}>
-                <button onClick={() => setModalOpen(true)}>Logout</button>
-                </div> */}
             </div>
             <div className={styles.sidebar}>
                 <button data-target="#clientes" onClick={() => setTela(1)}>Clientes</button>

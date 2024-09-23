@@ -1,235 +1,395 @@
-@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 
 .title_page {
-  padding-left: 20px;
-  color: #ff9d00;
-  border-bottom: 2px solid #ff9d00;
-  padding: 15px;
-  font-size: 22px;
-}
-
-.button_group {
-  padding: 20px;
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  gap: 0 15px;
-}
-
-.button_group button {
-  padding: 10px 20px;
-  margin-top: 10px;
-  background-color: #333;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.3s;
-  grid-column: span 1;
-}
-
-.button_group button:hover {
-  background-color: #ff9d00;
-  color: #222;
-}
-
-.form {
-  margin: 20px 0;
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 30px 15px;
-}
-
-.label_veiculos {
-  display: block;
-  margin-bottom: 8px;
-  color: #333;
-  font-family: "Kanit", sans-serif;
-}
-
-.input_veiculos {
-  width: calc(100% - 20px);
-  padding: 10px;
-  margin-top: 5px;
-  border: 2px solid #8d8c8c;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 18px;
-  background-color: #f9f9f9;
-}
-
-.grid {
-  display: contents;
-}
-
-.grid_item {
-  display: flex;
-  flex-direction: column;
-}
-
-.grid_codigo,
-.grid_categoria,
-.grid_placa,
-.grid_situacao {
-  grid-column: span 2;
-}
-
-.grid_modelo,
-.grid_marca,
-.grid_ano,
-.grid_cor,
-.grid_combustivel,
-.grid_proprietario {
-  grid-column: span 3;
-}
-
-.grid_observacoes {
-  grid-column: span 10;
-}
-
-.input_combustivel,
-.input_cor,
-.input_situacao,
-.input_proprietario,
-.input_modelo {
-  flex: 1;
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.th,
-.td {
-  padding: 12px;
-  border: 1px solid #ddd;
-  text-align: left;
-}
-
-.th {
-  background-color: #333;
-  color: white;
-}
-
-.td {
-  background-color: #fff;
-}
-
-.select_veiculos {
-  width: calc(100% - 20px);
-  padding: 10px;
-  margin-top: 5px;
-  border: 2px solid #8d8c8c;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 18px;
-  background-color: #f9f9f9;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M7 10l5 5 5-5H7z"/></svg>');
-  background-repeat: no-repeat;
-  background-position: right 10px top 50%;
-  cursor: pointer;
-}
-
-.select_veiculos:hover {
-  border-color: #ff9d00;
-}
-
-.select_veiculos:focus, .input_veiculos:focus {
-  border-color: #ff9d00;
-  outline: none;
+    padding-left: 20px;
+    color: #ff9d00;
+    border-bottom: 2px solid #ff9d00;
+    padding: 15px;
+    font-size: 22px;
 }
 
 
 .footer_form {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  gap: 15px;
-  padding: 50px 40px 50px 20px;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 15px;
+    padding: 50px 40px 50px 20px;
 }
 
 .button_submit {
-  padding: 10px 20px;
-  background-color: #ff9d00;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.3s;
-  grid-column: span 1;
-  grid-area: 1 / 8 / 2 / 9;
+    padding: 10px 20px;
+    background-color: #ff9d00;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+    grid-column: span 1;
+    grid-area: 1 / 8 / 2 / 9;
 }
 
 .button_submit:hover {
-  background-color: #f39200;
-  color: #222;
+    background-color: #f39200;
+    color: #222;
 }
 
 .button_cancel {
-  background-color: #333;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.3s;
-  grid-column: span 1;
-  grid-area: 1 / 7 / 2 / 8;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+    grid-column: span 1;
+    grid-area: 1 / 7 / 2 / 8;
 }
 
 .button_cancel:hover {
-  background-color: #ff9d00;
-  color: #222;
+    background-color: #ff9d00;
+    color: #222;
+}
+
+/*--------------------*/
+.contentSearch {
+    padding: 2rem 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.searchBar {
+    display: flex;
+    width: 40%;
+    align-items: center;
+}
+
+.searchInput {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+    border: 3px solid #636262;
+    border-radius: 0.3125rem;
+    box-sizing: border-box;
+    margin-right: 10px;
+    height: auto;
+}
+
+.searchInput:focus {
+    border-color: #ff9d00;
+    outline: none;
+}
+
+.searchButton {
+    flex: 1;
+    max-width: 20%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #ff9d00;
+    border: none;
+    border-radius: 0.3125rem;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    border: 0.15rem solid #f39200;
+}
+
+.searchButton:hover {
+    background-color: #f39200;
+    color: #222;
+}
+
+.filterButtons {
+    display: flex;
+    width: 50%;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+}
+
+.filterGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1;
+    max-width: 25%;
+    position: relative;
+}
+
+.filterGroupTypeUser {
+    visibility: hidden;
+}
+
+.labelFilter {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    color: #333;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.filterSelect {
+    padding: 10px;
+    width: 100%;
+    font-size: 16px;
+    border: 3px solid #636262;
+    border-radius: 0.3125rem;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    box-sizing: border-box;
+    height: auto;
+}
+
+.filterSelect:focus {
+    border-color: #ff9d00;
+    outline: none;
+}
+
+.newButton {
+    flex: 1;
+    max-width: 20%;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 0.3125rem;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    border: 0.15rem solid #218838;
+    height: auto;
+}
+
+.newButton:hover {
+    background-color: #218838;
+    color: #fff;
+}
+
+/*---------------------*/
+.resultTableContainer {
+    display: flex;
+    align-items: start;
+    padding: 0;
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 0.3125rem;
+    min-height: 58hv;
+    height: auto;
+    overflow: auto;
+}
+
+.resultTable {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    color: #222;
+    margin: 0;
+}
+
+.tableHead {
+    background-color: #ff9d00;
+    color: white;
+}
+
+.tableHeader {
+    padding: 0 .5rem;
+    height: 3rem;
+    vertical-align: middle;
+    background-color: #ff9d00;
+    color: #ffffff;
+    font-weight: 500;
+    text-align: left;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.id {
+    width: 5%;
+}
+
+.modelo,
+.marca,
+
+.acao {
+    width: 15%;
+}
+
+.proprietario{
+    width: 15%;
+
+}
+
+.tdProprietario{
+       
+    padding: 0 0.5rem ;
+}
+
+.ano{
+    width: 10%;
+}
+.placa,
+.combustivel,
+.cor {
+    width: 10%;
 }
 
 
-@media only screen and (max-width: 500px) {
-  .form {
-    background-color: #f9f9f9;
-    border-radius: .5rem;
-    grid-template-columns: repeat(4, 1fr);
-  }
+.tableBody {
+    background-color: #f5f5f5;
+}
 
-  .grid_codigo,
-  .grid_categoria,
-  .grid_placa,
-  .grid_situacao,
-  .grid_modelo,
-  .grid_marca,
-  .grid_ano,
-  .grid_cor,
-  .grid_combustivel,
-  .grid_proprietario,
-  .grid_observacoes {
-    grid-column: span 4;
-  }
+.tableBody tr:hover {
+    background-color: #e2e2e2;
+}
 
-  .input_veiculos,
-  .select_veiculos {
+.tableBody td {
+    padding: 0 .5rem;
+    height: 2.5rem;
+    border-bottom: 1px solid #ddd;
+    vertical-align: middle;
+}
+
+.tdId {
+    text-align: center;
+}
+
+.actionIcons {
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+}
+
+.actionIcons svg {
+    cursor: pointer;
+    color: #222222;
+    font-size: 1.2rem;
+}
+
+.actionIcons svg:hover {
+    color: #ff9d00;
+}
+
+.customSelect {
+    position: relative;
+    display: flex;
+    align-items: center;
+
     width: 100%;
-  }
+}
 
-  .footer_form {
-    padding: 20px 20px;
-    grid-template-columns: repeat(2, 1fr);
-  }
+.customSelect select {
+    width: 100%;
+    margin-right: .5rem;
+    padding: 0.5rem 0;
+    border: none;
+    /* border: 1px solid #ccc; */
+    border-radius: 0.3125rem;
+    background-color: white;
+    color: #222;
+    font-size: 1rem;
+    cursor: pointer;
+    font-family: "Kanit", sans-serif;
+}
 
-  .button_submit {
-    grid-area: 1 / 2 / 2 / 3;
-  }
 
-  .button_cancel {
-    grid-area: 1 / 1 / 2 / 2;
-  }
+
+.customSelect select:focus {
+    border-color: #ff9d00;
+    outline: none;
+    /* Remove o contorno padrão ao focar */
+}
+
+.customSelect select option {
+    background-color: white;
+    color: #222;
+}
+
+.customSelect select option:hover {
+    background-color: #ff9d00;
+    /* Cor de fundo ao passar o mouse */
+    color: white;
+    /* Cor do texto ao passar o mouse */
+}
+
+
+/*---------------------*/
+/*---------------------*/
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.pagination button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 0.3125rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+.pagination .buttonPrev {
+    background-color: red;
+}
+
+.pagination button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination span {
+    align-self: center;
+    margin: 0 2rem;
+}
+/*---------------------*/
+
+
+
+@media only screen and (max-width: 500px) {
+    .form {
+        background-color: #f9f9f9;
+        border-radius: .5rem;
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .grid_codigo,
+    .grid_categoria,
+    .grid_placa,
+    .grid_situacao,
+    .grid_modelo,
+    .grid_marca,
+    .grid_ano,
+    .grid_cor,
+    .grid_combustivel,
+    .grid_proprietario,
+    .grid_observacoes {
+        grid-column: span 4;
+    }
+
+    .input_veiculos,
+    .select_veiculos {
+        width: 100%;
+    }
+
+    .footer_form {
+        padding: 20px 20px;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .button_submit {
+        grid-area: 1 / 2 / 2 / 3;
+    }
+
+    .button_cancel {
+        grid-area: 1 / 1 / 2 / 2;
+    }
 }

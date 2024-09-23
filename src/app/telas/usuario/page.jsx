@@ -12,6 +12,8 @@ import styles from "./page.module.css";
 import UsuarioVeiculos from "./UsuarioVeiculos/page";
 import UsuarioDados from "./UsuarioDados/page";
 
+import CadastrarVeiculos from "./CadastrarVeiculo/page";
+
 
 // import Localizar2 from "./components/modais/modais_clientes/modal_localizar";
 // import img from '../../public/logo.png'
@@ -45,7 +47,7 @@ export default function Home() {
                 <h1 className={styles.title}>Painel do Usuário</h1>
 
                 {/* <span className={styles.power} onClick={teste}><Link href="/"></Link></span> */}
-                <Link href="/" className={styles.linkPower}><span className={styles.power} ></span></Link>
+                <Link href="/" className={styles.linkPower}><span className={styles.power}></span></Link>
 
 
                 {/* <div className={styles.button_logout}>
@@ -56,7 +58,7 @@ export default function Home() {
                 <button data-target="#meusdados" onClick={() => setTela(1)}>Meus Dados</button>
                 <button data-target="#meusveiculos" onClick={() => setTela(2)}>Meus Veículos</button>
                 <button data-target="#historico" onClick={() => setTela(4)}>Histórico</button>
-                {/* <button data-target="#agenda" onClick={() => setTela(3)}>Agenda</button> */}
+                {/* <button data-target="#agenda" onClick={() => setTela(3)}>Cadastrar Veiculos</button> */}
                 {/* <button data-target="#historico" onClick={() => setTela(5)}>Histórico</button> */}
             </div>
             <div className={styles.main_content}>
@@ -67,7 +69,7 @@ export default function Home() {
                         : tela === 2 ?
                             <UsuarioVeiculos />
                             : tela === 3 ?
-                                <Servicos />
+                                <CadastrarVeiculos />
                                 : tela === 4 ?
                                     <FullCalendar />
                                     : tela === 5 ?

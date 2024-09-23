@@ -9,14 +9,11 @@ import { useRouter } from 'next/navigation';
 import api from "@/services/api";
 import Swal from "sweetalert2";
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 import styles from "./page.module.css";
 
 export default function LoginUsu() {
-    const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
+    const [email, setEmail] = useState('admin@admin.com');
+    const [senha, setSenha] = useState('admin');
     const [showPassword, setShowPassword] = useState(false);
 
     const router = useRouter();
