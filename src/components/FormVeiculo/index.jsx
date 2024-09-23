@@ -1,15 +1,7 @@
 import React from 'react';
 import styles from './index.module.css';
-import { format } from 'date-fns';
-import { useRef, useState } from 'react';
 
-export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, handleSubmit, Cancelar }) {
-
-
-
-
-
-
+export default function FormVeiculo({ selectedVeic}) {
     return (
         <>
             <form id="veiculoForm" className={styles.form}>
@@ -23,10 +15,9 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                             id="veic_id"
                             name="veic_id"
                             value={selectedVeic ? selectedVeic.veic_id : ''}
-                            onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_id: e.target.value })}
                             disabled
-                            required
                             className={styles.input_veiculos} />
+                        required
                     </div>
 
                     <div className={`${styles.grid_item} ${styles.grid_placa}`}>
@@ -36,178 +27,139 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                             id="veic_placa"
                             name="veic_placa"
                             value={selectedVeic ? selectedVeic.veic_placa : ''}
-                            onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_placa: e.target.value })}
-                            required
                             className={styles.input_veiculos}
-                            placeholder="Letras e números"
+                            required
                         />
                     </div>
 
                     <div className={`${styles.grid_item} ${styles.grid_categoria}`}>
-                        <label htmlFor="categoria_veiculo" className={styles.label_veiculos}>Categoria</label>
+                        <label htmlFor="cat_nome" className={styles.label_veiculos}>Categoria</label>
                         <input
                             type="text"
                             id="cat_nome"
                             name="cat_nome"
                             value={selectedVeic ? selectedVeic.cat_nome : ''}
-                            onChange={(e) => setSelectedVeic({ ...selectedVeic, cat_nome: e.target.value })}
-                            disabled
-                            required
                             className={styles.input_veiculos}
+                            required
                         />
-
                     </div>
-
-
 
                     <div className={`${styles.grid_item} ${styles.grid_marca}`}>
                         <label htmlFor="mar_id" className={styles.label_veiculos}>Marca</label>
                         <input
+                        type='text'
                             id="mar_id"
                             name="mar_id"
                             value={selectedVeic ? selectedVeic.mar_nome : ''}
-                            onChange={(e) => setSelectedVeic({ ...selectedVeic, mar_nome: e.target.value })}
+                            className={styles.input_veiculos}
                             required
-                            className={`${styles.select_veiculos} ${styles.input_proprietario}`} />
-
+                        />
                     </div>
 
                     <div className={`${styles.grid_item} ${styles.grid_modelo}`}>
                         <label htmlFor="mod_id" className={styles.label_veiculos}>Modelo</label>
                         <input
+                        type='text'
                             id="mod_id"
                             name="mod_id"
                             value={selectedVeic ? selectedVeic.mod_nome : ''}
-                            onChange={(e) => setSelectedVeic({ ...selectedVeic, mod_nome: e.target.value })}
+                            className={styles.input_veiculos}
                             required
-                            className={`${styles.select_veiculos} ${styles.input_modelo}`} />
-
-
-                        {/* <input type="text" id="modelo_veiculo" name="modelo_veiculo" required className={styles.input_veiculos} /> */}
+                        />
                     </div>
 
                     <div className={`${styles.grid_item} ${styles.grid_ano}`}>
                         <label htmlFor="veic_ano" className={styles.label_veiculos}>Ano</label>
                         <input
-                            type="number"
+                            type="text"
                             id="veic_ano"
                             name="veic_ano"
                             value={selectedVeic ? selectedVeic.veic_ano : ''}
-                            onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_ano: e.target.value })}
+                            className={styles.input_veiculos}
                             required
-                            className={styles.input_veiculos} />
+                        />
                     </div>
+
                     <div className={`${styles.grid_item} ${styles.grid_cor}`}>
                         <label htmlFor="veic_cor" className={styles.label_veiculos}>Cor</label>
-                        <select
-                            id="veic_cor"
+                        <input
+                            type="text"
+                            id="veic_ano"
                             name="veic_cor"
                             value={selectedVeic ? selectedVeic.veic_cor : ''}
-                            onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_cor: e.target.value })}
+                            className={styles.input_veiculos}
                             required
-                            className={`${styles.select_veiculos} ${styles.input_cor}`}
-                            defaultValue="">
-                            <option value="" disabled selected>Selecionar</option>
-                            <option value="Amarelo">Amarelo</option>
-                            <option value="Azul">Azul</option>
-                            <option value="Bege">Bege</option>
-                            <option value="Branco">Branco</option>
-                            <option value="Cinza">Cinza</option>
-                            <option value="Dourado">Dourado</option>
-                            <option value="Laranja">Laranja</option>
-                            <option value="Marrom">Marrom</option>
-                            <option value="Preto">Preto</option>
-                            <option value="Prata">Prata</option>
-                            <option value="Rosa">Rosa</option>
-                            <option value="Roxo">Roxo</option>
-                            <option value="Verde">Verde</option>
-                            <option value="Vermelho">Vermelho</option>
-                            <option value="Vinho">Vinho</option>
-                            <option value="Personalizado">Personalizado</option>
-                        </select>
+                        />
                     </div>
 
                     <div className={`${styles.grid_item} ${styles.grid_combustivel}`}>
-                        <label htmlFor="combustivel_veiculo" className={styles.label_veiculos}>Combustível</label>
-                        <select
-                            id="combustivel_veiculo"
-                            name="combustivel_veiculo"
+                        <label htmlFor="veic_combustivel" className={styles.label_veiculos}>Combustível</label>
+                        <input
+                            type="text"
+                            id="veic_combustivel"
+                            name="veic_combustivel"
                             value={selectedVeic ? selectedVeic.veic_combustivel : ''}
-                            onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_combustivel: e.target.value })}
+                            className={styles.input_veiculos}
                             required
-                            className={`${styles.select_veiculos} ${styles.input_combustivel}`}>
-                            <option value="" disabled selected>Selecionar</option>
-                            <option value="gasolina">Gasolina</option>
-                            <option value="alcool">Álcool</option>
-                            <option value="diesel">Diesel</option>
-                            <option value="flex">Flex</option>
-                            <option value="gnv">GNV (Gás Natural Veicular)</option>
-                            <option value="eletrico">Elétrico</option>
-                            <option value="hibrido">Híbrido</option>
-                        </select>
+                        />
                     </div>
-
-
-
-
 
                     {selectedVeic.num_proprietarios > 1 ? (
                         <div className={`${styles.grid_item} ${styles.grid_proprietario}`}>
-                            <label htmlFor="proprietario_veiculo" className={styles.label_veiculos}>Proprietário(s)</label>
+                            <label htmlFor="proprietarios" className={styles.label_veiculos}>
+                                Proprietário(s)
+                                <span className={styles.numProprietarios}>
+                                    (+{selectedVeic.num_proprietarios - 1})
+                                </span>
+                            </label>
                             <select
-                                id="nivel_acesso"
-                                name="nivel_acesso"
-                                value={selectedVeic ? selectedVeic.ehproprietario : ''}
-                                onChange={(e) => setSelectedVeic({ ...selectedVeic, ehproprietario: e.target.value })}
+                                id="proprietarios"
+                                name="proprietarios"
+                                value={selectedVeic ? selectedVeic.proprietario : ''}
                                 className={`${styles.select_veiculos} ${styles.input_proprietario}`}>
                                 <option value="" disabled>Selecionar Proprietário</option>
                                 {selectedVeic.proprietarios.split(', ').map((proprietario, index) => (
                                     <option key={index} value={proprietario}>{proprietario}</option>
                                 ))}
                             </select>
-                            {/* <span> (+{selectedVeic.num_proprietarios - 1})</span> */}
                         </div>
-                    ) : (<>
-
+                    ) : (
                         <div className={`${styles.grid_item} ${styles.grid_proprietario}`}>
-                            <label htmlFor="proprietario_veiculo" className={styles.label_veiculos}>Proprietário(s)</label>
+                            <label htmlFor="proprietarios" className={styles.label_veiculos}>Proprietário(s)</label>
                             <input
                                 type="text"
-                                id="veic_ano"
-                                name="proprietario_veiculo"
+                                id="proprietarios"
+                                name="proprietarios"
                                 value={selectedVeic ? selectedVeic.proprietarios : ''}
+                                className={styles.input_veiculos}
                                 required
-                                className={styles.input_veiculos} />
+                            />
                         </div>
-                    </>
                     )}
 
-
                     <div className={`${styles.grid_item} ${styles.grid_observacoes} ${styles.grid_item_observacoes}`}>
-                        <label htmlFor="observacoes_veiculo" className={styles.label_veiculos}>Observações</label>
+                        <label htmlFor="veic_observ" className={styles.label_veiculos}>Observações</label>
                         <input
                             type="text"
-                            id="observacoes_veiculo"
-                            name="observacoes_veiculo"
+                            id="veic_observ"
+                            name="veic_observ"
                             value={selectedVeic ? selectedVeic.veic_observ : ''}
-                            onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_observ: e.target.value })}
+                            className={styles.input_veiculos}
                             required
-                            className={styles.input_veiculos} />
+                        />
                     </div>
 
                     <div className={`${styles.grid_item} ${styles.grid_situacao}`}>
-                        <label for="situacao_veiculo" className={styles.label_veiculos}>Situação</label>
-                        <select
-                            id="situacao_veiculo"
-                            name="situacao_veiculo"
-                            value={selectedVeic ? selectedVeic.veic_situacao : ''}
-                            onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_situacao: e.target.value })}
-                            className={`${styles.select_veiculos} ${styles.input_situacao}`}>
-                            <option value="ativo" className={styles.option} selected>Ativo</option>
-                            <option value="inativo" className={styles.option}>Inativo</option>
-                        </select>
+                        <label htmlFor="veic_situacao" className={styles.label_veiculos}>Situação</label>
+                        <input
+                            type="text"
+                            id="veic_situacao"
+                            name="veic_situacao"
+                            value={selectedVeic ? (selectedVeic.veic_situacao == 1 ? 'Ativo' : 'Inativo') : ''}
+                            className={styles.input_veiculos}
+                            required
+                        />
                     </div>
-
                 </div>
             </form>
 
