@@ -9,7 +9,7 @@ export default function FormServicos({ selectedServicos, setSelectedServicos, is
             <form id="servicoForm" className={styles.form}>
 
 
-                <input type="hidden" id="clienteId" value={selectedServicos ? selectedServicos.serv_id : ''} className={styles.input_cliente} />
+                <input type="hidden" id="clienteId" value={selectedServicos ? selectedServicos.serv_id : ''} className={styles.input_servicos} />
 
                 <div className={styles.grid}>
                     <div className={`${styles.grid_item} ${styles.grid_codigo}`}>
@@ -19,7 +19,7 @@ export default function FormServicos({ selectedServicos, setSelectedServicos, is
                             name="serv_id"
                             id="serv_id"
                             value={selectedServicos ? selectedServicos.serv_id : ''}
-                            className={styles.input_cliente}
+                            className={styles.input_servicos}
                         />
                     </div>
 
@@ -30,7 +30,7 @@ export default function FormServicos({ selectedServicos, setSelectedServicos, is
                             name="cat_serv_nome"
                             id="cat_serv_nome"
                             value={selectedServicos ? selectedServicos.cat_serv_nome : ''}
-                            className={styles.input_cliente}
+                            className={styles.input_servicos}
                         />
                     </div>
 
@@ -41,7 +41,7 @@ export default function FormServicos({ selectedServicos, setSelectedServicos, is
                             name="serv_nome"
                             id="serv_nome"
                             value={selectedServicos ? selectedServicos.serv_nome : ''}
-                            className={styles.input_cliente}
+                            className={styles.input_servicos}
                         />
                     </div>
 
@@ -52,28 +52,48 @@ export default function FormServicos({ selectedServicos, setSelectedServicos, is
                             name="serv_duracao"
                             id="serv_duracao"
                             value={selectedServicos ? selectedServicos.serv_duracao : ''}
-                            className={styles.input_cliente}
+                            className={styles.input_servicos}
                         />
                     </div>
                     <div className={`${styles.grid_item} ${styles.grid_preco}`}>
-                        <label htmlFor="preco_servico" className={styles.label_servicos}>Preço</label>
-                        <input type="number" id="preco_servico" name="preco_servico" required className={styles.input_servicos} />
+                        <label htmlFor="serv_preco" className={styles.label_servicos}>Preço</label>
+                        <input
+                            type="text"
+                            name="serv_preco"
+                            id="serv_preco"
+                            value={selectedServicos ? selectedServicos.serv_preco : ''}
+                            className={styles.input_servicos}
+                        />
                     </div>
                     <div className={`${styles.grid_item} ${styles.grid_descricao} ${styles.grid_item_descricao}`}>
-                        <label htmlFor="descricao_servico" className={styles.label_servicos}>Descrição</label>
-                        <input type="text" id="descricao_servico" name="descricao_servico" required className={styles.input_servicos} />
+                        <label htmlFor="serv_descricao" className={styles.label_servicos}>Descrição</label>
+                        <input
+                            type="text"
+                            name="serv_descricao"
+                            id="serv_descricao"
+                            value={selectedServicos ? selectedServicos.serv_descricao : ''}
+                            className={styles.input_servicos}
+                        />
                     </div>
                     <div className={`${styles.grid_item} ${styles.grid_observacoes} ${styles.grid_item_observacoes}`}>
                         <label htmlFor="observacoes_servico" className={styles.label_servicos}>Observações</label>
-                        <input type="text" id="observacoes_servico" name="observacoes_servico" required className={styles.input_servicos} />
+                        <input
+                            type="text"
+                            name="serv_descricao"
+                            id="serv_descricao"
+                            value={selectedServicos ? selectedServicos.serv_observ : ''}
+                            className={styles.input_servicos}
+                        />
                     </div>
                     <div className={`${styles.grid_item} ${styles.grid_situacao}`}>
-                        <label for="situacao_servico" className={styles.label_servicos}>Situação</label>
-                        <select id="situacao_servico" name="situacao_servico"
-                            className={`${styles.select_servicos} ${styles.input_situacao}`}>
-                            <option value="ativo" className={styles.option} selected>Ativo</option>
-                            <option value="inativo" className={styles.option}>Inativo</option>
-                        </select>
+                        <label for="serv_situacao" className={styles.label_servicos}>Situação</label>
+                        <input
+                            type="text"
+                            name="serv_situacao"
+                            id="serv_situacao"
+                            value={selectedServicos ? ( selectedServicos.serv_situacao ? 'Ativo' : 'Inativo' ) : ''}
+                            className={styles.input_servicos}
+                        />
                     </div>
                 </div>
             </form>
