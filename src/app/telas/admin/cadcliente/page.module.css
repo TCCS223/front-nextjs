@@ -61,7 +61,7 @@
     font-size: 1em;
     transition: background-color 0.3s;
     grid-column: span 1;
-    grid-area: 1 / 8 / 2 / 9;
+    grid-area: 1 / 1 / 2 / 1;
 }
 
 .button_exit:hover {
@@ -418,7 +418,7 @@
     }
 
     .button_exit {
-        grid-area: 1 / 5 / 2 / 6;
+        grid-area: 1 / 1 / 2 / 1;
     }
 
 }
@@ -473,7 +473,7 @@
     }
 
     .button_exit {
-        grid-area: 1 / 4 / 2 / 5;
+        grid-area: 1 / 1 / 2 / 1;
     }
 }
 
@@ -531,19 +531,19 @@
 
     .footer_form {
         padding: 20px 20px;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
 
     .button_submit {
-        grid-area: 1 / 2 / 2 / 3;
+        grid-area: 1 / 3 / 2 / 3;
     }
 
     .button_cancel {
-        grid-area: 1 / 1 / 2 / 2;
+        grid-area: 1 / 2 / 2 / 2;
     }
 
     .button_exit {
-        grid-area: 1 / 2 / 2 / 3;
+        grid-area: 1 / 1 / 2 / 1;
     }
 
 }

@@ -36,7 +36,7 @@ export default function Servicos() {
 
     useEffect(() => {
         handleSearch(); // Chama o filtro sempre que o status for alterado
-    }, [statusFilter]);
+    }, [searchText, statusFilter]);
 
     const ListarServicos = async () => {
         try {

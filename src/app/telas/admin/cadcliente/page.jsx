@@ -70,8 +70,10 @@ export default function CadCliente() {
         setCurrentPage(1);
     };
     
-    
     const handleSearch = () => {
+        setSortedColumn(null);
+        setIsAsc(true);
+
         const result = filteredUsers.filter(usuario => {
             return usuario.usu_nome.toLowerCase().includes(searchText.toLowerCase()) ||
                 usuario.usu_email.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -171,6 +173,10 @@ export default function CadCliente() {
                 }
             }
         });
+    };
+
+    const handleExit = async (data) => {
+        ListarUsuarios();
     };
 
     const Cancelar = () => {
@@ -358,6 +364,7 @@ export default function CadCliente() {
                 <div className={styles.footer_form}>
                     <button type="reset" onClick={Cancelar} className={styles.button_cancel}>Cancelar</button>
                     <button type="button" className={styles.button_submit} onClick={handleSubmit} disabled={isViewing}>Salvar</button>
+                    <button type="exit" className={styles.button_exit} onClick={handleExit}>Voltar</button>
                 </div>
             </>
             )}
