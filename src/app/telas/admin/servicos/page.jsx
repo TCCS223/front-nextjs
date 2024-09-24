@@ -6,7 +6,6 @@ import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 import { IoMdTrash } from "react-icons/io";
 import api from '@/services/api';
 import Swal from 'sweetalert2';
-
 import FormServicos from '@/components/FormServicos';
 
 export default function Servicos() {
@@ -18,9 +17,10 @@ export default function Servicos() {
     const [showForm, setShowForm] = useState(false);
     const [filteredServicos, setFilteredServicos] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [sortedColumn, setSortedColumn] = useState(null);
+    const [isAsc, setIsAsc] = useState(true);
+
     const usersPerPage = 15;
-
-
 
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
@@ -49,9 +49,21 @@ export default function Servicos() {
         }
     };
 
+    // Função para ordenar a tabela
+    const sortByColumn = (column) => {
+        const sortedData = [...filteredServicos].sort((a, b) => {
+            if (a[column] < b[column]) return isAsc ? -1 : 1;
+            if (a[column] > b[column]) return isAsc ? 1 : -1;
+            return 0;
+        });
+        setFilteredServicos(sortedData);
+        setIsAsc(sortedColumn === column ? !isAsc : true); // Alterna a direção da ordenação
+        setSortedColumn(column); // Define a coluna que está sendo ordenada
+    };
+
     const handleSubmit = async (data) => {
         try {
-            const response = await api.patch(`/servicos/${data.usu_id}`, data); // Use o ID do serviço selecionado
+            const response = await api.patch(`/servicos/${data.usu_id}`, data);
             Swal.fire({
                 title: 'Sucesso!',
                 text: response.data.mensagem,
@@ -59,7 +71,7 @@ export default function Servicos() {
             });
             ListarServicos();
             setShowForm(false);
-            setSelectedServico(null); // Limpa a seleção após o sucesso
+            setSelectedServico(null);
         } catch (error) {
             console.error("Erro ao atualizar:", error);
             Swal.fire({
@@ -93,11 +105,11 @@ export default function Servicos() {
                     confirmButtonColor: "rgb(40, 167, 69)",
                 }).then(() => {
                     setShowForm(false);
-                    setSelectedServico(null); // Mostrar a tabela novamente após confirmação
+                    setSelectedServico(null);
                 });
             }
         });
-    }
+    };
 
     const handleEditServicos = (servicos) => {
         setSelectedServico(servicos);
@@ -108,10 +120,8 @@ export default function Servicos() {
     const handleViewServicos = async (servicos) => {
         try {
             const response = await api.get(`/servicos/${servicos.serv_id}`);
-            
             if (response.data.sucesso) {
-                console.log(response.data.dados);
-                setSelectedServico(response.data.dados); // Ajuste aqui se necessário
+                setSelectedServico(response.data.dados);
                 setShowForm(true);
                 setIsViewing(true);
             } else {
@@ -119,10 +129,6 @@ export default function Servicos() {
             }
         } catch (error) {
             console.error("Erro ao visualizar serviço:", error);
-            if (error.response) {
-                console.error("Dados do erro:", error.response.data);
-                console.error("Status do erro:", error.response.status);
-            }
             Swal.fire({
                 title: "Erro!",
                 text: error.response ? error.response.data.mensagem : 'Erro desconhecido ao buscar serviço.',
@@ -133,24 +139,16 @@ export default function Servicos() {
 
     const handleSearch = () => {
         const result = servicos.filter((servico) => {
-            // Filtra os serviços pelo status
             const statusMatch = statusFilter === 'todos' || servico.situacao === statusFilter;
-
-            // Filtra os serviços pelo texto de pesquisa
             const searchTextMatch = searchText === '' ||
                 servico.serv_nome.toLowerCase().includes(searchText.toLowerCase()) ||
                 servico.cat_serv_nome.toLowerCase().includes(searchText.toLowerCase());
-
-            // Retorna apenas os serviços que correspondem aos dois critérios
             return statusMatch && searchTextMatch;
         });
 
-        // Atualiza a lista de serviços filtrados e reseta a página atual
         setFilteredServicos(result);
         setCurrentPage(1);
     };
-
-
 
     return (
         <div id="servicos" className={`${styles.content_section}`}>
@@ -193,12 +191,21 @@ export default function Servicos() {
                         <table className={styles.resultTable}>
                             <thead className={styles.tableHead}>
                                 <tr>
-                                    <th className={`${styles.tableHeader} ${styles.id}`}>Código</th>
-                                    <th className={`${styles.tableHeader} ${styles.nome}`}>Nome do Serviço</th>
-                                    <th className={`${styles.tableHeader} ${styles.categoria}`}>Categoria</th>
-                                    <th className={`${styles.tableHeader} ${styles.duracao}`}>Duração</th>
-                                    <th className={`${styles.tableHeader} ${styles.preco}`}>Preço</th>
-                                    {/* <th className={`${styles.tableHeader} ${styles.situacao}`}>Situação</th> */}
+                                    <th className={`${styles.tableHeader} ${styles.id}`} onClick={() => sortByColumn('serv_id')}>
+                                        Código {sortedColumn === 'serv_id' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.nome}`} onClick={() => sortByColumn('serv_nome')}>
+                                        Nome do Serviço {sortedColumn === 'serv_nome' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.categoria}`} onClick={() => sortByColumn('cat_serv_nome')}>
+                                        Categoria {sortedColumn === 'cat_serv_nome' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.duracao}`} onClick={() => sortByColumn('serv_duracao')}>
+                                        Duração {sortedColumn === 'serv_duracao' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.preco}`} onClick={() => sortByColumn('serv_preco')}>
+                                        Preço {sortedColumn === 'serv_preco' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
                                     <th className={`${styles.tableHeader} ${styles.acao}`}>Ações</th>
                                 </tr>
                             </thead>
@@ -207,23 +214,22 @@ export default function Servicos() {
                                     currentServicos.map((servicos) => (
                                         <tr key={servicos.serv_id}>
                                             <td className={styles.tdId}>{servicos.serv_id}</td>
-                                            <td>{servicos.serv_nome}</td>
-                                            <td>{servicos.cat_serv_nome}</td>
-                                            <td>{servicos.serv_duracao}</td>
-                                            <td>R$ {servicos.serv_preco}</td>
-                                            {/* <td>{servicos.serv_situacao}</td> */}
+                                            <td className={styles.tdNome}>{servicos.serv_nome}</td>
+                                            <td className={styles.tdCategoria}>{servicos.cat_serv_nome}</td>
+                                            <td className={styles.tdDuracao}>{servicos.serv_duracao}</td>
+                                            <td className={styles.tdPreco}>R${Number(servicos.serv_preco).toFixed(2)}</td>
                                             <td>
-                                                <div className={styles.actionIcons}>
+                                            <div className={styles.actionIcons}>
                                                     <i><MdRemoveRedEye title="Visualizar" onClick={() => handleViewServicos(servicos)} /></i>
                                                     <i><MdEdit title="Editar" onClick={() => handleEditServicos(servicos)} /></i>
                                                     <i><IoMdTrash title="Excluir" onClick={() => handleDeleteUser(servicos.serv_id)} /></i>
-                                                </div>
+                                            </div>
                                             </td>
                                         </tr>
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan="8">Nenhum serviço encontrado</td>
+                                        <td colSpan="6" className={styles.noResults}>Nenhum serviço encontrado.</td>
                                     </tr>
                                 )}
                             </tbody>
@@ -249,8 +255,6 @@ export default function Servicos() {
             ) : (<>
 
 
-                {/* <ConsultaServico isOpen={isModalOpen} onClose={closeModal} /> */}
-
                 <FormServicos
                     selectedServicos={selectedServico}
                     selectedServico={selectedServico}
@@ -264,7 +268,8 @@ export default function Servicos() {
                     <button type="button" className={styles.button_submit} onClick={handleSubmit} disabled={isViewing}>Salvar</button>
                 </div>
             </>
-            )}
+            )
+            }
         </div>
     );
 }

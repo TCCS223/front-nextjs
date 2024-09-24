@@ -1,12 +1,9 @@
 import styles from './page.module.css';
 import { useState, useEffect } from 'react';
-
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 import { IoMdTrash } from "react-icons/io";
 import { format } from 'date-fns';
 import Swal from 'sweetalert2';
-
-// import ConsultaVeiculo from '@/components/modais/modais_clientes';
 import FormVeiculo from '@/components/FormVeiculo';
 
 import api from '@/services/api';
@@ -31,38 +28,28 @@ export default function Veiculos() {
         setFilteredVeiculos(veiculos);
     }, [veiculos]);
 
-    // Função de busca e filtro por status
     const handleSearch = () => {
         const result = veiculos.filter((veiculo) => {
             const statusMatch = statusFilter === 'todos' || veiculo.veic_situacao === statusFilter;
-    
+
             const searchTextMatch = searchText === '' ||
                 (veiculo.veic_placa?.toLowerCase().includes(searchText.toLowerCase())) ||
-                (veiculo.modelo?.toLowerCase().includes(searchText.toLowerCase())) || // Filtra por modelo
-                (veiculo.marca?.toLowerCase().includes(searchText.toLowerCase())); // Filtra por marca
-    
+                (veiculo.modelo?.toLowerCase().includes(searchText.toLowerCase())) ||
+                (veiculo.marca?.toLowerCase().includes(searchText.toLowerCase()));
             return statusMatch && searchTextMatch;
         });
-    
+
         setFilteredVeiculos(result);
-        setCurrentPage(1); // Reseta a página para 1
+        setCurrentPage(1);
     };
-    
 
-
-    // const handleViewVeic = (usuario) => {
-    //     setSelectedVeic(usuario);
-    //     setShowForm(true);
-    //     setIsViewing(true);
-    // };
     const handleViewVeic = async (veiculo) => {
         try {
             const response = await api.get(`/veiculos/${veiculo.veic_id}`);
-            
-            // Acessando a estrutura correta da resposta
+
             if (response.data.sucesso) {
                 console.log(response.data.dados);
-                setSelectedVeic(response.data.dados); // Ajuste aqui se necessário
+                setSelectedVeic(response.data.dados);
                 setShowForm(true);
                 setIsViewing(true);
             } else {
@@ -81,10 +68,8 @@ export default function Veiculos() {
             });
         }
     };
-    
+
     console.log(selectedVeic);
-    
-    
 
     const handleEditVeic = (usuario) => {
         setSelectedVeic(usuario);
@@ -149,7 +134,7 @@ export default function Veiculos() {
                     confirmButtonColor: "rgb(40, 167, 69)",
                 }).then(() => {
                     setShowForm(false);
-                    setSelectedVeic(null); // Mostrar a tabela novamente após confirmação
+                    setSelectedVeic(null);
                 });
             }
         });
@@ -295,7 +280,6 @@ export default function Veiculos() {
             </>
             )}
         </div>
-
 
     );
 }
