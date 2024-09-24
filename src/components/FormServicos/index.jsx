@@ -47,7 +47,7 @@ export default function FormServicos({ selectedServicos, setSelectedServicos, is
                             value={selectedServicos ? selectedServicos.serv_nome : ''}
                             onChange={(e) => setSelectedServicos({ ...selectedServicos, serv_nome: e.target.value })}
                             className={styles.input_servicos}
-                            readOnly
+                            disabled={isViewing}
                         />
                     </div>
 
@@ -60,7 +60,7 @@ export default function FormServicos({ selectedServicos, setSelectedServicos, is
                             value={selectedServicos ? selectedServicos.serv_duracao : ''}
                             onChange={(e) => setSelectedServicos({ ...selectedServicos, serv_duracao: e.target.value })}
                             className={styles.input_servicos}
-                            readOnly
+                            disabled={isViewing}
                         />
                     </div>
                     <div className={`${styles.grid_item} ${styles.grid_preco}`}>
@@ -72,7 +72,7 @@ export default function FormServicos({ selectedServicos, setSelectedServicos, is
                             value={selectedServicos ? selectedServicos.serv_preco : ''}
                             onChange={(e) => setSelectedServicos({ ...selectedServicos, serv_preco: e.target.value })}
                             className={styles.input_servicos}
-                            readOnly
+                            disabled={isViewing}
                         />
                     </div>
                     <div className={`${styles.grid_item} ${styles.grid_descricao} ${styles.grid_item_descricao}`}>
@@ -84,20 +84,21 @@ export default function FormServicos({ selectedServicos, setSelectedServicos, is
                             value={selectedServicos ? selectedServicos.serv_descricao : ''}
                             onChange={(e) => setSelectedServicos({ ...selectedServicos, serv_descricao: e.target.value })}
                             className={styles.input_servicos}
-                            readOnly
+                            disabled={isViewing}
                         />
                     </div>
-                    <div className={`${styles.grid_item} ${styles.grid_observacoes} ${styles.grid_item_observacoes}`}>
-                        <label htmlFor="observacoes_servico" className={styles.label_servicos}>Observações</label>
+                    {/* <div className={`${styles.grid_item} ${styles.grid_observacoes} ${styles.grid_item_observacoes}`}>
+                        <label htmlFor="observacoes_servico" className={styles.label_servicos}>Descrição</label>
                         <input
                             type="text"
                             name="serv_descricao"
                             id="serv_descricao"
-                            value={selectedServicos ? selectedServicos.serv_observ : ''}
+                            value={selectedServicos ? selectedServicos.serv_descricao : ''}
+                            onChange={(e) => setSelectedServicos({ ...selectedServicos, serv_descricao: e.target.value })}
                             className={styles.input_servicos}
                             readOnly
                         />
-                    </div>
+                    </div> */}
                     <div className={`${styles.grid_item} ${styles.grid_situacao}`}>
                         <label htmlFor="serv_situacao" className={styles.label_servicos}>Situação</label>
                         <input
@@ -105,8 +106,9 @@ export default function FormServicos({ selectedServicos, setSelectedServicos, is
                             name="serv_situacao"
                             id="serv_situacao"
                             value={selectedServicos ? ( selectedServicos.serv_situacao ? 'Ativo' : 'Inativo' ) : ''}
+                            onChange={(e) => setSelectedServicos({ ...selectedServicos, serv_situacao: e.target.value })}
                             className={styles.input_servicos}
-                            readOnly
+                            disabled={isViewing}
                         />
                     </div>
                 </div>

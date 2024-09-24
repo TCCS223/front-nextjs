@@ -34,13 +34,20 @@ export default function Veiculos() {
     // Função de busca e filtro por status
     const handleSearch = () => {
         const result = veiculos.filter((veiculo) => {
-            const statusMatch = statusFilter === 'todos' || veiculo.situacao === statusFilter;
-            return statusMatch;
+            const statusMatch = statusFilter === 'todos' || veiculo.veic_situacao === statusFilter;
+    
+            const searchTextMatch = searchText === '' ||
+                (veiculo.veic_placa?.toLowerCase().includes(searchText.toLowerCase())) ||
+                (veiculo.modelo?.toLowerCase().includes(searchText.toLowerCase())) || // Filtra por modelo
+                (veiculo.marca?.toLowerCase().includes(searchText.toLowerCase())); // Filtra por marca
+    
+            return statusMatch && searchTextMatch;
         });
-
+    
         setFilteredVeiculos(result);
         setCurrentPage(1); // Reseta a página para 1
     };
+    
 
 
     // const handleViewVeic = (usuario) => {
