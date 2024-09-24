@@ -51,16 +51,6 @@ export default function Home() {
                 }
             </div>
 
-            {/* <div className={styles.logo}>
-            <Image
-              src={'logo.png'}
-              width={190}
-              height={45}
-              alt={"logo"}
-              unoptimized={true}
-            />
-            </div> */}
-
         </div>
     )
 }

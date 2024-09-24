@@ -1,10 +1,9 @@
 import React from 'react';
 import styles from './index.module.css';
 import { format } from 'date-fns';
-import { useRef } from 'react';
 
-export default function FormCliente ({ selectedUser, setSelectedUser, isViewing, handleSubmit, Cancelar }) {
-    // const selectSexo = useRef(null);
+export default function FormCliente ({ selectedUser, setSelectedUser, isViewing, handleSubmit }) {
+
 
             return (
                 <form id="clienteForm" className={styles.form} onSubmit={handleSubmit}>

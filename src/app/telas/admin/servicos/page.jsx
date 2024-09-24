@@ -49,12 +49,9 @@ export default function Servicos() {
         }
     };
 
-    console.log(servicos);
-
-
     const handleSubmit = async (data) => {
         try {
-            const response = await api.patch(`/servicos/${data.usu_id}`, data);
+            const response = await api.patch(`/servicos/${data.usu_id}`, data); // Use o ID do serviço selecionado
             Swal.fire({
                 title: 'Sucesso!',
                 text: response.data.mensagem,
@@ -62,6 +59,7 @@ export default function Servicos() {
             });
             ListarServicos();
             setShowForm(false);
+            setSelectedServico(null); // Limpa a seleção após o sucesso
         } catch (error) {
             console.error("Erro ao atualizar:", error);
             Swal.fire({
@@ -255,7 +253,7 @@ export default function Servicos() {
 
                 <FormServicos
                     selectedServicos={selectedServico}
-                    setSelectedServicos={setSelectedServico}
+                    selectedServico={selectedServico}
                     isViewing={isViewing}
                     handleSubmit={handleSubmit}
                     Cancelar={Cancelar}

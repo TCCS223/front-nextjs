@@ -19,7 +19,9 @@ export default function FormServicos({ selectedServicos, setSelectedServicos, is
                             name="serv_id"
                             id="serv_id"
                             value={selectedServicos ? selectedServicos.serv_id : ''}
+                            onChange={(e) => setSelectedServicos({ ...selectedServicos, serv_id: e.target.value })}
                             className={styles.input_servicos}
+                            readOnly
                         />
                     </div>
 
@@ -30,7 +32,9 @@ export default function FormServicos({ selectedServicos, setSelectedServicos, is
                             name="cat_serv_nome"
                             id="cat_serv_nome"
                             value={selectedServicos ? selectedServicos.cat_serv_nome : ''}
+                            onChange={(e) => setSelectedServicos({ ...selectedServicos, cat_serv_nome: e.target.value })}
                             className={styles.input_servicos}
+                            readOnly
                         />
                     </div>
 
@@ -41,7 +45,9 @@ export default function FormServicos({ selectedServicos, setSelectedServicos, is
                             name="serv_nome"
                             id="serv_nome"
                             value={selectedServicos ? selectedServicos.serv_nome : ''}
+                            onChange={(e) => setSelectedServicos({ ...selectedServicos, serv_nome: e.target.value })}
                             className={styles.input_servicos}
+                            readOnly
                         />
                     </div>
 
@@ -52,7 +58,9 @@ export default function FormServicos({ selectedServicos, setSelectedServicos, is
                             name="serv_duracao"
                             id="serv_duracao"
                             value={selectedServicos ? selectedServicos.serv_duracao : ''}
+                            onChange={(e) => setSelectedServicos({ ...selectedServicos, serv_duracao: e.target.value })}
                             className={styles.input_servicos}
+                            readOnly
                         />
                     </div>
                     <div className={`${styles.grid_item} ${styles.grid_preco}`}>
@@ -62,7 +70,9 @@ export default function FormServicos({ selectedServicos, setSelectedServicos, is
                             name="serv_preco"
                             id="serv_preco"
                             value={selectedServicos ? selectedServicos.serv_preco : ''}
+                            onChange={(e) => setSelectedServicos({ ...selectedServicos, serv_preco: e.target.value })}
                             className={styles.input_servicos}
+                            readOnly
                         />
                     </div>
                     <div className={`${styles.grid_item} ${styles.grid_descricao} ${styles.grid_item_descricao}`}>
@@ -72,7 +82,9 @@ export default function FormServicos({ selectedServicos, setSelectedServicos, is
                             name="serv_descricao"
                             id="serv_descricao"
                             value={selectedServicos ? selectedServicos.serv_descricao : ''}
+                            onChange={(e) => setSelectedServicos({ ...selectedServicos, serv_descricao: e.target.value })}
                             className={styles.input_servicos}
+                            readOnly
                         />
                     </div>
                     <div className={`${styles.grid_item} ${styles.grid_observacoes} ${styles.grid_item_observacoes}`}>
@@ -83,16 +95,18 @@ export default function FormServicos({ selectedServicos, setSelectedServicos, is
                             id="serv_descricao"
                             value={selectedServicos ? selectedServicos.serv_observ : ''}
                             className={styles.input_servicos}
+                            readOnly
                         />
                     </div>
                     <div className={`${styles.grid_item} ${styles.grid_situacao}`}>
-                        <label for="serv_situacao" className={styles.label_servicos}>Situação</label>
+                        <label htmlFor="serv_situacao" className={styles.label_servicos}>Situação</label>
                         <input
                             type="text"
                             name="serv_situacao"
                             id="serv_situacao"
                             value={selectedServicos ? ( selectedServicos.serv_situacao ? 'Ativo' : 'Inativo' ) : ''}
                             className={styles.input_servicos}
+                            readOnly
                         />
                     </div>
                 </div>
