@@ -91,14 +91,21 @@ export default function Servicos() {
 
 
     const sortByColumn = (column) => {
+        let newIsAsc = true; // Define ascendente por padrão
+    
+        if (sortedColumn === column) {
+            newIsAsc = !isAsc; // Se a mesma coluna for clicada, inverte a direção
+        }
+    
         const sortedData = [...filteredServicos].sort((a, b) => {
-            if (a[column] < b[column]) return isAsc ? -1 : 1;
-            if (a[column] > b[column]) return isAsc ? 1 : -1;
+            if (a[column] < b[column]) return newIsAsc ? -1 : 1;
+            if (a[column] > b[column]) return newIsAsc ? 1 : -1;
             return 0;
         });
-        setFilteredServicos(sortedData);
-        setIsAsc(sortedColumn === column ? !isAsc : true); // Alterna a direção da ordenação
-        setSortedColumn(column); // Define a coluna que está sendo ordenada
+    
+        setFilteredServicos(sortedData); // Atualiza a lista filtrada com os dados ordenados
+        setSortedColumn(column); // Atualiza a coluna que está sendo ordenada
+        setIsAsc(newIsAsc); // Atualiza a direção da ordenação
     };
 
     const handleSubmit = async (data) => {
@@ -178,10 +185,13 @@ export default function Servicos() {
     };
 
     const handleSearch = () => {
+        // Zera as ordenações ao clicar em pesquisar
+        setSortedColumn(null);  // Remove a coluna ordenada
+        setIsAsc(true);         // Redefine para ascendente, mas não será usado até nova ordenação
+    
         const result = servicos.filter((servico) => {
-            // Verifique o status corretamente utilizando 'serv_situacao'
-            const statusMatch = statusFilter === 'todos' || 
-                (statusFilter === 'ativo' && servico.serv_situacao === 'Ativo') || 
+            const statusMatch = statusFilter === 'todos' ||
+                (statusFilter === 'ativo' && servico.serv_situacao === 'Ativo') ||
                 (statusFilter === 'inativo' && servico.serv_situacao === 'Inativo');
             
             const searchTextMatch = searchText === '' ||
@@ -194,8 +204,6 @@ export default function Servicos() {
         setFilteredServicos(result);
         setCurrentPage(1);
     };
-
-    
 
     return (
         <div id="servicos" className={`${styles.content_section}`}>
@@ -238,8 +246,12 @@ export default function Servicos() {
                         <table className={styles.resultTable}>
                             <thead className={styles.tableHead}>
                                 <tr>
-                                    <th className={`${styles.tableHeader} ${styles.id}`} onClick={() => sortByColumn('serv_id')}>
-                                        Código {sortedColumn === 'serv_id' ? (isAsc ? '▲' : '▼') : ''}
+                                    <th 
+                                    className={`${styles.tableHeader} ${styles.id}`} 
+                                    onClick={() => sortByColumn('serv_id')}>
+                                        Código 
+                                    {sortedColumn === 'serv_id' ? (isAsc ? '▲' : '▼') : ''}
+
                                     </th>
                                     <th className={`${styles.tableHeader} ${styles.nome}`} onClick={() => sortByColumn('serv_nome')}>
                                         Nome do Serviço {sortedColumn === 'serv_nome' ? (isAsc ? '▲' : '▼') : ''}

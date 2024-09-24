@@ -21,6 +21,8 @@ export default function CadCliente() {
     const [showForm, setShowForm] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
     const [isViewing, setIsViewing] = useState(false);
+    const [sortedColumn, setSortedColumn] = useState(null);
+    const [isAsc, setIsAsc] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const usersPerPage = 15;
 
@@ -34,7 +36,7 @@ export default function CadCliente() {
 
 
     useEffect(() => {
-        handleFilterChange(); // Atualiza automaticamente quando filtros mudam
+        handleFilterChange();
     }, [usuarios, statusFilter, tipoUsuarioFilter, searchText]);
 
     const ListarUsuarios = async () => {
@@ -95,6 +97,24 @@ export default function CadCliente() {
         0: 'Feminino',
         1: 'Masculino',
         2: 'Outro'
+    };
+
+    const sortByColumn = (column) => {
+        let newIsAsc = true; // Define ascendente por padrão
+    
+        if (sortedColumn === column) {
+            newIsAsc = !isAsc; // Se a mesma coluna for clicada, inverte a direção
+        }
+    
+        const sortedData = [...filteredUsers].sort((a, b) => {
+            if (a[column] < b[column]) return newIsAsc ? -1 : 1;
+            if (a[column] > b[column]) return newIsAsc ? 1 : -1;
+            return 0;
+        });
+    
+        setFilteredUsers(sortedData); // Atualiza a lista filtrada com os dados ordenados
+        setSortedColumn(column); // Atualiza a coluna que está sendo ordenada
+        setIsAsc(newIsAsc); // Atualiza a direção da ordenação
     };
 
     const handleSubmit = async (data) => {
@@ -176,7 +196,7 @@ export default function CadCliente() {
                     confirmButtonColor: "rgb(40, 167, 69)",
                 }).then(() => {
                     setShowForm(false);
-                    setSelectedUser(null); // Mostrar a tabela novamente após confirmação
+                    setSelectedUser(null);
                 });
             }
         });
@@ -242,13 +262,42 @@ export default function CadCliente() {
                         <table className={styles.resultTable}>
                             <thead className={styles.tableHead}>
                                 <tr>
-                                    <th className={`${styles.tableHeader} ${styles.id}`}>Código</th>
-                                    <th className={`${styles.tableHeader} ${styles.nome}`}>Nome</th>
-                                    <th className={`${styles.tableHeader} ${styles.cpf}`}>CPF</th>
-                                    <th className={`${styles.tableHeader} ${styles.dataNasc}`}>Data de Nascimento</th>
-                                    <th className={`${styles.tableHeader} ${styles.sexo}`}>Sexo</th>
-                                    <th className={`${styles.tableHeader} ${styles.telefone}`}>Telefone</th>
-                                    <th className={`${styles.tableHeader} ${styles.email}`}>Email</th>
+                                    <th 
+                                    className={`${styles.tableHeader} ${styles.id}`}
+                                    onClick={() => sortByColumn('usu_id')}>
+                                        Código 
+                                    {sortedColumn === 'usu_id' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.nome}`}
+                                    onClick={() => sortByColumn('usu_nome')}>
+                                        Nome 
+                                    {sortedColumn === 'usu_nome' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.cpf}`}
+                                    onClick={() => sortByColumn('usu_cpf')}>
+                                        CPF 
+                                    {sortedColumn === 'usu_cpf' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.dataNasc}`}
+                                    onClick={() => sortByColumn('usu_data_nasc')}>
+                                        Data de Nascimento 
+                                    {sortedColumn === 'usu_data_nasc' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.sexo}`}
+                                    onClick={() => sortByColumn('usu_sexo')}>
+                                        Sexo
+                                    {sortedColumn === 'usu_sexo' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.telefone}`}
+                                    onClick={() => sortByColumn('usu_telefone')}>
+                                        Telefone 
+                                    {sortedColumn === 'usu_telefone' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.email}`}
+                                    onClick={() => sortByColumn('usu_email')}>
+                                        Email 
+                                    {sortedColumn === 'usu_email' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
                                     <th className={`${styles.tableHeader} ${styles.acao}`}>Ações</th>
                                 </tr>
                             </thead>

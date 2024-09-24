@@ -1,8 +1,78 @@
+// import styles from './page.module.css';
+// import { useState, useEffect } from 'react';
+// import { MdRemoveRedEye, MdEdit } from "react-icons/md";
+// import { IoMdTrash } from "react-icons/io";
+// import { format } from 'date-fns';
+// import Swal from 'sweetalert2';
+// import FormVeiculo from '@/components/FormVeiculo';
+
+// import api from '@/services/api';
+
+// export default function Veiculos() {
+//     const [selectedVeic, setSelectedVeic] = useState(null);
+//     const [veiculos, setVeiculos] = useState([]);
+//     const [filteredVeiculos, setFilteredVeiculos] = useState([]);
+//     const [showForm, setShowForm] = useState(false);
+//     const [searchText, setSearchText] = useState('');
+//     const [statusFilter, setStatusFilter] = useState('todos');
+//     const [isViewing, setIsViewing] = useState(false);
+//     const [currentPage, setCurrentPage] = useState(1);
+//     const usersPerPage = 15;
+
+
+//     useEffect(() => {
+//         ListarVeiculos();
+//     }, []);
+
+//     useEffect(() => {
+//         setFilteredVeiculos(veiculos);
+//     }, [veiculos]);
+
+//     useEffect(() => {
+//         handleSearch(); // Adicionando chamada para filtrar após a listagem
+//     }, [veiculos]);
+
+//     const handleSearch = () => {
+//         const result = veiculos.filter((veiculo) => {
+
+
+//             const statusMatch = 
+//             statusFilter === 'todos' || 
+//             (statusFilter === 'ativo' && veiculo.veic_situacao === 1) || 
+//             (statusFilter === 'inativo' && veiculo.veic_situacao === 0);
+
+
+            
+
+//             const searchTextMatch = searchText === '' ||
+//                 (veiculo.veic_placa?.toLowerCase().includes(searchText.toLowerCase())) ||
+//                 (veiculo.modelo?.toLowerCase().includes(searchText.toLowerCase())) ||
+//                 (veiculo.marca?.toLowerCase().includes(searchText.toLowerCase()));
+//             return statusMatch && searchTextMatch;
+//         });
+
+//         setFilteredVeiculos(result);
+//         setCurrentPage(1);
+//     };
+
+//     const ListarVeiculos = async () => {
+//         try {
+//             const response = await api.get('/veiculos');
+//             setVeiculos(response.data.dados);
+//         } catch (error) {
+//             console.error("Erro ao buscar os usuários:", error);
+//             Swal.fire({
+//                 title: "Erro!",
+//                 text: "Não foi possível carregar os usuários.",
+//                 icon: "error",
+//             });
+//         }
+//     };
+
 import styles from './page.module.css';
 import { useState, useEffect } from 'react';
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 import { IoMdTrash } from "react-icons/io";
-import { format } from 'date-fns';
 import Swal from 'sweetalert2';
 import FormVeiculo from '@/components/FormVeiculo';
 
@@ -19,29 +89,52 @@ export default function Veiculos() {
     const [currentPage, setCurrentPage] = useState(1);
     const usersPerPage = 15;
 
-
     useEffect(() => {
         ListarVeiculos();
     }, []);
 
     useEffect(() => {
-        setFilteredVeiculos(veiculos);
-    }, [veiculos]);
+        handleSearch(); // Chama a filtragem sempre que o searchText ou statusFilter mudarem
+    }, [searchText, statusFilter, veiculos]);
 
     const handleSearch = () => {
         const result = veiculos.filter((veiculo) => {
-            const statusMatch = statusFilter === 'todos' || veiculo.veic_situacao === statusFilter;
-
+            console.log(veiculo); // Adiciona um log para ver cada veículo
+            const statusMatch = 
+                statusFilter === 'todos' || 
+                (statusFilter === 'ativo' && veiculo.veic_situacao === 1) || 
+                (statusFilter === 'inativo' && veiculo.veic_situacao === 0);
+    
             const searchTextMatch = searchText === '' ||
                 (veiculo.veic_placa?.toLowerCase().includes(searchText.toLowerCase())) ||
                 (veiculo.modelo?.toLowerCase().includes(searchText.toLowerCase())) ||
                 (veiculo.marca?.toLowerCase().includes(searchText.toLowerCase()));
+                
             return statusMatch && searchTextMatch;
         });
-
+        
+        console.log(result); // Para ver os resultados filtrados
         setFilteredVeiculos(result);
         setCurrentPage(1);
     };
+    
+
+    const ListarVeiculos = async () => {
+        try {
+            const response = await api.get('/veiculos');
+            setVeiculos(response.data.dados);
+            handleSearch(); // Chama a filtragem após a listagem
+        } catch (error) {
+            console.error("Erro ao buscar os usuários:", error);
+            Swal.fire({
+                title: "Erro!",
+                text: "Não foi possível carregar os usuários.",
+                icon: "error",
+            });
+        }
+    };
+    // O restante do seu código...
+
 
     const handleViewVeic = async (veiculo) => {
         try {
@@ -97,19 +190,7 @@ export default function Veiculos() {
         }
     };
 
-    const ListarVeiculos = async () => {
-        try {
-            const response = await api.get('/veiculos');
-            setVeiculos(response.data.dados);
-        } catch (error) {
-            console.error("Erro ao buscar os usuários:", error);
-            Swal.fire({
-                title: "Erro!",
-                text: "Não foi possível carregar os usuários.",
-                icon: "error",
-            });
-        }
-    };
+    
 
     const handleDeleteVeic = async (veic_id) => {
         Swal.fire({
@@ -209,7 +290,10 @@ export default function Veiculos() {
                                     id="status"
                                     className={styles.filterSelect}
                                     value={statusFilter}
-                                    onChange={(e) => setStatusFilter(e.target.value)}
+                                    onChange={(e) => {
+                                        setStatusFilter(e.target.value);
+                                        handleSearch(); // Adicionando chamada para filtrar após mudar o status
+                                    }}
                                 >
                                     <option value="todos">Todos</option>
                                     <option value="ativo">Ativo</option>
