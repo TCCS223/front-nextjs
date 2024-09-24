@@ -111,6 +111,42 @@ export default function Veiculos() {
         }
     };
 
+    const handleDeleteVeic = async (veic_id) => {
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Você não poderá desfazer essa ação!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, excluir!',
+            cancelButtonText: 'Cancelar',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await api.delete(`/veiculos/${veic_id}`);
+                    if (response.data.sucesso) {
+                        Swal.fire(
+                            'Excluído!',
+                            'O veículo foi excluído com sucesso.',
+                            'success'
+                        );
+                        ListarVeiculos();
+                    } else {
+                        throw new Error(response.data.mensagem);
+                    }
+                } catch (error) {
+                    console.error("Erro ao excluir veículo:", error);
+                    Swal.fire({
+                        title: 'Erro!',
+                        text: error.response ? error.response.data.mensagem : 'Erro desconhecido ao excluir veículo.',
+                        icon: 'error',
+                    });
+                }
+            }
+        });
+    };
+
     const Cancelar = () => {
         Swal.fire({
             title: "Deseja Cancelar?",
@@ -233,7 +269,7 @@ export default function Veiculos() {
                                                 <div className={styles.actionIcons}>
                                                     <i><MdRemoveRedEye title="Visualizar" onClick={() => handleViewVeic(veiculo)} /></i>
                                                     <i><MdEdit title="Editar" onClick={() => handleEditVeic(veiculo)} /></i>
-                                                    <i><IoMdTrash title="Excluir" onClick={() => handleDeleteUser(veiculo.veic_id)} /></i>
+                                                    <i><IoMdTrash title="Excluir" onClick={() => handleDeleteVeic(veiculo.veic_id)} /></i>
                                                 </div>
                                             </td>
                                         </tr>

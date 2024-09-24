@@ -34,6 +34,10 @@ export default function Servicos() {
         setFilteredServicos(servicos);
     }, [servicos]);
 
+    useEffect(() => {
+        handleSearch(); // Chama o filtro sempre que o status for alterado
+    }, [statusFilter]);
+
     const ListarServicos = async () => {
         try {
             const response = await api.get('/servicos');
@@ -49,7 +53,43 @@ export default function Servicos() {
         }
     };
 
-    // Função para ordenar a tabela
+    const handleDeleteServicos = async (serv_id) => {
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Você não poderá desfazer essa ação!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, excluir!',
+            cancelButtonText: 'Cancelar',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await api.delete(`/servicos/${serv_id}`);
+                    if (response.data.sucesso) {
+                        Swal.fire(
+                            'Excluído!',
+                            'O serviço foi excluído com sucesso.',
+                            'success'
+                        );
+                        ListarServicos();
+                    } else {
+                        throw new Error(response.data.mensagem);
+                    }
+                } catch (error) {
+                    console.error("Erro ao excluir serviço:", error);
+                    Swal.fire({
+                        title: 'Erro!',
+                        text: error.response ? error.response.data.mensagem : 'Erro desconhecido ao excluir serviço.',
+                        icon: 'error',
+                    });
+                }
+            }
+        });
+    };
+
+
     const sortByColumn = (column) => {
         const sortedData = [...filteredServicos].sort((a, b) => {
             if (a[column] < b[column]) return isAsc ? -1 : 1;
@@ -139,16 +179,23 @@ export default function Servicos() {
 
     const handleSearch = () => {
         const result = servicos.filter((servico) => {
-            const statusMatch = statusFilter === 'todos' || servico.situacao === statusFilter;
+            // Verifique o status corretamente utilizando 'serv_situacao'
+            const statusMatch = statusFilter === 'todos' || 
+                (statusFilter === 'ativo' && servico.serv_situacao === 'Ativo') || 
+                (statusFilter === 'inativo' && servico.serv_situacao === 'Inativo');
+            
             const searchTextMatch = searchText === '' ||
                 servico.serv_nome.toLowerCase().includes(searchText.toLowerCase()) ||
                 servico.cat_serv_nome.toLowerCase().includes(searchText.toLowerCase());
+    
             return statusMatch && searchTextMatch;
         });
-
+    
         setFilteredServicos(result);
         setCurrentPage(1);
     };
+
+    
 
     return (
         <div id="servicos" className={`${styles.content_section}`}>
@@ -222,7 +269,7 @@ export default function Servicos() {
                                             <div className={styles.actionIcons}>
                                                     <i><MdRemoveRedEye title="Visualizar" onClick={() => handleViewServicos(servicos)} /></i>
                                                     <i><MdEdit title="Editar" onClick={() => handleEditServicos(servicos)} /></i>
-                                                    <i><IoMdTrash title="Excluir" onClick={() => handleDeleteUser(servicos.serv_id)} /></i>
+                                                    <i><IoMdTrash title="Excluir" onClick={() => handleDeleteServicos(servicos.serv_id)} /></i>
                                             </div>
                                             </td>
                                         </tr>

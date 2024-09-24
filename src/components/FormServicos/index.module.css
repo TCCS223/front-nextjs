@@ -70,8 +70,7 @@
 }
 
 .grid_descricao {
-    grid-column: span 8;
-
+    grid-column: span 6;
 }
 
 .grid_observacoes {

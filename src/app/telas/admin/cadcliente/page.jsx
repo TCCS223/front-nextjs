@@ -32,6 +32,11 @@ export default function CadCliente() {
         setFilteredUsers(usuarios);
     }, [usuarios]);
 
+
+    useEffect(() => {
+        handleFilterChange(); // Atualiza automaticamente quando filtros mudam
+    }, [usuarios, statusFilter, tipoUsuarioFilter, searchText]);
+
     const ListarUsuarios = async () => {
         try {
             const response = await api.get('/usuarios');
@@ -46,23 +51,33 @@ export default function CadCliente() {
         }
     };
 
-    const handleSearch = () => {
+    const handleFilterChange = () => {
         const result = usuarios.filter(usuario => {
-            const statusMatch = statusFilter === 'todos' || usuario.usu_situacao === statusFilter;
+            const statusMatch = statusFilter === 'todos' || 
+                (statusFilter === 'ativo' && usuario.usu_situacao === 1) ||  // Verifique se 1 é ativo
+                (statusFilter === 'inativo' && usuario.usu_situacao === 0); // E 0 é inativo
+    
             const tipoMatch = tipoUsuarioFilter === 'todos' ||
                 (tipoUsuarioFilter === 'admin' && usuario.usu_acesso === 1) ||
                 (tipoUsuarioFilter === 'usuario' && usuario.usu_acesso === 0);
-            const textMatch =
-                usuario.usu_nome.toLowerCase().includes(searchText.toLowerCase()) ||
-                usuario.usu_email.toLowerCase().includes(searchText.toLowerCase()) ||
-                usuario.usu_cpf.includes(searchText);
-
-            return statusMatch && tipoMatch && textMatch;
+    
+            return statusMatch && tipoMatch;
         });
 
         setFilteredUsers(result);
         setCurrentPage(1);
     };
+    
+    
+    const handleSearch = () => {
+        const result = filteredUsers.filter(usuario => {
+            return usuario.usu_nome.toLowerCase().includes(searchText.toLowerCase()) ||
+                usuario.usu_email.toLowerCase().includes(searchText.toLowerCase()) ||
+                usuario.usu_cpf.includes(searchText);
+        });
+        setFilteredUsers(result);
+        setCurrentPage(1);
+    }
 
     const handleViewUser = (usuario) => {
         setSelectedUser(usuario);
@@ -100,6 +115,42 @@ export default function CadCliente() {
                 icon: 'error',
             });
         }
+    };
+
+    const handleDeleteUser = async (usu_situacao) => {
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Você não poderá desfazer essa ação!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, excluir!',
+            cancelButtonText: 'Cancelar',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await api.patch(`/usuarios/${usu_situacao}`);
+                    if (response.data.sucesso) {
+                        Swal.fire(
+                            'Excluído!',
+                            'O usuário foi excluído com sucesso.',
+                            'success'
+                        );
+                        ListarUsuarios();
+                    } else {
+                        throw new Error(response.data.mensagem);
+                    }
+                } catch (error) {
+                    console.error("Erro ao excluir usuário:", error);
+                    Swal.fire({
+                        title: 'Erro!',
+                        text: error.response ? error.response.data.mensagem : 'Erro desconhecido ao excluir usuário.',
+                        icon: 'error',
+                    });
+                }
+            }
+        });
     };
 
     const Cancelar = () => {
@@ -156,6 +207,7 @@ export default function CadCliente() {
                         <div className={styles.filterButtons}>
                             <div className={styles.filterGroup}>
                                 <label htmlFor="tipoUsuario" className={styles.labelFilter}>Tipo de Usuário</label>
+
                                 <select
                                     id="tipoUsuario"
                                     className={styles.filterSelect}
@@ -179,7 +231,7 @@ export default function CadCliente() {
                                     <option value="todos">Todos</option>
                                     <option value="ativo">Ativo</option>
                                     <option value="inativo">Inativo</option>
-                                </select>
+                                </select>   
                             </div>
 
                             <button className={styles.newButton} onClick={() => setShowForm(true)}>Novo</button>
@@ -215,7 +267,7 @@ export default function CadCliente() {
                                                 <div className={styles.actionIcons}>
                                                     <i><MdRemoveRedEye title="Visualizar" onClick={() => handleViewUser(usuario)} /></i>
                                                     <i><MdEdit title="Editar" onClick={() => handleEditUser(usuario)} /></i>
-                                                    <i><IoMdTrash title="Excluir" /></i>
+                                                    <i><IoMdTrash title="Excluir" onClick={() => handleDeleteUser(usuario.serv_id)} /></i>
                                                 </div>
                                             </td>
                                         </tr>

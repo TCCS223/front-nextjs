@@ -209,8 +209,25 @@
     z-index: 10;
 }
 
+.resultTable th {
+    cursor: pointer;
+    position: relative;
+    padding-right: 20px;
+}
+
+.resultTable th i {
+    position: absolute;
+    right: 5px;
+}
+
+.resultTable th svg {
+    width: 10px;
+    height: 10px;
+    vertical-align: middle;
+}
+
 .id {
-    width: 5%;
+    width: 7%;
 }
 
 .modelo,

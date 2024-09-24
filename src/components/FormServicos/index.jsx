@@ -3,12 +3,12 @@ import styles from './index.module.css';
 import { format } from 'date-fns';
 import { useRef } from 'react';
 
-export default function FormServicos({ selectedServicos, setSelectedServico, isViewing, handleSubmit, Cancelar }) {
+export default function FormServicos({ selectedServico, setSelectedServico, isViewing, handleSubmit, Cancelar }) {
     return (
         <>
             <form id="servicoForm" className={styles.form}>
 
-                <input type="hidden" id="clienteId" value={selectedServicos ? selectedServicos.serv_id : ''} className={styles.input_servicos} />
+                <input type="hidden" id="clienteId" value={selectedServico ? selectedServico.serv_id : ''} className={styles.input_servicos} />
 
                 <div className={styles.grid}>
                     <div className={`${styles.grid_item} ${styles.grid_codigo}`}>
@@ -17,8 +17,8 @@ export default function FormServicos({ selectedServicos, setSelectedServico, isV
                             type="text"
                             name="serv_id"
                             id="serv_id"
-                            value={selectedServicos ? selectedServicos.serv_id : ''}
-                            onChange={(e) => setSelectedServico({ ...selectedServicos, serv_id: e.target.value })}
+                            value={selectedServico ? selectedServico.serv_id : ''}
+                            onChange={(e) => setSelectedServico({ ...selectedServico, serv_id: e.target.value })}
                             className={styles.input_servicos}
                             readOnly
                         />
@@ -30,8 +30,8 @@ export default function FormServicos({ selectedServicos, setSelectedServico, isV
                             type="text"
                             name="cat_serv_nome"
                             id="cat_serv_nome"
-                            value={selectedServicos ? selectedServicos.cat_serv_nome : ''}
-                            onChange={(e) => setSelectedServico({ ...selectedServicos, cat_serv_nome: e.target.value })}
+                            value={selectedServico ? selectedServico.cat_serv_nome : ''}
+                            onChange={(e) => setSelectedServico({ ...selectedServico, cat_serv_nome: e.target.value })}
                             className={styles.input_servicos}
                             disabled={isViewing}
                         />
@@ -43,8 +43,8 @@ export default function FormServicos({ selectedServicos, setSelectedServico, isV
                             type="text"
                             name="serv_nome"
                             id="serv_nome"
-                            value={selectedServicos ? selectedServicos.serv_nome : ''}
-                            onChange={(e) => setSelectedServico({ ...selectedServicos, serv_nome: e.target.value })}
+                            value={selectedServico ? selectedServico.serv_nome : ''}
+                            onChange={(e) => setSelectedServico({ ...selectedServico, serv_nome: e.target.value })}
                             className={styles.input_servicos}
                             disabled={isViewing}
                         />
@@ -56,8 +56,8 @@ export default function FormServicos({ selectedServicos, setSelectedServico, isV
                             type="text"
                             name="serv_duracao"
                             id="serv_duracao"
-                            value={selectedServicos ? selectedServicos.serv_duracao : ''}
-                            onChange={(e) => setSelectedServico({ ...selectedServicos, serv_duracao: e.target.value })}
+                            value={selectedServico ? selectedServico.serv_duracao : ''}
+                            onChange={(e) => setSelectedServico({ ...selectedServico, serv_duracao: e.target.value })}
                             className={styles.input_servicos}
                             disabled={isViewing}
                         />
@@ -68,8 +68,8 @@ export default function FormServicos({ selectedServicos, setSelectedServico, isV
                             type="text"
                             name="serv_preco"
                             id="serv_preco"
-                            value={selectedServicos ? selectedServicos.serv_preco : ''}
-                            onChange={(e) => setSelectedServico({ ...selectedServicos, serv_preco: e.target.value })}
+                            value={selectedServico ? selectedServico.serv_preco : ''}
+                            onChange={(e) => setSelectedServico({ ...selectedServico, serv_preco: e.target.value })}
                             className={styles.input_servicos}
                             disabled={isViewing}
                         />
@@ -80,8 +80,8 @@ export default function FormServicos({ selectedServicos, setSelectedServico, isV
                             type="text"
                             name="serv_descricao"
                             id="serv_descricao"
-                            value={selectedServicos ? selectedServicos.serv_descricao : ''}
-                            onChange={(e) => setSelectedServico({ ...selectedServicos, serv_descricao: e.target.value })}
+                            value={selectedServico ? selectedServico.serv_descricao : ''}
+                            onChange={(e) => setSelectedServico({ ...selectedServico, serv_descricao: e.target.value })}
                             className={styles.input_servicos}
                             disabled={isViewing}
                         />
@@ -92,8 +92,8 @@ export default function FormServicos({ selectedServicos, setSelectedServico, isV
                             type="text"
                             name="serv_descricao"
                             id="serv_descricao"
-                            value={selectedServicos ? selectedServicos.serv_descricao : ''}
-                            onChange={(e) => setSelectedServico({ ...selectedServicos, serv_descricao: e.target.value })}
+                            value={selectedServico ? selectedServico.serv_descricao : ''}
+                            onChange={(e) => setSelectedServico({ ...selectedServico, serv_descricao: e.target.value })}
                             className={styles.input_servicos}
                             readOnly
                         />
@@ -104,8 +104,8 @@ export default function FormServicos({ selectedServicos, setSelectedServico, isV
                             type="text"
                             name="serv_situacao"
                             id="serv_situacao"
-                            value={selectedServicos ? ( selectedServicos.serv_situacao ? 'Ativo' : 'Inativo' ) : ''}
-                            onChange={(e) => setSelectedServico({ ...selectedServicos, serv_situacao: e.target.value })}
+                            value={selectedServico ? ( selectedServico.serv_situacao ? 'Ativo' : 'Inativo' ) : ''}
+                            onChange={(e) => setSelectedServico({ ...selectedServico, serv_situacao: e.target.value })}
                             className={styles.input_servicos}
                             disabled={isViewing}
                         />
