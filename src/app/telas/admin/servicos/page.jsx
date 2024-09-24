@@ -256,8 +256,13 @@ export default function Servicos() {
 
 
                 <FormServicos
-                    selectedServicos={selectedServico}
-                    selectedServico={selectedServico}
+                    // selectedServicos={selectedServico} retirei essa
+                    // selectedServico={selectedServico} retirei essa
+
+
+                    selectedServico={selectedServico} // adicionei essa linha
+                    setSelectedServico={setSelectedServico} // adicionei essa linha
+
                     isViewing={isViewing}
                     handleSubmit={handleSubmit}
                     Cancelar={Cancelar}
