@@ -19,28 +19,27 @@ export default function CadCliente() {
     const [tipoUsuarioFilter, setTipoUsuarioFilter] = useState('todos');
     const [searchText, setSearchText] = useState('');
     const [showForm, setShowForm] = useState(false);
-    const [selectedUser, setSelectedUser] = useState(null);
+    const [selectedUser, setSelectedUser] = useState();
     const [isViewing, setIsViewing] = useState(false);
     const [sortedColumn, setSortedColumn] = useState(null);
     const [isAsc, setIsAsc] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const usersPerPage = 15;
+    
+    // Paginação
+    const indexOfLastUser = currentPage * usersPerPage;
+    const indexOfFirstUser = indexOfLastUser - usersPerPage;
+    const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+    
+    const sexoMap = {
+        0: 'Feminino',
+        1: 'Masculino',
+        2: 'Outro'
+    };
 
-    useEffect(() => {
-        ListarUsuarios();
-    }, []);
+    
+   
 
-    useEffect(() => {
-        setFilteredUsers(usuarios);
-    }, [usuarios]);
-
-    useEffect(() => {
-        handleSearch();
-    }, [usuarios, statusFilter, tipoUsuarioFilter, searchText]);
-
-    // useEffect(() => {
-    //     handleFilterChange();
-    // }, [usuarios, statusFilter, tipoUsuarioFilter, searchText]);
 
     const ListarUsuarios = async () => {
         try {
@@ -56,58 +55,29 @@ export default function CadCliente() {
         }
     };
 
-    // const handleFilterChange = () => {
-    //     const result = usuarios.filter(usuario => {
-    //         const statusMatch = statusFilter === 'todos' || 
-    //             (statusFilter === 'ativo' && usuario.usu_situacao === 1) ||  // Verifique se 1 é ativo
-    //             (statusFilter === 'inativo' && usuario.usu_situacao === 0); // E 0 é inativo
-    
-    //         const tipoMatch = tipoUsuarioFilter === 'todos' ||
-    //             (tipoUsuarioFilter === 'admin' && usuario.usu_acesso === 1) ||
-    //             (tipoUsuarioFilter === 'usuario' && usuario.usu_acesso === 0);
-    
-    //         return statusMatch && tipoMatch;
-    //     });
-
-    //     setFilteredUsers(result);
-    //     setCurrentPage(1);
-    // };
-    
-    // const handleSearch = () => {
-    //     setSortedColumn(null);
-    //     setIsAsc(true);
-
-    //     const result = filteredUsers.filter(usuario => {
-    //         return usuario.usu_nome.toLowerCase().includes(searchText.toLowerCase()) ||
-    //             usuario.usu_email.toLowerCase().includes(searchText.toLowerCase()) ||
-    //             usuario.usu_cpf.includes(searchText);
-    //     });
-    //     setFilteredUsers(result);
-    //     setCurrentPage(1);
-    // }
 
     const handleSearch = () => {
         setSortedColumn(null);
         setIsAsc(true);
-    
+
         const result = usuarios.filter((usuario) => {
-            const statusMatch = 
-                statusFilter === 'todos' || 
-                (statusFilter === 'ativo' && usuario.usu_situacao === 1) || 
+            const statusMatch =
+                statusFilter === 'todos' ||
+                (statusFilter === 'ativo' && usuario.usu_situacao === 1) ||
                 (statusFilter === 'inativo' && usuario.usu_situacao === 0);
-    
+
             const tipoMatch = tipoUsuarioFilter === 'todos' ||
                 (tipoUsuarioFilter === 'admin' && usuario.usu_acesso === 1) ||
                 (tipoUsuarioFilter === 'usuario' && usuario.usu_acesso === 0);
-    
+
             const searchTextMatch = searchText === '' ||
                 usuario.usu_nome.toLowerCase().includes(searchText.toLowerCase()) ||
                 usuario.usu_email.toLowerCase().includes(searchText.toLowerCase()) ||
                 usuario.usu_cpf.includes(searchText);
-            
+
             return statusMatch && tipoMatch && searchTextMatch;
         });
-    
+
         setFilteredUsers(result);
         setCurrentPage(1);
     };
@@ -124,50 +94,61 @@ export default function CadCliente() {
         setIsViewing(false);
     };
 
-    const sexoMap = {
-        0: 'Feminino',
-        1: 'Masculino',
-        2: 'Outro'
+    const handleExit = () => {
+        setShowForm(false);  // Fecha o formulário
+        setSelectedUser(null);  // Limpa o usuário selecionado
+        setIsViewing(false);  // Reinicializa o modo de visualização
     };
 
     const sortByColumn = (column) => {
         let newIsAsc = true;
-    
+
         if (sortedColumn === column) {
             newIsAsc = !isAsc;
         }
-    
+
         const sortedData = [...filteredUsers].sort((a, b) => {
             if (a[column] < b[column]) return newIsAsc ? -1 : 1;
             if (a[column] > b[column]) return newIsAsc ? 1 : -1;
             return 0;
         });
-    
+
         setFilteredUsers(sortedData);
         setSortedColumn(column);
         setIsAsc(newIsAsc);
     };
 
-    const handleSubmit = async (data) => {
+    const handleSubmit = async (usuarios) => {
         try {
-            const response = await api.patch(`/usuarios/${data.usu_id}`, data);
+            let response;
+    
+            if (usuarios.usu_id) {
+                response = await api.patch(`/usuarios/${usuarios.usu_id}`, usuarios);
+            } else {
+                response = await api.post('/usuarios', usuarios);
+                
+                
+            }
+    
             Swal.fire({
                 title: 'Sucesso!',
                 text: response.data.mensagem,
                 icon: 'success',
             });
+    
             ListarUsuarios();
             setShowForm(false);
         } catch (error) {
-            console.error("Erro ao atualizar:", error);
+            console.error("Erro ao salvar:", error);
             Swal.fire({
                 title: 'Erro!',
-                text: error.response ? error.response.data.mensagem : 'Erro ao atualizar usuário.',
+                text: error.response ? error.response.data.mensagem : 'Erro ao salvar usuário.',
                 icon: 'error',
             });
         }
+        console.log(selectedUser);
     };
-
+    
     const handleDeleteUser = async (usu_situacao) => {
         Swal.fire({
             title: 'Tem certeza?',
@@ -204,10 +185,6 @@ export default function CadCliente() {
         });
     };
 
-    const handleExit = async (data) => {
-        ListarUsuarios();
-    };
-
     const Cancelar = () => {
         Swal.fire({
             title: "Deseja Cancelar?",
@@ -237,10 +214,22 @@ export default function CadCliente() {
         });
     }
 
-    // Paginação
-    const indexOfLastUser = currentPage * usersPerPage;
-    const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+    
+    useEffect(() => {
+        ListarUsuarios();
+    }, []);
+
+    useEffect(() => {
+        setFilteredUsers(usuarios);
+    }, [usuarios]);
+
+    useEffect(() => {
+        handleSearch();
+    }, [usuarios, statusFilter, tipoUsuarioFilter, searchText]);
+
+
+    
+
 
     return (
         <div id="clientes" className={styles.content_section}>
@@ -286,7 +275,7 @@ export default function CadCliente() {
                                     <option value="todos">Todos</option>
                                     <option value="ativo">Ativo</option>
                                     <option value="inativo">Inativo</option>
-                                </select>   
+                                </select>
                             </div>
 
                             <button className={styles.newButton} onClick={() => setShowForm(true)}>Novo</button>
@@ -297,41 +286,41 @@ export default function CadCliente() {
                         <table className={styles.resultTable}>
                             <thead className={styles.tableHead}>
                                 <tr>
-                                    <th 
-                                    className={`${styles.tableHeader} ${styles.id}`}
-                                    onClick={() => sortByColumn('usu_id')}>
-                                        Código 
-                                    {sortedColumn === 'usu_id' ? (isAsc ? '▲' : '▼') : ''}
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.id}`}
+                                        onClick={() => sortByColumn('usu_id')}>
+                                        Código
+                                        {sortedColumn === 'usu_id' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
                                     <th className={`${styles.tableHeader} ${styles.nome}`}
-                                    onClick={() => sortByColumn('usu_nome')}>
-                                        Nome 
-                                    {sortedColumn === 'usu_nome' ? (isAsc ? '▲' : '▼') : ''}
+                                        onClick={() => sortByColumn('usu_nome')}>
+                                        Nome
+                                        {sortedColumn === 'usu_nome' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
                                     <th className={`${styles.tableHeader} ${styles.cpf}`}
-                                    onClick={() => sortByColumn('usu_cpf')}>
-                                        CPF 
-                                    {sortedColumn === 'usu_cpf' ? (isAsc ? '▲' : '▼') : ''}
+                                        onClick={() => sortByColumn('usu_cpf')}>
+                                        CPF
+                                        {sortedColumn === 'usu_cpf' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
                                     <th className={`${styles.tableHeader} ${styles.dataNasc}`}
-                                    onClick={() => sortByColumn('usu_data_nasc')}>
-                                        Data de Nascimento 
-                                    {sortedColumn === 'usu_data_nasc' ? (isAsc ? '▲' : '▼') : ''}
+                                        onClick={() => sortByColumn('usu_data_nasc')}>
+                                        Data de Nascimento
+                                        {sortedColumn === 'usu_data_nasc' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
                                     <th className={`${styles.tableHeader} ${styles.sexo}`}
-                                    onClick={() => sortByColumn('usu_sexo')}>
+                                        onClick={() => sortByColumn('usu_sexo')}>
                                         Sexo
-                                    {sortedColumn === 'usu_sexo' ? (isAsc ? '▲' : '▼') : ''}
+                                        {sortedColumn === 'usu_sexo' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
                                     <th className={`${styles.tableHeader} ${styles.telefone}`}
-                                    onClick={() => sortByColumn('usu_telefone')}>
-                                        Telefone 
-                                    {sortedColumn === 'usu_telefone' ? (isAsc ? '▲' : '▼') : ''}
+                                        onClick={() => sortByColumn('usu_telefone')}>
+                                        Telefone
+                                        {sortedColumn === 'usu_telefone' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
                                     <th className={`${styles.tableHeader} ${styles.email}`}
-                                    onClick={() => sortByColumn('usu_email')}>
-                                        Email 
-                                    {sortedColumn === 'usu_email' ? (isAsc ? '▲' : '▼') : ''}
+                                        onClick={() => sortByColumn('usu_email')}>
+                                        Email
+                                        {sortedColumn === 'usu_email' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
                                     <th className={`${styles.tableHeader} ${styles.acao}`}>Ações</th>
                                 </tr>
@@ -343,6 +332,7 @@ export default function CadCliente() {
                                             <td className={styles.tdId}>{usuario.usu_id}</td>
                                             <td>{usuario.usu_nome}</td>
                                             <td>{usuario.usu_cpf}</td>
+                                            {/* <td>{usuario.usu_data_nasc}</td> */}
                                             <td>{format(new Date(usuario.usu_data_nasc), 'dd/MM/yyyy')}</td>
                                             <td>{sexoMap[usuario.usu_sexo] || 'Desconhecido'}</td>
                                             <td>{usuario.usu_telefone}</td>
@@ -392,8 +382,15 @@ export default function CadCliente() {
 
                 <div className={styles.footer_form}>
                     <button type="reset" onClick={Cancelar} className={styles.button_cancel}>Cancelar</button>
-                    <button type="button" className={styles.button_submit} onClick={handleSubmit} disabled={isViewing}>Salvar</button>
-                    <button type="exit" className={styles.button_exit} onClick={handleExit}>Voltar</button>
+                    <button
+                        type="button"
+                        className={styles.button_submit}
+                        onClick={() => handleSubmit(selectedUser)}
+                        disabled={isViewing}
+                    >
+                        Salvar
+                    </button>
+                    <button type="exit" className={styles.button_exit} onClick={handleExit}>Sair</button>
                 </div>
             </>
             )}

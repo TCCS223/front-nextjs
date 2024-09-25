@@ -4,7 +4,6 @@ import { format } from 'date-fns';
 
 export default function FormCliente({ selectedUser, setSelectedUser, isViewing, handleSubmit }) {
 
-
     return (
         <form id="clienteForm" className={styles.form} onSubmit={handleSubmit}>
 
@@ -61,7 +60,10 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         id="data_nasc_cliente"
                         name="data_nasc_cliente"
                         required
-                        value={selectedUser ? format(new Date(selectedUser.usu_data_nasc), 'yyyy-MM-dd') : ''}
+                        value={selectedUser ? selectedUser.usu_data_nasc : ''}
+                        // value={selectedUser ? format(new Date(selectedUser.usu_data_nasc), 'yyyy-MM-dd') : ''}
+                        // value={selectedUser && selectedUser.usu_data_nasc ? format(new Date(selectedUser.usu_data_nasc), 'yyyy-MM-dd') : ''}
+
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_data_nasc: e.target.value })}
                         disabled={isViewing}
                         className={styles.input_cliente}
@@ -71,16 +73,16 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                 <div className={`${styles.grid_item} ${styles.grid_sexo}`}>
                     <label htmlFor="sexo_cliente" className={styles.label_cliente}>Sexo</label>
                     <select
-                        // ref={selectSexo}
                         id="sexo_cliente"
                         name="sexo_cliente"
                         required
                         className={`${styles.select_cliente} ${styles.input_sexo}`}
-                        value={selectedUser ? selectedUser.usu_sexo : ''} // Atualize aqui
+                        value={selectedUser ? (selectedUser.usu_acesso !== undefined ? selectedUser.usu_acesso : 0) : 0} // "Usuário" como valor padrão
+                        // value={selectedUser ? selectedUser.usu_sexo : ''}
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_sexo: parseInt(e.target.value) })}
                         disabled={isViewing}
                     >
-                        <option value="" disabled>Selecionar</option>
+                        <option value="">Selecionar</option>
                         <option value="0">Feminino</option>
                         <option value="1">Masculino</option>
                         <option value="2">Outro</option>
@@ -93,11 +95,12 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         id="nivel_acesso"
                         name="nivel_acesso"
                         className={`${styles.select_cliente} ${styles.input_acesso}`}
-                        value={selectedUser ? selectedUser.usu_acesso : ''} // Atualize aqui
+                        value={selectedUser ? selectedUser.usu_acesso : '0'} // Atualize aqui
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_acesso: parseInt(e.target.value) })}
                         disabled={isViewing}
+                     
                     >
-                        <option value="0">Usuário</option>
+                        <option value="0" >Usuário</option>
                         <option value="1">Administrador</option>
                     </select>
                 </div>
@@ -129,6 +132,17 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         disabled={isViewing}
                         className={styles.input_cliente}
                         placeholder="exemplo@exemplo.com"
+                    />
+                    <input
+                        type='password'
+                        id="password"
+                        name="usu_senha"
+                        className={styles.inputCadastro}
+                        placeholder="Digite sua senha"
+                        value={selectedUser ? selectedUser.usu_senha : ''}
+                        onChange={(e) => setSelectedUser({ ...selectedUser, usu_senha: e.target.value })}
+                       
+                        required
                     />
                 </div>
 

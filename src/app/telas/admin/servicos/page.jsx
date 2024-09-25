@@ -108,22 +108,29 @@ export default function Servicos() {
         setIsAsc(newIsAsc); // Atualiza a direção da ordenação
     };
 
-    const handleSubmit = async (data) => {
+    const handleSubmit = async (servico) => {
         try {
-            const response = await api.patch(`/servicos/${data.usu_id}`, data);
+            let response;
+    
+            if (servico.serv_id) {
+                response = await api.patch(`/servicos/${servico.serv_id}`, servico);
+            } else {
+                response = await api.post('/servicos', servico);
+            }
+    
             Swal.fire({
                 title: 'Sucesso!',
                 text: response.data.mensagem,
                 icon: 'success',
             });
+    
             ListarServicos();
             setShowForm(false);
-            setSelectedServico(null);
         } catch (error) {
-            console.error("Erro ao atualizar:", error);
+            console.error("Erro ao salvar serviço:", error);
             Swal.fire({
                 title: 'Erro!',
-                text: error.response ? error.response.data.mensagem : 'Erro desconhecido.',
+                text: error.response ? error.response.data.mensagem : 'Erro ao salvar serviço.',
                 icon: 'error',
             });
         }

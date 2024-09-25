@@ -114,8 +114,6 @@ export default function Veiculos() {
         }
     };
 
-    console.log(selectedVeic);
-
     const handleEditVeic = (usuario) => {
         setSelectedVeic(usuario);
         setShowForm(true);
@@ -244,7 +242,7 @@ export default function Veiculos() {
                                     value={statusFilter}
                                     onChange={(e) => {
                                         setStatusFilter(e.target.value);
-                                        handleSearch(); // Adicionando chamada para filtrar após mudar o status
+                                        handleSearch(); 
                                     }}
                                 >
                                     <option value="todos">Todos</option>
@@ -283,11 +281,11 @@ export default function Veiculos() {
                                         Placa 
                                     {sortedColumn === 'veic_placa' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
-                                    <th className={`${styles.tableHeader} ${styles.ano}`}
+                                    {/* <th className={`${styles.tableHeader} ${styles.ano}`}
                                     onClick={() => sortByColumn('veic_ano')}>
                                         Ano 
                                     {sortedColumn === 'veic_ano' ? (isAsc ? '▲' : '▼') : ''}
-                                    </th>
+                                    </th> */}
                                     <th className={`${styles.tableHeader} ${styles.cor}`}
                                     onClick={() => sortByColumn('veic_cor')}>
                                         Cor 
@@ -314,7 +312,7 @@ export default function Veiculos() {
                                             <td>{veiculo.modelo}</td>
                                             <td>{veiculo.marca}</td>
                                             <td>{veiculo.veic_placa}</td>
-                                            <td>{veiculo.veic_ano}</td>
+                                            {/* <td>{veiculo.veic_ano}</td> */}
                                             <td>{veiculo.veic_cor}</td>
                                             <td>{veiculo.veic_combustivel}</td>
                                             <td className={styles.tdProprietario}>
