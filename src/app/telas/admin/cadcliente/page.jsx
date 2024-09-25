@@ -162,7 +162,7 @@ export default function CadCliente() {
             console.error("Erro ao atualizar:", error);
             Swal.fire({
                 title: 'Erro!',
-                text: error.response ? error.response.data.mensagem : 'Erro desconhecido.',
+                text: error.response ? error.response.data.mensagem : 'Erro ao atualizar usuário.',
                 icon: 'error',
             });
         }
