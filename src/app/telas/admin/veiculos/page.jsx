@@ -17,6 +17,8 @@ export default function Veiculos() {
     const [searchText, setSearchText] = useState('');
     const [statusFilter, setStatusFilter] = useState('todos');
     const [isViewing, setIsViewing] = useState(false);
+    const [sortedColumn, setSortedColumn] = useState(null);
+    const [isAsc, setIsAsc] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const usersPerPage = 15;
 
@@ -29,8 +31,11 @@ export default function Veiculos() {
     }, [searchText, statusFilter, veiculos]);
 
     const handleSearch = () => {
+        setSortedColumn(null);
+        setIsAsc(true);
+
         const result = veiculos.filter((veiculo) => {
-            console.log(veiculo); // Adiciona um log para ver cada veículo
+            console.log(veiculo);
             const statusMatch = 
                 statusFilter === 'todos' || 
                 (statusFilter === 'ativo' && veiculo.veic_situacao === 1) || 
@@ -44,7 +49,7 @@ export default function Veiculos() {
             return statusMatch && searchTextMatch;
         });
         
-        console.log(result); // Para ver os resultados filtrados
+        console.log(result);
         setFilteredVeiculos(result);
         setCurrentPage(1);
     };
@@ -54,7 +59,7 @@ export default function Veiculos() {
         try {
             const response = await api.get('/veiculos');
             setVeiculos(response.data.dados);
-            handleSearch(); // Chama a filtragem após a listagem
+            handleSearch();
         } catch (error) {
             console.error("Erro ao buscar os usuários:", error);
             Swal.fire({
@@ -64,8 +69,24 @@ export default function Veiculos() {
             });
         }
     };
-    // O restante do seu código...
-
+    
+    const sortByColumn = (column) => {
+        let newIsAsc = true; 
+    
+        if (sortedColumn === column) {
+            newIsAsc = !isAsc; 
+        }
+    
+        const sortedData = [...filteredVeiculos].sort((a, b) => {
+            if (a[column] < b[column]) return newIsAsc ? -1 : 1;
+            if (a[column] > b[column]) return newIsAsc ? 1 : -1;
+            return 0;
+        });
+    
+        setFilteredVeiculos(sortedData);
+        setSortedColumn(column);
+        setIsAsc(newIsAsc);
+    };
 
     const handleViewVeic = async (veiculo) => {
         try {
@@ -241,14 +262,47 @@ export default function Veiculos() {
                         <table className={styles.resultTable}>
                             <thead className={styles.tableHead}>
                                 <tr>
-                                    <th className={`${styles.tableHeader} ${styles.id}`}>Código</th>
-                                    <th className={`${styles.tableHeader} ${styles.modelo}`}>Modelo</th>
-                                    <th className={`${styles.tableHeader} ${styles.marca}`}>Marca</th>
-                                    <th className={`${styles.tableHeader} ${styles.placa}`}>Placa</th>
-                                    <th className={`${styles.tableHeader} ${styles.ano}`}>Ano</th>
-                                    <th className={`${styles.tableHeader} ${styles.cor}`}>Cor</th>
-                                    <th className={`${styles.tableHeader} ${styles.combustivel}`}>Combustível</th>
-                                    <th className={`${styles.tableHeader} ${styles.proprietario}`}>Proprietário</th>
+                                    <th 
+                                    className={`${styles.tableHeader} ${styles.id}`}
+                                        onClick={() => sortByColumn('veic_id')}>
+                                        Código 
+                                    {sortedColumn === 'veic_id' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.modelo}`}
+                                    onClick={() => sortByColumn('modelo')}>
+                                        Modelo 
+                                    {sortedColumn === 'modelo' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.marca}`}
+                                    onClick={() => sortByColumn('marca')}>
+                                        Marca 
+                                    {sortedColumn === 'marca' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.placa}`}
+                                    onClick={() => sortByColumn('veic_placa')}>
+                                        Placa 
+                                    {sortedColumn === 'veic_placa' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.ano}`}
+                                    onClick={() => sortByColumn('veic_ano')}>
+                                        Ano 
+                                    {sortedColumn === 'veic_ano' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.cor}`}
+                                    onClick={() => sortByColumn('veic_cor')}>
+                                        Cor 
+                                    {sortedColumn === 'veic_cor' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.combustivel}`}
+                                    onClick={() => sortByColumn('veic_combustivel')}>
+                                        Combustível 
+                                    {sortedColumn === 'veic_combustivel' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.proprietario}`}
+                                    onClick={() => sortByColumn('proprietarios')}>
+                                        Proprietário 
+                                    {sortedColumn === 'proprietarios' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
                                     <th className={`${styles.tableHeader} ${styles.acao}`}>Ações</th>
                                 </tr>
                             </thead>

@@ -34,10 +34,13 @@ export default function CadCliente() {
         setFilteredUsers(usuarios);
     }, [usuarios]);
 
-
     useEffect(() => {
-        handleFilterChange();
+        handleSearch();
     }, [usuarios, statusFilter, tipoUsuarioFilter, searchText]);
+
+    // useEffect(() => {
+    //     handleFilterChange();
+    // }, [usuarios, statusFilter, tipoUsuarioFilter, searchText]);
 
     const ListarUsuarios = async () => {
         try {
@@ -53,35 +56,61 @@ export default function CadCliente() {
         }
     };
 
-    const handleFilterChange = () => {
-        const result = usuarios.filter(usuario => {
-            const statusMatch = statusFilter === 'todos' || 
-                (statusFilter === 'ativo' && usuario.usu_situacao === 1) ||  // Verifique se 1 é ativo
-                (statusFilter === 'inativo' && usuario.usu_situacao === 0); // E 0 é inativo
+    // const handleFilterChange = () => {
+    //     const result = usuarios.filter(usuario => {
+    //         const statusMatch = statusFilter === 'todos' || 
+    //             (statusFilter === 'ativo' && usuario.usu_situacao === 1) ||  // Verifique se 1 é ativo
+    //             (statusFilter === 'inativo' && usuario.usu_situacao === 0); // E 0 é inativo
+    
+    //         const tipoMatch = tipoUsuarioFilter === 'todos' ||
+    //             (tipoUsuarioFilter === 'admin' && usuario.usu_acesso === 1) ||
+    //             (tipoUsuarioFilter === 'usuario' && usuario.usu_acesso === 0);
+    
+    //         return statusMatch && tipoMatch;
+    //     });
+
+    //     setFilteredUsers(result);
+    //     setCurrentPage(1);
+    // };
+    
+    // const handleSearch = () => {
+    //     setSortedColumn(null);
+    //     setIsAsc(true);
+
+    //     const result = filteredUsers.filter(usuario => {
+    //         return usuario.usu_nome.toLowerCase().includes(searchText.toLowerCase()) ||
+    //             usuario.usu_email.toLowerCase().includes(searchText.toLowerCase()) ||
+    //             usuario.usu_cpf.includes(searchText);
+    //     });
+    //     setFilteredUsers(result);
+    //     setCurrentPage(1);
+    // }
+
+    const handleSearch = () => {
+        setSortedColumn(null);
+        setIsAsc(true);
+    
+        const result = usuarios.filter((usuario) => {
+            const statusMatch = 
+                statusFilter === 'todos' || 
+                (statusFilter === 'ativo' && usuario.usu_situacao === 1) || 
+                (statusFilter === 'inativo' && usuario.usu_situacao === 0);
     
             const tipoMatch = tipoUsuarioFilter === 'todos' ||
                 (tipoUsuarioFilter === 'admin' && usuario.usu_acesso === 1) ||
                 (tipoUsuarioFilter === 'usuario' && usuario.usu_acesso === 0);
     
-            return statusMatch && tipoMatch;
+            const searchTextMatch = searchText === '' ||
+                usuario.usu_nome.toLowerCase().includes(searchText.toLowerCase()) ||
+                usuario.usu_email.toLowerCase().includes(searchText.toLowerCase()) ||
+                usuario.usu_cpf.includes(searchText);
+            
+            return statusMatch && tipoMatch && searchTextMatch;
         });
-
+    
         setFilteredUsers(result);
         setCurrentPage(1);
     };
-    
-    const handleSearch = () => {
-        setSortedColumn(null);
-        setIsAsc(true);
-
-        const result = filteredUsers.filter(usuario => {
-            return usuario.usu_nome.toLowerCase().includes(searchText.toLowerCase()) ||
-                usuario.usu_email.toLowerCase().includes(searchText.toLowerCase()) ||
-                usuario.usu_cpf.includes(searchText);
-        });
-        setFilteredUsers(result);
-        setCurrentPage(1);
-    }
 
     const handleViewUser = (usuario) => {
         setSelectedUser(usuario);
@@ -102,10 +131,10 @@ export default function CadCliente() {
     };
 
     const sortByColumn = (column) => {
-        let newIsAsc = true; // Define ascendente por padrão
+        let newIsAsc = true;
     
         if (sortedColumn === column) {
-            newIsAsc = !isAsc; // Se a mesma coluna for clicada, inverte a direção
+            newIsAsc = !isAsc;
         }
     
         const sortedData = [...filteredUsers].sort((a, b) => {
@@ -114,9 +143,9 @@ export default function CadCliente() {
             return 0;
         });
     
-        setFilteredUsers(sortedData); // Atualiza a lista filtrada com os dados ordenados
-        setSortedColumn(column); // Atualiza a coluna que está sendo ordenada
-        setIsAsc(newIsAsc); // Atualiza a direção da ordenação
+        setFilteredUsers(sortedData);
+        setSortedColumn(column);
+        setIsAsc(newIsAsc);
     };
 
     const handleSubmit = async (data) => {

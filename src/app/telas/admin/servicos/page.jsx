@@ -185,9 +185,8 @@ export default function Servicos() {
     };
 
     const handleSearch = () => {
-        // Zera as ordenações ao clicar em pesquisar
-        setSortedColumn(null);  // Remove a coluna ordenada
-        setIsAsc(true);         // Redefine para ascendente, mas não será usado até nova ordenação
+        setSortedColumn(null);
+        setIsAsc(true);
     
         const result = servicos.filter((servico) => {
             const statusMatch = statusFilter === 'todos' ||
@@ -251,7 +250,6 @@ export default function Servicos() {
                                     onClick={() => sortByColumn('serv_id')}>
                                         Código 
                                     {sortedColumn === 'serv_id' ? (isAsc ? '▲' : '▼') : ''}
-
                                     </th>
                                     <th className={`${styles.tableHeader} ${styles.nome}`} onClick={() => sortByColumn('serv_nome')}>
                                         Nome do Serviço {sortedColumn === 'serv_nome' ? (isAsc ? '▲' : '▼') : ''}
@@ -315,12 +313,8 @@ export default function Servicos() {
 
 
                 <FormServicos
-                    // selectedServicos={selectedServico} retirei essa
-                    // selectedServico={selectedServico} retirei essa
-
-
-                    selectedServico={selectedServico} // adicionei essa linha
-                    setSelectedServico={setSelectedServico} // adicionei essa linha
+                    selectedServico={selectedServico}
+                    setSelectedServico={setSelectedServico}
 
                     isViewing={isViewing}
                     handleSubmit={handleSubmit}

@@ -86,25 +86,13 @@ export default function FormServicos({ selectedServico, setSelectedServico, isVi
                             disabled={isViewing}
                         />
                     </div>
-                    {/* <div className={`${styles.grid_item} ${styles.grid_observacoes} ${styles.grid_item_observacoes}`}>
-                        <label htmlFor="observacoes_servico" className={styles.label_servicos}>Descrição</label>
-                        <input
-                            type="text"
-                            name="serv_descricao"
-                            id="serv_descricao"
-                            value={selectedServico ? selectedServico.serv_descricao : ''}
-                            onChange={(e) => setSelectedServico({ ...selectedServico, serv_descricao: e.target.value })}
-                            className={styles.input_servicos}
-                            readOnly
-                        />
-                    </div> */}
                     <div className={`${styles.grid_item} ${styles.grid_situacao}`}>
                         <label htmlFor="serv_situacao" className={styles.label_servicos}>Situação</label>
                         <input
                             type="text"
                             name="serv_situacao"
                             id="serv_situacao"
-                            value={selectedServico ? ( selectedServico.serv_situacao ? 'Ativo' : 'Inativo' ) : ''}
+                            value={selectedServico ? (selectedServico.serv_situacao ? 'Ativo' : 'Inativo') : ''}
                             onChange={(e) => setSelectedServico({ ...selectedServico, serv_situacao: e.target.value })}
                             className={styles.input_servicos}
                             disabled={isViewing}
