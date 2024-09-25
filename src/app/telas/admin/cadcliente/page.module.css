@@ -51,6 +51,25 @@
     color: #222;
 }
 
+.button_exit {
+    padding: 10px 20px;
+    background-color: #ff9d00;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+    grid-column: span 1;
+    grid-area: 1 / 1 / 2 / 1;
+}
+
+.button_exit:hover {
+    background-color: #f39200;
+    color: #222;
+}
+
+
 /*--------------------*/
 .contentSearch {
     padding: 2rem 0 .5rem;
@@ -145,6 +164,34 @@
     outline: none;
 }
 
+.tableHeader {
+    cursor: pointer; 
+    padding: 10px;
+    text-align: left;
+    background-color: #f0f0f0;
+    border-bottom: 2px solid #ccc;
+    transition: background-color 0.3s; 
+}
+
+.tableHeader:hover {
+    background-color: #e38f08; 
+}
+
+.sortIcon {
+    margin-left: 5px; 
+    font-size: 0.8em; 
+    vertical-align: middle;
+}
+
+.asc {
+    color: #007bff; 
+}
+
+.desc {
+    color: #dc3545; 
+}
+
+
 .newButton {
     flex: 1;
     max-width: 20%;
@@ -168,7 +215,7 @@
 /*---------------------*/
 .resultTableContainer {
     display: flex;
-    align-items: start;
+    align-items: flex-start;
     padding: 0;
     width: 100%;
     margin-top: 20px;
@@ -206,7 +253,7 @@
 }
 
 .id {
-    width: 5%;
+    width: 7%;
 }
 
 .nome,
@@ -370,6 +417,10 @@
         grid-area: 1 / 4 / 2 / 5;
     }
 
+    .button_exit {
+        grid-area: 1 / 1 / 2 / 1;
+    }
+
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
@@ -419,6 +470,10 @@
 
     .button_cancel {
         grid-area: 1 / 3 / 2 / 4;
+    }
+
+    .button_exit {
+        grid-area: 1 / 1 / 2 / 1;
     }
 }
 
@@ -476,15 +531,19 @@
 
     .footer_form {
         padding: 20px 20px;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
 
     .button_submit {
-        grid-area: 1 / 2 / 2 / 3;
+        grid-area: 1 / 3 / 2 / 3;
     }
 
     .button_cancel {
-        grid-area: 1 / 1 / 2 / 2;
+        grid-area: 1 / 2 / 2 / 2;
+    }
+
+    .button_exit {
+        grid-area: 1 / 1 / 2 / 1;
     }
 
 }

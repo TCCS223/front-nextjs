@@ -2,52 +2,46 @@
 
 import styles from './page.module.css';
 import { useState, useEffect } from 'react';
-// import ConsultaServico from '@/components/modais/modais_serviços';
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 import { IoMdTrash } from "react-icons/io";
-
+import api from '@/services/api';
+import Swal from 'sweetalert2';
 import FormServicos from '@/components/FormServicos';
 
 export default function Servicos() {
-
-    const [selectedServicos, setSelectedServicos] = useState(null);
-    const [isViewing, setIsViewing] = useState(false);
     const [servicos, setServicos] = useState([]);
-    const [filteredServicos, setFilteredServicos] = useState([]);
+    const [selectedServico, setSelectedServico] = useState(null);
+    const [isViewing, setIsViewing] = useState(false);
     const [statusFilter, setStatusFilter] = useState('todos');
     const [searchText, setSearchText] = useState('');
     const [showForm, setShowForm] = useState(false);
-    // const [isModalOpen, setIsModalOpen] = useState(false); 
+    const [filteredServicos, setFilteredServicos] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [sortedColumn, setSortedColumn] = useState(null);
+    const [isAsc, setIsAsc] = useState(true);
 
-    const handleSearch = () => {
-        const result = servicos.filter(servicos => {
-            const statusMatch = statusFilter === 'todos' || servicos.serv_situacao === statusFilter;
-            const textMatch =
-                servicos.serv_nome.toLowerCase().includes(searchText.toLowerCase()) ||
-                servicos.serv_duracao.toLowerCase().includes(searchText.toLowerCase()) ||
-                servicos.serv_preco.includes(searchText);
+    const usersPerPage = 15;
 
-            return statusMatch && tipoMatch && textMatch;
-        });
+    const indexOfLastUser = currentPage * usersPerPage;
+    const indexOfFirstUser = indexOfLastUser - usersPerPage;
+    const currentServicos = filteredServicos.slice(indexOfFirstUser, indexOfLastUser);
 
-        setFilteredServicos(result);
-    };
+    useEffect(() => {
+        ListarServicos();
+    }, []);
 
     useEffect(() => {
         setFilteredServicos(servicos);
     }, [servicos]);
 
-    // const openModal = () => { // Define uma função chamada 'openModal' que altera o estado 'isModalOpen' para 'true'.
-    //     setIsModalOpen(true); // Altera o estado 'isModalOpen' para 'true', o que pode ser usado para abrir um modal.
-    // };
-
-    // const closeModal = () => { // Define uma função chamada 'closeModal' que altera o estado 'isModalOpen' para 'false'.
-    //     setIsModalOpen(false); // Altera o estado 'isModalOpen' para 'false', o que pode ser usado para fechar um modal.
-    // };
+    useEffect(() => {
+        handleSearch(); // Chama o filtro sempre que o status for alterado
+    }, [searchText, statusFilter]);
 
     const ListarServicos = async () => {
         try {
             const response = await api.get('/servicos');
+            console.log(response.data);
             setServicos(response.data.dados);
         } catch (error) {
             console.error("Erro ao buscar os serviços:", error);
@@ -57,6 +51,61 @@ export default function Servicos() {
                 icon: "error",
             });
         }
+    };
+
+    const handleDeleteServicos = async (serv_id) => {
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Você não poderá desfazer essa ação!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, excluir!',
+            cancelButtonText: 'Cancelar',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await api.delete(`/servicos/${serv_id}`);
+                    if (response.data.sucesso) {
+                        Swal.fire(
+                            'Excluído!',
+                            'O serviço foi excluído com sucesso.',
+                            'success'
+                        );
+                        ListarServicos();
+                    } else {
+                        throw new Error(response.data.mensagem);
+                    }
+                } catch (error) {
+                    console.error("Erro ao excluir serviço:", error);
+                    Swal.fire({
+                        title: 'Erro!',
+                        text: error.response ? error.response.data.mensagem : 'Erro desconhecido ao excluir serviço.',
+                        icon: 'error',
+                    });
+                }
+            }
+        });
+    };
+
+
+    const sortByColumn = (column) => {
+        let newIsAsc = true; // Define ascendente por padrão
+    
+        if (sortedColumn === column) {
+            newIsAsc = !isAsc; // Se a mesma coluna for clicada, inverte a direção
+        }
+    
+        const sortedData = [...filteredServicos].sort((a, b) => {
+            if (a[column] < b[column]) return newIsAsc ? -1 : 1;
+            if (a[column] > b[column]) return newIsAsc ? 1 : -1;
+            return 0;
+        });
+    
+        setFilteredServicos(sortedData); // Atualiza a lista filtrada com os dados ordenados
+        setSortedColumn(column); // Atualiza a coluna que está sendo ordenada
+        setIsAsc(newIsAsc); // Atualiza a direção da ordenação
     };
 
     const handleSubmit = async (data) => {
@@ -69,6 +118,7 @@ export default function Servicos() {
             });
             ListarServicos();
             setShowForm(false);
+            setSelectedServico(null);
         } catch (error) {
             console.error("Erro ao atualizar:", error);
             Swal.fire({
@@ -102,19 +152,57 @@ export default function Servicos() {
                     confirmButtonColor: "rgb(40, 167, 69)",
                 }).then(() => {
                     setShowForm(false);
-                    setSelectedServicos(null); // Mostrar a tabela novamente após confirmação
+                    setSelectedServico(null);
                 });
             }
         });
-    }
+    };
 
     const handleEditServicos = (servicos) => {
-        setSelectedServicos(servicos);
+        setSelectedServico(servicos);
         setShowForm(true);
         setIsViewing(false);
     };
 
+    const handleViewServicos = async (servicos) => {
+        try {
+            const response = await api.get(`/servicos/${servicos.serv_id}`);
+            if (response.data.sucesso) {
+                setSelectedServico(response.data.dados);
+                setShowForm(true);
+                setIsViewing(true);
+            } else {
+                throw new Error(response.data.mensagem);
+            }
+        } catch (error) {
+            console.error("Erro ao visualizar serviço:", error);
+            Swal.fire({
+                title: "Erro!",
+                text: error.response ? error.response.data.mensagem : 'Erro desconhecido ao buscar serviço.',
+                icon: "error",
+            });
+        }
+    };
 
+    const handleSearch = () => {
+        setSortedColumn(null);
+        setIsAsc(true);
+    
+        const result = servicos.filter((servico) => {
+            const statusMatch = statusFilter === 'todos' ||
+                (statusFilter === 'ativo' && servico.serv_situacao === 'Ativo') ||
+                (statusFilter === 'inativo' && servico.serv_situacao === 'Inativo');
+            
+            const searchTextMatch = searchText === '' ||
+                servico.serv_nome.toLowerCase().includes(searchText.toLowerCase()) ||
+                servico.cat_serv_nome.toLowerCase().includes(searchText.toLowerCase());
+    
+            return statusMatch && searchTextMatch;
+        });
+    
+        setFilteredServicos(result);
+        setCurrentPage(1);
+    };
 
     return (
         <div id="servicos" className={`${styles.content_section}`}>
@@ -134,6 +222,7 @@ export default function Servicos() {
                             <button className={styles.searchButton} onClick={handleSearch}>Pesquisar</button>
                         </div>
                         <div className={styles.filterButtons}>
+                            <div className={`${styles.filterGroup} ${styles.filterGroupTypeUser}`}></div>
                             <div className={styles.filterGroup}>
                                 <label htmlFor="status" className={styles.labelFilter}>Status</label>
                                 <select
@@ -156,41 +245,54 @@ export default function Servicos() {
                         <table className={styles.resultTable}>
                             <thead className={styles.tableHead}>
                                 <tr>
-                                    <th className={`${styles.tableHeader} ${styles.id}`}>Código</th>
-                                    <th className={`${styles.tableHeader} ${styles.nome}`}>Nome do Serviço</th>
-                                    <th className={`${styles.tableHeader} ${styles.cpf}`}>Duração</th>
-                                    <th className={`${styles.tableHeader} ${styles.dataNasc}`}>Preço</th>
-                                    <th className={`${styles.tableHeader} ${styles.sexo}`}>Descrição</th>
-                                    <th className={`${styles.tableHeader} ${styles.telefone}`}>Situação</th>
+                                    <th 
+                                    className={`${styles.tableHeader} ${styles.id}`} 
+                                    onClick={() => sortByColumn('serv_id')}>
+                                        Código 
+                                    {sortedColumn === 'serv_id' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.nome}`} onClick={() => sortByColumn('serv_nome')}>
+                                        Nome do Serviço {sortedColumn === 'serv_nome' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.categoria}`} onClick={() => sortByColumn('cat_serv_nome')}>
+                                        Categoria {sortedColumn === 'cat_serv_nome' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.duracao}`} onClick={() => sortByColumn('serv_duracao')}>
+                                        Duração {sortedColumn === 'serv_duracao' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.preco}`} onClick={() => sortByColumn('serv_preco')}>
+                                        Preço {sortedColumn === 'serv_preco' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
                                     <th className={`${styles.tableHeader} ${styles.acao}`}>Ações</th>
                                 </tr>
                             </thead>
                             <tbody className={styles.tableBody}>
-                                {ListarServicos.length > 0 ? (
-                                    ListarServicos.map((servicos) => (
+                                {currentServicos.length > 0 ? (
+                                    currentServicos.map((servicos) => (
                                         <tr key={servicos.serv_id}>
-                                            <td className={styles.tdId}>{servicos.cat_serv_id}</td>
-                                            <td>{servicos.serv_nome}</td>
-                                            <td>{servicos.serv_duracao}</td>
-                                            <td>{servicos.serv_preco}</td>
-                                            <td>{servicos.serv_descricao}</td>
-                                            <td>{servicos.serv_situacao}</td>
+                                            <td className={styles.tdId}>{servicos.serv_id}</td>
+                                            <td className={styles.tdNome}>{servicos.serv_nome}</td>
+                                            <td className={styles.tdCategoria}>{servicos.cat_serv_nome}</td>
+                                            <td className={styles.tdDuracao}>{servicos.serv_duracao}</td>
+                                            <td className={styles.tdPreco}>R${Number(servicos.serv_preco).toFixed(2)}</td>
                                             <td>
-                                                <div className={styles.actionIcons}>
+                                            <div className={styles.actionIcons}>
+                                                    <i><MdRemoveRedEye title="Visualizar" onClick={() => handleViewServicos(servicos)} /></i>
                                                     <i><MdEdit title="Editar" onClick={() => handleEditServicos(servicos)} /></i>
-                                                </div>
+                                                    <i><IoMdTrash title="Excluir" onClick={() => handleDeleteServicos(servicos.serv_id)} /></i>
+                                            </div>
                                             </td>
                                         </tr>
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan="8">Nenhum serviço encontrado</td>
+                                        <td colSpan="6" className={styles.noResults}>Nenhum serviço encontrado.</td>
                                     </tr>
                                 )}
                             </tbody>
                         </table>
                     </div>
-                    {/* <div className={styles.pagination}>
+                    <div className={styles.pagination}>
                         <button
                             className={styles.buttonPrev}
                             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
@@ -200,32 +302,32 @@ export default function Servicos() {
                         </button>
                         <span>Página {currentPage}</span>
                         <button
-                            onClick={() => setCurrentPage(prev => (filteredUsers.length > indexOfLastUser ? prev + 1 : prev))}
-                            disabled={filteredUsers.length <= indexOfLastUser}
+                            onClick={() => setCurrentPage(prev => (filteredServicos.length > indexOfLastUser ? prev + 1 : prev))}
+                            disabled={filteredServicos.length <= indexOfLastUser}
                         >
                             Próxima
                         </button>
-                    </div> */}
+                    </div>
                 </>
             ) : (<>
-            
-                
-            {/* <ConsultaServico isOpen={isModalOpen} onClose={closeModal} /> */}
 
-            <FormServicos
-                selectedUser={selectedServicos}
-                setSelectedUser={setSelectedServicos}
-                isViewing={isViewing}
-                handleSubmit={handleSubmit}
-                Cancelar={Cancelar}
-            />
 
-            <div className={styles.footer_form}>
-                <button type="reset" onClick={Cancelar} className={styles.button_cancel}>Cancelar</button>
-                <button type="button" className={styles.button_submit} onClick={handleSubmit} disabled={isViewing}>Salvar</button>
-            </div>
+                <FormServicos
+                    selectedServico={selectedServico}
+                    setSelectedServico={setSelectedServico}
+
+                    isViewing={isViewing}
+                    handleSubmit={handleSubmit}
+                    Cancelar={Cancelar}
+                />
+
+                <div className={styles.footer_form}>
+                    <button type="reset" onClick={Cancelar} className={styles.button_cancel}>Cancelar</button>
+                    <button type="button" className={styles.button_submit} onClick={handleSubmit} disabled={isViewing}>Salvar</button>
+                </div>
             </>
-            )}
+            )
+            }
         </div>
     );
 }

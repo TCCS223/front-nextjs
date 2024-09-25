@@ -84,7 +84,7 @@
 
 .searchButton {
     flex: 1;
-    max-width: 25%;
+    max-width: 20%;
     padding: 10px;
     font-size: 16px;
     background-color: #ff9d00;
@@ -166,6 +166,40 @@
 }
 
 /*---------------------*/
+
+/* Estilo geral para os cabeçalhos da tabela */
+.tableHeader {
+    cursor: pointer; /* Altera o cursor para indicar que é clicável */
+    padding: 10px;
+    text-align: left;
+    background-color: #f0f0f0; /* Cor de fundo do cabeçalho */
+    border-bottom: 2px solid #ccc; /* Borda inferior do cabeçalho */
+    transition: background-color 0.3s; /* Transição suave para a cor de fundo */
+}
+
+/* Efeito ao passar o mouse */
+.tableHeader:hover {
+    background-color: #e38f08; /* Cor de fundo ao passar o mouse */
+}
+
+/* Estilo para a seta de ordenação */
+.sortIcon {
+    margin-left: 5px; /* Espaçamento à esquerda da seta */
+    font-size: 0.8em; /* Tamanho da seta */
+    vertical-align: middle; /* Alinha a seta verticalmente */
+}
+
+/* Classe para indicar ordenação ascendente */
+.asc {
+    color: #007bff; /* Cor da seta quando ordenado de forma ascendente */
+}
+
+/* Classe para indicar ordenação descendente */
+.desc {
+    color: #dc3545; /* Cor da seta quando ordenado de forma descendente */
+}
+
+
 .resultTableContainer {
     display: flex;
     align-items: start;
@@ -206,19 +240,26 @@
 }
 
 .id {
-    width: 5%;
+    width: 7%;
+    text-align: cente;
 }
 
-.nome,
-.cpf,
-.dataNasc,
-.telefone,
-.email,
-.acao {
+.nome {
+    width: 25%;
+}
+ .categoria{
+    width: 25%;
+}
+
+
+.duracao,
+.preco,
+.situacao
+ {
     width: 15%;
 }
 
-.sexo {
+.acao {
     width: 10%;
 }
 

@@ -11,20 +11,17 @@ import FullCalendar from "./agenda/page";
 
 
 export default function Home() {
-
     
     const [tela, setTela] = useState(0);
-
-    const teste = () => {
-        alert('Você clicou no ícone de power!');
-      };
 
     return (
         <div className={styles.grid_container}>
             <div className={styles.header}>
                 <h1 className={styles.title}>Painel Administrativo</h1>
             
-                <Link href="/" className={styles.linkPower}><span className={styles.power} title="Sair"></span></Link>
+                <Link href="/" className={styles.linkPower}>
+                <span className={styles.power} title="Sair"></span>
+                </Link>
                 
             </div>
             <div className={styles.sidebar}>
@@ -50,16 +47,6 @@ export default function Home() {
                                         : <></>
                 }
             </div>
-
-            {/* <div className={styles.logo}>
-            <Image
-              src={'logo.png'}
-              width={190}
-              height={45}
-              alt={"logo"}
-              unoptimized={true}
-            />
-            </div> */}
 
         </div>
     )

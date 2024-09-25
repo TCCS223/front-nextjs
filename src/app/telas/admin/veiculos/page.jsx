@@ -1,12 +1,10 @@
+
+
 import styles from './page.module.css';
 import { useState, useEffect } from 'react';
-
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 import { IoMdTrash } from "react-icons/io";
-import { format } from 'date-fns';
 import Swal from 'sweetalert2';
-
-// import ConsultaVeiculo from '@/components/modais/modais_clientes';
 import FormVeiculo from '@/components/FormVeiculo';
 
 import api from '@/services/api';
@@ -19,43 +17,84 @@ export default function Veiculos() {
     const [searchText, setSearchText] = useState('');
     const [statusFilter, setStatusFilter] = useState('todos');
     const [isViewing, setIsViewing] = useState(false);
+    const [sortedColumn, setSortedColumn] = useState(null);
+    const [isAsc, setIsAsc] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const usersPerPage = 15;
-
 
     useEffect(() => {
         ListarVeiculos();
     }, []);
 
     useEffect(() => {
-        setFilteredVeiculos(veiculos);
-    }, [veiculos]);
+        handleSearch(); // Chama a filtragem sempre que o searchText ou statusFilter mudarem
+    }, [searchText, statusFilter, veiculos]);
 
-    // Função de busca e filtro por status
     const handleSearch = () => {
-        const result = veiculos.filter((veiculo) => {
-            const statusMatch = statusFilter === 'todos' || veiculo.situacao === statusFilter;
-            return statusMatch;
-        });
+        setSortedColumn(null);
+        setIsAsc(true);
 
+        const result = veiculos.filter((veiculo) => {
+            console.log(veiculo);
+            const statusMatch = 
+                statusFilter === 'todos' || 
+                (statusFilter === 'ativo' && veiculo.veic_situacao === 1) || 
+                (statusFilter === 'inativo' && veiculo.veic_situacao === 0);
+    
+            const searchTextMatch = searchText === '' ||
+                (veiculo.veic_placa?.toLowerCase().includes(searchText.toLowerCase())) ||
+                (veiculo.modelo?.toLowerCase().includes(searchText.toLowerCase())) ||
+                (veiculo.marca?.toLowerCase().includes(searchText.toLowerCase()));
+                
+            return statusMatch && searchTextMatch;
+        });
+        
+        console.log(result);
         setFilteredVeiculos(result);
-        setCurrentPage(1); // Reseta a página para 1
+        setCurrentPage(1);
+    };
+    
+
+    const ListarVeiculos = async () => {
+        try {
+            const response = await api.get('/veiculos');
+            setVeiculos(response.data.dados);
+            handleSearch();
+        } catch (error) {
+            console.error("Erro ao buscar os usuários:", error);
+            Swal.fire({
+                title: "Erro!",
+                text: "Não foi possível carregar os usuários.",
+                icon: "error",
+            });
+        }
+    };
+    
+    const sortByColumn = (column) => {
+        let newIsAsc = true; 
+    
+        if (sortedColumn === column) {
+            newIsAsc = !isAsc; 
+        }
+    
+        const sortedData = [...filteredVeiculos].sort((a, b) => {
+            if (a[column] < b[column]) return newIsAsc ? -1 : 1;
+            if (a[column] > b[column]) return newIsAsc ? 1 : -1;
+            return 0;
+        });
+    
+        setFilteredVeiculos(sortedData);
+        setSortedColumn(column);
+        setIsAsc(newIsAsc);
     };
 
-
-    // const handleViewVeic = (usuario) => {
-    //     setSelectedVeic(usuario);
-    //     setShowForm(true);
-    //     setIsViewing(true);
-    // };
     const handleViewVeic = async (veiculo) => {
         try {
             const response = await api.get(`/veiculos/${veiculo.veic_id}`);
-            
-            // Acessando a estrutura correta da resposta
+
             if (response.data.sucesso) {
                 console.log(response.data.dados);
-                setSelectedVeic(response.data.dados); // Ajuste aqui se necessário
+                setSelectedVeic(response.data.dados);
                 setShowForm(true);
                 setIsViewing(true);
             } else {
@@ -74,10 +113,8 @@ export default function Veiculos() {
             });
         }
     };
-    
+
     console.log(selectedVeic);
-    
-    
 
     const handleEditVeic = (usuario) => {
         setSelectedVeic(usuario);
@@ -105,18 +142,42 @@ export default function Veiculos() {
         }
     };
 
-    const ListarVeiculos = async () => {
-        try {
-            const response = await api.get('/veiculos');
-            setVeiculos(response.data.dados);
-        } catch (error) {
-            console.error("Erro ao buscar os usuários:", error);
-            Swal.fire({
-                title: "Erro!",
-                text: "Não foi possível carregar os usuários.",
-                icon: "error",
-            });
-        }
+    
+
+    const handleDeleteVeic = async (veic_id) => {
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Você não poderá desfazer essa ação!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, excluir!',
+            cancelButtonText: 'Cancelar',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await api.delete(`/veiculos/${veic_id}`);
+                    if (response.data.sucesso) {
+                        Swal.fire(
+                            'Excluído!',
+                            'O veículo foi excluído com sucesso.',
+                            'success'
+                        );
+                        ListarVeiculos();
+                    } else {
+                        throw new Error(response.data.mensagem);
+                    }
+                } catch (error) {
+                    console.error("Erro ao excluir veículo:", error);
+                    Swal.fire({
+                        title: 'Erro!',
+                        text: error.response ? error.response.data.mensagem : 'Erro desconhecido ao excluir veículo.',
+                        icon: 'error',
+                    });
+                }
+            }
+        });
     };
 
     const Cancelar = () => {
@@ -142,7 +203,7 @@ export default function Veiculos() {
                     confirmButtonColor: "rgb(40, 167, 69)",
                 }).then(() => {
                     setShowForm(false);
-                    setSelectedVeic(null); // Mostrar a tabela novamente após confirmação
+                    setSelectedVeic(null);
                 });
             }
         });
@@ -181,7 +242,10 @@ export default function Veiculos() {
                                     id="status"
                                     className={styles.filterSelect}
                                     value={statusFilter}
-                                    onChange={(e) => setStatusFilter(e.target.value)}
+                                    onChange={(e) => {
+                                        setStatusFilter(e.target.value);
+                                        handleSearch(); // Adicionando chamada para filtrar após mudar o status
+                                    }}
                                 >
                                     <option value="todos">Todos</option>
                                     <option value="ativo">Ativo</option>
@@ -198,14 +262,47 @@ export default function Veiculos() {
                         <table className={styles.resultTable}>
                             <thead className={styles.tableHead}>
                                 <tr>
-                                    <th className={`${styles.tableHeader} ${styles.id}`}>Código</th>
-                                    <th className={`${styles.tableHeader} ${styles.modelo}`}>Modelo</th>
-                                    <th className={`${styles.tableHeader} ${styles.marca}`}>Marca</th>
-                                    <th className={`${styles.tableHeader} ${styles.placa}`}>Placa</th>
-                                    <th className={`${styles.tableHeader} ${styles.ano}`}>Ano</th>
-                                    <th className={`${styles.tableHeader} ${styles.cor}`}>Cor</th>
-                                    <th className={`${styles.tableHeader} ${styles.combustivel}`}>Combustível</th>
-                                    <th className={`${styles.tableHeader} ${styles.proprietario}`}>Proprietário</th>
+                                    <th 
+                                    className={`${styles.tableHeader} ${styles.id}`}
+                                        onClick={() => sortByColumn('veic_id')}>
+                                        Código 
+                                    {sortedColumn === 'veic_id' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.modelo}`}
+                                    onClick={() => sortByColumn('modelo')}>
+                                        Modelo 
+                                    {sortedColumn === 'modelo' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.marca}`}
+                                    onClick={() => sortByColumn('marca')}>
+                                        Marca 
+                                    {sortedColumn === 'marca' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.placa}`}
+                                    onClick={() => sortByColumn('veic_placa')}>
+                                        Placa 
+                                    {sortedColumn === 'veic_placa' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.ano}`}
+                                    onClick={() => sortByColumn('veic_ano')}>
+                                        Ano 
+                                    {sortedColumn === 'veic_ano' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.cor}`}
+                                    onClick={() => sortByColumn('veic_cor')}>
+                                        Cor 
+                                    {sortedColumn === 'veic_cor' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.combustivel}`}
+                                    onClick={() => sortByColumn('veic_combustivel')}>
+                                        Combustível 
+                                    {sortedColumn === 'veic_combustivel' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.proprietario}`}
+                                    onClick={() => sortByColumn('proprietarios')}>
+                                        Proprietário 
+                                    {sortedColumn === 'proprietarios' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
                                     <th className={`${styles.tableHeader} ${styles.acao}`}>Ações</th>
                                 </tr>
                             </thead>
@@ -241,7 +338,7 @@ export default function Veiculos() {
                                                 <div className={styles.actionIcons}>
                                                     <i><MdRemoveRedEye title="Visualizar" onClick={() => handleViewVeic(veiculo)} /></i>
                                                     <i><MdEdit title="Editar" onClick={() => handleEditVeic(veiculo)} /></i>
-                                                    <i><IoMdTrash title="Excluir" onClick={() => handleDeleteUser(veiculo.veic_id)} /></i>
+                                                    <i><IoMdTrash title="Excluir" onClick={() => handleDeleteVeic(veiculo.veic_id)} /></i>
                                                 </div>
                                             </td>
                                         </tr>
@@ -288,7 +385,6 @@ export default function Veiculos() {
             </>
             )}
         </div>
-
 
     );
 }
