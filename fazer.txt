@@ -3,7 +3,7 @@
     consultar se o cpf ja está cadastrado e evitar novo cadastro
 
 - CADCLIENTE -
-    bloquaer o campo do cpf para nao editar
+    bloquaer o campo do cpf para nao editar (vai ter que validar se tem id ou não como uma condição pra poder deixar o campo editavel ou nn)
     bloquear o campo do usu_situacao na hora do admin cadastrar
     {   
         validar cpf
@@ -12,7 +12,6 @@
         -> quando clicar no botão de salvar, mostrar um swal que todos os campos devem ser preenchidos, e sinalizar com a borda vermelha os campos que estão incorretos
     }
     permitir null na observação
-    ajustar layout para incluir o campo senha
     ajustar botão de voltar ou salvar, dependendo do modo que o formulário for aberto (visualização ou edição)
     (inserir possivel validação de senha) -> se der tempo
 

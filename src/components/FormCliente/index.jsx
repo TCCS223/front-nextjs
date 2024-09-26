@@ -1,8 +1,20 @@
 import React from 'react';
+import { useState } from 'react';
 import styles from './index.module.css';
 import InputMask from "react-input-mask";
+import { IoMdEyeOff } from "react-icons/io";
+import { IoMdEye } from "react-icons/io";
 
 export default function FormCliente({ selectedUser, setSelectedUser, isViewing, handleSubmit }) {
+
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+    
 
     return (
         <form id="clienteForm" className={styles.form} onSubmit={handleSubmit}>
@@ -16,10 +28,10 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         type="number"
                         id="codigo_cliente"
                         name="codigo_cliente"
-                        required
                         value={selectedUser ? selectedUser.usu_id : ''}
                         disabled
                         className={styles.input_cliente}
+                        required
                     />
                 </div>
 
@@ -29,12 +41,12 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         type="text"
                         id="nome_cliente"
                         name="nome_cliente"
-                        required
                         value={selectedUser ? selectedUser.usu_nome : ''}
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_nome: e.target.value })}
                         disabled={isViewing}
                         className={styles.input_cliente}
                         placeholder="Nome Completo"
+                        required
                     />
                 </div>
 
@@ -50,7 +62,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         disabled={isViewing}
                         className={styles.input_cliente}
                         required
-                        // placeholder="xxx.xxx.xxx - xx"
+                    // placeholder="xxx.xxx.xxx - xx"
                     />
                 </div>
 
@@ -60,11 +72,11 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         type="date"
                         id="data_nasc_cliente"
                         name="data_nasc_cliente"
-                        required
                         value={selectedUser ? selectedUser.usu_data_nasc : ''}
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_data_nasc: e.target.value })}
                         disabled={isViewing}
                         className={styles.input_cliente}
+                        required
                     />
                 </div>
 
@@ -73,11 +85,11 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                     <select
                         id="sexo_cliente"
                         name="sexo_cliente"
-                        required
-                        className={`${styles.select_cliente} ${styles.input_sexo}`}
                         value={selectedUser ? selectedUser.usu_sexo : ''}
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_sexo: parseInt(e.target.value) })}
                         disabled={isViewing}
+                        className={`${styles.select_cliente} ${styles.input_sexo}`}
+                        required
                     >
                         <option value="">Selecionar</option>
                         <option value="0">Feminino</option>
@@ -113,7 +125,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         disabled={isViewing}
                         className={`${styles.input_cliente}`}
                         required
-                        // placeholder="(xx) xxxxx - xxxx"
+                    // placeholder="(xx) xxxxx - xxxx"
                     />
                 </div>
 
@@ -123,23 +135,43 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         type="email"
                         id="email_cliente"
                         name="email_cliente"
-                        required
                         value={selectedUser ? selectedUser.usu_email : ''}
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_email: e.target.value })}
                         disabled={isViewing}
                         className={styles.input_cliente}
                         placeholder="exemplo@exemplo.com"
-                    />
-                    <input
-                        type='password'
-                        id="password"
-                        name="usu_senha"
-                        className={styles.inputCadastro}
-                        placeholder="Digite sua senha"
-                        value={selectedUser ? selectedUser.usu_senha : ''}
-                        onChange={(e) => setSelectedUser({ ...selectedUser, usu_senha: e.target.value })}
                         required
                     />
+                </div>
+                <div className={`${styles.grid_item} ${styles.grid_senha}`}>
+                    <label htmlFor="usu_senha" className={styles.label_cliente}>Senha</label>
+
+                    <div className={styles.input_cliente_senha}>
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            id="password"
+                            name="usu_senha"
+                            value={selectedUser ? selectedUser.usu_senha : ''}
+                            onChange={(e) => setSelectedUser({ ...selectedUser, usu_senha: e.target.value })}
+                            className={styles.input_cliente_password}
+                            disabled={isViewing}
+                            placeholder="Digite sua senha"
+                            required
+                        />
+
+                        {showPassword ? (
+                            <IoMdEye 
+                            onClick={togglePasswordVisibility} 
+                            className={styles.mdEye}
+                            />
+                            
+                        ) : (
+                            <IoMdEyeOff 
+                            onClick={togglePasswordVisibility} 
+                            className={styles.mdEye}
+                            />
+                        )}
+                    </div>
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_observacoes}`}>
