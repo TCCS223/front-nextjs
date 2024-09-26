@@ -77,8 +77,8 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         name="sexo_cliente"
                         required
                         className={`${styles.select_cliente} ${styles.input_sexo}`}
-                        value={selectedUser ? (selectedUser.usu_acesso !== undefined ? selectedUser.usu_acesso : 0) : 0} // "Usuário" como valor padrão
-                        // value={selectedUser ? selectedUser.usu_sexo : ''}
+                        // value={selectedUser ? (selectedUser.usu_acesso !== undefined ? selectedUser.usu_acesso : 0) : 0} // "Usuário" como valor padrão
+                        value={selectedUser ? selectedUser.usu_sexo : ''}
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_sexo: parseInt(e.target.value) })}
                         disabled={isViewing}
                     >
@@ -95,12 +95,11 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         id="nivel_acesso"
                         name="nivel_acesso"
                         className={`${styles.select_cliente} ${styles.input_acesso}`}
-                        value={selectedUser ? selectedUser.usu_acesso : '0'} // Atualize aqui
+                        value={selectedUser ? selectedUser.usu_acesso : ''} 
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_acesso: parseInt(e.target.value) })}
                         disabled={isViewing}
-                     
                     >
-                        <option value="0" >Usuário</option>
+                        <option value="0">Usuário</option>
                         <option value="1">Administrador</option>
                     </select>
                 </div>
@@ -165,11 +164,12 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                     <select
                         id="situacao_cliente"
                         name="situacao_cliente"
-                        className={`${styles.select_cliente} ${styles.input_situacao}`} onChange={(e) => setSelectedUser({ ...selectedUser, usu_situacao: e.target.value })}
+                        className={`${styles.select_cliente} ${styles.input_situacao}`} 
+                        onChange={(e) => setSelectedUser({ ...selectedUser, usu_situacao: parseInt(e.target.value) })}
                         disabled={isViewing}
                     >
-                        <option value="ativo" className={styles.option} selected={selectedUser && selectedUser.usu_situacao === 'ativo'}>Ativo</option>
-                        <option value="inativo" className={styles.option} selected={selectedUser && selectedUser.usu_situacao === 'inativo'}>Inativo</option>
+                        <option value="1" className={styles.option} selected={selectedUser && selectedUser.usu_situacao === "1"}>Ativo</option>
+                        <option value="0" className={styles.option} selected={selectedUser && selectedUser.usu_situacao === "0"}>Inativo</option>
                     </select>
                 </div>
             </div>

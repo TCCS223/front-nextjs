@@ -1,2 +1,5 @@
--trocar imagens da page sobre mobile
--trocar texto da page contato
+bloquaer o campo do cpf para nao editar
+bloquear o campo do usu_situacao na hora do admin cadastrar
+remover o iucone da lixeira e fazer a funcao de ocultar por enquanto
+remover o botao pesquisar e botar lupa icone
+adicionar funcao para ligar o veiculo usuario e vice versa (post na tabela usuario)

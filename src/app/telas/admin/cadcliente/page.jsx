@@ -19,13 +19,29 @@ export default function CadCliente() {
     const [tipoUsuarioFilter, setTipoUsuarioFilter] = useState('todos');
     const [searchText, setSearchText] = useState('');
     const [showForm, setShowForm] = useState(false);
-    const [selectedUser, setSelectedUser] = useState();
+    // const [selectedUser, setSelectedUser] = useState();
     const [isViewing, setIsViewing] = useState(false);
     const [sortedColumn, setSortedColumn] = useState(null);
     const [isAsc, setIsAsc] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const usersPerPage = 15;
+
+    const [selectedUser, setSelectedUser] = useState({
+        usu_nome: '',
+        usu_cpf: '',
+        usu_data_nasc: '',
+        usu_sexo: '',
+        usu_telefone: '',
+        usu_email: '',
+        usu_observ: '',
+        usu_acesso: 0,
+        usu_senha: '',
+        usu_situacao: 1,
+    });
     
+    console.log(selectedUser);
+    
+
     // Paginação
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
@@ -36,10 +52,6 @@ export default function CadCliente() {
         1: 'Masculino',
         2: 'Outro'
     };
-
-    
-   
-
 
     const ListarUsuarios = async () => {
         try {
