@@ -2,11 +2,14 @@
 
 import styles from './page.module.css';
 import { useState, useEffect } from 'react';
+
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
-import { IoMdTrash } from "react-icons/io";
-import api from '@/services/api';
+// import { IoMdTrash } from "react-icons/io";
 import Swal from 'sweetalert2';
+
 import FormServicos from '@/components/FormServicos';
+
+import api from '@/services/api';
 
 export default function Servicos() {
     const [servicos, setServicos] = useState([]);
@@ -53,77 +56,74 @@ export default function Servicos() {
         }
     };
 
-    const handleDeleteServicos = async (serv_id) => {
-        Swal.fire({
-            title: 'Tem certeza?',
-            text: "Você não poderá desfazer essa ação!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sim, excluir!',
-            cancelButtonText: 'Cancelar',
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    const response = await api.delete(`/servicos/${serv_id}`);
-                    if (response.data.sucesso) {
-                        Swal.fire(
-                            'Excluído!',
-                            'O serviço foi excluído com sucesso.',
-                            'success'
-                        );
-                        ListarServicos();
-                    } else {
-                        throw new Error(response.data.mensagem);
-                    }
-                } catch (error) {
-                    console.error("Erro ao excluir serviço:", error);
-                    Swal.fire({
-                        title: 'Erro!',
-                        text: error.response ? error.response.data.mensagem : 'Erro desconhecido ao excluir serviço.',
-                        icon: 'error',
-                    });
-                }
+    const handleSearch = () => {
+        setSortedColumn(null);
+        setIsAsc(true);
+
+        const result = servicos.filter((servico) => {
+            const statusMatch = statusFilter === 'todos' ||
+                (statusFilter === 'ativo' && servico.serv_situacao === 'Ativo') ||
+                (statusFilter === 'inativo' && servico.serv_situacao === 'Inativo');
+
+            const searchTextMatch = searchText === '' ||
+                servico.serv_nome.toLowerCase().includes(searchText.toLowerCase()) ||
+                servico.cat_serv_nome.toLowerCase().includes(searchText.toLowerCase());
+
+            return statusMatch && searchTextMatch;
+        });
+
+        setFilteredServicos(result);
+        setCurrentPage(1);
+    };
+
+    const handleViewServicos = async (servicos) => {
+        try {
+            const response = await api.get(`/servicos/${servicos.serv_id}`);
+            if (response.data.sucesso) {
+                setSelectedServico(response.data.dados);
+                setShowForm(true);
+                setIsViewing(true);
+            } else {
+                throw new Error(response.data.mensagem);
             }
-        });
-    };
-
-
-    const sortByColumn = (column) => {
-        let newIsAsc = true; // Define ascendente por padrão
-    
-        if (sortedColumn === column) {
-            newIsAsc = !isAsc; // Se a mesma coluna for clicada, inverte a direção
+        } catch (error) {
+            console.error("Erro ao visualizar serviço:", error);
+            Swal.fire({
+                title: "Erro!",
+                text: error.response ? error.response.data.mensagem : 'Erro desconhecido ao buscar serviço.',
+                icon: "error",
+            });
         }
-    
-        const sortedData = [...filteredServicos].sort((a, b) => {
-            if (a[column] < b[column]) return newIsAsc ? -1 : 1;
-            if (a[column] > b[column]) return newIsAsc ? 1 : -1;
-            return 0;
-        });
-    
-        setFilteredServicos(sortedData); // Atualiza a lista filtrada com os dados ordenados
-        setSortedColumn(column); // Atualiza a coluna que está sendo ordenada
-        setIsAsc(newIsAsc); // Atualiza a direção da ordenação
     };
+
+    const handleEditServicos = (servicos) => {
+        setSelectedServico(servicos);
+        setShowForm(true);
+        setIsViewing(false);
+    };
+
+    // const handleExit = () => {
+    //     setShowForm(false);  // Fecha o formulário
+    //     setSelectedUser(null);  // Limpa o usuário selecionado
+    //     setIsViewing(false);  // Reinicializa o modo de visualização
+    // };
 
     const handleSubmit = async (servico) => {
         try {
             let response;
-    
+
             if (servico.serv_id) {
                 response = await api.patch(`/servicos/${servico.serv_id}`, servico);
             } else {
                 response = await api.post('/servicos', servico);
             }
-    
+
             Swal.fire({
                 title: 'Sucesso!',
                 text: response.data.mensagem,
                 icon: 'success',
             });
-    
+
             ListarServicos();
             setShowForm(false);
         } catch (error) {
@@ -134,6 +134,25 @@ export default function Servicos() {
                 icon: 'error',
             });
         }
+    };
+
+
+    const sortByColumn = (column) => {
+        let newIsAsc = true; // Define ascendente por padrão
+
+        if (sortedColumn === column) {
+            newIsAsc = !isAsc; // Se a mesma coluna for clicada, inverte a direção
+        }
+
+        const sortedData = [...filteredServicos].sort((a, b) => {
+            if (a[column] < b[column]) return newIsAsc ? -1 : 1;
+            if (a[column] > b[column]) return newIsAsc ? 1 : -1;
+            return 0;
+        });
+
+        setFilteredServicos(sortedData); // Atualiza a lista filtrada com os dados ordenados
+        setSortedColumn(column); // Atualiza a coluna que está sendo ordenada
+        setIsAsc(newIsAsc); // Atualiza a direção da ordenação
     };
 
     const Cancelar = () => {
@@ -165,52 +184,6 @@ export default function Servicos() {
         });
     };
 
-    const handleEditServicos = (servicos) => {
-        setSelectedServico(servicos);
-        setShowForm(true);
-        setIsViewing(false);
-    };
-
-    const handleViewServicos = async (servicos) => {
-        try {
-            const response = await api.get(`/servicos/${servicos.serv_id}`);
-            if (response.data.sucesso) {
-                setSelectedServico(response.data.dados);
-                setShowForm(true);
-                setIsViewing(true);
-            } else {
-                throw new Error(response.data.mensagem);
-            }
-        } catch (error) {
-            console.error("Erro ao visualizar serviço:", error);
-            Swal.fire({
-                title: "Erro!",
-                text: error.response ? error.response.data.mensagem : 'Erro desconhecido ao buscar serviço.',
-                icon: "error",
-            });
-        }
-    };
-
-    const handleSearch = () => {
-        setSortedColumn(null);
-        setIsAsc(true);
-    
-        const result = servicos.filter((servico) => {
-            const statusMatch = statusFilter === 'todos' ||
-                (statusFilter === 'ativo' && servico.serv_situacao === 'Ativo') ||
-                (statusFilter === 'inativo' && servico.serv_situacao === 'Inativo');
-            
-            const searchTextMatch = searchText === '' ||
-                servico.serv_nome.toLowerCase().includes(searchText.toLowerCase()) ||
-                servico.cat_serv_nome.toLowerCase().includes(searchText.toLowerCase());
-    
-            return statusMatch && searchTextMatch;
-        });
-    
-        setFilteredServicos(result);
-        setCurrentPage(1);
-    };
-
     return (
         <div id="servicos" className={`${styles.content_section}`}>
             <h2 className={styles.title_page}>Gerenciamento de Serviços</h2>
@@ -226,10 +199,11 @@ export default function Servicos() {
                                 value={searchText}
                                 onChange={(e) => setSearchText(e.target.value)}
                             />
-                            <button className={styles.searchButton} onClick={handleSearch}>Pesquisar</button>
                         </div>
+
                         <div className={styles.filterButtons}>
                             <div className={`${styles.filterGroup} ${styles.filterGroupTypeUser}`}></div>
+
                             <div className={styles.filterGroup}>
                                 <label htmlFor="status" className={styles.labelFilter}>Status</label>
                                 <select
@@ -244,7 +218,11 @@ export default function Servicos() {
                                 </select>
                             </div>
 
-                            <button className={styles.newButton} onClick={() => setShowForm(true)}>Novo</button>
+                            <button
+                                className={styles.newButton}
+                                onClick={() => setShowForm(true)}>
+                                Novo
+                            </button>
                         </div>
                     </div>
 
@@ -252,23 +230,35 @@ export default function Servicos() {
                         <table className={styles.resultTable}>
                             <thead className={styles.tableHead}>
                                 <tr>
-                                    <th 
-                                    className={`${styles.tableHeader} ${styles.id}`} 
-                                    onClick={() => sortByColumn('serv_id')}>
-                                        Código 
-                                    {sortedColumn === 'serv_id' ? (isAsc ? '▲' : '▼') : ''}
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.id}`}
+                                        onClick={() => sortByColumn('serv_id')}>
+                                        Código
+                                        {sortedColumn === 'serv_id' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
-                                    <th className={`${styles.tableHeader} ${styles.nome}`} onClick={() => sortByColumn('serv_nome')}>
-                                        Nome do Serviço {sortedColumn === 'serv_nome' ? (isAsc ? '▲' : '▼') : ''}
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.nome}`}
+                                        onClick={() => sortByColumn('serv_nome')}>
+                                        Nome do Serviço
+                                        {sortedColumn === 'serv_nome' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
-                                    <th className={`${styles.tableHeader} ${styles.categoria}`} onClick={() => sortByColumn('cat_serv_nome')}>
-                                        Categoria {sortedColumn === 'cat_serv_nome' ? (isAsc ? '▲' : '▼') : ''}
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.categoria}`}
+                                        onClick={() => sortByColumn('cat_serv_nome')}>
+                                        Categoria
+                                        {sortedColumn === 'cat_serv_nome' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
-                                    <th className={`${styles.tableHeader} ${styles.duracao}`} onClick={() => sortByColumn('serv_duracao')}>
-                                        Duração {sortedColumn === 'serv_duracao' ? (isAsc ? '▲' : '▼') : ''}
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.duracao}`}
+                                        onClick={() => sortByColumn('serv_duracao')}>
+                                        Duração
+                                        {sortedColumn === 'serv_duracao' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
-                                    <th className={`${styles.tableHeader} ${styles.preco}`} onClick={() => sortByColumn('serv_preco')}>
-                                        Preço {sortedColumn === 'serv_preco' ? (isAsc ? '▲' : '▼') : ''}
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.preco}`}
+                                        onClick={() => sortByColumn('serv_preco')}>
+                                        Preço
+                                        {sortedColumn === 'serv_preco' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
                                     <th className={`${styles.tableHeader} ${styles.acao}`}>Ações</th>
                                 </tr>
@@ -283,11 +273,19 @@ export default function Servicos() {
                                             <td className={styles.tdDuracao}>{servicos.serv_duracao}</td>
                                             <td className={styles.tdPreco}>R${Number(servicos.serv_preco).toFixed(2)}</td>
                                             <td>
-                                            <div className={styles.actionIcons}>
-                                                    <i><MdRemoveRedEye title="Visualizar" onClick={() => handleViewServicos(servicos)} /></i>
-                                                    <i><MdEdit title="Editar" onClick={() => handleEditServicos(servicos)} /></i>
-                                                    <i><IoMdTrash title="Excluir" onClick={() => handleDeleteServicos(servicos.serv_id)} /></i>
-                                            </div>
+                                                <div className={styles.actionIcons}>
+                                                    <i>
+                                                        <MdRemoveRedEye
+                                                            title="Visualizar"
+                                                            onClick={() => handleViewServicos(servicos)} />
+                                                    </i>
+                                                    <i>
+                                                        <MdEdit
+                                                            title="Editar"
+                                                            onClick={() => handleEditServicos(servicos)}
+                                                        />
+                                                    </i>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))
@@ -307,7 +305,9 @@ export default function Servicos() {
                         >
                             Anterior
                         </button>
+
                         <span>Página {currentPage}</span>
+
                         <button
                             onClick={() => setCurrentPage(prev => (filteredServicos.length > indexOfLastUser ? prev + 1 : prev))}
                             disabled={filteredServicos.length <= indexOfLastUser}
@@ -316,25 +316,35 @@ export default function Servicos() {
                         </button>
                     </div>
                 </>
-            ) : (<>
+            ) : (
+                <>
+                    <FormServicos
+                        selectedServico={selectedServico}
+                        setSelectedServico={setSelectedServico}
+                        isViewing={isViewing}
+                        handleSubmit={handleSubmit}
+                        Cancelar={Cancelar}
+                    />
 
-
-                <FormServicos
-                    selectedServico={selectedServico}
-                    setSelectedServico={setSelectedServico}
-
-                    isViewing={isViewing}
-                    handleSubmit={handleSubmit}
-                    Cancelar={Cancelar}
-                />
-
-                <div className={styles.footer_form}>
-                    <button type="reset" onClick={Cancelar} className={styles.button_cancel}>Cancelar</button>
-                    <button type="button" className={styles.button_submit} onClick={handleSubmit} disabled={isViewing}>Salvar</button>
-                </div>
-            </>
-            )
-            }
+                    <div className={styles.footer_form}>
+                        <button
+                            type="reset"
+                            onClick={Cancelar}
+                            className={styles.button_cancel}
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            type="button"
+                            className={styles.button_submit}
+                            onClick={handleSubmit}
+                            disabled={isViewing}
+                        >
+                            Salvar
+                        </button>
+                    </div>
+                </>
+            )}
         </div>
     );
 }

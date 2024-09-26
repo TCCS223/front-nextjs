@@ -1,5 +1,39 @@
-bloquaer o campo do cpf para nao editar
-bloquear o campo do usu_situacao na hora do admin cadastrar
-remover o iucone da lixeira e fazer a funcao de ocultar por enquanto
-remover o botao pesquisar e botar lupa icone
-adicionar funcao para ligar o veiculo usuario e vice versa (post na tabela usuario)
+- CADASTRO - 
+    validar email
+    consultar se o cpf ja está cadastrado e evitar novo cadastro
+
+- CADCLIENTE -
+    bloquaer o campo do cpf para nao editar
+    bloquear o campo do usu_situacao na hora do admin cadastrar
+    {   
+        validar cpf
+        validar email
+
+        -> quando clicar no botão de salvar, mostrar um swal que todos os campos devem ser preenchidos, e sinalizar com a borda vermelha os campos que estão incorretos
+    }
+    permitir null na observação
+    ajustar layout para incluir o campo senha
+    ajustar botão de voltar ou salvar, dependendo do modo que o formulário for aberto (visualização ou edição)
+    (inserir possivel validação de senha) -> se der tempo
+
+    corrigir botão voltar caso o formulário seja de visualização
+
+- VEICULOS -
+    bloquaer o campo da placa, marca, modelo, e categoria para nao editar
+    bloquear o campo do veic_situacao na hora do admin cadastrar
+    permitir null na observação
+    implantar formulario de edição de veiculo
+    implantar formulario de novo cadastro de veiculo
+    consultar se a placa ja está cadastrado e evitar novo cadastro
+
+    adicionar botão voltar caso o formulário seja de visualização
+
+- SERVIÇOS -
+    bloquear o campo do serv_situacao na hora do admin cadastrar
+    implantar formulario de edição de serviço
+    implantar formulario de novo cadastro de serviço
+    
+
+- GERAL -
+    adicionar funcao para ligar o veiculo usuario e vice versa (post na tabela usuario)
+    botar icone de lupa dentro do input de pesquisa

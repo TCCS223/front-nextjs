@@ -4,7 +4,7 @@ import styles from './page.module.css';
 import { useState, useEffect } from 'react';
 
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
-import { IoMdTrash } from "react-icons/io";
+// import { IoMdTrash } from "react-icons/io";
 import { format } from 'date-fns';
 import Swal from 'sweetalert2';
 
@@ -19,13 +19,10 @@ export default function CadCliente() {
     const [tipoUsuarioFilter, setTipoUsuarioFilter] = useState('todos');
     const [searchText, setSearchText] = useState('');
     const [showForm, setShowForm] = useState(false);
-    // const [selectedUser, setSelectedUser] = useState();
     const [isViewing, setIsViewing] = useState(false);
     const [sortedColumn, setSortedColumn] = useState(null);
     const [isAsc, setIsAsc] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const usersPerPage = 15;
-
     const [selectedUser, setSelectedUser] = useState({
         usu_nome: '',
         usu_cpf: '',
@@ -38,15 +35,27 @@ export default function CadCliente() {
         usu_senha: '',
         usu_situacao: 1,
     });
-    
-    console.log(selectedUser);
-    
+
+    const usersPerPage = 15;
 
     // Paginação
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
-    
+
+
+    useEffect(() => {
+        ListarUsuarios();
+    }, []);
+
+    useEffect(() => {
+        setFilteredUsers(usuarios);
+    }, [usuarios]);
+
+    useEffect(() => {
+        handleSearch();
+    }, [usuarios, statusFilter, tipoUsuarioFilter, searchText]);
+
     const sexoMap = {
         0: 'Feminino',
         1: 'Masculino',
@@ -66,7 +75,6 @@ export default function CadCliente() {
             });
         }
     };
-
 
     const handleSearch = () => {
         setSortedColumn(null);
@@ -112,6 +120,35 @@ export default function CadCliente() {
         setIsViewing(false);  // Reinicializa o modo de visualização
     };
 
+    const handleSubmit = async (usuarios) => {
+        try {
+            let response;
+
+            if (usuarios.usu_id) {
+                response = await api.patch(`/usuarios/${usuarios.usu_id}`, usuarios);
+            } else {
+                response = await api.post('/usuarios', usuarios);
+            }
+
+            Swal.fire({
+                title: 'Sucesso!',
+                text: response.data.mensagem,
+                icon: 'success',
+            });
+
+            ListarUsuarios();
+            setShowForm(false);
+        } catch (error) {
+            console.error("Erro ao salvar:", error);
+            Swal.fire({
+                title: 'Erro!',
+                text: error.response ? error.response.data.mensagem : 'Erro ao salvar usuário.',
+                icon: 'error',
+            });
+        }
+        // console.log(selectedUser);
+    };
+
     const sortByColumn = (column) => {
         let newIsAsc = true;
 
@@ -128,73 +165,6 @@ export default function CadCliente() {
         setFilteredUsers(sortedData);
         setSortedColumn(column);
         setIsAsc(newIsAsc);
-    };
-
-    const handleSubmit = async (usuarios) => {
-        try {
-            let response;
-    
-            if (usuarios.usu_id) {
-                response = await api.patch(`/usuarios/${usuarios.usu_id}`, usuarios);
-            } else {
-                response = await api.post('/usuarios', usuarios);
-                
-                
-            }
-    
-            Swal.fire({
-                title: 'Sucesso!',
-                text: response.data.mensagem,
-                icon: 'success',
-            });
-    
-            ListarUsuarios();
-            setShowForm(false);
-        } catch (error) {
-            console.error("Erro ao salvar:", error);
-            Swal.fire({
-                title: 'Erro!',
-                text: error.response ? error.response.data.mensagem : 'Erro ao salvar usuário.',
-                icon: 'error',
-            });
-        }
-        console.log(selectedUser);
-    };
-    
-    const handleDeleteUser = async (usu_situacao) => {
-        Swal.fire({
-            title: 'Tem certeza?',
-            text: "Você não poderá desfazer essa ação!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sim, excluir!',
-            cancelButtonText: 'Cancelar',
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    const response = await api.patch(`/usuarios/${usu_situacao}`);
-                    if (response.data.sucesso) {
-                        Swal.fire(
-                            'Excluído!',
-                            'O usuário foi excluído com sucesso.',
-                            'success'
-                        );
-                        ListarUsuarios();
-                    } else {
-                        throw new Error(response.data.mensagem);
-                    }
-                } catch (error) {
-                    console.error("Erro ao excluir usuário:", error);
-                    Swal.fire({
-                        title: 'Erro!',
-                        text: error.response ? error.response.data.mensagem : 'Erro desconhecido ao excluir usuário.',
-                        icon: 'error',
-                    });
-                }
-            }
-        });
     };
 
     const Cancelar = () => {
@@ -226,23 +196,6 @@ export default function CadCliente() {
         });
     }
 
-    
-    useEffect(() => {
-        ListarUsuarios();
-    }, []);
-
-    useEffect(() => {
-        setFilteredUsers(usuarios);
-    }, [usuarios]);
-
-    useEffect(() => {
-        handleSearch();
-    }, [usuarios, statusFilter, tipoUsuarioFilter, searchText]);
-
-
-    
-
-
     return (
         <div id="clientes" className={styles.content_section}>
             <h2 className={styles.title_page}>Gerenciamento de Clientes</h2>
@@ -258,7 +211,6 @@ export default function CadCliente() {
                                 value={searchText}
                                 onChange={(e) => setSearchText(e.target.value)}
                             />
-                            <button className={styles.searchButton} onClick={handleSearch}>Pesquisar</button>
                         </div>
                         <div className={styles.filterButtons}>
                             <div className={styles.filterGroup}>
@@ -290,7 +242,11 @@ export default function CadCliente() {
                                 </select>
                             </div>
 
-                            <button className={styles.newButton} onClick={() => setShowForm(true)}>Novo</button>
+                            <button
+                                className={styles.newButton}
+                                onClick={() => setShowForm(true)}>
+                                Novo
+                            </button>
                         </div>
                     </div>
 
@@ -304,32 +260,38 @@ export default function CadCliente() {
                                         Código
                                         {sortedColumn === 'usu_id' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
-                                    <th className={`${styles.tableHeader} ${styles.nome}`}
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.nome}`}
                                         onClick={() => sortByColumn('usu_nome')}>
                                         Nome
                                         {sortedColumn === 'usu_nome' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
-                                    <th className={`${styles.tableHeader} ${styles.cpf}`}
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.cpf}`}
                                         onClick={() => sortByColumn('usu_cpf')}>
                                         CPF
                                         {sortedColumn === 'usu_cpf' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
-                                    <th className={`${styles.tableHeader} ${styles.dataNasc}`}
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.dataNasc}`}
                                         onClick={() => sortByColumn('usu_data_nasc')}>
                                         Data de Nascimento
                                         {sortedColumn === 'usu_data_nasc' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
-                                    <th className={`${styles.tableHeader} ${styles.sexo}`}
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.sexo}`}
                                         onClick={() => sortByColumn('usu_sexo')}>
                                         Sexo
                                         {sortedColumn === 'usu_sexo' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
-                                    <th className={`${styles.tableHeader} ${styles.telefone}`}
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.telefone}`}
                                         onClick={() => sortByColumn('usu_telefone')}>
                                         Telefone
                                         {sortedColumn === 'usu_telefone' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
-                                    <th className={`${styles.tableHeader} ${styles.email}`}
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.email}`}
                                         onClick={() => sortByColumn('usu_email')}>
                                         Email
                                         {sortedColumn === 'usu_email' ? (isAsc ? '▲' : '▼') : ''}
@@ -344,16 +306,24 @@ export default function CadCliente() {
                                             <td className={styles.tdId}>{usuario.usu_id}</td>
                                             <td>{usuario.usu_nome}</td>
                                             <td>{usuario.usu_cpf}</td>
-                                            {/* <td>{usuario.usu_data_nasc}</td> */}
                                             <td>{format(new Date(usuario.usu_data_nasc), 'dd/MM/yyyy')}</td>
                                             <td>{sexoMap[usuario.usu_sexo] || 'Desconhecido'}</td>
                                             <td>{usuario.usu_telefone}</td>
                                             <td>{usuario.usu_email}</td>
                                             <td>
                                                 <div className={styles.actionIcons}>
-                                                    <i><MdRemoveRedEye title="Visualizar" onClick={() => handleViewUser(usuario)} /></i>
-                                                    <i><MdEdit title="Editar" onClick={() => handleEditUser(usuario)} /></i>
-                                                    <i><IoMdTrash title="Excluir" onClick={() => handleDeleteUser(usuario.serv_id)} /></i>
+                                                    <i>
+                                                        <MdRemoveRedEye
+                                                            title="Visualizar"
+                                                            onClick={() => handleViewUser(usuario)}
+                                                        />
+                                                    </i>
+                                                    <i>
+                                                        <MdEdit
+                                                            title="Editar"
+                                                            onClick={() => handleEditUser(usuario)}
+                                                        />
+                                                    </i>
                                                 </div>
                                             </td>
                                         </tr>
@@ -383,28 +353,41 @@ export default function CadCliente() {
                         </button>
                     </div>
                 </>
-            ) : (<>
-                <FormCliente
-                    selectedUser={selectedUser}
-                    setSelectedUser={setSelectedUser}
-                    isViewing={isViewing}
-                    handleSubmit={handleSubmit}
-                    Cancelar={Cancelar}
-                />
+            ) : (
+                <>
+                    <FormCliente
+                        selectedUser={selectedUser}
+                        setSelectedUser={setSelectedUser}
+                        isViewing={isViewing}
+                        handleSubmit={handleSubmit}
+                        Cancelar={Cancelar}
+                    />
 
-                <div className={styles.footer_form}>
-                    <button type="reset" onClick={Cancelar} className={styles.button_cancel}>Cancelar</button>
-                    <button
-                        type="button"
-                        className={styles.button_submit}
-                        onClick={() => handleSubmit(selectedUser)}
-                        disabled={isViewing}
-                    >
-                        Salvar
-                    </button>
-                    <button type="exit" className={styles.button_exit} onClick={handleExit}>Sair</button>
-                </div>
-            </>
+                    <div className={styles.footer_form}>
+                        <button
+                            type="reset"
+                            onClick={Cancelar}
+                            className={styles.button_cancel}
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            type="button"
+                            className={styles.button_submit}
+                            onClick={() => handleSubmit(selectedUser)}
+                            disabled={isViewing}
+                        >
+                            Salvar
+                        </button>
+                        <button
+                            type="exit"
+                            className={styles.button_exit}
+                            onClick={handleExit}
+                        >
+                            Sair
+                        </button>
+                    </div>
+                </>
             )}
         </div>
     );

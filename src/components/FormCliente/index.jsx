@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './index.module.css';
-import { format } from 'date-fns';
+import InputMask from "react-input-mask";
 
 export default function FormCliente({ selectedUser, setSelectedUser, isViewing, handleSubmit }) {
 
@@ -39,17 +39,18 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_cpf}`}>
-                    <label htmlFor="cpf_cliente" className={styles.label_cliente}>CPF</label>
-                    <input
+                    <label htmlFor="usu_cpf" className={styles.label_cliente}>CPF</label>
+                    <InputMask
+                        mask="999.999.999-99"
                         type="text"
-                        id="cpf_cliente"
-                        name="cpf_cliente"
-                        required
+                        id="usu_cpf"
+                        name="usu_cpf"
                         value={selectedUser ? selectedUser.usu_cpf : ''}
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_cpf: e.target.value })}
                         disabled={isViewing}
                         className={styles.input_cliente}
-                        placeholder="xxx.xxx.xxx - xx"
+                        required
+                        // placeholder="xxx.xxx.xxx - xx"
                     />
                 </div>
 
@@ -61,9 +62,6 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         name="data_nasc_cliente"
                         required
                         value={selectedUser ? selectedUser.usu_data_nasc : ''}
-                        // value={selectedUser ? format(new Date(selectedUser.usu_data_nasc), 'yyyy-MM-dd') : ''}
-                        // value={selectedUser && selectedUser.usu_data_nasc ? format(new Date(selectedUser.usu_data_nasc), 'yyyy-MM-dd') : ''}
-
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_data_nasc: e.target.value })}
                         disabled={isViewing}
                         className={styles.input_cliente}
@@ -77,7 +75,6 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         name="sexo_cliente"
                         required
                         className={`${styles.select_cliente} ${styles.input_sexo}`}
-                        // value={selectedUser ? (selectedUser.usu_acesso !== undefined ? selectedUser.usu_acesso : 0) : 0} // "Usuário" como valor padrão
                         value={selectedUser ? selectedUser.usu_sexo : ''}
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_sexo: parseInt(e.target.value) })}
                         disabled={isViewing}
@@ -95,7 +92,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         id="nivel_acesso"
                         name="nivel_acesso"
                         className={`${styles.select_cliente} ${styles.input_acesso}`}
-                        value={selectedUser ? selectedUser.usu_acesso : ''} 
+                        value={selectedUser ? selectedUser.usu_acesso : ''}
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_acesso: parseInt(e.target.value) })}
                         disabled={isViewing}
                     >
@@ -105,17 +102,18 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_telefone}`}>
-                    <label htmlFor="telefone_cliente" className={styles.label_cliente}>Telefone</label>
-                    <input
+                    <label htmlFor="usu_telefone" className={styles.label_cliente}>Telefone</label>
+                    <InputMask
+                        mask="(99) 99999 - 9999"
                         type="tel"
-                        id="telefone_cliente"
-                        name="telefone_cliente"
-                        required
+                        id="usu_telefone"
+                        name="usu_telefone"
                         value={selectedUser ? selectedUser.usu_telefone : ''}
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_telefone: e.target.value })}
                         disabled={isViewing}
                         className={`${styles.input_cliente}`}
-                        placeholder="(xx) xxxxx - xxxx"
+                        required
+                        // placeholder="(xx) xxxxx - xxxx"
                     />
                 </div>
 
@@ -140,17 +138,16 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         placeholder="Digite sua senha"
                         value={selectedUser ? selectedUser.usu_senha : ''}
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_senha: e.target.value })}
-                       
                         required
                     />
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_observacoes}`}>
-                    <label htmlFor="observacoes_cliente" className={styles.label_cliente}>Observações</label>
+                    <label htmlFor="usu_observ" className={styles.label_cliente}>Observações</label>
                     <input
                         type="text"
-                        id="observacoes_cliente"
-                        name="observacoes_cliente"
+                        id="usu_observ"
+                        name="usu_observ"
                         required
                         value={selectedUser ? selectedUser.usu_observacoes : ''}
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_observ: e.target.value })}
@@ -160,11 +157,11 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_situacao}`}>
-                    <label htmlFor="situacao_cliente" className={styles.label_cliente}>Situação</label>
+                    <label htmlFor="usu_situacao" className={styles.label_cliente}>Situação</label>
                     <select
-                        id="situacao_cliente"
-                        name="situacao_cliente"
-                        className={`${styles.select_cliente} ${styles.input_situacao}`} 
+                        id="usu_situacao"
+                        name="usu_situacao"
+                        className={`${styles.select_cliente} ${styles.input_situacao}`}
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_situacao: parseInt(e.target.value) })}
                         disabled={isViewing}
                     >

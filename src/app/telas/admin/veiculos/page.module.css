@@ -78,25 +78,6 @@
     outline: none;
 }
 
-.searchButton {
-    flex: 1;
-    max-width: 20%;
-    padding: 10px;
-    font-size: 16px;
-    background-color: #ff9d00;
-    border: none;
-    border-radius: 0.3125rem;
-    color: #fff;
-    cursor: pointer;
-    font-weight: 600;
-    border: 0.15rem solid #f39200;
-}
-
-.searchButton:hover {
-    background-color: #f39200;
-    color: #222;
-}
-
 .filterButtons {
     display: flex;
     width: 50%;
@@ -254,7 +235,8 @@
 
 .modelo,
 .marca,
-.acao {
+.acao,
+.combustivel {
     width: 15%;
 }
 
@@ -266,14 +248,7 @@
     padding: 0 0.5rem ;
 }
 
-.ano{
-    width: 10%;
-}
-
-.combustivel{
-    width: 15%;
-}
-
+.ano,
 .placa,
 .cor {
     width: 10%;
@@ -334,8 +309,6 @@
     font-family: "Kanit", sans-serif;
 }
 
-
-
 .customSelect select:focus {
     border-color: #ff9d00;
     outline: none;
@@ -382,8 +355,6 @@
     margin: 0 2rem;
 }
 /*---------------------*/
-
-
 
 @media only screen and (max-width: 500px) {
     .form {

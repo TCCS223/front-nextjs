@@ -1,10 +1,12 @@
-
+'use client';
 
 import styles from './page.module.css';
 import { useState, useEffect } from 'react';
+
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
-import { IoMdTrash } from "react-icons/io";
+// import { IoMdTrash } from "react-icons/io";
 import Swal from 'sweetalert2';
+
 import FormVeiculo from '@/components/FormVeiculo';
 
 import api from '@/services/api';
@@ -21,39 +23,18 @@ export default function Veiculos() {
     const [isAsc, setIsAsc] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const usersPerPage = 15;
+    // Paginação
+    const indexOfLastUser = currentPage * usersPerPage;
+    const indexOfFirstUser = indexOfLastUser - usersPerPage;
+    const currentVeiculos = filteredVeiculos.slice(indexOfFirstUser, indexOfLastUser);
 
     useEffect(() => {
         ListarVeiculos();
     }, []);
 
     useEffect(() => {
-        handleSearch(); // Chama a filtragem sempre que o searchText ou statusFilter mudarem
+        handleSearch();
     }, [searchText, statusFilter, veiculos]);
-
-    const handleSearch = () => {
-        setSortedColumn(null);
-        setIsAsc(true);
-
-        const result = veiculos.filter((veiculo) => {
-            console.log(veiculo);
-            const statusMatch = 
-                statusFilter === 'todos' || 
-                (statusFilter === 'ativo' && veiculo.veic_situacao === 1) || 
-                (statusFilter === 'inativo' && veiculo.veic_situacao === 0);
-    
-            const searchTextMatch = searchText === '' ||
-                (veiculo.veic_placa?.toLowerCase().includes(searchText.toLowerCase())) ||
-                (veiculo.modelo?.toLowerCase().includes(searchText.toLowerCase())) ||
-                (veiculo.marca?.toLowerCase().includes(searchText.toLowerCase()));
-                
-            return statusMatch && searchTextMatch;
-        });
-        
-        console.log(result);
-        setFilteredVeiculos(result);
-        setCurrentPage(1);
-    };
-    
 
     const ListarVeiculos = async () => {
         try {
@@ -69,23 +50,29 @@ export default function Veiculos() {
             });
         }
     };
-    
-    const sortByColumn = (column) => {
-        let newIsAsc = true; 
-    
-        if (sortedColumn === column) {
-            newIsAsc = !isAsc; 
-        }
-    
-        const sortedData = [...filteredVeiculos].sort((a, b) => {
-            if (a[column] < b[column]) return newIsAsc ? -1 : 1;
-            if (a[column] > b[column]) return newIsAsc ? 1 : -1;
-            return 0;
+
+    const handleSearch = () => {
+        setSortedColumn(null);
+        setIsAsc(true);
+
+        const result = veiculos.filter((veiculo) => {
+            console.log(veiculo);
+            const statusMatch =
+                statusFilter === 'todos' ||
+                (statusFilter === 'ativo' && veiculo.veic_situacao === 1) ||
+                (statusFilter === 'inativo' && veiculo.veic_situacao === 0);
+
+            const searchTextMatch = searchText === '' ||
+                (veiculo.veic_placa?.toLowerCase().includes(searchText.toLowerCase())) ||
+                (veiculo.modelo?.toLowerCase().includes(searchText.toLowerCase())) ||
+                (veiculo.marca?.toLowerCase().includes(searchText.toLowerCase()));
+
+            return statusMatch && searchTextMatch;
         });
-    
-        setFilteredVeiculos(sortedData);
-        setSortedColumn(column);
-        setIsAsc(newIsAsc);
+
+        console.log(result);
+        setFilteredVeiculos(result);
+        setCurrentPage(1);
     };
 
     const handleViewVeic = async (veiculo) => {
@@ -140,42 +127,22 @@ export default function Veiculos() {
         }
     };
 
-    
+    const sortByColumn = (column) => {
+        let newIsAsc = true;
 
-    const handleDeleteVeic = async (veic_id) => {
-        Swal.fire({
-            title: 'Tem certeza?',
-            text: "Você não poderá desfazer essa ação!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sim, excluir!',
-            cancelButtonText: 'Cancelar',
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    const response = await api.delete(`/veiculos/${veic_id}`);
-                    if (response.data.sucesso) {
-                        Swal.fire(
-                            'Excluído!',
-                            'O veículo foi excluído com sucesso.',
-                            'success'
-                        );
-                        ListarVeiculos();
-                    } else {
-                        throw new Error(response.data.mensagem);
-                    }
-                } catch (error) {
-                    console.error("Erro ao excluir veículo:", error);
-                    Swal.fire({
-                        title: 'Erro!',
-                        text: error.response ? error.response.data.mensagem : 'Erro desconhecido ao excluir veículo.',
-                        icon: 'error',
-                    });
-                }
-            }
+        if (sortedColumn === column) {
+            newIsAsc = !isAsc;
+        }
+
+        const sortedData = [...filteredVeiculos].sort((a, b) => {
+            if (a[column] < b[column]) return newIsAsc ? -1 : 1;
+            if (a[column] > b[column]) return newIsAsc ? 1 : -1;
+            return 0;
         });
+
+        setFilteredVeiculos(sortedData);
+        setSortedColumn(column);
+        setIsAsc(newIsAsc);
     };
 
     const Cancelar = () => {
@@ -207,11 +174,6 @@ export default function Veiculos() {
         });
     }
 
-    // Paginação
-    const indexOfLastUser = currentPage * usersPerPage;
-    const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    const currentVeiculos = filteredVeiculos.slice(indexOfFirstUser, indexOfLastUser);
-
     return (
         <div id="veiculos" className={styles.content_section}>
             <h2 className={styles.title_page}>Gerenciamento de Veículos</h2>
@@ -227,7 +189,6 @@ export default function Veiculos() {
                                 value={searchText}
                                 onChange={(e) => setSearchText(e.target.value)}
                             />
-                            <button className={styles.searchButton} onClick={handleSearch}>Pesquisar</button>
                         </div>
 
                         <div className={styles.filterButtons}>
@@ -242,7 +203,7 @@ export default function Veiculos() {
                                     value={statusFilter}
                                     onChange={(e) => {
                                         setStatusFilter(e.target.value);
-                                        handleSearch(); 
+                                        handleSearch();
                                     }}
                                 >
                                     <option value="todos">Todos</option>
@@ -255,31 +216,30 @@ export default function Veiculos() {
                         </div>
                     </div>
 
-
                     <div className={styles.resultTableContainer}>
                         <table className={styles.resultTable}>
                             <thead className={styles.tableHead}>
                                 <tr>
-                                    <th 
-                                    className={`${styles.tableHeader} ${styles.id}`}
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.id}`}
                                         onClick={() => sortByColumn('veic_id')}>
-                                        Código 
-                                    {sortedColumn === 'veic_id' ? (isAsc ? '▲' : '▼') : ''}
+                                        Código
+                                        {sortedColumn === 'veic_id' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
                                     <th className={`${styles.tableHeader} ${styles.modelo}`}
-                                    onClick={() => sortByColumn('modelo')}>
-                                        Modelo 
-                                    {sortedColumn === 'modelo' ? (isAsc ? '▲' : '▼') : ''}
+                                        onClick={() => sortByColumn('modelo')}>
+                                        Modelo
+                                        {sortedColumn === 'modelo' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
                                     <th className={`${styles.tableHeader} ${styles.marca}`}
-                                    onClick={() => sortByColumn('marca')}>
-                                        Marca 
-                                    {sortedColumn === 'marca' ? (isAsc ? '▲' : '▼') : ''}
+                                        onClick={() => sortByColumn('marca')}>
+                                        Marca
+                                        {sortedColumn === 'marca' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
                                     <th className={`${styles.tableHeader} ${styles.placa}`}
-                                    onClick={() => sortByColumn('veic_placa')}>
-                                        Placa 
-                                    {sortedColumn === 'veic_placa' ? (isAsc ? '▲' : '▼') : ''}
+                                        onClick={() => sortByColumn('veic_placa')}>
+                                        Placa
+                                        {sortedColumn === 'veic_placa' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
                                     {/* <th className={`${styles.tableHeader} ${styles.ano}`}
                                     onClick={() => sortByColumn('veic_ano')}>
@@ -287,19 +247,19 @@ export default function Veiculos() {
                                     {sortedColumn === 'veic_ano' ? (isAsc ? '▲' : '▼') : ''}
                                     </th> */}
                                     <th className={`${styles.tableHeader} ${styles.cor}`}
-                                    onClick={() => sortByColumn('veic_cor')}>
-                                        Cor 
-                                    {sortedColumn === 'veic_cor' ? (isAsc ? '▲' : '▼') : ''}
+                                        onClick={() => sortByColumn('veic_cor')}>
+                                        Cor
+                                        {sortedColumn === 'veic_cor' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
                                     <th className={`${styles.tableHeader} ${styles.combustivel}`}
-                                    onClick={() => sortByColumn('veic_combustivel')}>
-                                        Combustível 
-                                    {sortedColumn === 'veic_combustivel' ? (isAsc ? '▲' : '▼') : ''}
+                                        onClick={() => sortByColumn('veic_combustivel')}>
+                                        Combustível
+                                        {sortedColumn === 'veic_combustivel' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
                                     <th className={`${styles.tableHeader} ${styles.proprietario}`}
-                                    onClick={() => sortByColumn('proprietarios')}>
-                                        Proprietário 
-                                    {sortedColumn === 'proprietarios' ? (isAsc ? '▲' : '▼') : ''}
+                                        onClick={() => sortByColumn('proprietarios')}>
+                                        Proprietário
+                                        {sortedColumn === 'proprietarios' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
                                     <th className={`${styles.tableHeader} ${styles.acao}`}>Ações</th>
                                 </tr>
@@ -331,12 +291,20 @@ export default function Veiculos() {
                                                 )}
                                             </td>
 
-
                                             <td>
                                                 <div className={styles.actionIcons}>
-                                                    <i><MdRemoveRedEye title="Visualizar" onClick={() => handleViewVeic(veiculo)} /></i>
-                                                    <i><MdEdit title="Editar" onClick={() => handleEditVeic(veiculo)} /></i>
-                                                    <i><IoMdTrash title="Excluir" onClick={() => handleDeleteVeic(veiculo.veic_id)} /></i>
+                                                    <i>
+                                                        <MdRemoveRedEye
+                                                            title="Visualizar"
+                                                            onClick={() => handleViewVeic(veiculo)}
+                                                        />
+                                                    </i>
+                                                    <i>
+                                                        <MdEdit
+                                                            title="Editar"
+                                                            onClick={() => handleEditVeic(veiculo)}
+                                                        />
+                                                    </i>
                                                 </div>
                                             </td>
                                         </tr>
@@ -377,12 +345,23 @@ export default function Veiculos() {
                     Cancelar={Cancelar}
                 />
                 <div className={styles.footer_form}>
-                    <button type="reset" onClick={Cancelar} className={styles.button_cancel}>Cancelar</button>
-                    <button type="button" className={styles.button_submit} onClick={handleSubmit} disabled={isViewing}>Salvar</button>
+                    <button
+                        type="reset"
+                        onClick={Cancelar}
+                        className={styles.button_cancel}
+                    >
+                        Cancelar
+                    </button>
+                    <button
+                        type="button"
+                        className={styles.button_submit}
+                        onClick={handleSubmit} disabled={isViewing}
+                    >
+                        Salvar
+                    </button>
                 </div>
             </>
             )}
         </div>
-
     );
 }
