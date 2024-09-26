@@ -3,7 +3,7 @@
     consultar se o cpf ja está cadastrado e evitar novo cadastro
 
 - CADCLIENTE -
-    bloquaer o campo do cpf para nao editar
+    bloquaer o campo do cpf para nao editar (vai ter que validar se tem id ou não como uma condição pra poder deixar o campo editavel ou nn)
     bloquear o campo do usu_situacao na hora do admin cadastrar
     {   
         validar email
