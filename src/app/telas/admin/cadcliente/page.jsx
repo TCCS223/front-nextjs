@@ -3,6 +3,7 @@
 import styles from './page.module.css';
 import { useState, useEffect } from 'react';
 
+import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 // import { IoMdTrash } from "react-icons/io";
 import { format } from 'date-fns';
@@ -241,15 +242,22 @@ export default function CadCliente() {
             {!showForm ? (
                 <>
                     <div className={styles.contentSearch}>
-                        <div className={styles.searchBar}>
-                            <input
-                                type="text"
-                                placeholder="Digite aqui..."
-                                className={styles.searchInput}
-                                value={searchText}
-                                onChange={(e) => setSearchText(e.target.value)}
-                            />
+                        <div className={styles.search}>
+                            <div className={styles.searchInput}>
+
+                                <input
+                                    type="text"
+                                    placeholder="Digite aqui..."
+                                    className={styles.inputSearch}
+                                    value={searchText}
+                                    onChange={(e) => setSearchText(e.target.value)}
+                                />
+                                <PiListMagnifyingGlassBold
+                                    className={styles.lupa}
+                                />
+                            </div>
                         </div>
+
                         <div className={styles.filterButtons}>
                             <div className={styles.filterGroup}>
                                 <label htmlFor="tipoUsuario" className={styles.labelFilter}>Tipo de Usuário</label>
