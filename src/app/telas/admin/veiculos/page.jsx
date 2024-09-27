@@ -12,7 +12,6 @@ import FormVeiculo from '@/components/FormVeiculo';
 import api from '@/services/api';
 
 export default function Veiculos() {
-    const [selectedVeic, setSelectedVeic] = useState(null);
     const [veiculos, setVeiculos] = useState([]);
     const [filteredVeiculos, setFilteredVeiculos] = useState([]);
     const [showForm, setShowForm] = useState(false);
@@ -22,6 +21,12 @@ export default function Veiculos() {
     const [sortedColumn, setSortedColumn] = useState(null);
     const [isAsc, setIsAsc] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
+    const [selectedVeic, setSelectedVeic] = useState(null);
+
+
+
+
+    
     const usersPerPage = 15;
     // Paginação
     const indexOfLastUser = currentPage * usersPerPage;

@@ -16,6 +16,12 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
         setShowPassword(!showPassword);
     };
 
+    const sexoMap = {
+        0: 'Feminino',
+        1: 'Masculino',
+        2: 'Outro'
+    };
+
     const handleCPFChange = (e) => {
         const cpf = e.target.value;
         setSelectedUser({ ...selectedUser, usu_cpf: cpf });
@@ -32,19 +38,17 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
             return;
         }
 
-        // Validação do formato e validade do CPF
         if (!cpfValidator.isValid(cpf)) {
             setErrors('CPF inválido');
             return;
         }
-
         setLoading(true);
+
         try {
             const res = await api.post('/usuarios', { cpf });
 
             if (res.data.success) {
                 setCpfExists(res.data.exists);
-                // Se estiver editando e o CPF for do próprio usuário, não considerar como duplicado
                 if (res.data.exists && (selectedUser.usu_id ? res.data.existsUserId !== selectedUser.usu_id : true)) {
                     setErrors('CPF já está cadastrado');
                 } else {
@@ -55,7 +59,6 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
             }
         } catch (error) {
             console.error("Erro ao verificar CPF:", error);
-            
         }
         setCpfChecked(true);
         setLoading(false);
@@ -109,7 +112,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         required
                         placeholder="XXX.XXX.XXX-XX"
                     />
-                    {loading && <span className={styles.loading}>Verificando CPF...</span>}
+
                     {cpfChecked && !loading && (
                         <span className={cpfExists ? styles.error : styles.success}>
                             {cpfExists ? 'CPF já cadastrado' : ''}
@@ -133,21 +136,37 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_sexo}`}>
-                    <label htmlFor="sexo_cliente" className={styles.label_cliente}>Sexo</label>
-                    <select
-                        id="sexo_cliente"
-                        name="sexo_cliente"
-                        value={selectedUser ? selectedUser.usu_sexo : ''}
-                        onChange={(e) => setSelectedUser({ ...selectedUser, usu_sexo: parseInt(e.target.value) })}
-                        disabled={isViewing}
-                        className={`${styles.select_cliente} ${styles.input_sexo}`}
-                        required
-                    >
-                        <option value="">Selecionar</option>
-                        <option value="0">Feminino</option>
-                        <option value="1">Masculino</option>
-                        <option value="2">Outro</option>
-                    </select>
+                    <label htmlFor="usu_sexo" className={styles.label_cliente}>Sexo</label>
+
+                    {isViewing ? (
+                        <input
+                            type="text"
+                            id="usu_sexo"
+                            name="usu_sexo"
+                            value={selectedUser ? sexoMap[selectedUser.usu_sexo] || '' : ''}
+                            onChange={(e) => setSelectedUser({ ...selectedUser, usu_sexo: parseInt(e.target.value) })}
+                            // onChange={(e) => setSelectedUser({ ...selectedUser, usu_data_nasc: e.target.value })}
+                            disabled={isViewing}
+                            className={styles.input_cliente}
+                            required
+                        />
+                    ) : (
+                        <select
+                            id="usu_sexo"
+                            name="usu_sexo"
+                            value={selectedUser ? selectedUser.usu_sexo : ''}
+                            onChange={(e) => setSelectedUser({ ...selectedUser, usu_sexo: parseInt(e.target.value) })}
+                            disabled={isViewing}
+                            className={`${styles.select_cliente} ${styles.input_sexo}`}
+                            required
+                        >
+                            <option value="">Selecionar</option>
+                            <option value="0">Feminino</option>
+                            <option value="1">Masculino</option>
+                            <option value="2">Outro</option>
+                        </select>
+                    )}
+
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_acesso}`}>

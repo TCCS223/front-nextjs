@@ -59,7 +59,7 @@
     font-size: 1em;
     transition: background-color 0.3s;
     grid-column: span 1;
-    grid-area: 1 / 1 / 2 / 1;
+    grid-area: 1 / 8 / 2 / 9;
 }
 
 .button_exit:hover {

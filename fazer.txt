@@ -10,20 +10,18 @@
 
         -> quando clicar no botão de salvar, mostrar um swal que todos os campos devem ser preenchidos, e sinalizar com a borda vermelha os campos que estão incorretos
     }
-    permitir null na observação
     ajustar botão de voltar ou salvar, dependendo do modo que o formulário for aberto (visualização ou edição)
-    (inserir possivel validação de senha) -> se der tempo
 
     corrigir botão voltar caso o formulário seja de visualização
+    
+    (inserir possivel validação de senha) -> se der tempo
 
 - VEICULOS -
     bloquaer o campo da placa, marca, modelo, e categoria para nao editar
     bloquear o campo do veic_situacao na hora do admin cadastrar
-    permitir null na observação
     implantar formulario de edição de veiculo
     implantar formulario de novo cadastro de veiculo
     consultar se a placa ja está cadastrado e evitar novo cadastro
-
     adicionar botão voltar caso o formulário seja de visualização
 
 - SERVIÇOS -
@@ -34,4 +32,3 @@
 
 - GERAL -
     adicionar funcao para ligar o veiculo usuario e vice versa (post na tabela usuario)
-    botar icone de lupa dentro do input de pesquisa

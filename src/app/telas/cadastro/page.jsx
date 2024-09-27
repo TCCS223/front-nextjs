@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { cpf as cpfValidator } from 'cpf-cnpj-validator';
 
 export default function Cadastro() {
     const [showPassword, setShowPassword] = useState(false);
@@ -27,6 +28,7 @@ export default function Cadastro() {
     });
     const [cpfError, setCpfError] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [isCheckingCpf, setIsCheckingCpf] = useState(false);
 
     const router = useRouter();
 
@@ -35,51 +37,101 @@ export default function Cadastro() {
     };
 
     const handleChange = (e) => {
-        setUsuario(prev => ({ ...prev, [e.target.name]: e.target.value }));
+        const { name, value } = e.target;
+        setUsuario(prev => ({ ...prev, [name]: value }));
+
+        // Resetar erros quando os campos mudarem
+        if (name === 'usu_cpf') {
+            setCpfError('');
+        }
+        if (name === 'usu_email') {
+            setEmailError('');
+        }
     };
 
-    const handleSubmit = (e) => {
+    // Função unificada de validação de CPF
+    const validateCPF = async () => {
+        const cpf = usuario.usu_cpf.trim();
+        const cpfNumbers = cpf.replace(); 
+        console.log("Validando CPF:", cpfNumbers); // Log para depuração
+
+        if (cpfNumbers.length !== 14) {
+            setCpfError('CPF deve conter 11 dígitos.');
+            return false;
+        }
+
+        if (!cpfValidator.isValid(cpfNumbers)) {
+            setCpfError('CPF inválido.');
+            return false;
+        }
+
+        setIsCheckingCpf(true);
+        try {
+            const response = await api.post('/usuarios/verificarCpf', { usu_cpf: cpfNumbers });
+            console.log("Resposta da verificação do CPF:", response.data); // Log da resposta
+
+            if (response.data.sucesso) {
+                if (response.data.dados) {
+                    setCpfError('CPF já está cadastrado.');
+                    Swal.fire({
+                        title: 'CPF Já Cadastrado',
+                        text: 'O CPF informado já está cadastrado. Por favor, verifique ou utilize outro CPF.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                    return false;
+                } else {
+                    setCpfError('');
+                    return true;
+                }
+            } else {
+                setCpfError('Erro ao verificar o CPF.');
+                Swal.fire({
+                    title: 'Erro',
+                    text: 'Ocorreu um erro ao verificar o CPF. Por favor, tente novamente.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                return false;
+            }
+        } catch (error) {
+            console.error('Erro na verificação do CPF:', error);
+            setCpfError('Ocorreu um erro ao verificar o CPF. Por favor, tente novamente.');
+            Swal.fire({
+                title: 'Erro de Conexão',
+                text: 'Não foi possível verificar o CPF no momento. Por favor, tente novamente mais tarde.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+            return false;
+        } finally {
+            setIsCheckingCpf(false);
+        }
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!validarCPF(usuario.usu_cpf)) {
-            setCpfError('CPF inválido');
+
+        // Log do estado antes da validação
+        console.log("Dados do usuário antes da validação:", usuario);
+
+        // Validar CPF antes de prosseguir
+        const isCpfValid = await validateCPF();
+        if (!isCpfValid) {
             return;
         }
+
+        // Validar Email
         if (!validarEmail(usuario.usu_email)) {
-            setEmailError('Email inválido');
+            setEmailError('Email inválido.');
             return;
         }
+
+        // Se todas as validações passarem, proceder com o cadastro
         setCpfError('');
         setEmailError('');
         cadastrar();
     };
-
-    function validarCPF(cpf) {
-        const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;
-
-        if (!cpfRegex.test(cpf)) {
-            return false;
-        }
-
-        const numbersOnly = cpf.replace(/[^\d]/g, '');
-
-        if (numbersOnly.length !== 11 || /^(\d)\1+$/.test(numbersOnly)) return false;
-
-        let soma = 0;
-        let resto;
-
-        for (let i = 1; i <= 9; i++) soma += parseInt(numbersOnly.substring(i - 1, i)) * (11 - i);
-        resto = (soma * 10) % 11;
-        if (resto === 10 || resto === 11) resto = 0;
-        if (resto !== parseInt(numbersOnly.substring(9, 10))) return false;
-
-        soma = 0;
-        for (let i = 1; i <= 10; i++) soma += parseInt(numbersOnly.substring(i - 1, i)) * (12 - i);
-        resto = (soma * 10) % 11;
-        if (resto === 10 || resto === 11) resto = 0;
-        if (resto !== parseInt(numbersOnly.substring(10, 11))) return false;
-
-        return true;
-    }
 
     function validarEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -99,16 +151,23 @@ export default function Cadastro() {
             usu_senha: '',
             usu_situacao: 1,
         });
+        setCpfError('');
+        setEmailError('');
     };
 
     async function cadastrar() {
         try {
-            const response = await api.post('/usuarios', usuario);
+            const response = await api.post('/usuarios/cadastrarUsuarios', usuario);
+            console.log("Resposta do cadastro de usuário:", response.data); // Log da resposta
 
             if (response.data.sucesso === true) {
-                const usuario = response.data.dados;
-                const objCriado = {
-                    id: usuario.usu_id,
+                const usu_id = response.data.dados;
+                console.log("Usuário criado com ID:", usu_id);
+
+                clearInputs();
+                localStorage.clear();
+                localStorage.setItem('user', JSON.stringify({
+                    id: usu_id,
                     nome: usuario.usu_nome,
                     email: usuario.usu_email,
                     senha: usuario.usu_senha,
@@ -116,19 +175,7 @@ export default function Cadastro() {
                     data_nasc: usuario.usu_data_nasc,
                     cpf: usuario.usu_cpf,
                     telefone: usuario.usu_telefone,
-                };
-                console.log("Usuário criado:", objCriado);
-
-                // Swal.fire({
-                //     title: 'Conta criada!',
-                //     text: 'Sua conta foi cadastrada',
-                //     icon: 'success',
-                //     confirmButtonText: 'OK'
-                // });
-
-                clearInputs();
-                localStorage.clear();
-                localStorage.setItem('user', JSON.stringify(objCriado));
+                }));
 
                 toast.success('Cadastrado com sucesso!', {
                     position: "top-right",
@@ -146,7 +193,37 @@ export default function Cadastro() {
                 }, 2000);
 
             } else {
-                console.error('Erro:', response.data.mensagem, response.data.dados);
+                console.error('Erro no cadastro:', response.data.mensagem, response.data.dados);
+                if (response.data.mensagem.includes('CPF já cadastrado')) {
+                    Swal.fire({
+                        title: 'CPF Já Cadastrado',
+                        text: 'O CPF informado já está cadastrado. Por favor, verifique ou utilize outro CPF.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                } else {
+                    toast.error('Erro no cadastro. Tente novamente.', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                }
+            }
+        } catch (error) {
+            console.error('Erro no cadastro:', error.response ? error.response.data : error.message);
+            if (error.response && error.response.data && error.response.data.mensagem.includes('CPF já cadastrado')) {
+                Swal.fire({
+                    title: 'CPF Já Cadastrado',
+                    text: 'O CPF informado já está cadastrado. Por favor, verifique ou utilize outro CPF.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            } else {
                 toast.error('Erro no cadastro. Tente novamente.', {
                     position: "top-right",
                     autoClose: 5000,
@@ -158,8 +235,6 @@ export default function Cadastro() {
                     theme: "colored",
                 });
             }
-        } catch (error) {
-            console.error('Erro no cadastro:', error.response.data);
         }
     }
 
@@ -220,7 +295,9 @@ export default function Cadastro() {
                                         onChange={handleChange}
                                         required
                                     />
-                                    <span className={styles.error}>{cpfError}</span>
+                                    {isCheckingCpf && <span className={styles.loading}>Verificando CPF...</span>}
+                                    {!cpfError && usuario.usu_cpf && <span className={styles.success}>CPF disponível.</span>}
+                                    {cpfError && <span className={styles.error}>{cpfError}</span>}
                                 </div>
                             </div>
 
@@ -260,7 +337,7 @@ export default function Cadastro() {
                                 <div className={styles.inputGroup}>
                                     <label htmlFor="telefone" className={styles.labelCadastro}>Telefone</label>
                                     <InputMask
-                                        mask="(99) 99999 - 9999"
+                                        mask="(99) 99999-9999"
                                         type="tel"
                                         id="telefone"
                                         name="usu_telefone"
@@ -284,7 +361,7 @@ export default function Cadastro() {
                                         onChange={handleChange}
                                         required
                                     />
-                                    <span className={styles.error}>{emailError}</span>
+                                    {emailError && <span className={styles.error}>{emailError}</span>}
                                 </div>
                             </div>
 
@@ -319,7 +396,13 @@ export default function Cadastro() {
                             </div>
 
                             <div className={styles.cadastroButtonContainer}>
-                                <button type="submit" className={styles.cadastroButton}>Cadastrar</button>
+                                <button
+                                    type="submit"
+                                    className={styles.cadastroButton}
+                                    disabled={isCheckingCpf}
+                                >
+                                    Cadastrar
+                                </button>
                             </div>
                         </form>
 
@@ -331,15 +414,4 @@ export default function Cadastro() {
                 <ToastContainer />
             </main>
         </>
-    );
-}
-
-
-
-
-
-
-
-
-
-// https://chatgpt.com/share/66e8dfe4-62f8-8001-8460-eac63d4b4404
+)    }
