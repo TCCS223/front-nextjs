@@ -7,6 +7,7 @@ import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 // import { IoMdTrash } from "react-icons/io";
 import Swal from 'sweetalert2';
 
+import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import FormServicos from '@/components/FormServicos';
 
 import api from '@/services/api';
@@ -191,14 +192,20 @@ export default function Servicos() {
             {!showForm ? (
                 <>
                     <div className={styles.contentSearch}>
-                        <div className={styles.searchBar}>
-                            <input
-                                type="text"
-                                placeholder="Digite aqui..."
-                                className={styles.searchInput}
-                                value={searchText}
-                                onChange={(e) => setSearchText(e.target.value)}
-                            />
+                        <div className={styles.search}>
+                            <div className={styles.searchInput}>
+
+                                <input
+                                    type="text"
+                                    placeholder="Digite aqui..."
+                                    className={styles.inputSearch}
+                                    value={searchText}
+                                    onChange={(e) => setSearchText(e.target.value)}
+                                />
+                                <PiListMagnifyingGlassBold
+                                    className={styles.lupa}
+                                />
+                            </div>
                         </div>
 
                         <div className={styles.filterButtons}>

@@ -10,3 +10,6 @@
 
 // CARROSSEL 
 npm install react-responsive-carousel
+
+// validar cpf
+npm i cpf-cnpj-validator

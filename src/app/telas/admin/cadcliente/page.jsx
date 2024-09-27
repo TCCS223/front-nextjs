@@ -2,15 +2,11 @@
 
 import styles from './page.module.css';
 import { useState, useEffect } from 'react';
-
 import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
-// import { IoMdTrash } from "react-icons/io";
 import { format } from 'date-fns';
 import Swal from 'sweetalert2';
-
 import FormCliente from '@/components/FormCliente';
-
 import api from '@/services/api';
 
 export default function CadCliente() {
@@ -117,27 +113,34 @@ export default function CadCliente() {
 
     const handleExit = () => {
         setShowForm(false);  // Fecha o formulário
-        setSelectedUser(null);  // Limpa o usuário selecionado
+        setSelectedUser({
+            usu_nome: '',
+            usu_cpf: '',
+            usu_data_nasc: '',
+            usu_sexo: '',
+            usu_telefone: '',
+            usu_email: '',
+            usu_observ: '',
+            usu_acesso: 0,
+            usu_senha: '',
+            usu_situacao: 1,
+        });  // Limpa o usuário selecionado
         setIsViewing(false);  // Reinicializa o modo de visualização
     };
 
-    const handleSubmit = async (usuarios) => {
-        if (!validarCPF(usuarios.usu_cpf)) {
+    const handleSubmit = async (usuario) => {
+        if (!validarCPF(usuario.usu_cpf)) {
             alert('CPF inválido');
             return;
         }
-        // if (!validarEmail(usuario.usu_email)) {
-        //     alert('Email inválido');
-        //     return;
-        // }
 
         try {
             let response;
 
-            if (usuarios.usu_id) {
-                response = await api.patch(`/usuarios/${usuarios.usu_id}`, usuarios);
+            if (usuario.usu_id) {
+                response = await api.patch(`/usuarios/${usuario.usu_id}`, usuario);
             } else {
-                response = await api.post('/usuarios', usuarios);
+                response = await api.post('/usuarios', usuario);
             }
 
             Swal.fire({
@@ -156,7 +159,6 @@ export default function CadCliente() {
                 icon: 'error',
             });
         }
-        // console.log(selectedUser);
     };
 
     function validarCPF(cpf) {
@@ -229,7 +231,18 @@ export default function CadCliente() {
                     confirmButtonColor: "rgb(40, 167, 69)",
                 }).then(() => {
                     setShowForm(false);
-                    setSelectedUser(null);
+                    setSelectedUser({
+                        usu_nome: '',
+                        usu_cpf: '',
+                        usu_data_nasc: '',
+                        usu_sexo: '',
+                        usu_telefone: '',
+                        usu_email: '',
+                        usu_observ: '',
+                        usu_acesso: 0,
+                        usu_senha: '',
+                        usu_situacao: 1,
+                    });
                 });
             }
         });
@@ -418,15 +431,18 @@ export default function CadCliente() {
                             Cancelar
                         </button>
                         <button
-                            type="button"
+                            type="submit"
                             className={styles.button_submit}
-                            onClick={() => handleSubmit(selectedUser)}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                handleSubmit(selectedUser);
+                            }}
                             disabled={isViewing}
                         >
                             Salvar
                         </button>
                         <button
-                            type="exit"
+                            type="button"
                             className={styles.button_exit}
                             onClick={handleExit}
                         >

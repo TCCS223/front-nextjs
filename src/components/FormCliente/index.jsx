@@ -1,24 +1,68 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './index.module.css';
 import InputMask from "react-input-mask";
-import { IoMdEyeOff } from "react-icons/io";
-import { IoMdEye } from "react-icons/io";
+import { IoMdEyeOff, IoMdEye } from "react-icons/io";
+import api from '@/services/api';
+import { cpf as cpfValidator } from 'cpf-cnpj-validator';
 
-export default function FormCliente({ selectedUser, setSelectedUser, isViewing, handleSubmit }) {
-
-
+export default function FormCliente({ selectedUser, setSelectedUser, isViewing, handleSubmit, Cancelar }) {
     const [showPassword, setShowPassword] = useState(false);
+    const [cpfExists, setCpfExists] = useState(false);
+    const [cpfChecked, setCpfChecked] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState('');
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
-    
+    const handleCPFChange = (e) => {
+        const cpf = e.target.value;
+        setSelectedUser({ ...selectedUser, usu_cpf: cpf });
+        setCpfChecked(false);
+        setCpfExists(false);
+        setErrors('');
+    };
+
+    const handleBlurCPF = async () => {
+        const cpf = selectedUser.usu_cpf.trim();
+
+        if (cpf === '') {
+            setErrors('CPF é obrigatório');
+            return;
+        }
+
+        // Validação do formato e validade do CPF
+        if (!cpfValidator.isValid(cpf)) {
+            setErrors('CPF inválido');
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const res = await api.post('/usuarios', { cpf });
+
+            if (res.data.success) {
+                setCpfExists(res.data.exists);
+                // Se estiver editando e o CPF for do próprio usuário, não considerar como duplicado
+                if (res.data.exists && (selectedUser.usu_id ? res.data.existsUserId !== selectedUser.usu_id : true)) {
+                    setErrors('CPF já está cadastrado');
+                } else {
+                    setErrors('');
+                }
+            } else {
+                setErrors('Erro ao verificar o CPF');
+            }
+        } catch (error) {
+            console.error("Erro ao verificar CPF:", error);
+            
+        }
+        setCpfChecked(true);
+        setLoading(false);
+    };
 
     return (
         <form id="clienteForm" className={styles.form} onSubmit={handleSubmit}>
-
             <input type="hidden" id="clienteId" value={selectedUser ? selectedUser.usu_id : ''} className={styles.input_cliente} />
 
             <div className={styles.grid}>
@@ -58,12 +102,20 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         id="usu_cpf"
                         name="usu_cpf"
                         value={selectedUser ? selectedUser.usu_cpf : ''}
-                        onChange={(e) => setSelectedUser({ ...selectedUser, usu_cpf: e.target.value })}
+                        onChange={handleCPFChange}
+                        onBlur={handleBlurCPF}
                         disabled={isViewing}
                         className={styles.input_cliente}
                         required
-                    // placeholder="xxx.xxx.xxx - xx"
+                        placeholder="XXX.XXX.XXX-XX"
                     />
+                    {loading && <span className={styles.loading}>Verificando CPF...</span>}
+                    {cpfChecked && !loading && (
+                        <span className={cpfExists ? styles.error : styles.success}>
+                            {cpfExists ? 'CPF já cadastrado' : ''}
+                        </span>
+                    )}
+                    {errors && <span className={styles.error}>{errors}</span>}
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_data}`}>
@@ -116,7 +168,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                 <div className={`${styles.grid_item} ${styles.grid_telefone}`}>
                     <label htmlFor="usu_telefone" className={styles.label_cliente}>Telefone</label>
                     <InputMask
-                        mask="(99) 99999 - 9999"
+                        mask="(99) 99999-9999"
                         type="tel"
                         id="usu_telefone"
                         name="usu_telefone"
@@ -125,7 +177,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         disabled={isViewing}
                         className={`${styles.input_cliente}`}
                         required
-                    // placeholder="(xx) xxxxx - xxxx"
+                        placeholder="(XX) XXXXX-XXXX"
                     />
                 </div>
 
@@ -143,13 +195,14 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         required
                     />
                 </div>
+
                 <div className={`${styles.grid_item} ${styles.grid_senha}`}>
                     <label htmlFor="usu_senha" className={styles.label_cliente}>Senha</label>
 
                     <div className={styles.input_cliente_senha}>
                         <input
                             type={showPassword ? "text" : "password"}
-                            id="password"
+                            id="usu_senha"
                             name="usu_senha"
                             value={selectedUser ? selectedUser.usu_senha : ''}
                             onChange={(e) => setSelectedUser({ ...selectedUser, usu_senha: e.target.value })}
@@ -160,16 +213,9 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         />
 
                         {showPassword ? (
-                            <IoMdEye 
-                            onClick={togglePasswordVisibility} 
-                            className={styles.mdEye}
-                            />
-                            
+                            <IoMdEye onClick={togglePasswordVisibility} className={styles.mdEye} />
                         ) : (
-                            <IoMdEyeOff 
-                            onClick={togglePasswordVisibility} 
-                            className={styles.mdEye}
-                            />
+                            <IoMdEyeOff onClick={togglePasswordVisibility} className={styles.mdEye} />
                         )}
                     </div>
                 </div>
@@ -180,11 +226,11 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         type="text"
                         id="usu_observ"
                         name="usu_observ"
-                        required
-                        value={selectedUser ? selectedUser.usu_observacoes : ''}
+                        value={selectedUser ? selectedUser.usu_observ : ''}
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_observ: e.target.value })}
                         disabled={isViewing}
                         className={styles.input_cliente}
+                        required
                     />
                 </div>
 
@@ -194,9 +240,11 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         id="usu_situacao"
                         name="usu_situacao"
                         className={`${styles.select_cliente} ${styles.input_situacao}`}
+                        value={selectedUser ? selectedUser.usu_situacao : ''}
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_situacao: parseInt(e.target.value) })}
                         disabled={isViewing}
                     >
+
                         <option value="1" className={styles.option} selected={selectedUser && selectedUser.usu_situacao === "1"}>Ativo</option>
                         <option value="0" className={styles.option} selected={selectedUser && selectedUser.usu_situacao === "0"}>Inativo</option>
                     </select>

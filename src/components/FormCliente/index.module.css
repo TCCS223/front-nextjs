@@ -162,3 +162,18 @@
     height: 24px;
     margin: auto 10px;
 }
+
+.error {
+  color: red;
+  font-size: 0.9em;
+}
+
+.success {
+  color: green;
+  font-size: 0.9em;
+}
+
+.loading {
+  color: blue;
+  font-size: 0.9em;
+}
