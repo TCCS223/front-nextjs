@@ -103,11 +103,11 @@ export default function Servicos() {
         setIsViewing(false);
     };
 
-    // const handleExit = () => {
-    //     setShowForm(false);  // Fecha o formulário
-    //     setSelectedUser(null);  // Limpa o usuário selecionado
-    //     setIsViewing(false);  // Reinicializa o modo de visualização
-    // };
+    const handleExit = () => {
+        setShowForm(false);  // Fecha o formulário
+        setSelectedServico([]);  // Limpa o usuário selecionado
+        setIsViewing(false);  // Reinicializa o modo de visualização
+    };
 
     const handleSubmit = async (servico) => {
         try {
@@ -334,21 +334,40 @@ export default function Servicos() {
                     />
 
                     <div className={styles.footer_form}>
-                        <button
-                            type="reset"
-                            onClick={Cancelar}
-                            className={styles.button_cancel}
-                        >
-                            Cancelar
-                        </button>
-                        <button
-                            type="button"
-                            className={styles.button_submit}
-                            onClick={handleSubmit}
-                            disabled={isViewing}
-                        >
-                            Salvar
-                        </button>
+
+                        {isViewing ? (
+
+                            <button
+                                type="button"
+                                className={styles.button_exit}
+                                onClick={handleExit}
+                            >
+                                Sair
+                            </button>
+                        ) : (
+                            <>
+                                <button
+                                    type="reset"
+                                    onClick={Cancelar}
+                                    className={styles.button_cancel}
+                                >
+                                    Cancelar
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    className={styles.button_submit}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        handleSubmit(selectedServico);
+                                    }}
+                                    disabled={isViewing}
+                                >
+                                    Salvar
+                                </button>
+                            </>
+                        )}
+
                     </div>
                 </>
             )}

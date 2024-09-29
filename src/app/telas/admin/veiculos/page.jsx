@@ -23,10 +23,6 @@ export default function Veiculos() {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedVeic, setSelectedVeic] = useState(null);
 
-
-
-
-    
     const usersPerPage = 15;
     // Paginação
     const indexOfLastUser = currentPage * usersPerPage;
@@ -61,7 +57,6 @@ export default function Veiculos() {
         setIsAsc(true);
 
         const result = veiculos.filter((veiculo) => {
-            console.log(veiculo);
             const statusMatch =
                 statusFilter === 'todos' ||
                 (statusFilter === 'ativo' && veiculo.veic_situacao === 1) ||
@@ -75,7 +70,6 @@ export default function Veiculos() {
             return statusMatch && searchTextMatch;
         });
 
-        console.log(result);
         setFilteredVeiculos(result);
         setCurrentPage(1);
     };
@@ -85,7 +79,6 @@ export default function Veiculos() {
             const response = await api.get(`/veiculos/${veiculo.veic_id}`);
 
             if (response.data.sucesso) {
-                console.log(response.data.dados);
                 setSelectedVeic(response.data.dados);
                 setShowForm(true);
                 setIsViewing(true);
@@ -104,26 +97,70 @@ export default function Veiculos() {
                 icon: "error",
             });
         }
+
     };
 
-    const handleEditVeic = (usuario) => {
-        setSelectedVeic(usuario);
-        setShowForm(true);
-        setIsViewing(false);
-    };
-
-    const handleSubmit = async (data) => {
+    const handleEditVeic = async (veiculo) => {
         try {
-            const response = await api.patch(`/veiculos/${data.veic_id}`, data);
-            Swal.fire({
-                title: 'Sucesso!',
-                text: response.data.mensagem,
-                icon: 'success',
-            });
-            ListarVeiculos();
-            setShowForm(false);
+            const response = await api.get(`/veiculos/${veiculo.veic_id}`);
+
+            if (response.data.sucesso) {
+                setSelectedVeic(response.data.dados);
+                setShowForm(true);
+                setIsViewing(false);
+            } else {
+                throw new Error(response.data.mensagem);
+            }
         } catch (error) {
-            console.error("Erro ao atualizar:", error);
+            console.error("Erro ao visualizar veículo:", error);
+            if (error.response) {
+                console.error("Dados do erro:", error.response.data);
+                console.error("Status do erro:", error.response.status);
+            }
+            Swal.fire({
+                title: "Erro!",
+                text: error.response ? error.response.data.mensagem : 'Erro desconhecido ao buscar veículo.',
+                icon: "error",
+            });
+        }
+
+    };
+
+    const handleExit = () => {
+        setShowForm(false);  // Fecha o formulário
+        setSelectedVeic([]);  // Limpa o usuário selecionado
+        setIsViewing(false);  // Reinicializa o modo de visualização
+    };
+
+    const handleSubmit = async (veiculo) => {
+        const data = {
+            mod_id: veiculo.mod_id,
+            veic_placa: veiculo.veic_placa,
+            veic_ano: veiculo.veic_ano,
+            veic_cor: veiculo.veic_cor,
+            veic_combustivel: veiculo.veic_combustivel,
+            veic_observ: veiculo.veic_observ,
+            veic_situacao: veiculo.veic_situacao
+        };
+
+        try {
+            const response = await api.patch(`/veiculos/${veiculo.veic_id}`,
+                data);
+
+            if (response.data.sucesso) {
+                console.log("Dados do veículo teste:", veiculo);
+                Swal.fire({
+                    title: 'Sucesso!',
+                    text: response.data.mensagem,
+                    icon: 'success',
+                });
+                ListarVeiculos();
+                setShowForm(false);
+            } else {
+                throw new Error(response.data.mensagem);
+            }
+        } catch (error) {
+            console.error("Erro ao atualizar:", error.response.data.mensagem);
             Swal.fire({
                 title: 'Erro!',
                 text: error.response ? error.response.data.mensagem : 'Erro desconhecido.',
@@ -131,6 +168,11 @@ export default function Veiculos() {
             });
         }
     };
+
+    const Create = () => {
+        setSelectedVeic([])
+        setShowForm(true);
+    }
 
     const sortByColumn = (column) => {
         let newIsAsc = true;
@@ -223,7 +265,7 @@ export default function Veiculos() {
                                 </select>
                             </div>
 
-                            <button className={styles.newButton} onClick={() => setShowForm(true)}>Novo</button>
+                            <button className={styles.newButton} onClick={Create}>Novo</button>
                         </div>
                     </div>
 
@@ -355,21 +397,44 @@ export default function Veiculos() {
                     handleSubmit={handleSubmit}
                     Cancelar={Cancelar}
                 />
+
+
+
                 <div className={styles.footer_form}>
-                    <button
-                        type="reset"
-                        onClick={Cancelar}
-                        className={styles.button_cancel}
-                    >
-                        Cancelar
-                    </button>
-                    <button
-                        type="button"
-                        className={styles.button_submit}
-                        onClick={handleSubmit} disabled={isViewing}
-                    >
-                        Salvar
-                    </button>
+
+                    {isViewing ? (
+
+                        <button
+                            type="button"
+                            className={styles.button_exit}
+                            onClick={handleExit}
+                        >
+                            Sair
+                        </button>
+                    ) : (
+                        <>
+                            <button
+                                type="reset"
+                                onClick={Cancelar}
+                                className={styles.button_cancel}
+                            >
+                                Cancelar
+                            </button>
+
+                            <button
+                                type="submit"
+                                className={styles.button_submit}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    handleSubmit(selectedVeic);
+                                }}
+                                disabled={isViewing}
+                            >
+                                Salvar
+                            </button>
+                        </>
+                    )}
+
                 </div>
             </>
             )}

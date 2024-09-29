@@ -28,7 +28,7 @@
     width: calc(100% - 20px);
     padding: 10px;
     margin-top: 5px;
-    border: 2px solid #8d8c8c;
+    border: 3px solid #8d8c8c;
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 18px;
@@ -81,7 +81,7 @@
     width: calc(100% - 20px);
     padding: 10px;
     margin-top: 5px;
-    border: 2px solid #8d8c8c;
+    border: 3px solid #8d8c8c;
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 18px;

@@ -59,6 +59,22 @@ export default function CadCliente() {
         2: 'Outro'
     };
 
+
+// const LimparDados = () =>{
+//     setSelectedUser({
+//         usu_nome: '',
+//         usu_cpf: '',
+//         usu_data_nasc: '',
+//         usu_sexo: '',
+//         usu_telefone: '',
+//         usu_email: '',
+//         usu_observ: '',
+//         usu_acesso: 0,
+//         usu_senha: '',
+//         usu_situacao: 1,
+//     });
+// }
+
     const ListarUsuarios = async () => {
         try {
             const response = await api.get('/usuarios');

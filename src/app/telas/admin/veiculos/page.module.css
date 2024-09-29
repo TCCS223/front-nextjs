@@ -49,6 +49,23 @@
     color: #222;
 }
 
+.button_exit {
+    padding: 10px 20px;
+    background-color: #ff9d00;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+    grid-column: span 1;
+    grid-area: 1 / 8 / 2 / 9;
+}
+
+.button_exit:hover {
+    background-color: #f39200;
+    color: #222;
+}
 
 .contentSearch {
     padding: 2rem 0 .5rem;
