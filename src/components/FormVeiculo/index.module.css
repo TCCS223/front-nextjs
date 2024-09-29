@@ -45,19 +45,23 @@
 }
 
 .grid_codigo,
-.grid_categoria,
-.grid_placa,
 .grid_situacao {
     grid-column: span 2;
 }
 
-.grid_modelo,
+
+.grid_categoria,
 .grid_marca,
 .grid_ano,
 .grid_cor,
+.grid_placa,
 .grid_combustivel,
 .grid_proprietario {
     grid-column: span 3;
+}
+
+.grid_modelo{
+grid-column:  span 4;
 }
 
 .grid_observacoes {

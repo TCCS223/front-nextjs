@@ -16,6 +16,7 @@ export default function Servicos() {
     const [servicos, setServicos] = useState([]);
     const [selectedServico, setSelectedServico] = useState(null);
     const [isViewing, setIsViewing] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
     const [statusFilter, setStatusFilter] = useState('todos');
     const [searchText, setSearchText] = useState('');
     const [showForm, setShowForm] = useState(false);
@@ -23,12 +24,17 @@ export default function Servicos() {
     const [currentPage, setCurrentPage] = useState(1);
     const [sortedColumn, setSortedColumn] = useState(null);
     const [isAsc, setIsAsc] = useState(true);
+    const [categoriasServ, setCategoriasServ] = useState([]);
+    const [servicoCat, setServicoCat] = useState([]);
 
     const usersPerPage = 15;
 
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentServicos = filteredServicos.slice(indexOfFirstUser, indexOfLastUser);
+
+
+
 
     useEffect(() => {
         ListarServicos();
@@ -45,7 +51,7 @@ export default function Servicos() {
     const ListarServicos = async () => {
         try {
             const response = await api.get('/servicos');
-            console.log(response.data);
+            console.log(response.data.dados);
             setServicos(response.data.dados);
         } catch (error) {
             console.error("Erro ao buscar os serviços:", error);
@@ -56,6 +62,27 @@ export default function Servicos() {
             });
         }
     };
+
+    const ListarCategoriasServ = async () => {
+        try {
+            const response = await api.get('/categoriasServicos');
+            setCategoriasServ(response.data.dados);
+            console.log(response.data.dados);
+        } catch (error) {
+            console.error("Erro ao buscar as categorias:", error);
+        }
+    }
+
+    const ListarServicoPorCatergoria = async (catServId) => {
+        try {
+            const response = await api.get(`/servicos/categoria/${catServId}`);
+            setServicoCat(response.data.dados);
+            console.log(response.data.dados);
+        } catch (error) {
+            console.error("Erro ao buscar as categorias:", error);
+        }
+    }
+
 
     const handleSearch = () => {
         setSortedColumn(null);
@@ -97,6 +124,9 @@ export default function Servicos() {
         }
     };
 
+    console.log(selectedServico);
+
+
     const handleEditServicos = (servicos) => {
         setSelectedServico(servicos);
         setShowForm(true);
@@ -136,6 +166,20 @@ export default function Servicos() {
             });
         }
     };
+
+    const Create = () => {
+        setSelectedServico({
+            cat_serv_id: '',
+            serv_descricao: '',
+            serv_duracao: '',
+            serv_nome: '',
+            serv_preco: '',
+            serv_situacao: 1
+        })
+        setShowForm(true);
+        ListarCategoriasServ();
+        // ListarCategorias();
+    }
 
 
     const sortByColumn = (column) => {
@@ -227,7 +271,7 @@ export default function Servicos() {
 
                             <button
                                 className={styles.newButton}
-                                onClick={() => setShowForm(true)}>
+                                onClick={Create}>
                                 Novo
                             </button>
                         </div>
@@ -329,6 +373,10 @@ export default function Servicos() {
                         selectedServico={selectedServico}
                         setSelectedServico={setSelectedServico}
                         isViewing={isViewing}
+                        isEditing={isEditing}
+                        categoriasServ={categoriasServ}
+                        listarServicoPorCatergoria={ListarServicoPorCatergoria}
+                        servicoCat={servicoCat}
                         handleSubmit={handleSubmit}
                         Cancelar={Cancelar}
                     />

@@ -33,6 +33,9 @@ export default function Veiculos() {
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentVeiculos = filteredVeiculos.slice(indexOfFirstUser, indexOfLastUser);
 
+    console.log(selectedVeic);
+
+
     useEffect(() => {
         ListarVeiculos();
     }, []);
@@ -41,17 +44,17 @@ export default function Veiculos() {
         handleSearch();
     }, [searchText, statusFilter, veiculos]);
 
-const ListarModelos = async (marID) => {
-    try {
-        const response = await api.get(`/modelos/cat/${selectedVeic.cat_id}/mar/${marID}`);
-        setModelos(response.data.dados);
-        // console.log(response.data);
-    } catch (error) {
-        console.error("Erro ao buscar as marcas:", error);
+    const ListarModelos = async (marID) => {
+        try {
+            const response = await api.get(`/modelos/cat/${selectedVeic.cat_id}/mar/${marID}`);
+            setModelos(response.data.dados);
+            // console.log(response.data);
+        } catch (error) {
+            console.error("Erro ao buscar as marcas:", error);
+        }
     }
-}
 
-    const ListarCategorias = async () =>{
+    const ListarCategorias = async () => {
         try {
             const response = await api.get('/categorias');
             setCategorias(response.data.dados);
@@ -60,7 +63,7 @@ const ListarModelos = async (marID) => {
         }
     }
 
-    const ListarMarcas = async (catId) =>{
+    const ListarMarcas = async (catId) => {
         try {
             const response = await api.get(`/marcas/categorias/${catId}`);
             setMarcas(response.data.dados);
@@ -167,6 +170,7 @@ const ListarModelos = async (marID) => {
     };
 
     const handleSubmit = async (veiculo) => {
+
         const data = {
             mod_id: veiculo.mod_id,
             veic_placa: veiculo.veic_placa,
@@ -178,33 +182,45 @@ const ListarModelos = async (marID) => {
         };
 
         try {
-            const response = await api.patch(`/veiculos/${veiculo.veic_id}`,
-                data);
-
-            if (response.data.sucesso) {
-                console.log("Dados do veículo teste:", veiculo);
-                Swal.fire({
-                    title: 'Sucesso!',
-                    text: response.data.mensagem,
-                    icon: 'success',
-                });
-                ListarVeiculos();
-                setShowForm(false);
+            let response;
+            if (veiculo.veic_id) {
+                response = await api.patch(`/veiculos/${veiculo.veic_id}`, data);
             } else {
-                throw new Error(response.data.mensagem);
+                response = await api.post('/veiculos', data);
             }
+
+            console.log(response.data); // Adicione isso para verificar a resposta da API
+            Swal.fire({
+                title: 'Sucesso!',
+                text: response.data.mensagem,
+                icon: 'success',
+            });
+
+            ListarVeiculos();
+            setShowForm(false);
         } catch (error) {
-            console.error("Erro ao atualizar:", error.response.data.mensagem);
+            console.error("Dados do erro:", error.response.data);
             Swal.fire({
                 title: 'Erro!',
-                text: error.response ? error.response.data.mensagem : 'Erro desconhecido.',
+                text: error.response?.data.mensagem || 'Erro desconhecido.',
                 icon: 'error',
             });
         }
     };
 
+
     const Create = () => {
-        setSelectedVeic([])
+        setSelectedVeic({
+            cat_id: '',
+            mar_id: '',
+            mod_id: '',
+            veic_placa: '',
+            veic_ano: '',
+            veic_cor: '',
+            veic_combustivel: '',
+            veic_observ: '',
+            veic_situacao: 1,
+        })
         setShowForm(true);
         ListarCategorias();
     }
@@ -431,7 +447,7 @@ const ListarModelos = async (marID) => {
                     selectedVeic={selectedVeic}
                     setSelectedVeic={setSelectedVeic}
                     isViewing={isViewing}
-                    isEditing={isEditing} 
+                    isEditing={isEditing}
                     categorias={categorias}
                     marcas={marcas}
                     listarMarcas={ListarMarcas}
@@ -469,7 +485,7 @@ const ListarModelos = async (marID) => {
                                     e.preventDefault();
                                     handleSubmit(selectedVeic);
                                 }}
-                                disabled={isViewing || !isEditing}
+
                             >
                                 Salvar
                             </button>

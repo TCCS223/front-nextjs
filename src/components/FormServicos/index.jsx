@@ -1,11 +1,27 @@
 import React from 'react';
 import styles from './index.module.css';
 
-export default function FormServicos({ selectedServico, setSelectedServico, isViewing, handleSubmit, Cancelar }) {
-    return (
-        <form id="servicoForm" className={styles.form}>
+export default function FormServicos({ selectedServico, setSelectedServico, isViewing, isEditing, handleSubmit, categoriasServ, listarServicoPorCatergoria, servicoCat }) {
 
-            <input type="hidden" id="clienteId" value={selectedServico ? selectedServico.serv_id : ''} className={styles.input_servicos} />
+    const isDisabled = isViewing || isEditing; // Define se os campos devem estar desabilitados
+
+    // Função para lidar com a mudança na categoria
+    const handleCategoryChange = (e) => {
+        const catServId = parseInt(e.target.value);
+        setSelectedServico({ ...selectedServico, cat_serv_id: catServId });
+        listarServicoPorCatergoria(catServId);        // Chame a função listarMarcas passando o id da categoria selecionada
+    };
+
+
+    return (
+        <form id="servicoForm" className={styles.form} onSubmit={handleSubmit}>
+
+            <input
+                type="hidden"
+                id="clienteId"
+                value={selectedServico ? selectedServico.serv_id : ''}
+                className={styles.input_servicos}
+            />
 
             <div className={styles.grid}>
                 <div className={`${styles.grid_item} ${styles.grid_codigo}`}>
@@ -17,34 +33,74 @@ export default function FormServicos({ selectedServico, setSelectedServico, isVi
                         value={selectedServico ? selectedServico.serv_id : ''}
                         onChange={(e) => setSelectedServico({ ...selectedServico, serv_id: e.target.value })}
                         className={styles.input_servicos}
-                        readOnly
+                        disabled
                     />
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_categoria}`}>
                     <label htmlFor="cat_serv_nome" className={styles.label_servicos}>Categoria</label>
-                    <input
-                        type="text"
-                        name="cat_serv_nome"
-                        id="cat_serv_nome"
-                        value={selectedServico ? selectedServico.cat_serv_nome : ''}
-                        onChange={(e) => setSelectedServico({ ...selectedServico, cat_serv_nome: e.target.value })}
-                        className={styles.input_servicos}
-                        disabled={isViewing}
-                    />
+
+                    {isDisabled ? (
+                        <input
+                            type="text"
+                            name="cat_serv_nome"
+                            id="cat_serv_nome"
+                            value={selectedServico ? selectedServico.cat_serv_nome : ''}
+                            onChange={(e) => setSelectedServico({ ...selectedServico, cat_serv_nome: e.target.value })}
+                            className={styles.input_servicos}
+                            disabled={isDisabled}
+                            required
+                        />
+                    ) : (
+                        <>
+                            <select
+                                name="categoria_servico"
+                                id="categoria_servico"
+                                value={selectedServico ? selectedServico.cat_serv_id : ''}
+                                onChange={handleCategoryChange}
+                                className={`${styles.select_servicos} ${styles.grid_categoria}`}
+                                defaultValue=""
+                            >
+                                <option value="" disabled hidden>Selecionar</option>
+                                {categoriasServ.map((catServ) => (
+                                    <option key={catServ.cat_serv_id} value={catServ.cat_serv_id}>{catServ.cat_serv_nome}</option>
+                                ))}
+                            </select>
+                        </>
+                    )}
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_nome}`}>
                     <label htmlFor="serv_nome" className={styles.label_servicos}>Nome</label>
-                    <input
-                        type="text"
-                        name="serv_nome"
-                        id="serv_nome"
-                        value={selectedServico ? selectedServico.serv_nome : ''}
-                        onChange={(e) => setSelectedServico({ ...selectedServico, serv_nome: e.target.value })}
-                        className={styles.input_servicos}
-                        disabled={isViewing}
-                    />
+
+                    {isDisabled ? (
+                        <input
+                            type="text"
+                            name="serv_nome"
+                            id="serv_nome"
+                            value={selectedServico ? selectedServico.serv_nome : ''}
+                            onChange={(e) => setSelectedServico({ ...selectedServico, serv_nome: e.target.value })}
+                            className={styles.input_servicos}
+                            disabled={isViewing}
+                        />
+                    ) : (
+                        <>
+                            <select
+                                type="text"
+                                name="serv_nome"
+                                id="serv_nome"
+                                value={selectedServico ? selectedServico.serv_nome : ''}
+                                onChange={(e) => setSelectedServico({ ...selectedServico, serv_nome: e.target.value })}
+                                className={`${styles.select_servicos} ${styles.grid_categoria}`}
+                                defaultValue=""
+                            >
+                                <option value="" disabled hidden>Selecionar</option>
+                                {servicoCat.map((servCat) => (
+                                    <option key={servCat.serv_id} value={servCat.serv_nome}>{servCat.serv_nome}</option>
+                                ))}
+                            </select>
+                        </>
+                    )}
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_duracao}`}>
