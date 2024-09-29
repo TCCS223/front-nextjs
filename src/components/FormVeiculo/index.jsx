@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './index.module.css';
 import InputMask from "react-input-mask";
 
-export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, isEditing, handleSubmit, categorias, marcas, listarMarcas }) {
+export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, isEditing, handleSubmit, categorias, marcas, listarMarcas, modelos, listarModelos }) {
 
     const isDisabled = isViewing || isEditing; // Define se os campos devem estar desabilitados
 
@@ -10,8 +10,13 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
     const handleCategoryChange = (e) => {
         const catId = parseInt(e.target.value);
         setSelectedVeic({ ...selectedVeic, cat_id: catId });
-        // Chame a função listarMarcas passando o id da categoria selecionada
-        listarMarcas(catId);
+        listarMarcas(catId);        // Chame a função listarMarcas passando o id da categoria selecionada
+    };
+
+    const handleMarcas = (e) => {
+        const marId = parseInt(e.target.value);
+        setSelectedVeic({ ...selectedVeic, mar_id: marId });
+        listarModelos(marId);       // Chame a função listarMarcas passando o id da categoria selecionada
     };
 
     return (
@@ -65,7 +70,7 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                             value={selectedVeic ? selectedVeic.cat_nome : ''}
                             onChange={(e) => setSelectedVeic({ ...selectedVeic, cat_nome: e.target.value })}
                             className={styles.input_veiculos}
-                            disabled={isDisabled} // Usa a variável isDisabled
+                            disabled={isDisabled}
                             required
                         />
                     ) : (
@@ -107,7 +112,8 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                             name="veic_cor"
                             id="veic_cor"
                             value={selectedVeic ? selectedVeic.mar_id : ''}
-                            onChange={(e) => setSelectedVeic({ ...selectedVeic, mar_id: parseInt(e.target.value) })}
+                            // onChange={(e) => setSelectedVeic({ ...selectedVeic, mar_id: parseInt(e.target.value) })}
+                            onChange={handleMarcas}
                             className={`${styles.select_veiculos} ${styles.input_marca}`}
                             defaultValue="">
                             <option value="" selected hidden>Selecione</option>
@@ -124,7 +130,7 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                 <div className={`${styles.grid_item} ${styles.grid_modelo}`}>
                     <label htmlFor="mod_id" className={styles.label_veiculos}>Modelo</label>
 
-                    {/* {isDisabled ? ( */}
+                    {isDisabled ? (
 
                         <input
                             type='text'
@@ -132,20 +138,26 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                             name="mod_id"
                             value={selectedVeic ? selectedVeic.mod_nome : ''}
                             onChange={(e) => setSelectedVeic({ ...selectedVeic, mod_nome: e.target.value })}
-
                             className={styles.input_veiculos}
-                            disabled={isDisabled} // Usa a variável isDisabled
+                            disabled={isDisabled}
                             required
                         />
 
-                    {/* ) : (
-                        <>
-
-
-                        </>
-                    )} */}
-
-
+                    ) : (
+                        <select
+                            name="mod_id"
+                            id="mod_id"
+                            value={selectedVeic ? selectedVeic.mod_id : ''}
+                            onChange={(e) => setSelectedVeic({ ...selectedVeic, mod_id: parseInt(e.target.value) })}
+                            className={`${styles.select_veiculos} ${styles.input_marca}`}
+                            defaultValue=""
+                        >
+                            <option value="" selected hidden>Selecione</option>
+                            {modelos.map((modelo) => (
+                                <option key={modelo.mod_id} value={modelo.mod_id}>{modelo.mod_nome}</option>
+                            ))}
+                        </select>
+                    )}
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_ano}`}>
@@ -331,5 +343,3 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
         </form >
     )
 }
-
-// {isViewing ?(<></>):(<></>)}

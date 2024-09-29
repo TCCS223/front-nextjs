@@ -25,6 +25,7 @@ export default function Veiculos() {
     const [isEditing, setIsEditing] = useState(false);
     const [categorias, setCategorias] = useState([])
     const [marcas, setMarcas] = useState([])
+    const [modelos, setModelos] = useState([])
 
     const usersPerPage = 15;
     // Paginação
@@ -34,17 +35,21 @@ export default function Veiculos() {
 
     useEffect(() => {
         ListarVeiculos();
-        
-        
     }, []);
 
     useEffect(() => {
         handleSearch();
     }, [searchText, statusFilter, veiculos]);
 
-
-console.log(selectedVeic);
-  
+const ListarModelos = async (marID) => {
+    try {
+        const response = await api.get(`/modelos/cat/${selectedVeic.cat_id}/mar/${marID}`);
+        setModelos(response.data.dados);
+        // console.log(response.data);
+    } catch (error) {
+        console.error("Erro ao buscar as marcas:", error);
+    }
+}
 
     const ListarCategorias = async () =>{
         try {
@@ -64,7 +69,6 @@ console.log(selectedVeic);
             console.error("Erro ao buscar as marcas:", error);
         }
     }
-
 
     const ListarVeiculos = async () => {
         try {
@@ -154,7 +158,6 @@ console.log(selectedVeic);
                 icon: "error",
             });
         }
-
     };
 
     const handleExit = () => {
@@ -204,7 +207,6 @@ console.log(selectedVeic);
         setSelectedVeic([])
         setShowForm(true);
         ListarCategorias();
-        
     }
 
     const sortByColumn = (column) => {
@@ -255,10 +257,6 @@ console.log(selectedVeic);
             }
         });
     }
-
-
-    console.log(selectedVeic);
-    
 
     return (
         <div id="veiculos" className={styles.content_section}>
@@ -437,6 +435,8 @@ console.log(selectedVeic);
                     categorias={categorias}
                     marcas={marcas}
                     listarMarcas={ListarMarcas}
+                    modelos={modelos}
+                    listarModelos={ListarModelos}
                     handleSubmit={handleSubmit}
                     Cancelar={Cancelar}
                 />
