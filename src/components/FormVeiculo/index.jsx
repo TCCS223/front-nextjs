@@ -2,9 +2,17 @@ import React from 'react';
 import styles from './index.module.css';
 import InputMask from "react-input-mask";
 
-export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing,isEditing, handleSubmit }) {
+export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, isEditing, handleSubmit, categorias, marcas, listarMarcas }) {
 
     const isDisabled = isViewing || isEditing; // Define se os campos devem estar desabilitados
+
+    // Função para lidar com a mudança na categoria
+    const handleCategoryChange = (e) => {
+        const catId = parseInt(e.target.value);
+        setSelectedVeic({ ...selectedVeic, cat_id: catId });
+        // Chame a função listarMarcas passando o id da categoria selecionada
+        listarMarcas(catId);
+    };
 
     return (
         <form id="veiculoForm" className={styles.form} onSubmit={handleSubmit}>
@@ -48,45 +56,96 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing,i
 
                 <div className={`${styles.grid_item} ${styles.grid_categoria}`}>
                     <label htmlFor="cat_nome" className={styles.label_veiculos}>Categoria</label>
-                    <input
-                        type="text"
-                        id="cat_nome"
-                        name="cat_nome"
-                        value={selectedVeic ? selectedVeic.cat_nome : ''}
-                        onChange={(e) => setSelectedVeic({ ...selectedVeic, cat_nome: e.target.value })}
-                        className={styles.input_veiculos}
-                        disabled={isDisabled} // Usa a variável isDisabled
-                        required
-                    />
+
+                    {isDisabled ? (
+                        <input
+                            type="text"
+                            id="cat_nome"
+                            name="cat_nome"
+                            value={selectedVeic ? selectedVeic.cat_nome : ''}
+                            onChange={(e) => setSelectedVeic({ ...selectedVeic, cat_nome: e.target.value })}
+                            className={styles.input_veiculos}
+                            disabled={isDisabled} // Usa a variável isDisabled
+                            required
+                        />
+                    ) : (
+                        <select
+                            name="cat_id"
+                            id="cat_id"
+                            value={selectedVeic ? selectedVeic.cat_id : ''}
+                            onChange={handleCategoryChange} // Use a nova função aqui
+                            className={`${styles.select_veiculos} ${styles.input_marca}`}
+                            defaultValue="">
+                            <option value="" selected hidden>Selecione</option>
+                            {
+                                categorias.map((categorias) => (
+                                    <option key={categorias.cat_id} value={categorias.cat_id}>{categorias.cat_nome}</option>
+                                ))}
+                        </select>
+                    )
+                    }
+
+
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_marca}`}>
                     <label htmlFor="mar_id" className={styles.label_veiculos}>Marca</label>
-                    <input
-                        type='text'
-                        id="mar_id"
-                        name="mar_id"
-                        value={selectedVeic ? selectedVeic.mar_nome : ''}
-                        onChange={(e) => setSelectedVeic({ ...selectedVeic, mar_nome: e.target.value })}
-                        className={styles.input_veiculos}
-                        disabled={isDisabled} // Usa a variável isDisabled
-                        required
-                    />
+
+                    {isDisabled ? (
+                        <input
+                            type='text'
+                            id="mar_id"
+                            name="mar_id"
+                            value={selectedVeic ? selectedVeic.mar_nome : ''}
+                            onChange={(e) => setSelectedVeic({ ...selectedVeic, mar_nome: e.target.value })}
+                            className={styles.input_veiculos}
+                            disabled={isDisabled} // Usa a variável isDisabled
+                            required
+                        />
+                    ) : (
+                        <select
+                            name="veic_cor"
+                            id="veic_cor"
+                            value={selectedVeic ? selectedVeic.mar_id : ''}
+                            onChange={(e) => setSelectedVeic({ ...selectedVeic, mar_id: parseInt(e.target.value) })}
+                            className={`${styles.select_veiculos} ${styles.input_marca}`}
+                            defaultValue="">
+                            <option value="" selected hidden>Selecione</option>
+                            {
+                                marcas.map((marcas) => (
+                                    <option key={marcas.mar_id} value={marcas.mar_id}>{marcas.mar_nome}</option>
+                                ))}
+                        </select>
+                    )}
+
+
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_modelo}`}>
                     <label htmlFor="mod_id" className={styles.label_veiculos}>Modelo</label>
-                    <input
-                        type='text'
-                        id="mod_id"
-                        name="mod_id"
-                        value={selectedVeic ? selectedVeic.mod_nome : ''}
-                        onChange={(e) => setSelectedVeic({ ...selectedVeic, mod_nome: e.target.value })}
 
-                        className={styles.input_veiculos}
-                        disabled={isDisabled} // Usa a variável isDisabled
-                        required
-                    />
+                    {/* {isDisabled ? ( */}
+
+                        <input
+                            type='text'
+                            id="mod_id"
+                            name="mod_id"
+                            value={selectedVeic ? selectedVeic.mod_nome : ''}
+                            onChange={(e) => setSelectedVeic({ ...selectedVeic, mod_nome: e.target.value })}
+
+                            className={styles.input_veiculos}
+                            disabled={isDisabled} // Usa a variável isDisabled
+                            required
+                        />
+
+                    {/* ) : (
+                        <>
+
+
+                        </>
+                    )} */}
+
+
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_ano}`}>
@@ -253,23 +312,23 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing,i
                         />
                     ) : (
                         <>
-                        <select
-                            id="veic_situacao"
-                            name="veic_situacao"
-                            value={selectedVeic ? selectedVeic.veic_situacao : ''}
-                            onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_situacao: parseInt(e.target.value) })}
-                            className={`${styles.select_veiculos} ${styles.input_situacao}`}
-                            required
+                            <select
+                                id="veic_situacao"
+                                name="veic_situacao"
+                                value={selectedVeic ? selectedVeic.veic_situacao : ''}
+                                onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_situacao: parseInt(e.target.value) })}
+                                className={`${styles.select_veiculos} ${styles.input_situacao}`}
+                                required
                             >
-                            <option value="1" className={styles.option} selected>Ativo</option>
-                            <option value="0" className={styles.option}>Inativo</option>
-                        </select>
+                                <option value="1" className={styles.option} selected>Ativo</option>
+                                <option value="0" className={styles.option}>Inativo</option>
+                            </select>
                         </>
                     )}
 
                 </div>
             </div>
-        </form>
+        </form >
     )
 }
 

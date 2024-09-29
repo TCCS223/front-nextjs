@@ -23,6 +23,8 @@ export default function Veiculos() {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedVeic, setSelectedVeic] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [categorias, setCategorias] = useState([])
+    const [marcas, setMarcas] = useState([])
 
     const usersPerPage = 15;
     // Paginação
@@ -32,11 +34,37 @@ export default function Veiculos() {
 
     useEffect(() => {
         ListarVeiculos();
+        
+        
     }, []);
 
     useEffect(() => {
         handleSearch();
     }, [searchText, statusFilter, veiculos]);
+
+
+console.log(selectedVeic);
+  
+
+    const ListarCategorias = async () =>{
+        try {
+            const response = await api.get('/categorias');
+            setCategorias(response.data.dados);
+        } catch (error) {
+            console.error("Erro ao buscar as categorias:", error);
+        }
+    }
+
+    const ListarMarcas = async (catId) =>{
+        try {
+            const response = await api.get(`/marcas/categorias/${catId}`);
+            setMarcas(response.data.dados);
+            // console.log(response.data);
+        } catch (error) {
+            console.error("Erro ao buscar as marcas:", error);
+        }
+    }
+
 
     const ListarVeiculos = async () => {
         try {
@@ -175,6 +203,8 @@ export default function Veiculos() {
     const Create = () => {
         setSelectedVeic([])
         setShowForm(true);
+        ListarCategorias();
+        
     }
 
     const sortByColumn = (column) => {
@@ -225,6 +255,10 @@ export default function Veiculos() {
             }
         });
     }
+
+
+    console.log(selectedVeic);
+    
 
     return (
         <div id="veiculos" className={styles.content_section}>
@@ -399,7 +433,10 @@ export default function Veiculos() {
                     selectedVeic={selectedVeic}
                     setSelectedVeic={setSelectedVeic}
                     isViewing={isViewing}
-                    isEditing={isEditing} // Adicione isso
+                    isEditing={isEditing} 
+                    categorias={categorias}
+                    marcas={marcas}
+                    listarMarcas={ListarMarcas}
                     handleSubmit={handleSubmit}
                     Cancelar={Cancelar}
                 />
