@@ -22,6 +22,7 @@ export default function Veiculos() {
     const [isAsc, setIsAsc] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedVeic, setSelectedVeic] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
 
     const usersPerPage = 15;
     // Paginação
@@ -82,6 +83,7 @@ export default function Veiculos() {
                 setSelectedVeic(response.data.dados);
                 setShowForm(true);
                 setIsViewing(true);
+                setIsEditing(false); // Adicione isso
             } else {
                 throw new Error(response.data.mensagem);
             }
@@ -108,6 +110,7 @@ export default function Veiculos() {
                 setSelectedVeic(response.data.dados);
                 setShowForm(true);
                 setIsViewing(false);
+                setIsEditing(true); // Adicione isso
             } else {
                 throw new Error(response.data.mensagem);
             }
@@ -216,6 +219,8 @@ export default function Veiculos() {
                 }).then(() => {
                     setShowForm(false);
                     setSelectedVeic(null);
+                    setIsViewing(false);
+                    setIsEditing(false); // Reiniciar o estado de edição
                 });
             }
         });
@@ -394,11 +399,10 @@ export default function Veiculos() {
                     selectedVeic={selectedVeic}
                     setSelectedVeic={setSelectedVeic}
                     isViewing={isViewing}
+                    isEditing={isEditing} // Adicione isso
                     handleSubmit={handleSubmit}
                     Cancelar={Cancelar}
                 />
-
-
 
                 <div className={styles.footer_form}>
 
@@ -428,7 +432,7 @@ export default function Veiculos() {
                                     e.preventDefault();
                                     handleSubmit(selectedVeic);
                                 }}
-                                disabled={isViewing}
+                                disabled={isViewing || !isEditing}
                             >
                                 Salvar
                             </button>

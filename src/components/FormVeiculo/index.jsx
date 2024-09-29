@@ -2,7 +2,10 @@ import React from 'react';
 import styles from './index.module.css';
 import InputMask from "react-input-mask";
 
-export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, handleSubmit }) {
+export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing,isEditing, handleSubmit }) {
+
+    const isDisabled = isViewing || isEditing; // Define se os campos devem estar desabilitados
+
     return (
         <form id="veiculoForm" className={styles.form} onSubmit={handleSubmit}>
 
@@ -37,7 +40,7 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                         name="veic_placa"
                         value={selectedVeic ? selectedVeic.veic_placa : ''}
                         className={styles.input_veiculos}
-                        disabled
+                        disabled={isDisabled} // Usa a variável isDisabled
                         required
                     // onChange={(e) => setSelectedUser({ ...selectedUser, usu_cpf: e.target.value })}
                     />
@@ -52,7 +55,7 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                         value={selectedVeic ? selectedVeic.cat_nome : ''}
                         onChange={(e) => setSelectedVeic({ ...selectedVeic, cat_nome: e.target.value })}
                         className={styles.input_veiculos}
-                        disabled
+                        disabled={isDisabled} // Usa a variável isDisabled
                         required
                     />
                 </div>
@@ -66,7 +69,7 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                         value={selectedVeic ? selectedVeic.mar_nome : ''}
                         onChange={(e) => setSelectedVeic({ ...selectedVeic, mar_nome: e.target.value })}
                         className={styles.input_veiculos}
-                        disabled
+                        disabled={isDisabled} // Usa a variável isDisabled
                         required
                     />
                 </div>
@@ -81,7 +84,7 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                         onChange={(e) => setSelectedVeic({ ...selectedVeic, mod_nome: e.target.value })}
 
                         className={styles.input_veiculos}
-                        disabled
+                        disabled={isDisabled} // Usa a variável isDisabled
                         required
                     />
                 </div>
