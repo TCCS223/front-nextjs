@@ -128,6 +128,8 @@ export default function Servicos() {
 
     // console.log(selectedServico);
 
+   
+
     const handleEditServicos = (servicos) => {
         setSelectedServico(servicos);
         setShowForm(true);
@@ -233,6 +235,16 @@ export default function Servicos() {
             }
         });
     };
+
+
+// modal de teste para implementar um novo modal para cadastrar categorias
+    const modalzinho =()=>{
+        Swal.fire({
+            title: 'Sucesso!',
+            text: 'modalzinho funcionou',
+            icon: 'success',
+        });
+    }
 
     return (
         <div id="servicos" className={`${styles.content_section}`}>
@@ -401,10 +413,11 @@ export default function Servicos() {
                             <>
                                 <button
                                     type="reset"
-                                    onClick={()=> alert('botão para chamar modal de cadastro de categoria')}
+                                    onClick={modalzinho}
+                                    // onClick={()=> alert('botão para chamar modal de cadastro de categoria')}
                                     className={styles.button_newCategory}
                                 >
-                                    Cancelar
+                                    Nova Categoria
                                 </button>
 
                                 <button
