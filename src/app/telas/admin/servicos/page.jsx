@@ -25,7 +25,7 @@ export default function Servicos() {
     const [sortedColumn, setSortedColumn] = useState(null);
     const [isAsc, setIsAsc] = useState(true);
     const [categoriasServ, setCategoriasServ] = useState([]);
-    const [servicoCat, setServicoCat] = useState([]);
+    // const [servicoCat, setServicoCat] = useState([]);
 
     // Estados para o Modal de Nova Categoria
     const [modalCategoriaOpen, setModalCategoriaOpen] = useState(false);
@@ -63,6 +63,10 @@ export default function Servicos() {
         }
     };
 
+
+    console.log(selectedServico);
+    
+
     const ListarCategoriasServ = async () => {
         try {
             const response = await api.get('/categoriasServicos');
@@ -78,20 +82,20 @@ export default function Servicos() {
         }
     }
 
-    const ListarServicoPorCatergoria = async (catServId) => {
-        try {
-            const response = await api.get(`/servicos/categoria/${catServId}`);
-            setServicoCat(response.data.dados);
-            console.log(response.data.dados);
-        } catch (error) {
-            console.error("Erro ao buscar as categorias:", error);
-            Swal.fire({
-                title: "Erro!",
-                text: "Não foi possível carregar os serviços por categoria.",
-                icon: "error",
-            });
-        }
-    }
+    // const ListarServicoPorCatergoria = async (catServId) => {
+    //     try {
+    //         const response = await api.get(`/servicos/categoria/${catServId}`);
+    //         setServicoCat(response.data.dados);
+    //         console.log(response.data.dados);
+    //     } catch (error) {
+    //         console.error("Erro ao buscar as categorias:", error);
+    //         Swal.fire({
+    //             title: "Erro!",
+    //             text: "Não foi possível carregar os serviços por categoria.",
+    //             icon: "error",
+    //         });
+    //     }
+    // }
 
     const handleSearch = () => {
         setSortedColumn(null);
@@ -395,8 +399,8 @@ export default function Servicos() {
                         isViewing={isViewing}
                         isEditing={isEditing}
                         categoriasServ={categoriasServ}
-                        listarServicoPorCatergoria={ListarServicoPorCatergoria}
-                        servicoCat={servicoCat}
+                        // listarServicoPorCatergoria={ListarServicoPorCatergoria}
+                        // servicoCat={servicoCat}
                         handleSubmit={handleSubmit}
                         Cancelar={Cancelar}
                     />

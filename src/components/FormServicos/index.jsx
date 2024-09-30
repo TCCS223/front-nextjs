@@ -1,16 +1,16 @@
 import React from 'react';
 import styles from './index.module.css';
 
-export default function FormServicos({ selectedServico, setSelectedServico, isViewing, isEditing, handleSubmit, categoriasServ, listarServicoPorCatergoria, servicoCat }) {
+export default function FormServicos({ selectedServico, setSelectedServico, isViewing, isEditing, handleSubmit, categoriasServ }) {
 
     const isDisabled = isViewing || isEditing; // Define se os campos devem estar desabilitados
 
     // Função para lidar com a mudança na categoria
-    const handleCategoryChange = (e) => {
-        const catServId = parseInt(e.target.value);
-        setSelectedServico({ ...selectedServico, cat_serv_id: catServId });
-        listarServicoPorCatergoria(catServId);        // Chame a função listarMarcas passando o id da categoria selecionada
-    };
+    // const handleCategoryChange = (e) => {
+    //     const catServId = parseInt(e.target.value);
+    //     setSelectedServico({ ...selectedServico, cat_serv_id: catServId });
+    //     listarServicoPorCatergoria(catServId);        // Chame a função listarMarcas passando o id da categoria selecionada
+    // };
 
 
     return (
@@ -57,7 +57,7 @@ export default function FormServicos({ selectedServico, setSelectedServico, isVi
                                 name="categoria_servico"
                                 id="categoria_servico"
                                 value={selectedServico ? selectedServico.cat_serv_id : ''}
-                                onChange={handleCategoryChange}
+                                onChange={(e) => setSelectedServico({ ...selectedServico, cat_serv_id: parseInt(e.target.value) })}
                                 className={`${styles.select_servicos} ${styles.grid_categoria}`}
                                 defaultValue=""
                             >
@@ -73,17 +73,17 @@ export default function FormServicos({ selectedServico, setSelectedServico, isVi
                 <div className={`${styles.grid_item} ${styles.grid_nome}`}>
                     <label htmlFor="serv_nome" className={styles.label_servicos}>Nome</label>
 
-                        <input
-                            type="text"
-                            name="serv_nome"
-                            id="serv_nome"
-                            value={selectedServico ? selectedServico.serv_nome : ''}
-                            onChange={(e) => setSelectedServico({ ...selectedServico, serv_nome: e.target.value })}
-                            className={styles.input_servicos}
-                            disabled={isDisabled}
-                            required
-                        />
-                        {/* {isDisabled ? (
+                    <input
+                        type="text"
+                        name="serv_nome"
+                        id="serv_nome"
+                        value={selectedServico ? selectedServico.serv_nome : ''}
+                        onChange={(e) => setSelectedServico({ ...selectedServico, serv_nome: e.target.value })}
+                        className={styles.input_servicos}
+                        disabled={isDisabled}
+                        required
+                    />
+                    {/* {isDisabled ? (
                     ) : (
                         <>
                             <select
@@ -145,7 +145,7 @@ export default function FormServicos({ selectedServico, setSelectedServico, isVi
 
                 <div className={`${styles.grid_item} ${styles.grid_situacao}`}>
                     <label htmlFor="serv_situacao" className={styles.label_servicos}>Situação</label>
-                    {isViewing ? (
+                    {/* {isViewing ? (
                        <input
                        type="text"
                        name="serv_situacao"
@@ -169,7 +169,33 @@ export default function FormServicos({ selectedServico, setSelectedServico, isVi
                                 <option value="0" className={styles.option}>Inativo</option>
                             </select>
                         </>
+                    )} */}
+                    {isEditing ? (
+                        // Modo de edição - mostrar como select
+                        <select
+                            id="serv_situacao"
+                            name="serv_situacao"
+                            value={selectedServico ? selectedServico.serv_situacao : ''}
+                            onChange={(e) => setSelectedServico({ ...selectedServico, serv_situacao: parseInt(e.target.value) })}
+                            className={`${styles.select_servicos} ${styles.input_situacao}`}
+                            required
+                        >
+                            <option value="" disabled hidden>Selecionar Situação</option>
+                            <option value="1" className={styles.option}>Ativo</option>
+                            <option value="0" className={styles.option}>Inativo</option>
+                        </select>
+                    ) : (
+                        // Modo de visualização e criação - mostrar como input desabilitado
+                        <input
+                            type="text"
+                            name="serv_situacao"
+                            id="serv_situacao"
+                            value={selectedServico ? (selectedServico.serv_situacao ? 'Ativo' : 'Inativo') : ''}
+                            className={styles.input_servicos}
+                            disabled
+                        />
                     )}
+
 
                 </div>
             </div>

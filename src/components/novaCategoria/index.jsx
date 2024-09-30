@@ -37,20 +37,20 @@ export default function ModalNovaCategoria({ isOpen, onClose, onCategoriaCriada 
     return (
         <div className={styles.modalOverlay}>
             <div className={styles.modalContent}>
-                
                 <form onSubmit={handleSubmit}>
                     <div className={styles.formGroup}>
-                        <label htmlFor="nome">Nome da Categoria</label>
+                        <label htmlFor="nome">Nome da categoria</label>
                         <input
                             type="text"
                             id="nome"
                             value={nome}
                             onChange={(e) => setNome(e.target.value)}
                             required
+                            className={styles.inputCategoria}
                         />
                     </div>
                     <div className={styles.formGroup}>
-                        <label htmlFor="icone">Ícone</label>
+                        {/* <label htmlFor="icone">Ícone</label>
                         <input
                             type="text"
                             id="icone"
@@ -58,7 +58,7 @@ export default function ModalNovaCategoria({ isOpen, onClose, onCategoriaCriada 
                             onChange={(e) => setIcone(e.target.value)}
                             placeholder="Opcional"
                         />
-                        <small>Exemplo: <code>icone.jpeg</code></small>
+                        <small>Exemplo: <code>icone.jpeg</code></small> */}
                     </div>
                     <div className={styles.buttonGroup}>
                         <button type="submit" className={styles.btnSubmit}>Criar</button>

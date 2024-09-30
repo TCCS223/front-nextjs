@@ -102,7 +102,9 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                             defaultValue="">
                             <option value="" selected hidden>Selecione</option>
                             {
-                                marcas.map((marcas) => (
+                                marcas
+                                .sort((a, b) => a.mar_nome.localeCompare(b.mar_nome))
+                                .map((marcas) => (
                                     <option key={marcas.mar_id} value={marcas.mar_id}>{marcas.mar_nome}</option>
                                 ))}
                         </select>
@@ -137,7 +139,9 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                             defaultValue=""
                         >
                             <option value="" selected hidden>Selecione</option>
-                            {modelos.map((modelo) => (
+                            {modelos
+                            .sort((a, b) => a.mod_nome.localeCompare(b.mod_nome))
+                            .map((modelo) => (
                                 <option key={modelo.mod_id} value={modelo.mod_id}>{modelo.mod_nome}</option>
                             ))}
                         </select>
@@ -310,7 +314,20 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
 
                 <div className={`${styles.grid_item} ${styles.grid_situacao}`}>
                     <label htmlFor="veic_situacao" className={styles.label_veiculos}>Situação</label>
-                    {isViewing ? (
+                    {isEditing ? (
+                        <select
+                        id="veic_situacao"
+                        name="veic_situacao"
+                        value={selectedVeic ? selectedVeic.veic_situacao : ''}
+                        onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_situacao: parseInt(e.target.value) })}
+                        className={`${styles.select_veiculos} ${styles.input_situacao}`}
+                        required
+                        >
+                                <option value="1" className={styles.option} selected>Ativo</option>
+                                <option value="0" className={styles.option}>Inativo</option>
+                            </select>
+                    ) : (
+                        
                         <input
                             type="text"
                             id="veic_situacao"
@@ -321,20 +338,7 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                             disabled={isViewing}
                             required
                         />
-                    ) : (
-                        <>
-                            <select
-                                id="veic_situacao"
-                                name="veic_situacao"
-                                value={selectedVeic ? selectedVeic.veic_situacao : ''}
-                                onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_situacao: parseInt(e.target.value) })}
-                                className={`${styles.select_veiculos} ${styles.input_situacao}`}
-                                required
-                            >
-                                <option value="1" className={styles.option} selected>Ativo</option>
-                                <option value="0" className={styles.option}>Inativo</option>
-                            </select>
-                        </>
+                        
                     )}
 
                 </div>

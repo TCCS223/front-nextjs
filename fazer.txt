@@ -29,6 +29,6 @@
     implantar formulario de edição de serviço
     implantar formulario de novo cadastro de serviço
     
-
 - GERAL -
     adicionar funcao para ligar o veiculo usuario e vice versa (post na tabela usuario)
+    inserir um modelo na marca OUTROS

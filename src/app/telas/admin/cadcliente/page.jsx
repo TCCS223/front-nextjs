@@ -17,6 +17,7 @@ export default function CadCliente() {
     const [searchText, setSearchText] = useState('');
     const [showForm, setShowForm] = useState(false);
     const [isViewing, setIsViewing] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
     const [sortedColumn, setSortedColumn] = useState(null);
     const [isAsc, setIsAsc] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
@@ -119,12 +120,14 @@ export default function CadCliente() {
         setSelectedUser(usuario);
         setShowForm(true);
         setIsViewing(true);
+        setIsEditing(false);
     };
 
     const handleEditUser = (usuario) => {
         setSelectedUser(usuario);
         setShowForm(true);
         setIsViewing(false);
+        setIsEditing(true);
     };
 
     const handleExit = () => {
@@ -142,33 +145,41 @@ export default function CadCliente() {
             usu_situacao: 1,
         });  // Limpa o usuário selecionado
         setIsViewing(false);  // Reinicializa o modo de visualização
+        setIsEditing(false); 
     };
 
     const handleSubmit = async (usuario) => {
         if (!validarCPF(usuario.usu_cpf)) {
-            alert('CPF inválido');
+            Swal.fire({
+                title: 'Erro!',
+                text: 'CPF inválido',
+                icon: 'error',
+            });
             return;
         }
-
+    
+        if (!validaEmail(usuario)) {
+            return; // Saia da função se o e-mail for inválido
+        }
+    
         try {
             let response;
-
+    
             if (usuario.usu_id) {
                 response = await api.patch(`/usuarios/${usuario.usu_id}`, usuario);
             } else {
                 response = await api.post('/usuarios', usuario);
             }
-
+    
             Swal.fire({
                 title: 'Sucesso!',
                 text: response.data.mensagem,
                 icon: 'success',
             });
-
+    
             ListarUsuarios();
             setShowForm(false);
         } catch (error) {
-            console.error("Erro ao salvar:", error);
             Swal.fire({
                 title: 'Erro!',
                 text: error.response ? error.response.data.mensagem : 'Erro ao salvar usuário.',
@@ -205,6 +216,31 @@ export default function CadCliente() {
         return true;
     }
 
+    function checkEmail(email) {
+        return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+            email
+        );
+    }
+
+    function validaEmail(usuario) {
+        if (!usuario.usu_email) {
+            Swal.fire({
+                title: 'Erro!',
+                text: 'O e-mail do usuário é obrigatório',
+                icon: 'error',
+            });
+            return false;
+        } else if (!checkEmail(usuario.usu_email)) {
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Insira um e-mail válido',
+                icon: 'error',
+            });
+            return false;
+        }
+    
+        return true;
+    }
 
     const sortByColumn = (column) => {
         let newIsAsc = true;
@@ -259,6 +295,8 @@ export default function CadCliente() {
                         usu_senha: '',
                         usu_situacao: 1,
                     });
+                    setIsViewing(false);
+                    setIsEditing(false);
                 });
             }
         });
@@ -434,6 +472,7 @@ export default function CadCliente() {
                         selectedUser={selectedUser}
                         setSelectedUser={setSelectedUser}
                         isViewing={isViewing}
+                        isEditing={isEditing}
                         handleSubmit={handleSubmit}
                         Cancelar={Cancelar}
                     />
