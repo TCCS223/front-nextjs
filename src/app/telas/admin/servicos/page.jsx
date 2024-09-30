@@ -4,13 +4,13 @@ import styles from './page.module.css';
 import { useState, useEffect } from 'react';
 
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
-// import { IoMdTrash } from "react-icons/io";
 import Swal from 'sweetalert2';
 
 import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import FormServicos from '@/components/FormServicos';
 
 import api from '@/services/api';
+import ModalNovaCategoria from '@/components/novaCategoria';
 
 export default function Servicos() {
     const [servicos, setServicos] = useState([]);
@@ -27,14 +27,14 @@ export default function Servicos() {
     const [categoriasServ, setCategoriasServ] = useState([]);
     const [servicoCat, setServicoCat] = useState([]);
 
+    // Estados para o Modal de Nova Categoria
+    const [modalCategoriaOpen, setModalCategoriaOpen] = useState(false);
+
     const usersPerPage = 15;
 
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentServicos = filteredServicos.slice(indexOfFirstUser, indexOfLastUser);
-
-
-
 
     useEffect(() => {
         ListarServicos();
@@ -45,7 +45,7 @@ export default function Servicos() {
     }, [servicos]);
 
     useEffect(() => {
-        handleSearch(); // Chama o filtro sempre que o status for alterado
+        handleSearch(); // Chama o filtro sempre que o status ou searchText for alterado
     }, [searchText, statusFilter]);
 
     const ListarServicos = async () => {
@@ -70,6 +70,11 @@ export default function Servicos() {
             console.log(response.data.dados);
         } catch (error) {
             console.error("Erro ao buscar as categorias:", error);
+            Swal.fire({
+                title: "Erro!",
+                text: "Não foi possível carregar as categorias.",
+                icon: "error",
+            });
         }
     }
 
@@ -80,9 +85,13 @@ export default function Servicos() {
             console.log(response.data.dados);
         } catch (error) {
             console.error("Erro ao buscar as categorias:", error);
+            Swal.fire({
+                title: "Erro!",
+                text: "Não foi possível carregar os serviços por categoria.",
+                icon: "error",
+            });
         }
     }
-
 
     const handleSearch = () => {
         setSortedColumn(null);
@@ -126,10 +135,6 @@ export default function Servicos() {
         }
     };
 
-    // console.log(selectedServico);
-
-   
-
     const handleEditServicos = (servicos) => {
         setSelectedServico(servicos);
         setShowForm(true);
@@ -139,7 +144,7 @@ export default function Servicos() {
 
     const handleExit = () => {
         setShowForm(false); 
-        setSelectedServico([]);
+        setSelectedServico(null);
         setIsViewing(false);  
         setIsEditing(false);  
     };
@@ -183,9 +188,7 @@ export default function Servicos() {
         })
         setShowForm(true);
         ListarCategoriasServ();
-        // ListarCategorias();
     }
-
 
     const sortByColumn = (column) => {
         let newIsAsc = true; // Define ascendente por padrão
@@ -236,15 +239,15 @@ export default function Servicos() {
         });
     };
 
+    // Função para abrir o Modal de Nova Categoria
+    const handleNovaCategoria = () => {
+        setModalCategoriaOpen(true);
+    };
 
-// modal de teste para implementar um novo modal para cadastrar categorias
-    const modalzinho =()=>{
-        Swal.fire({
-            title: 'Sucesso!',
-            text: 'modalzinho funcionou',
-            icon: 'success',
-        });
-    }
+    // Função chamada após a criação de uma nova categoria
+    const handleCategoriaCriada = () => {
+        ListarCategoriasServ(); // Recarrega a lista de categorias
+    };
 
     return (
         <div id="servicos" className={`${styles.content_section}`}>
@@ -412,16 +415,15 @@ export default function Servicos() {
                         ) : (
                             <>
                                 <button
-                                    type="reset"
-                                    onClick={modalzinho}
-                                    // onClick={()=> alert('botão para chamar modal de cadastro de categoria')}
+                                    type="button" // Alterado para "button" para evitar comportamento de submit
+                                    onClick={handleNovaCategoria} // Atualizado para abrir o modal
                                     className={styles.button_newCategory}
                                 >
                                     Nova Categoria
                                 </button>
 
                                 <button
-                                    type="reset"
+                                    type="button" // Alterado para "button" para evitar comportamento de reset
                                     onClick={Cancelar}
                                     className={styles.button_cancel}
                                 >
@@ -445,6 +447,13 @@ export default function Servicos() {
                     </div>
                 </>
             )}
+            
+            {/* Renderização do Modal */}
+            <ModalNovaCategoria
+                isOpen={modalCategoriaOpen}
+                onClose={() => setModalCategoriaOpen(false)}
+                onCategoriaCriada={handleCategoriaCriada}
+            />
         </div>
     );
 }
