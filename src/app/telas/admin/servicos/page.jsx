@@ -107,10 +107,12 @@ export default function Servicos() {
     const handleViewServicos = async (servicos) => {
         try {
             const response = await api.get(`/servicos/${servicos.serv_id}`);
+
             if (response.data.sucesso) {
                 setSelectedServico(response.data.dados);
                 setShowForm(true);
                 setIsViewing(true);
+                setIsEditing(false);
             } else {
                 throw new Error(response.data.mensagem);
             }
@@ -124,19 +126,20 @@ export default function Servicos() {
         }
     };
 
-    console.log(selectedServico);
-
+    // console.log(selectedServico);
 
     const handleEditServicos = (servicos) => {
         setSelectedServico(servicos);
         setShowForm(true);
         setIsViewing(false);
+        setIsEditing(true);
     };
 
     const handleExit = () => {
-        setShowForm(false);  // Fecha o formulário
-        setSelectedServico([]);  // Limpa o usuário selecionado
-        setIsViewing(false);  // Reinicializa o modo de visualização
+        setShowForm(false); 
+        setSelectedServico([]);
+        setIsViewing(false);  
+        setIsEditing(false);  
     };
 
     const handleSubmit = async (servico) => {
@@ -224,6 +227,8 @@ export default function Servicos() {
                 }).then(() => {
                     setShowForm(false);
                     setSelectedServico(null);
+                    setIsViewing(false);
+                    setIsEditing(false);
                 });
             }
         });
@@ -394,6 +399,14 @@ export default function Servicos() {
                             </button>
                         ) : (
                             <>
+                                <button
+                                    type="reset"
+                                    onClick={()=> alert('botão para chamar modal de cadastro de categoria')}
+                                    className={styles.button_newCategory}
+                                >
+                                    Cancelar
+                                </button>
+
                                 <button
                                     type="reset"
                                     onClick={Cancelar}

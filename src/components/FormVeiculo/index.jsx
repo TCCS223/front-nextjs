@@ -63,7 +63,7 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                             name="cat_id"
                             id="cat_id"
                             value={selectedVeic ? selectedVeic.cat_id : ''}
-                            onChange={handleCategoryChange} // Use a nova função aqui
+                            onChange={handleCategoryChange}
                             className={`${styles.select_veiculos} ${styles.input_marca}`}
                             defaultValue=""
                         >

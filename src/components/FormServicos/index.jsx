@@ -73,7 +73,6 @@ export default function FormServicos({ selectedServico, setSelectedServico, isVi
                 <div className={`${styles.grid_item} ${styles.grid_nome}`}>
                     <label htmlFor="serv_nome" className={styles.label_servicos}>Nome</label>
 
-                    {isDisabled ? (
                         <input
                             type="text"
                             name="serv_nome"
@@ -81,8 +80,10 @@ export default function FormServicos({ selectedServico, setSelectedServico, isVi
                             value={selectedServico ? selectedServico.serv_nome : ''}
                             onChange={(e) => setSelectedServico({ ...selectedServico, serv_nome: e.target.value })}
                             className={styles.input_servicos}
-                            disabled={isViewing}
+                            disabled={isDisabled}
+                            required
                         />
+                        {/* {isDisabled ? (
                     ) : (
                         <>
                             <select
@@ -100,7 +101,7 @@ export default function FormServicos({ selectedServico, setSelectedServico, isVi
                                 ))}
                             </select>
                         </>
-                    )}
+                    )} */}
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_duracao}`}>
@@ -115,6 +116,7 @@ export default function FormServicos({ selectedServico, setSelectedServico, isVi
                         disabled={isViewing}
                     />
                 </div>
+
                 <div className={`${styles.grid_item} ${styles.grid_preco}`}>
                     <label htmlFor="serv_preco" className={styles.label_servicos}>Preço</label>
                     <input
@@ -127,6 +129,7 @@ export default function FormServicos({ selectedServico, setSelectedServico, isVi
                         disabled={isViewing}
                     />
                 </div>
+
                 <div className={`${styles.grid_item} ${styles.grid_descricao} ${styles.grid_item_descricao}`}>
                     <label htmlFor="serv_descricao" className={styles.label_servicos}>Descrição</label>
                     <input
@@ -139,17 +142,35 @@ export default function FormServicos({ selectedServico, setSelectedServico, isVi
                         disabled={isViewing}
                     />
                 </div>
+
                 <div className={`${styles.grid_item} ${styles.grid_situacao}`}>
                     <label htmlFor="serv_situacao" className={styles.label_servicos}>Situação</label>
-                    <input
-                        type="text"
-                        name="serv_situacao"
-                        id="serv_situacao"
-                        value={selectedServico ? (selectedServico.serv_situacao ? 'Ativo' : 'Inativo') : ''}
-                        onChange={(e) => setSelectedServico({ ...selectedServico, serv_situacao: e.target.value })}
-                        className={styles.input_servicos}
-                        disabled={isViewing}
-                    />
+                    {isViewing ? (
+                       <input
+                       type="text"
+                       name="serv_situacao"
+                       id="serv_situacao"
+                       value={selectedServico ? (selectedServico.serv_situacao ? 'Ativo' : 'Inativo') : ''}
+                       onChange={(e) => setSelectedServico({ ...selectedServico, serv_situacao: e.target.value })}
+                       className={styles.input_servicos}
+                       disabled={isViewing}
+                   />
+                    ) : (
+                        <>
+                            <select
+                                id="veic_situacao"
+                                name="veic_situacao"
+                                value={selectedServico ? selectedServico.serv_situacao : ''}
+                                onChange={(e) => setSelectedServico({ ...selectedServico, serv_situacao: parseInt(e.target.value) })}
+                                className={`${styles.select_servicos} ${styles.input_situacao}`}
+                                required
+                            >
+                                <option value="1" className={styles.option} selected>Ativo</option>
+                                <option value="0" className={styles.option}>Inativo</option>
+                            </select>
+                        </>
+                    )}
+
                 </div>
             </div>
         </form>

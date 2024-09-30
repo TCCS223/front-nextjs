@@ -134,7 +134,6 @@ export default function Veiculos() {
                 icon: "error",
             });
         }
-
     };
 
     const handleEditVeic = async (veiculo) => {
@@ -164,9 +163,10 @@ export default function Veiculos() {
     };
 
     const handleExit = () => {
-        setShowForm(false);  // Fecha o formulário
-        setSelectedVeic([]);  // Limpa o usuário selecionado
-        setIsViewing(false);  // Reinicializa o modo de visualização
+        setShowForm(false);  
+        setSelectedVeic([]);  
+        setIsViewing(false);
+        setIsEditing(false);  
     };
 
     const handleSubmit = async (veiculo) => {
