@@ -167,6 +167,7 @@ export default function Servicos() {
                 title: 'Sucesso!',
                 text: response.data.mensagem,
                 icon: 'success',
+                confirmButtonColor: "rgb(40, 167, 69)",
             });
 
             ListarServicos();
@@ -195,10 +196,10 @@ export default function Servicos() {
     }
 
     const sortByColumn = (column) => {
-        let newIsAsc = true; // Define ascendente por padrão
+        let newIsAsc = true;
 
         if (sortedColumn === column) {
-            newIsAsc = !isAsc; // Se a mesma coluna for clicada, inverte a direção
+            newIsAsc = !isAsc;
         }
 
         const sortedData = [...filteredServicos].sort((a, b) => {
@@ -207,9 +208,9 @@ export default function Servicos() {
             return 0;
         });
 
-        setFilteredServicos(sortedData); // Atualiza a lista filtrada com os dados ordenados
-        setSortedColumn(column); // Atualiza a coluna que está sendo ordenada
-        setIsAsc(newIsAsc); // Atualiza a direção da ordenação
+        setFilteredServicos(sortedData); 
+        setSortedColumn(column); 
+        setIsAsc(newIsAsc); 
     };
 
     const Cancelar = () => {
@@ -243,14 +244,12 @@ export default function Servicos() {
         });
     };
 
-    // Função para abrir o Modal de Nova Categoria
     const handleNovaCategoria = () => {
         setModalCategoriaOpen(true);
     };
 
-    // Função chamada após a criação de uma nova categoria
     const handleCategoriaCriada = () => {
-        ListarCategoriasServ(); // Recarrega a lista de categorias
+        ListarCategoriasServ();
     };
 
     return (
@@ -419,15 +418,15 @@ export default function Servicos() {
                         ) : (
                             <>
                                 <button
-                                    type="button" // Alterado para "button" para evitar comportamento de submit
-                                    onClick={handleNovaCategoria} // Atualizado para abrir o modal
+                                    type="button" 
+                                    onClick={handleNovaCategoria} 
                                     className={styles.button_newCategory}
                                 >
                                     Nova Categoria
                                 </button>
 
                                 <button
-                                    type="button" // Alterado para "button" para evitar comportamento de reset
+                                    type="button" 
                                     onClick={Cancelar}
                                     className={styles.button_cancel}
                                 >
@@ -452,7 +451,6 @@ export default function Servicos() {
                 </>
             )}
             
-            {/* Renderização do Modal */}
             <ModalNovaCategoria
                 isOpen={modalCategoriaOpen}
                 onClose={() => setModalCategoriaOpen(false)}

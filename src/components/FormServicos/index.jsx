@@ -180,7 +180,6 @@ export default function FormServicos({ selectedServico, setSelectedServico, isVi
                             className={`${styles.select_servicos} ${styles.input_situacao}`}
                             required
                         >
-                            <option value="" disabled hidden>Selecionar Situação</option>
                             <option value="1" className={styles.option}>Ativo</option>
                             <option value="0" className={styles.option}>Inativo</option>
                         </select>

@@ -17,7 +17,6 @@ export default function CadCliente() {
     const [searchText, setSearchText] = useState('');
     const [showForm, setShowForm] = useState(false);
     const [isViewing, setIsViewing] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
     const [sortedColumn, setSortedColumn] = useState(null);
     const [isAsc, setIsAsc] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
@@ -120,14 +119,14 @@ export default function CadCliente() {
         setSelectedUser(usuario);
         setShowForm(true);
         setIsViewing(true);
-        setIsEditing(false);
+
     };
 
     const handleEditUser = (usuario) => {
         setSelectedUser(usuario);
         setShowForm(true);
         setIsViewing(false);
-        setIsEditing(true);
+
     };
 
     const handleExit = () => {
@@ -145,8 +144,11 @@ export default function CadCliente() {
             usu_situacao: 1,
         });  // Limpa o usuário selecionado
         setIsViewing(false);  // Reinicializa o modo de visualização
-        setIsEditing(false); 
+
     };
+
+    console.log(selectedUser);
+    
 
     const handleSubmit = async (usuario) => {
         if (!validarCPF(usuario.usu_cpf)) {
@@ -296,7 +298,7 @@ export default function CadCliente() {
                         usu_situacao: 1,
                     });
                     setIsViewing(false);
-                    setIsEditing(false);
+
                 });
             }
         });
@@ -472,7 +474,7 @@ export default function CadCliente() {
                         selectedUser={selectedUser}
                         setSelectedUser={setSelectedUser}
                         isViewing={isViewing}
-                        isEditing={isEditing}
+
                         handleSubmit={handleSubmit}
                         Cancelar={Cancelar}
                     />
@@ -505,7 +507,7 @@ export default function CadCliente() {
                                         e.preventDefault();
                                         handleSubmit(selectedUser);
                                     }}
-                                    disabled={isViewing}
+                                    // disabled={isViewing}
                                 >
                                     Salvar
                                 </button>

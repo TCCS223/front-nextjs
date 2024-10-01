@@ -255,18 +255,32 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
 
                 <div className={`${styles.grid_item} ${styles.grid_situacao}`}>
                     <label htmlFor="usu_situacao" className={styles.label_cliente}>Situação</label>
-                    <select
+
+                    {isViewing ? (<input
+                        type="text"
                         id="usu_situacao"
                         name="usu_situacao"
-                        className={`${styles.select_cliente} ${styles.input_situacao}`}
-                        value={selectedUser ? selectedUser.usu_situacao : ''}
+                        value={selectedUser ? (selectedUser.usu_situacao === 1 ? 'Ativo' : 'Inativo') : ''}
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_situacao: parseInt(e.target.value) })}
                         disabled={isViewing}
-                    >
+                        className={styles.input_cliente}
+                        required
+                    />) : (
+                        <select
+                            id="usu_situacao"
+                            name="usu_situacao"
+                            className={`${styles.select_cliente} ${styles.input_situacao}`}
+                            value={selectedUser ? selectedUser.usu_situacao : ''}
+                            onChange={(e) => setSelectedUser({ ...selectedUser, usu_situacao: parseInt(e.target.value) })}
+                        // disabled={isViewing}
+                        >
 
-                        <option value="1" className={styles.option} selected={selectedUser && selectedUser.usu_situacao === "1"}>Ativo</option>
-                        <option value="0" className={styles.option} selected={selectedUser && selectedUser.usu_situacao === "0"}>Inativo</option>
-                    </select>
+                            <option value="1" className={styles.option}>Ativo</option>
+                            <option value="0" className={styles.option}>Inativo</option>
+                        </select>
+                    )}
+
+
                 </div>
             </div>
         </form>
