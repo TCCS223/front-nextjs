@@ -335,7 +335,7 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                             value={selectedVeic ? (selectedVeic.veic_situacao == 1 ? 'Ativo' : 'Inativo') : ''}
                             onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_situacao: e.target.value })}
                             className={styles.input_veiculos}
-                            disabled={isViewing}
+                            disabled
                             required
                         />
                         

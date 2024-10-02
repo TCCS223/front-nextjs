@@ -1,10 +1,8 @@
 - CADASTRO - 
 
-    validar o email pra ver se ja existe e nao deixar cadastrar duas vezes
 
 - CADCLIENTE -
 
-    bloquear o campo do usu_situacao na hora do admin cadastrar
     {   
         validar email
 
@@ -16,7 +14,6 @@
 
 - VEICULOS -
 
-    bloquear o campo do veic_situacao na hora do admin cadastrar
     consultar se a placa ja está cadastrado e evitar novo cadastro
 
 - SERVIÇOS -

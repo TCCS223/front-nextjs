@@ -17,6 +17,7 @@ export default function CadCliente() {
     const [searchText, setSearchText] = useState('');
     const [showForm, setShowForm] = useState(false);
     const [isViewing, setIsViewing] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
     const [sortedColumn, setSortedColumn] = useState(null);
     const [isAsc, setIsAsc] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
@@ -60,20 +61,21 @@ export default function CadCliente() {
     };
 
 
-// const LimparDados = () =>{
-//     setSelectedUser({
-//         usu_nome: '',
-//         usu_cpf: '',
-//         usu_data_nasc: '',
-//         usu_sexo: '',
-//         usu_telefone: '',
-//         usu_email: '',
-//         usu_observ: '',
-//         usu_acesso: 0,
-//         usu_senha: '',
-//         usu_situacao: 1,
-//     });
-// }
+    const Create = () => {
+        setSelectedUser({
+            usu_nome: '',
+            usu_cpf: '',
+            usu_data_nasc: '',
+            usu_sexo: '',
+            usu_telefone: '',
+            usu_email: '',
+            usu_observ: '',
+            usu_acesso: 0,
+            usu_senha: '',
+            usu_situacao: 1,
+        });
+        setShowForm(true); // ListarCategorias();
+    }
 
     const ListarUsuarios = async () => {
         try {
@@ -119,14 +121,14 @@ export default function CadCliente() {
         setSelectedUser(usuario);
         setShowForm(true);
         setIsViewing(true);
-
+        setIsEditing(false); 
     };
 
     const handleEditUser = (usuario) => {
         setSelectedUser(usuario);
         setShowForm(true);
         setIsViewing(false);
-
+        setIsEditing(true);
     };
 
     const handleExit = () => {
@@ -144,11 +146,11 @@ export default function CadCliente() {
             usu_situacao: 1,
         });  // Limpa o usuário selecionado
         setIsViewing(false);  // Reinicializa o modo de visualização
-
+        setIsEditing(false);  
     };
 
     console.log(selectedUser);
-    
+
 
     const handleSubmit = async (usuario) => {
         if (!validarCPF(usuario.usu_cpf)) {
@@ -159,26 +161,26 @@ export default function CadCliente() {
             });
             return;
         }
-    
+
         if (!validaEmail(usuario)) {
             return; // Saia da função se o e-mail for inválido
         }
-    
+
         try {
             let response;
-    
+
             if (usuario.usu_id) {
                 response = await api.patch(`/usuarios/${usuario.usu_id}`, usuario);
             } else {
                 response = await api.post('/usuarios', usuario);
             }
-    
+
             Swal.fire({
                 title: 'Sucesso!',
                 text: response.data.mensagem,
                 icon: 'success',
             });
-    
+
             ListarUsuarios();
             setShowForm(false);
         } catch (error) {
@@ -240,7 +242,7 @@ export default function CadCliente() {
             });
             return false;
         }
-    
+
         return true;
     }
 
@@ -298,7 +300,7 @@ export default function CadCliente() {
                         usu_situacao: 1,
                     });
                     setIsViewing(false);
-
+                    setIsEditing(false);
                 });
             }
         });
@@ -359,7 +361,7 @@ export default function CadCliente() {
 
                             <button
                                 className={styles.newButton}
-                                onClick={() => setShowForm(true)}>
+                                onClick={Create}>
                                 Novo
                             </button>
                         </div>
@@ -474,7 +476,7 @@ export default function CadCliente() {
                         selectedUser={selectedUser}
                         setSelectedUser={setSelectedUser}
                         isViewing={isViewing}
-
+                        isEditing={isEditing}
                         handleSubmit={handleSubmit}
                         Cancelar={Cancelar}
                     />
@@ -507,7 +509,7 @@ export default function CadCliente() {
                                         e.preventDefault();
                                         handleSubmit(selectedUser);
                                     }}
-                                    // disabled={isViewing}
+                                // disabled={isViewing}
                                 >
                                     Salvar
                                 </button>

@@ -5,7 +5,10 @@ import { IoMdEyeOff, IoMdEye } from "react-icons/io";
 import api from '@/services/api';
 import { cpf as cpfValidator } from 'cpf-cnpj-validator';
 
-export default function FormCliente({ selectedUser, setSelectedUser, isViewing, handleSubmit, Cancelar }) {
+export default function FormCliente({ selectedUser, setSelectedUser, isViewing, handleSubmit, isEditing }) {
+
+    const isDisabled = isViewing || isEditing;
+
     const [showPassword, setShowPassword] = useState(false);
     const [cpfExists, setCpfExists] = useState(false);
     const [cpfChecked, setCpfChecked] = useState(false);
@@ -110,7 +113,6 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         disabled={isViewing}
                         className={styles.input_cliente}
                         required
-                        placeholder="XXX.XXX.XXX-XX"
                     />
 
                     {cpfChecked && !loading && (
@@ -196,7 +198,6 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         disabled={isViewing}
                         className={`${styles.input_cliente}`}
                         required
-                        placeholder="(XX) XXXXX-XXXX"
                     />
                 </div>
 
@@ -256,28 +257,34 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                 <div className={`${styles.grid_item} ${styles.grid_situacao}`}>
                     <label htmlFor="usu_situacao" className={styles.label_cliente}>Situação</label>
 
-                    {isViewing ? (<input
-                        type="text"
-                        id="usu_situacao"
-                        name="usu_situacao"
-                        value={selectedUser ? (selectedUser.usu_situacao === 1 ? 'Ativo' : 'Inativo') : ''}
-                        onChange={(e) => setSelectedUser({ ...selectedUser, usu_situacao: parseInt(e.target.value) })}
-                        disabled={isViewing}
-                        className={styles.input_cliente}
-                        required
-                    />) : (
+                    {isEditing ? (
+
                         <select
                             id="usu_situacao"
                             name="usu_situacao"
                             className={`${styles.select_cliente} ${styles.input_situacao}`}
                             value={selectedUser ? selectedUser.usu_situacao : ''}
                             onChange={(e) => setSelectedUser({ ...selectedUser, usu_situacao: parseInt(e.target.value) })}
-                        // disabled={isViewing}
                         >
 
                             <option value="1" className={styles.option}>Ativo</option>
                             <option value="0" className={styles.option}>Inativo</option>
                         </select>
+
+
+                    ) : (
+                        <input
+                            type="text"
+                            id="usu_situacao"
+                            name="usu_situacao"
+                            value={selectedUser ? (selectedUser.usu_situacao === 1 ? 'Ativo' : 'Inativo') : ''}
+                            onChange={(e) => setSelectedUser({ ...selectedUser, usu_situacao: parseInt(e.target.value) })}
+                            disabled
+                            className={styles.input_cliente}
+                            required
+                        />
+
+
                     )}
 
 

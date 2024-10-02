@@ -28,6 +28,7 @@ export default function Cadastro() {
     });
     const [cpfError, setCpfError] = useState('');
     const [emailError, setEmailError] = useState('');
+    const [isCheckingEmail, setIsCheckingEmail] = useState(false);
     const [isCheckingCpf, setIsCheckingCpf] = useState(false);
 
     const router = useRouter();
@@ -47,12 +48,44 @@ export default function Cadastro() {
             setEmailError('');
         }
     };
+
+    const validateEmail = async () => {
+        const email = usuario.usu_email.trim();
+        const errors = [];
     
-    // Função unificada de validação de CPF
+        // Verifica o formato do email
+        if (!isValidEmail(email)) {
+            errors.push('Email inválido.');
+        }
+    
+        setIsCheckingEmail(true);
+        try {
+            const response = await api.post('/usuarios/verificarEmail', { usu_email: email });
+            // Supondo que a API retorne { sucesso: true, dados: true/false }
+    
+            if (response.data.sucesso && response.data.dados) {
+                errors.push('Email já está cadastrado.');
+            }
+        } catch (error) {
+            console.error('Erro na verificação do email:', error);
+            errors.push('Ocorreu um erro ao verificar o email. Por favor, tente novamente.');
+        } finally {
+            setIsCheckingEmail(false);
+        }
+    
+        if (errors.length > 0) {
+            setEmailError(errors.join(' '));
+            return false;
+        } else {
+            setEmailError('');
+            return true;
+        }
+    };
+    
+
     const validateCPF = async () => {
-        const cpf = usuario.usu_cpf.trim();
-        const cpfNumbers = cpf.replace(); 
-        console.log("Validando CPF:", cpfNumbers); // Log para depuração
+        const cpfNumbers = usuario.usu_cpf.trim();
+        // console.log("Validando CPF:", cpfNumbers);
 
         if (cpfNumbers.length !== 14) {
             setCpfError('CPF deve conter 11 dígitos.');
@@ -67,7 +100,7 @@ export default function Cadastro() {
         setIsCheckingCpf(true);
         try {
             const response = await api.post('/usuarios/verificarCpf', { usu_cpf: cpfNumbers });
-            console.log("Resposta da verificação do CPF:", response.data); // Log da resposta
+            // console.log("Resposta da verificação do CPF:", response.data); // Log da resposta
 
             if (response.data.sucesso) {
                 if (response.data.dados) {
@@ -104,21 +137,39 @@ export default function Cadastro() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+    
+        const errors = [];
+    
+        // Valida o CPF
         const isCpfValid = await validateCPF();
-        if (!isCpfValid) return;
-        if (!validarEmail(usuario.usu_email)) {
-            setEmailError('Email inválido.');
+        if (!isCpfValid) {
+            errors.push(cpfError);
+        }
+    
+        // Valida o Email
+        const isEmailValid = await validateEmail();
+        if (!isEmailValid) {
+            errors.push(emailError);
+        }
+    
+        if (errors.length > 0) {
+            Swal.fire({
+                title: 'Dados Incorretos',
+                html: errors.join('<br/>'),
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
             return;
         }
-        setCpfError('');
-        setEmailError('');
+    
+        // Se tudo estiver válido, prossegue com o cadastro
         cadastrar();
-    };
+    };    
 
-    function validarEmail(email) {
+    const isValidEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
-    }
+    };
 
     const clearInputs = () => {
         setUsuario({
@@ -205,18 +256,8 @@ export default function Cadastro() {
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
-            } else {
-                toast.error('Erro no cadastro. Tente novamente.', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                });
             }
+            
         }
     }
 
@@ -396,4 +437,5 @@ export default function Cadastro() {
                 <ToastContainer />
             </main>
         </>
-)    }
+    )
+}
