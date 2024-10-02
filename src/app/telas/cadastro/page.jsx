@@ -40,7 +40,6 @@ export default function Cadastro() {
         const { name, value } = e.target;
         setUsuario(prev => ({ ...prev, [name]: value }));
 
-        // Resetar erros quando os campos mudarem
         if (name === 'usu_cpf') {
             setCpfError('');
         }
@@ -48,7 +47,7 @@ export default function Cadastro() {
             setEmailError('');
         }
     };
-
+    
     // Função unificada de validação de CPF
     const validateCPF = async () => {
         const cpf = usuario.usu_cpf.trim();
@@ -85,13 +84,7 @@ export default function Cadastro() {
                     return true;
                 }
             } else {
-                setCpfError('Erro ao verificar o CPF.');
-                Swal.fire({
-                    title: 'Erro',
-                    text: 'Ocorreu um erro ao verificar o CPF. Por favor, tente novamente.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
+                cadastrar();
                 return false;
             }
         } catch (error) {
@@ -111,23 +104,12 @@ export default function Cadastro() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Log do estado antes da validação
-        console.log("Dados do usuário antes da validação:", usuario);
-
-        // Validar CPF antes de prosseguir
         const isCpfValid = await validateCPF();
-        if (!isCpfValid) {
-            return;
-        }
-
-        // Validar Email
+        if (!isCpfValid) return;
         if (!validarEmail(usuario.usu_email)) {
             setEmailError('Email inválido.');
             return;
         }
-
-        // Se todas as validações passarem, proceder com o cadastro
         setCpfError('');
         setEmailError('');
         cadastrar();
@@ -157,7 +139,7 @@ export default function Cadastro() {
 
     async function cadastrar() {
         try {
-            const response = await api.post('/usuarios/cadastrarUsuarios', usuario);
+            const response = await api.post('/usuarios', usuario);
             console.log("Resposta do cadastro de usuário:", response.data); // Log da resposta
 
             if (response.data.sucesso === true) {
@@ -296,7 +278,7 @@ export default function Cadastro() {
                                         required
                                     />
                                     {isCheckingCpf && <span className={styles.loading}>Verificando CPF...</span>}
-                                    {!cpfError && usuario.usu_cpf && <span className={styles.success}>CPF disponível.</span>}
+                                    {/* {!cpfError && usuario.usu_cpf && <span className={styles.success}>CPF disponível.</span>} */}
                                     {cpfError && <span className={styles.error}>{cpfError}</span>}
                                 </div>
                             </div>

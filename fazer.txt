@@ -1,6 +1,6 @@
 - CADASTRO - 
-    validar email
-    consultar se o cpf ja está cadastrado e evitar novo cadastro
+
+    validar o email pra ver se ja existe e nao deixar cadastrar duas vezes
 
 - CADCLIENTE -
 
@@ -20,7 +20,6 @@
     consultar se a placa ja está cadastrado e evitar novo cadastro
 
 - SERVIÇOS -
-
 
 
 - GERAL -
