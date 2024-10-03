@@ -45,7 +45,7 @@ export default function Header() {
                             src={'/icons/menuMobile.svg'}
                             width={32}
                             height={32}
-                            alt='icon menu'
+                            alt="icon menu"
                         ></Image>
                     </div>
                 </div>
@@ -62,7 +62,7 @@ export default function Header() {
                             src={'/icons/closeMenu.svg'}
                             width={32}
                             height={32}
-                            alt='icon close'
+                            alt="icon close"
                         ></Image>
                     </div>
                     

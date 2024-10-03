@@ -122,7 +122,8 @@
 }
 
 .imagememsi {
-    width: 100%;
+    width: auto;
+    height: auto;
     object-fit: contain;
 }
 
@@ -158,8 +159,6 @@
     background-color: #cc7a00;
     color: #eeeeee;
 }
-
-
 
 /* SEÇÃO 3 */
 

@@ -19,6 +19,20 @@
 - SERVIÇOS -
 
 
+
+- TELA DE ADMIN -
+
+    agenda
+
+- TELA DE USUÁRIO -
+
+    conexão com o veiculo na api para mostrar os veiculos que o ID esta cadastrado
+    estilização dos campos
+    histórico de SERVIÇOS
+
+
+    (agenda) -> se der tempo
+
 - GERAL -
     adicionar funcao para ligar o veiculo usuario e vice versa (post na tabela usuario)
     inserir um modelo na marca OUTROS, chana

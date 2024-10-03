@@ -49,7 +49,7 @@ export default function Home() {
                                 alt="Imagem de serviço"
                                 width={500}
                                 height={520}
-                                className={styles.imagememsi} />
+                                className={styles.imagememsi}/>
                         </div>
                         <div className={styles.section2Content}>
                             <h2 className={styles.section2Title}>Nossos Serviços</h2>

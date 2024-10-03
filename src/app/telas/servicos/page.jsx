@@ -69,7 +69,7 @@ export default function Servicos() {
                                             : tela === 4 ?
                                                 <Servico4 />
                                                 : tela === 5 ?
-                                                    <Servico5 /> // trocar pelo histórico
+                                                    <Servico5 />
                                                     : tela === 6 ?
                                                         <Servico6 />
                                                         : <></>

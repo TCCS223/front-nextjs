@@ -51,50 +51,48 @@ export default function Cadastro() {
 
     const validateEmail = async () => {
         const email = usuario.usu_email.trim();
-        const errors = [];
-    
-        // Verifica o formato do email
+        let errorMessage = null;
+
         if (!isValidEmail(email)) {
-            errors.push('Email inválido.');
+            errorMessage = 'Email inválido.';
+            setEmailError(errorMessage);
+            return errorMessage;
         }
-    
+
         setIsCheckingEmail(true);
         try {
             const response = await api.post('/usuarios/verificarEmail', { usu_email: email });
-            // Supondo que a API retorne { sucesso: true, dados: true/false }
-    
+
             if (response.data.sucesso && response.data.dados) {
-                errors.push('Email já está cadastrado.');
+                errorMessage = 'Email já está cadastrado.';
+                setEmailError(errorMessage);
             }
         } catch (error) {
             console.error('Erro na verificação do email:', error);
-            errors.push('Ocorreu um erro ao verificar o email. Por favor, tente novamente.');
+            errorMessage = 'Ocorreu um erro ao verificar o email. Por favor, tente novamente.';
+            setEmailError(errorMessage);
         } finally {
             setIsCheckingEmail(false);
         }
-    
-        if (errors.length > 0) {
-            setEmailError(errors.join(' '));
-            return false;
-        } else {
-            setEmailError('');
-            return true;
-        }
+
+        return errorMessage;
     };
-    
 
     const validateCPF = async () => {
+        // const cpfNumbers = usuario.usu_cpf.replace(/\D/g, '');
         const cpfNumbers = usuario.usu_cpf.trim();
-        // console.log("Validando CPF:", cpfNumbers);
+        let errorMessage = null;
 
         if (cpfNumbers.length !== 14) {
-            setCpfError('CPF deve conter 11 dígitos.');
-            return false;
+            errorMessage = 'CPF deve conter 11 dígitos numéricos.';
+            setCpfError(errorMessage);
+            return errorMessage;
         }
 
         if (!cpfValidator.isValid(cpfNumbers)) {
-            setCpfError('CPF inválido.');
-            return false;
+            errorMessage = 'CPF inválido.';
+            setCpfError(errorMessage);
+            return errorMessage;
         }
 
         setIsCheckingCpf(true);
@@ -102,56 +100,36 @@ export default function Cadastro() {
             const response = await api.post('/usuarios/verificarCpf', { usu_cpf: cpfNumbers });
             // console.log("Resposta da verificação do CPF:", response.data); // Log da resposta
 
-            if (response.data.sucesso) {
-                if (response.data.dados) {
-                    setCpfError('CPF já está cadastrado.');
-                    Swal.fire({
-                        title: 'CPF Já Cadastrado',
-                        text: 'O CPF informado já está cadastrado. Por favor, verifique ou utilize outro CPF.',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                    return false;
-                } else {
-                    setCpfError('');
-                    return true;
-                }
-            } else {
-                cadastrar();
-                return false;
+            if (response.data.sucesso && response.data.dados) {
+                errorMessage = 'CPF já está cadastrado.';
+                setCpfError(errorMessage);
             }
         } catch (error) {
             console.error('Erro na verificação do CPF:', error);
-            setCpfError('Ocorreu um erro ao verificar o CPF. Por favor, tente novamente.');
-            Swal.fire({
-                title: 'Erro de Conexão',
-                text: 'Não foi possível verificar o CPF no momento. Por favor, tente novamente mais tarde.',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-            return false;
+            errorMessage = 'Ocorreu um erro ao verificar o CPF. Por favor, tente novamente.';
+            setCpfError(errorMessage);
         } finally {
             setIsCheckingCpf(false);
         }
+
+        return errorMessage;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         const errors = [];
-    
-        // Valida o CPF
-        const isCpfValid = await validateCPF();
-        if (!isCpfValid) {
-            errors.push(cpfError);
+
+        const cpfValidationError = await validateCPF();
+        if (cpfValidationError) {
+            errors.push(cpfValidationError);
         }
-    
-        // Valida o Email
-        const isEmailValid = await validateEmail();
-        if (!isEmailValid) {
-            errors.push(emailError);
+
+        const emailValidationError = await validateEmail();
+        if (emailValidationError) {
+            errors.push(emailValidationError);
         }
-    
+
         if (errors.length > 0) {
             Swal.fire({
                 title: 'Dados Incorretos',
@@ -161,10 +139,9 @@ export default function Cadastro() {
             });
             return;
         }
-    
-        // Se tudo estiver válido, prossegue com o cadastro
+
         cadastrar();
-    };    
+    };
 
     const isValidEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -191,11 +168,11 @@ export default function Cadastro() {
     async function cadastrar() {
         try {
             const response = await api.post('/usuarios', usuario);
-            console.log("Resposta do cadastro de usuário:", response.data); // Log da resposta
+            // console.log("Resposta do cadastro de usuário:", response.data);
 
             if (response.data.sucesso === true) {
                 const usu_id = response.data.dados;
-                console.log("Usuário criado com ID:", usu_id);
+                // console.log("Usuário criado com ID:", usu_id);
 
                 clearInputs();
                 localStorage.clear();
@@ -256,8 +233,14 @@ export default function Cadastro() {
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
+            } else {
+                Swal.fire({
+                    title: 'Erro no Cadastro',
+                    text: 'Ocorreu um erro durante o cadastro. Por favor, tente novamente mais tarde.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
             }
-            
         }
     }
 
@@ -319,7 +302,6 @@ export default function Cadastro() {
                                         required
                                     />
                                     {isCheckingCpf && <span className={styles.loading}>Verificando CPF...</span>}
-                                    {/* {!cpfError && usuario.usu_cpf && <span className={styles.success}>CPF disponível.</span>} */}
                                     {cpfError && <span className={styles.error}>{cpfError}</span>}
                                 </div>
                             </div>
@@ -422,7 +404,7 @@ export default function Cadastro() {
                                 <button
                                     type="submit"
                                     className={styles.cadastroButton}
-                                    disabled={isCheckingCpf}
+                                    disabled={isCheckingCpf || isCheckingEmail}
                                 >
                                     Cadastrar
                                 </button>
