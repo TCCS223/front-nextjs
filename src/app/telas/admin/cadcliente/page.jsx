@@ -3,11 +3,14 @@
 import styles from './page.module.css';
 import { useState, useEffect } from 'react';
 import { PiListMagnifyingGlassBold } from "react-icons/pi";
-import { MdRemoveRedEye, MdEdit } from "react-icons/md";
+import { MdRemoveRedEye, MdEdit, MdAdd } from "react-icons/md";
+// import {  } from "react-icons/md";
 import { format } from 'date-fns';
 import Swal from 'sweetalert2';
 import FormCliente from '@/components/FormCliente';
 import api from '@/services/api';
+
+import ModalRelacionarVeiculo from '@/components/relacionarVeiculo';
 
 export default function CadCliente() {
     const [usuarios, setUsuarios] = useState([]);
@@ -33,6 +36,8 @@ export default function CadCliente() {
         usu_senha: '',
         usu_situacao: 1,
     });
+
+    const [modalCategoriaOpen, setModalCategoriaOpen] = useState(false);
 
     const usersPerPage = 15;
 
@@ -121,7 +126,7 @@ export default function CadCliente() {
         setSelectedUser(usuario);
         setShowForm(true);
         setIsViewing(true);
-        setIsEditing(false); 
+        setIsEditing(false);
     };
 
     const handleEditUser = (usuario) => {
@@ -146,7 +151,7 @@ export default function CadCliente() {
             usu_situacao: 1,
         });  // Limpa o usuário selecionado
         setIsViewing(false);  // Reinicializa o modo de visualização
-        setIsEditing(false);  
+        setIsEditing(false);
     };
 
     console.log(selectedUser);
@@ -305,6 +310,14 @@ export default function CadCliente() {
             }
         });
     }
+
+    const handleNovaCategoria = () => {
+        setModalCategoriaOpen(true);
+    };
+
+    const handleCategoriaCriada = () => {
+        ListarCategoriasServ();
+    };
 
     return (
         <div id="clientes" className={styles.content_section}>
@@ -494,31 +507,71 @@ export default function CadCliente() {
                             </button>
                         ) : (
                             <>
-                                <button
-                                    type="reset"
-                                    onClick={Cancelar}
-                                    className={styles.button_cancel}
-                                >
-                                    Cancelar
-                                </button>
+                                {isEditing ? (
+                                    <>
+                                        <button
+                                            type="button"
+                                            className={styles.button_AddVeiculo}
+                                            onClick={handleNovaCategoria}
+                                        >
+                                            veículo
+                                            <MdAdd className={styles.iconAdd} />
+                                        </button>
+                                        <button
+                                            type="reset"
+                                            onClick={Cancelar}
+                                            className={styles.button_cancel}
+                                        >
+                                            Cancelar
+                                        </button>
 
-                                <button
-                                    type="submit"
-                                    className={styles.button_submit}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        handleSubmit(selectedUser);
-                                    }}
-                                // disabled={isViewing}
-                                >
-                                    Salvar
-                                </button>
+                                        <button
+                                            type="submit"
+                                            className={styles.button_submit}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleSubmit(selectedUser);
+                                            }}
+                                        // disabled={isViewing}
+                                        >
+                                            Salvar
+                                        </button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <button
+                                            type="reset"
+                                            onClick={Cancelar}
+                                            className={styles.button_cancel}
+                                        >
+                                            Cancelar
+                                        </button>
+
+                                        <button
+                                            type="submit"
+                                            className={styles.button_submit}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleSubmit(selectedUser);
+                                            }}
+                                        // disabled={isViewing}
+                                        >
+                                            Salvar
+                                        </button>
+                                    </>
+                                )}
                             </>
                         )}
-
                     </div>
                 </>
             )}
+
+            <ModalRelacionarVeiculo
+                isOpen={modalCategoriaOpen}
+                onClose={() => setModalCategoriaOpen(false)}
+                onCategoriaCriada={handleCategoriaCriada}
+            />
+
         </div>
     );
 }

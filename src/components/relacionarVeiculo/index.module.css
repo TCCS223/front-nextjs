@@ -1,0 +1,157 @@
+/* Overlay do modal */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Certifique-se de que o modal esteja acima de outros elementos */
+}
+
+/* Estilo do conteúdo do modal */
+.modalContent {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 500px; /* Largura máxima do modal */
+    width: 90%; /* Largura responsiva */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-height: 400px; /* Altura máxima do modal */
+    overflow-y: auto; /* Adiciona rolagem vertical */
+}
+
+/* Título do modal */
+.modalTitle {
+    padding-left: 20px;
+    color: #ff9d00;
+    border-bottom: 2px solid #ff9d00;
+    padding: 15px;
+    font-size: 22px;
+}
+
+/* Grupo de formulário */
+.formGroup {
+    margin: 20px 0;
+}
+
+/* Rótulo dos serviços */
+.label_servicos {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-family: "Kanit", sans-serif;
+}
+
+/* Input de serviços */
+.inputCategoria {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 5px;
+    border: 3px solid #8d8c8c;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 18px;
+    background-color: #f9f9f9;
+}
+
+/* Lista de veículos */
+.veiculosList {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px; /* Adiciona um espaço acima da lista */
+}
+
+/* Item da lista de veículos */
+.veiculoItem {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center; /* Alinha os itens verticalmente */
+    justify-content: space-between; /* Espaço entre os elementos */
+}
+
+/* Remove a borda do último item */
+.veiculoItem:last-child {
+    border-bottom: none;
+}
+
+/* Grupo de botões */
+.buttonGroup {
+    display: flex;
+    justify-content: flex-end; /* Alinha os botões à direita */
+    margin-top: 20px;
+}
+
+/* Botão Salvar */
+.btnSave {
+    padding: 10px 20px;
+    background-color: #ff9d00;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+    margin-right: 10px; /* Espaço entre os botões */
+}
+
+/* Botão Cancelar */
+.btnCancel {
+    padding: 10px 20px;
+    background-color: #ccc; /* Cor de fundo para o botão Cancelar */
+    color: #333; /* Cor do texto para o botão Cancelar */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Hover no botão Salvar */
+.btnSave:hover {
+    background-color: #e68a00; /* Cor ao passar o mouse */
+}
+
+/* Hover no botão Cancelar */
+.btnCancel:hover {
+    background-color: #bbb; /* Cor ao passar o mouse */
+}
+
+/* Estilo do select dos veículos */
+.selectVeiculo {
+    padding: 10px;
+    margin-top: 5px;
+    border: 3px solid #8d8c8c;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 18px;
+    background-color: #f9f9f9;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M7 10l5 5 5-5H7z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    cursor: pointer;
+}
+
+/* Hover no select de veículos */
+.selectVeiculo:hover {
+    border-color: #ff9d00;
+}
+
+/* Foco no select e input */
+.selectVeiculo:focus,
+.inputCategoria:focus {
+    border-color: #ff9d00;
+    outline: none;
+}
+
+/* Estilos responsivos */
+@media only screen and (max-width: 500px) {
+    .modalContent {
+        width: 95%; /* Largura do modal em telas pequenas */
+    }
+}

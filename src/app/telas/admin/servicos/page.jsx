@@ -3,7 +3,7 @@
 import styles from './page.module.css';
 import { useState, useEffect } from 'react';
 
-import { MdRemoveRedEye, MdEdit } from "react-icons/md";
+import { MdRemoveRedEye, MdEdit, MdAdd } from "react-icons/md";
 import Swal from 'sweetalert2';
 
 import { PiListMagnifyingGlassBold } from "react-icons/pi";
@@ -423,6 +423,7 @@ export default function Servicos() {
                                     className={styles.button_newCategory}
                                 >
                                     Nova Categoria
+                                    <MdAdd className={styles.iconAdd} />
                                 </button>
 
                                 <button
