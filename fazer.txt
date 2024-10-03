@@ -35,4 +35,4 @@
 
 - GERAL -
     adicionar funcao para ligar o veiculo usuario e vice versa (post na tabela usuario)
-    inserir um modelo na marca OUTROS, chana
+    inserir um modelo na marca OUTROS, chana, KIA, Garelli, americar

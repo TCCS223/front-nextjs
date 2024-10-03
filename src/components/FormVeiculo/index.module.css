@@ -104,6 +104,24 @@ grid-column:  span 4;
     outline: none;
 }
 
+.inputErro {
+    border: 1px solid red;
+}
+
+.error {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+    display: block;
+}
+
+.info {
+    color: blue;
+    font-size: 0.9em;
+    margin-top: 5px;
+    display: block;
+}
+
 .numProprietarios {
     margin: 0 10px;
 }
