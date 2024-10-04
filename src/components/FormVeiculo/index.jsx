@@ -1,11 +1,25 @@
 import React, { useState } from 'react';
 import styles from './index.module.css';
 import InputMask from "react-input-mask";
+import axios from 'axios'; // Certifique-se de importar o axios
 
-export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, isEditing, handleSubmit, categorias, marcas, listarMarcas, modelos, listarModelos }) {
+export default function FormVeiculo({ 
+    selectedVeic, 
+    setSelectedVeic, 
+    isViewing, 
+    isEditing, 
+    handleSubmit, 
+    categorias, 
+    marcas, 
+    listarMarcas, 
+    modelos, 
+    listarModelos 
+}) {
 
     const isDisabled = isViewing || isEditing;
     const [placaErro, setPlacaErro] = useState('');
+    const [anoErro, setAnoErro] = useState('');
+    const [isPlacaValidando, setIsPlacaValidando] = useState(false); // Novo estado
 
     const handlePlacaChange = async (e) => {
         const placa = e.target.value.toUpperCase();
@@ -27,11 +41,7 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
 
             if (response.status !== 200) throw new Error();
 
-            // if (response.status === 200) {
-            //     // setPlacaErro('');
-            //     console.log('funcoinas');
-                
-            // }
+            // Caso a placa seja válida, nenhuma ação adicional é necessária
         } catch (error) {
             if (error.response && error.response.status === 400) {
                 setPlacaErro('Placa já cadastrada.');
@@ -43,10 +53,28 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
         }
     };
 
+    const handleAnoChange = (e) => {
+        const anoAtual = new Date().getFullYear();
+        const anoMax = anoAtual + 1;
+        const anoInput = e.target.value;
+
+        // Converter o ano para inteiro
+        const ano = parseInt(anoInput, 10);
+
+        setSelectedVeic({ ...selectedVeic, veic_ano: anoInput });
+
+        // Verificação do ano
+        if (isNaN(ano) || ano < 1886 || ano > anoMax) {
+            setAnoErro(`O ano deve ser entre 1886 e ${anoMax}.`);
+        } else {
+            setAnoErro('');
+        }
+    };
+
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
-        if (placaErro) {
+        if (placaErro || anoErro) { // Verifica ambos os erros
             alert('Corrija os erros antes de enviar.');
             return;
         }
@@ -56,15 +84,15 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
 
     // Função para lidar com a mudança na categoria
     const handleCategoryChange = (e) => {
-        const catId = parseInt(e.target.value);
+        const catId = parseInt(e.target.value, 10);
         setSelectedVeic({ ...selectedVeic, cat_id: catId });
-        listarMarcas(catId);        // Chame a função listarMarcas passando o id da categoria selecionada
+        listarMarcas(catId); // Chame a função listarMarcas passando o id da categoria selecionada
     };
 
     const handleMarcas = (e) => {
-        const marId = parseInt(e.target.value);
+        const marId = parseInt(e.target.value, 10);
         setSelectedVeic({ ...selectedVeic, mar_id: marId });
-        listarModelos(marId);       // Chame a função listarMarcas passando o id da categoria selecionada
+        listarModelos(marId); // Chame a função listarModelos passando o id da marca selecionada
     };
 
     return (
@@ -209,7 +237,7 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                         disabled={isDisabled}
                         required
                     />
-                       {placaErro && <div className={styles.error_message}>{placaErro}</div>}
+                    {placaErro && <div className={styles.error_message}>{placaErro}</div>}
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_ano}`}>
@@ -220,12 +248,12 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                         id="veic_ano"
                         name="veic_ano"
                         value={selectedVeic ? selectedVeic.veic_ano : ''}
-                        onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_ano: e.target.value })}
-                        className={styles.input_veiculos}
+                        onChange={handleAnoChange}
+                        className={`${styles.input_veiculos} ${anoErro ? styles.inputErro : ''}`}
                         disabled={isViewing}
                         required
                     />
-
+                    {anoErro && <div className={styles.error_message}>{anoErro}</div>}
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_cor}`}>
@@ -310,47 +338,47 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                     )}
                 </div>
 
-{isViewing ? (
+                {isViewing ? (
 
-    <>
-                     {selectedVeic.num_proprietarios > 1 ? (
-                        <div className={`${styles.grid_item} ${styles.grid_proprietario}`}>
-                            <label htmlFor="proprietarios" className={styles.label_veiculos}>
-                                Proprietário(s)
-                                <span className={styles.numProprietarios}>
-                                    (+{selectedVeic.num_proprietarios - 1})
-                                </span>
-                            </label>
-                            <select
-                                id="proprietarios"
-                                name="proprietarios"
-                                value={selectedVeic ? selectedVeic.proprietario : ''}
-                                onChange={(e) => setSelectedVeic({ ...selectedVeic, proprietario: e.target.value })}
-                                className={`${styles.select_veiculos} ${styles.input_proprietario}`}
-                            >
-                                <option value="" disabled>Selecionar Proprietário</option>
-                                {selectedVeic.proprietarios.split(', ').map((proprietario, index) => (
-                                    <option key={index} value={proprietario}>{proprietario}</option>
-                                ))}
-                            </select>
-                        </div>
-                    ) : (
-                        <div className={`${styles.grid_item} ${styles.grid_proprietario}`}>
-                            <label htmlFor="proprietarios" className={styles.label_veiculos}>Proprietário(s)</label>
-                            <input
-                                type="text"
-                                id="proprietarios"
-                                name="proprietarios"
-                                value={selectedVeic ? selectedVeic.proprietarios : ''}
-                                onChange={(e) => setSelectedVeic({ ...selectedVeic, proprietarios: e.target.value })}
-                                className={styles.input_veiculos}
-                                disabled={isViewing}
-                                required
-                            />
-                        </div>
-                    )} 
+                    <>
+                        {selectedVeic.num_proprietarios > 1 ? (
+                            <div className={`${styles.grid_item} ${styles.grid_proprietario}`}>
+                                <label htmlFor="proprietarios" className={styles.label_veiculos}>
+                                    Proprietário(s)
+                                    <span className={styles.numProprietarios}>
+                                        (+{selectedVeic.num_proprietarios - 1})
+                                    </span>
+                                </label>
+                                <select
+                                    id="proprietarios"
+                                    name="proprietarios"
+                                    value={selectedVeic ? selectedVeic.proprietario : ''}
+                                    onChange={(e) => setSelectedVeic({ ...selectedVeic, proprietario: e.target.value })}
+                                    className={`${styles.select_veiculos} ${styles.input_proprietario}`}
+                                >
+                                    <option value="" disabled>Selecionar Proprietário</option>
+                                    {selectedVeic.proprietarios.split(', ').map((proprietario, index) => (
+                                        <option key={index} value={proprietario}>{proprietario}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        ) : (
+                            <div className={`${styles.grid_item} ${styles.grid_proprietario}`}>
+                                <label htmlFor="proprietarios" className={styles.label_veiculos}>Proprietário(s)</label>
+                                <input
+                                    type="text"
+                                    id="proprietarios"
+                                    name="proprietarios"
+                                    value={selectedVeic ? selectedVeic.proprietarios : ''}
+                                    onChange={(e) => setSelectedVeic({ ...selectedVeic, proprietarios: e.target.value })}
+                                    className={styles.input_veiculos}
+                                    disabled={isViewing}
+                                    required
+                                />
+                            </div>
+                        )}
                     </>
- ):(<></>)}
+                ) : (<></>)}
 
                 <div className={`${styles.grid_item} ${styles.grid_observacoes} ${styles.grid_item_observacoes}`}>
                     <label htmlFor="veic_observ" className={styles.label_veiculos}>Observações</label>

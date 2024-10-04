@@ -3,7 +3,7 @@
 import styles from './page.module.css';
 import { useState, useEffect } from 'react';
 
-import { MdRemoveRedEye, MdEdit } from "react-icons/md";
+import { MdRemoveRedEye, MdEdit, MdAdd } from "react-icons/md";
 // import { IoMdTrash } from "react-icons/io";
 import Swal from 'sweetalert2';
 import { PiListMagnifyingGlassBold } from "react-icons/pi";
@@ -36,9 +36,10 @@ export default function Veiculos() {
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentVeiculos = filteredVeiculos.slice(indexOfFirstUser, indexOfLastUser);
 
-    console.log(selectedVeic);
+    console.log(selectedVeic.veic_id);
 
 
+    
     useEffect(() => {
         ListarVeiculos();
     }, []);
@@ -447,9 +448,9 @@ export default function Veiculos() {
                             Próxima
                         </button>
                     </div>
-
                 </>
             ) : (<>
+
 
                 <FormVeiculo
                     selectedVeic={selectedVeic}
@@ -478,28 +479,60 @@ export default function Veiculos() {
                         </button>
                     ) : (
                         <>
-                            <button
-                                type="reset"
-                                onClick={Cancelar}
-                                className={styles.button_cancel}
-                            >
-                                Cancelar
-                            </button>
+                            {isEditing ? (
+                                <>
+                                    <button
+                                        type="button"
+                                        className={styles.button_AddUsuario}
+                                        onClick={handleRelacionarUsuario}
+                                    >
+                                        Usuário
+                                        <MdAdd className={styles.iconAdd} />
+                                    </button>
+                                    <button
+                                        type="reset"
+                                        onClick={Cancelar}
+                                        className={styles.button_cancel}
+                                    >
+                                        Cancelar
+                                    </button>
 
-                            <button
-                                type="submit"
-                                className={styles.button_submit}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    handleSubmit(selectedVeic);
-                                }}
+                                    <button
+                                        type="submit"
+                                        className={styles.button_submit}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleSubmit(selectedVeic);
+                                        }}
+                                    >
+                                        Salvar
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <button
+                                        type="reset"
+                                        onClick={Cancelar}
+                                        className={styles.button_cancel}
+                                    >
+                                        Cancelar
+                                    </button>
 
-                            >
-                                Salvar
-                            </button>
+                                    <button
+                                        type="submit"
+                                        className={styles.button_submit}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleSubmit(selectedVeic);
+                                        }}
+                                    >
+                                        Salvar
+                                    </button>
+                                </>
+                            )}
+
                         </>
                     )}
-
                 </div>
             </>
             )}
@@ -508,7 +541,6 @@ export default function Veiculos() {
                 isOpen={modalOpen}
                 veiculoId={selectedVeic.veic_id}
                 onClose={() => setModalOpen(false)}
-
             />
         </div>
     );

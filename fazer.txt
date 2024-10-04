@@ -1,23 +1,20 @@
 - CADCLIENTE -
     posicionar o campo de ver proprietarios  (somente se for isViewing)
     ajustar mensagem de erro embaixo do input
-    
+    botao associar veiculo so pode aparecer na edicao
 
 - VEICULOS -
     posicionar o campo de ver proprietarios  (somente se for isViewing)
-
+    https://chatgpt.com/share/670078ab-7c1c-8001-bdf4-21d79e143263
 
 - SERVIÇOS -
-
 
 - FORMVEICULOS
     ajustar mensagem de erro embaixo do input
     verificar data (não pode ser maior do que o ano atual +1)
 
-
 - TELA DE ADMIN -
     agenda
-
 
 - TELA DE USUÁRIO -
     conexão com o veiculo na api para mostrar os veiculos que o ID esta cadastrado
@@ -25,10 +22,9 @@
     histórico de SERVIÇOS
     (agenda) -> se der tempo
 
-
 - GERAL -
     adicionar funcao para ligar o veiculo usuario (usuario veiculo ja esta ok)
-    inserir um modelo na marca OUTROS, chana, KIA, Garelli, americar
+    
     corrigir css do espaçamento dos icons de ação nas tabela (tentar padronizar)
     (inserir possivel validação de senha) -> se der tempo
 

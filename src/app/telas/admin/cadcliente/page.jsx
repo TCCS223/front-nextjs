@@ -252,6 +252,9 @@ export default function CadCliente() {
         return true;
     }
 
+    
+    
+
     const sortByColumn = (column) => {
         let newIsAsc = true;
 

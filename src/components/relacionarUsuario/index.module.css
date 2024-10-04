@@ -115,12 +115,12 @@
     transition: all 0.2s ease-in-out;
 }
 
-.radioVeiculo:checked {
+.radio:checked {
     background-color: #ff9d00;
     border-color: #ff9d00;
 }
 
-.radioVeiculo:checked::before {
+.radio:checked::before {
     content: '';
     position: absolute;
     top: 50%;
@@ -132,7 +132,7 @@
     border-radius: 50%;
 }
 
-.radioVeiculo:hover {
+.radio:hover {
     box-shadow: 0 0 5px rgba(255, 157, 0, 0.5);
     border-color: #ff9d00;
 }

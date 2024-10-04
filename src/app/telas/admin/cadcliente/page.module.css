@@ -231,7 +231,7 @@
     grid-area: 1 / 1 / 2 / 3;
 }
 
-.button_teste:hover {
+.button_AddVeiculo:hover {
     background-color: #f39200;
     color: #222;
 }
