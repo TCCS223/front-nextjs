@@ -11,6 +11,8 @@ import FormVeiculo from '@/components/FormVeiculo';
 
 import api from '@/services/api';
 
+import ModalRelacionarUsuario from '@/components/relacionarUsuario';
+
 export default function Veiculos() {
     const [veiculos, setVeiculos] = useState([]);
     const [filteredVeiculos, setFilteredVeiculos] = useState([]);
@@ -23,9 +25,10 @@ export default function Veiculos() {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedVeic, setSelectedVeic] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
-    const [categorias, setCategorias] = useState([])
-    const [marcas, setMarcas] = useState([])
-    const [modelos, setModelos] = useState([])
+    const [categorias, setCategorias] = useState([]);
+    const [marcas, setMarcas] = useState([]);
+    const [modelos, setModelos] = useState([]);
+    const [modalOpen, setModalOpen] = useState(false);
 
     const usersPerPage = 15;
     // Paginação
@@ -163,10 +166,10 @@ export default function Veiculos() {
     };
 
     const handleExit = () => {
-        setShowForm(false);  
-        setSelectedVeic([]);  
+        setShowForm(false);
+        setSelectedVeic([]);
         setIsViewing(false);
-        setIsEditing(false);  
+        setIsEditing(false);
     };
 
     const handleSubmit = async (veiculo) => {
@@ -272,6 +275,11 @@ export default function Veiculos() {
                 });
             }
         });
+    }
+
+
+    const handleRelacionarUsuario = () => {
+        setModalOpen(true);
     }
 
     return (
@@ -495,6 +503,13 @@ export default function Veiculos() {
                 </div>
             </>
             )}
+
+            <ModalRelacionarUsuario
+                isOpen={modalOpen}
+                veiculoId={selectedVeic.veic_id}
+                onClose={() => setModalOpen(false)}
+
+            />
         </div>
     );
 }
