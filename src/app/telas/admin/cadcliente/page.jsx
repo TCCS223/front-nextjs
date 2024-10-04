@@ -47,6 +47,7 @@ export default function CadCliente() {
     const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
 
+
     useEffect(() => {
         ListarUsuarios();
     }, []);
@@ -568,6 +569,7 @@ export default function CadCliente() {
 
             <ModalRelacionarVeiculo
                 isOpen={modalCategoriaOpen}
+                usuarioId={selectedUser.usu_id}
                 onClose={() => setModalCategoriaOpen(false)}
                 onCategoriaCriada={handleCategoriaCriada}
             />

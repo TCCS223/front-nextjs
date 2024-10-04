@@ -5,7 +5,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,19 +14,33 @@
 
 .modalContent {
     background-color: white;
-    padding: 20px;
-    border-radius: 8px;
+    padding: 30px;
+    border-radius: 10px;
     max-width: 600px;
-    width: 100%;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
     position: relative;
+    transition: transform 0.3s ease;
 }
 
+/* Efeito de entrada */
+.modalContent.enter {
+    transform: scale(0.9);
+    opacity: 0;
+}
+
+.modalContent.enter-active {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Título do modal */
 .modalTitle {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: bold;
     margin-bottom: 20px;
     text-align: center;
+    color: #333;
 }
 
 /* Estilos do campo de busca */
@@ -36,13 +50,14 @@
 
 .inputCategoria {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin-top: 5px;
-    border: 3px solid #8d8c8c;
-    border-radius: 4px;
+    border: 2px solid #8d8c8c;
+    border-radius: 5px;
     box-sizing: border-box;
     font-size: 18px;
     background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
 }
 
 .inputCategoria:focus {
@@ -56,12 +71,9 @@
     padding: 0;
     margin: 15px 0;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    overflow-x: hidden;
-    width: 100%;
-    /* height: auto; */
-    max-height: 20vh;
+    border-radius: 5px;
     overflow-y: auto;
+    height: 25vh;
 }
 
 .veiculosHeader {
@@ -72,6 +84,7 @@
     font-weight: bold;
     border-bottom: 2px solid #ccc;
     text-align: left;
+    color: #555;
 }
 
 .veiculoItem {
@@ -85,19 +98,11 @@
     transition: background-color 0.3s ease;
 }
 
-.spanId {
-    margin-left: 1rem;
-}
-
 .veiculoItem:hover {
-    background-color: #f9f9f9;
+    background-color: #f0f0f0;
 }
 
-.veiculoItem:last-child {
-    border-bottom: none;
-}
-
-/* Estilização melhorada para o input radio */
+/* Estilização do input radio */
 .radioVeiculo {
     appearance: none;
     width: 20px;
@@ -135,44 +140,67 @@
 /* Grupo de botões */
 .buttonGroup {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
-
 }
 
-.btnSave {
+/* Botão cancelar */
+.btnCancel {
     background-color: #ff9d00;
     color: white;
-    padding: 10px 20px;
+    padding: 12px;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    grid-area: 1/5/2/6;
-}
-
-.btnSave:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-.btnSave:hover:not(:disabled) {
-    background-color: #e68a00;
-}
-
-.btnCancel {
-    background-color: #ccc;
-    color: black;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    grid-area: 1/4/2/5;
 }
 
 .btnCancel:hover {
-    background-color: #b3b3b3;
+    background-color: #e08a00;
+}
+
+/* Botão salvar */
+.btnSave {
+    background-color: #4caf50;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btnSave:hover {
+    background-color: #45a049;
+}
+
+/* Estilos do container do checkbox e data */
+.checkboxDateContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.dateContainer {
+    display: flex;
+    align-items: center;
+}
+
+/* Estilização do input de data */
+.inputDate {
+    margin-left: 10px;
+    padding: 10px;
+    border: 2px solid #8d8c8c;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+.inputDate:focus {
+    border-color: #ff9d00;
+    outline: none;
 }

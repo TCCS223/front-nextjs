@@ -310,42 +310,47 @@ export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, 
                     )}
                 </div>
 
-                {/* {selectedVeic.num_proprietarios > 1 ? (
-                    <div className={`${styles.grid_item} ${styles.grid_proprietario}`}>
-                        <label htmlFor="proprietarios" className={styles.label_veiculos}>
-                            Proprietário(s)
-                            <span className={styles.numProprietarios}>
-                                (+{selectedVeic.num_proprietarios - 1})
-                            </span>
-                        </label>
-                        <select
-                            id="proprietarios"
-                            name="proprietarios"
-                            value={selectedVeic ? selectedVeic.proprietario : ''}
-                            onChange={(e) => setSelectedVeic({ ...selectedVeic, proprietario: e.target.value })}
-                            className={`${styles.select_veiculos} ${styles.input_proprietario}`}
-                        >
-                            <option value="" disabled>Selecionar Proprietário</option>
-                            {selectedVeic.proprietarios.split(', ').map((proprietario, index) => (
-                                <option key={index} value={proprietario}>{proprietario}</option>
-                            ))}
-                        </select>
-                    </div>
-                ) : (
-                    <div className={`${styles.grid_item} ${styles.grid_proprietario}`}>
-                        <label htmlFor="proprietarios" className={styles.label_veiculos}>Proprietário(s)</label>
-                        <input
-                            type="text"
-                            id="proprietarios"
-                            name="proprietarios"
-                            value={selectedVeic ? selectedVeic.proprietarios : ''}
-                            onChange={(e) => setSelectedVeic({ ...selectedVeic, proprietarios: e.target.value })}
-                            className={styles.input_veiculos}
-                            disabled={isViewing}
-                            required
-                        />
-                    </div>
-                )} */}
+{isViewing ? (
+
+    <>
+                     {selectedVeic.num_proprietarios > 1 ? (
+                        <div className={`${styles.grid_item} ${styles.grid_proprietario}`}>
+                            <label htmlFor="proprietarios" className={styles.label_veiculos}>
+                                Proprietário(s)
+                                <span className={styles.numProprietarios}>
+                                    (+{selectedVeic.num_proprietarios - 1})
+                                </span>
+                            </label>
+                            <select
+                                id="proprietarios"
+                                name="proprietarios"
+                                value={selectedVeic ? selectedVeic.proprietario : ''}
+                                onChange={(e) => setSelectedVeic({ ...selectedVeic, proprietario: e.target.value })}
+                                className={`${styles.select_veiculos} ${styles.input_proprietario}`}
+                            >
+                                <option value="" disabled>Selecionar Proprietário</option>
+                                {selectedVeic.proprietarios.split(', ').map((proprietario, index) => (
+                                    <option key={index} value={proprietario}>{proprietario}</option>
+                                ))}
+                            </select>
+                        </div>
+                    ) : (
+                        <div className={`${styles.grid_item} ${styles.grid_proprietario}`}>
+                            <label htmlFor="proprietarios" className={styles.label_veiculos}>Proprietário(s)</label>
+                            <input
+                                type="text"
+                                id="proprietarios"
+                                name="proprietarios"
+                                value={selectedVeic ? selectedVeic.proprietarios : ''}
+                                onChange={(e) => setSelectedVeic({ ...selectedVeic, proprietarios: e.target.value })}
+                                className={styles.input_veiculos}
+                                disabled={isViewing}
+                                required
+                            />
+                        </div>
+                    )} 
+                    </>
+ ):(<></>)}
 
                 <div className={`${styles.grid_item} ${styles.grid_observacoes} ${styles.grid_item_observacoes}`}>
                     <label htmlFor="veic_observ" className={styles.label_veiculos}>Observações</label>

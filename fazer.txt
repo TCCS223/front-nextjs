@@ -1,38 +1,35 @@
-- CADASTRO - 
-
-
 - CADCLIENTE -
-
-    {   
-        validar email
-
-        -> quando clicar no botão de salvar, mostrar um swal que todos os campos devem ser preenchidos, e sinalizar com a borda vermelha os campos que estão incorretos
-    }
-
+    posicionar o campo de ver proprietarios  (somente se for isViewing)
+    ajustar mensagem de erro embaixo do input
     
-    (inserir possivel validação de senha) -> se der tempo
 
 - VEICULOS -
+    posicionar o campo de ver proprietarios  (somente se for isViewing)
 
-    consultar se a placa ja está cadastrado e evitar novo cadastro
 
 - SERVIÇOS -
 
 
+- FORMVEICULOS
+    ajustar mensagem de erro embaixo do input
+    verificar data (não pode ser maior do que o ano atual +1)
+
 
 - TELA DE ADMIN -
-
     agenda
 
-- TELA DE USUÁRIO -
 
+- TELA DE USUÁRIO -
     conexão com o veiculo na api para mostrar os veiculos que o ID esta cadastrado
     estilização dos campos
     histórico de SERVIÇOS
-
-
     (agenda) -> se der tempo
 
+
 - GERAL -
-    adicionar funcao para ligar o veiculo usuario e vice versa (post na tabela usuario)
+    adicionar funcao para ligar o veiculo usuario (usuario veiculo ja esta ok)
     inserir um modelo na marca OUTROS, chana, KIA, Garelli, americar
+    corrigir css do espaçamento dos icons de ação nas tabela (tentar padronizar)
+    (inserir possivel validação de senha) -> se der tempo
+
+
