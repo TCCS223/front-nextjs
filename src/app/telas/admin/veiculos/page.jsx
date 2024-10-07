@@ -36,7 +36,7 @@ export default function Veiculos() {
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentVeiculos = filteredVeiculos.slice(indexOfFirstUser, indexOfLastUser);
 
-    console.log(selectedVeic.veic_id);
+    console.log(selectedVeic?.veic_id);
 
 
     
@@ -451,7 +451,6 @@ export default function Veiculos() {
                 </>
             ) : (<>
 
-
                 <FormVeiculo
                     selectedVeic={selectedVeic}
                     setSelectedVeic={setSelectedVeic}
@@ -539,7 +538,7 @@ export default function Veiculos() {
 
             <ModalRelacionarUsuario
                 isOpen={modalOpen}
-                veiculoId={selectedVeic.veic_id}
+                veiculoId={selectedVeic}
                 onClose={() => setModalOpen(false)}
             />
         </div>
