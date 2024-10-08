@@ -12,6 +12,7 @@ import FormVeiculo from '@/components/FormVeiculo';
 import api from '@/services/api';
 
 import ModalRelacionarUsuario from '@/components/relacionarUsuario';
+import ModalProprietarios from '@/components/editarRelacaoUsuarioVeiculo';
 
 export default function Veiculos() {
     const [veiculos, setVeiculos] = useState([]);
@@ -29,6 +30,7 @@ export default function Veiculos() {
     const [marcas, setMarcas] = useState([]);
     const [modelos, setModelos] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
+    const [modalOpenRelacao, setModalOpenRelacao] = useState(false);
 
     const usersPerPage = 15;
     // Paginação
@@ -36,10 +38,6 @@ export default function Veiculos() {
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentVeiculos = filteredVeiculos.slice(indexOfFirstUser, indexOfLastUser);
 
-    console.log(selectedVeic?.veic_id);
-
-
-    
     useEffect(() => {
         ListarVeiculos();
     }, []);
@@ -200,8 +198,11 @@ export default function Veiculos() {
                 icon: 'success',
             });
 
-            ListarVeiculos();
             setShowForm(false);
+            setSelectedVeic(null);
+            setIsViewing(false);
+            setIsEditing(false);
+            ListarVeiculos();
         } catch (error) {
             console.error("Dados do erro:", error.response.data);
             Swal.fire({
@@ -272,7 +273,8 @@ export default function Veiculos() {
                     setShowForm(false);
                     setSelectedVeic(null);
                     setIsViewing(false);
-                    setIsEditing(false); // Reiniciar o estado de edição
+                    setIsEditing(false);
+                    ListarVeiculos(); // Reiniciar o estado de edição
                 });
             }
         });
@@ -281,6 +283,10 @@ export default function Veiculos() {
 
     const handleRelacionarUsuario = () => {
         setModalOpen(true);
+    }
+
+    const handleEditarRelacao = () => {
+        setModalOpenRelacao(true);
     }
 
     return (
@@ -489,6 +495,14 @@ export default function Veiculos() {
                                         <MdAdd className={styles.iconAdd} />
                                     </button>
                                     <button
+                                        type="button"
+                                        className={styles.button_teste}
+                                        onClick={handleEditarRelacao}
+                                    >
+                                        teste
+                                        <MdAdd className={styles.iconAdd} />
+                                    </button>
+                                    <button
                                         type="reset"
                                         onClick={Cancelar}
                                         className={styles.button_cancel}
@@ -538,8 +552,14 @@ export default function Veiculos() {
 
             <ModalRelacionarUsuario
                 isOpen={modalOpen}
-                veiculoId={selectedVeic}
+                veiculoId={selectedVeic?.veic_id}
                 onClose={() => setModalOpen(false)}
+            />
+
+            <ModalProprietarios
+                isOpen={modalOpenRelacao}
+                veiculoId={selectedVeic?.veic_id}
+                onClose={() => setModalOpenRelacao(false)}
             />
         </div>
     );

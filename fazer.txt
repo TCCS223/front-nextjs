@@ -29,3 +29,38 @@
     (inserir possivel validação de senha) -> se der tempo
 
 
+
+
+
+async listarVeiculosUsuario(request, response) {
+        try {
+            // Definindo a consulta SQL para selecionar todas as colunas da tabela veiculo_usuario
+            const sql = `SELECT 
+                veic_usu_id, 
+                veic_id, 
+                usu_id, 
+                ehproprietario, 
+                data_inicial, 
+                data_final
+                FROM veiculo_usuario`;
+
+            // Executando a consulta e armazenando os resultados
+            const [veiculosUsuarios] = await db.query(sql);
+            const nItens = veiculosUsuarios.length;
+
+            // Retornando a lista de veículos-usuários em formato JSON
+            return response.status(200).json({
+                sucesso: true,
+                mensagem: 'Lista de veículos e usuários.',
+                dados: veiculosUsuarios,
+                nItens
+            });
+        } catch (error) {
+            // Tratamento de erro
+            return response.status(500).json({
+                sucesso: false,
+                mensagem: 'Erro na requisição.',
+                dados: error.message
+            });
+        }
+    },

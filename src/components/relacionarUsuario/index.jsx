@@ -4,7 +4,7 @@ import api from "@/services/api";
 import Swal from "sweetalert2";
 import InputMask from "react-input-mask";
 
-export default function ModalRelacionarUsuario({ isOpen, onClose, VeiculoId }) {
+export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
 
     const [cpf, setCpf] = useState('');
     const [usuarios, setUsuarios] = useState([]);
@@ -25,6 +25,8 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, VeiculoId }) {
         }
     }
 
+
+
     useEffect(() => {
         buscarUsuarios(cpf);
     }, [cpf])
@@ -40,22 +42,27 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, VeiculoId }) {
         }
 
         const dados = {
-            veic_id: VeiculoId,
+            veic_id: veiculoId,
             usu_id: usuarioSelecionado,
             ehproprietario: ehProprietario ? 1 : 0,
             data_inicial: dataInicial
         };
 
         try {
-            await api.post(`/veiculo_Usuario`, dados);
+            await api.post(`/veiculoUsuario`, dados);
             Swal.fire('Sucesso', 'Relacionamento realizado com sucesso!', 'success');
             onClose();
+            
+            
             limparCampos();
         } catch (error) {
-            console.error("Erro ao associar usuário:", error.message);
-            Swal.fire('Erro!', 'Erro ao associar usuário.', 'error');
+            console.error("Erro ao associar usuário:", error.response);
+            Swal.fire('Erro!', 'Erro ao associar usuário.', 'error');a
         }
     }
+
+ 
+
 
     const limparCampos = () => {
         setCpf('');
@@ -77,8 +84,11 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, VeiculoId }) {
     console.log(cpf);
 
     return (
-        <div className={styles.modalOverlay}>
+        <form className={styles.modalOverlay}>
             <div className={styles.modalContent}>
+
+               
+           
                 <h2 className={styles.modalTitle}>Associar Usuário</h2>
                 <div className={styles.formGroup}>
                     <label htmlFor="cpf">CPF do usuário</label>
@@ -149,6 +159,6 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, VeiculoId }) {
                     </button>
                 </div>
             </div>
-        </div>
+        </form>
     )
 }

@@ -40,7 +40,7 @@
 }
 
 .grid_item {
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
 }
 
@@ -61,7 +61,7 @@
 }
 
 .grid_modelo{
-grid-column:  span 4;
+    grid-column:  span 4;
 }
 
 .grid_observacoes {
@@ -105,14 +105,19 @@ grid-column:  span 4;
 }
 
 .inputErro {
-    border: 1px solid red;
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 5px;
+    border: 3px solid #e90b0b;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 18px;
+    background-color: #f9f9f9;
 }
 
-.error {
+.error_message {
     color: red;
     font-size: 0.9em;
-    margin-top: 5px;
-    display: block;
 }
 
 .info {
