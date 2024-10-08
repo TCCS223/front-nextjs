@@ -112,27 +112,21 @@
 .error {
     position: absolute;
     bottom: -20px;
-    /* Posiciona a mensagem abaixo do input */
     left: 0;
     color: #ff4d4d;
-    /* Cor vermelha para destacar o erro */
     font-size: 1rem;
-    /* Tamanho menor para a mensagem */
     font-weight: 500;
     visibility: hidden;
-    /* Escondido por padrão */
+    text-wrap: wrap;
 }
 
 .inputGroup.errorActive .error {
     visibility: visible;
-    /* Mostra a mensagem quando houver erro */
 }
 
 .inputCadastro.errorActive {
     border-color: #ff4d4d;
-    /* Muda a cor da borda quando houver erro */
     box-shadow: 0 0 6px rgba(255, 77, 77, 0.7);
-    /* Efeito de sombra para destacar o erro */
 }
 
 

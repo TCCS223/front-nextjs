@@ -69,7 +69,7 @@ export default function Cadastro() {
             }
         } catch (error) {
             console.error('Erro na verificação do email:', error);
-            errorMessage = 'Ocorreu um erro ao verificar o email. Por favor, tente novamente.';
+            errorMessage = 'Erro ao verificar o email.';
             setEmailError(errorMessage);
         } finally {
             setIsCheckingEmail(false);
@@ -98,7 +98,6 @@ export default function Cadastro() {
         setIsCheckingCpf(true);
         try {
             const response = await api.post('/usuarios/verificarCpf', { usu_cpf: cpfNumbers });
-            // console.log("Resposta da verificação do CPF:", response.data); // Log da resposta
 
             if (response.data.sucesso && response.data.dados) {
                 errorMessage = 'CPF já está cadastrado.';
@@ -168,11 +167,9 @@ export default function Cadastro() {
     async function cadastrar() {
         try {
             const response = await api.post('/usuarios', usuario);
-            // console.log("Resposta do cadastro de usuário:", response.data);
 
             if (response.data.sucesso === true) {
                 const usu_id = response.data.dados;
-                // console.log("Usuário criado com ID:", usu_id);
 
                 clearInputs();
                 localStorage.clear();
@@ -200,7 +197,7 @@ export default function Cadastro() {
 
                 setTimeout(() => {
                     router.push('/telas/login');
-                }, 2000);
+                }, 1500);
 
             } else {
                 console.error('Erro no cadastro:', response.data.mensagem, response.data.dados);
