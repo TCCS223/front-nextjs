@@ -32,6 +32,15 @@ export default function Veiculos() {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalOpenRelacao, setModalOpenRelacao] = useState(false);
 
+
+
+    const [placaErro, setPlacaErro] = useState('');
+    const [anoErro, setAnoErro] = useState('');
+    const [isPlacaValidando, setIsPlacaValidando] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+
+
     const usersPerPage = 15;
     // Paginação
     const indexOfLastUser = currentPage * usersPerPage;
@@ -171,7 +180,125 @@ export default function Veiculos() {
         setIsEditing(false);
     };
 
+    // const handleSubmit = async (veiculo) => {
+
+    //     const data = {
+    //         mod_id: veiculo.mod_id,
+    //         veic_placa: veiculo.veic_placa,
+    //         veic_ano: veiculo.veic_ano,
+    //         veic_cor: veiculo.veic_cor,
+    //         veic_combustivel: veiculo.veic_combustivel,
+    //         veic_observ: veiculo.veic_observ,
+    //         veic_situacao: veiculo.veic_situacao
+    //     };
+
+    //     try {
+    //         let response;
+    //         if (veiculo.veic_id) {
+    //             response = await api.patch(`/veiculos/${veiculo.veic_id}`, data);
+    //         } else {
+    //             response = await api.post('/veiculos', data);
+    //         }
+
+    //         console.log(response.data); // Adicione isso para verificar a resposta da API
+    //         Swal.fire({
+    //             title: 'Sucesso!',
+    //             text: response.data.mensagem,
+    //             icon: 'success',
+    //         });
+
+    //         setShowForm(false);
+    //         setSelectedVeic(null);
+    //         setIsViewing(false);
+    //         setIsEditing(false);
+    //         ListarVeiculos();
+    //     } catch (error) {
+    //         console.error("Dados do erro:", error.response.data);
+    //         Swal.fire({
+    //             title: 'Erro!',
+    //             text: error.response?.data.mensagem || 'Erro desconhecido.',
+    //             icon: 'error',
+    //         });
+    //     }
+    // };
+
+    const handlePlacaChange = async (placa) => {
+        // Atualiza o estado da placa selecionada
+        setSelectedVeic(prevState => ({
+            ...prevState,
+            veic_placa: placa
+        }));
+        setPlacaErro(''); // Limpa a mensagem de erro antes da validação
+
+        // Expressão regular para validar o formato da placa
+        const placaRegex = /^(?:[A-Z]{3}-\d{4}|[A-Z]{3}\d[A-Z]\d{2})$/;
+
+        // Valida o formato da placa
+        if (!placaRegex.test(placa)) {
+            setPlacaErro('');
+            return false;
+        }
+
+        try {
+            setIsPlacaValidando(true);
+            // console.log("Dados da placa sendo enviados:", { veic_placa: placa });
+
+            const response = await api.post('/verificarPlaca', { veic_placa: placa });
+
+            if (response.status === 200) {
+                setPlacaErro('');
+                return true;  // Resposta de sucesso
+            }
+        } catch (error) {
+            console.error("Erro ao validar placa:", error);
+
+            if (error.response) {
+                console.error("Erro da API:", error.response.data);
+                setPlacaErro(`${error.response.data.mensagem}`);
+            } else if (error.request) {
+                console.error("Nenhuma resposta da API:", error.request);
+                setPlacaErro('Nenhuma resposta da API.');
+            } else {
+                console.error("Erro na requisição:", error.message);
+                setPlacaErro('Erro na requisição ao verificar a placa.');
+            }
+            return false;
+        } finally {
+            setIsPlacaValidando(false);
+        }
+    };
+
+
+    const validarAno = (ano) => {
+        const anoAtual = new Date().getFullYear();
+        const anoMax = anoAtual + 1;
+        const anoNum = parseInt(ano, 10);
+        if (isNaN(anoNum) || anoNum < 1886 || anoNum > anoMax) {
+            setAnoErro(`O ano deve ser entre 1886 e ${anoMax}.`);
+            return false;
+        }
+        setAnoErro('');
+        return true;
+    };
+
+
     const handleSubmit = async (veiculo) => {
+
+        // console.log("Dados a serem enviados:", veiculo);
+
+        setIsSubmitting(true);
+        setPlacaErro('');
+        setAnoErro('');
+
+        // Chama a função de validação da placa
+        const placaValida = await handlePlacaChange(veiculo.veic_placa);
+        const anoValido = validarAno(veiculo.veic_ano);
+
+        // Se alguma validação falhar, não prosseguir
+        if (!placaValida || !anoValido) {
+            setIsSubmitting(false);
+            return;
+        }
 
         const data = {
             mod_id: veiculo.mod_id,
@@ -179,8 +306,8 @@ export default function Veiculos() {
             veic_ano: veiculo.veic_ano,
             veic_cor: veiculo.veic_cor,
             veic_combustivel: veiculo.veic_combustivel,
-            veic_observ: veiculo.veic_observ,
-            veic_situacao: veiculo.veic_situacao
+            veic_observ: veiculo.veic_observ || '', // Alterar para null se estiver vazio
+            veic_situacao: veiculo.veic_situacao,
         };
 
         try {
@@ -190,27 +317,25 @@ export default function Veiculos() {
             } else {
                 response = await api.post('/veiculos', data);
             }
-
-            console.log(response.data); // Adicione isso para verificar a resposta da API
             Swal.fire({
                 title: 'Sucesso!',
                 text: response.data.mensagem,
                 icon: 'success',
             });
-
             setShowForm(false);
             setSelectedVeic(null);
             setIsViewing(false);
             setIsEditing(false);
             ListarVeiculos();
         } catch (error) {
-            console.error("Dados do erro:", error.response.data);
+            console.error("Erro ao salvar veículo:", error);
             Swal.fire({
                 title: 'Erro!',
                 text: error.response?.data.mensagem || 'Erro desconhecido.',
                 icon: 'error',
             });
         }
+        setIsSubmitting(false);
     };
 
 
@@ -223,12 +348,12 @@ export default function Veiculos() {
             veic_ano: '',
             veic_cor: '',
             veic_combustivel: '',
-            veic_observ: '',
-            veic_situacao: 1,
-        })
+            veic_observ: '',  // Este pode ser vazio, mas não deve ser nulo.
+            veic_situacao: 1, // Este valor deve ser definido corretamente.
+        });
         setShowForm(true);
         ListarCategorias();
-    }
+    };
 
     const sortByColumn = (column) => {
         let newIsAsc = true;
@@ -469,6 +594,11 @@ export default function Veiculos() {
                     listarModelos={ListarModelos}
                     handleSubmit={handleSubmit}
                     Cancelar={Cancelar}
+                    placaErro={placaErro}
+                    anoErro={anoErro}
+                    isPlacaValidando={isPlacaValidando}
+                    isSubmitting={isSubmitting}
+                    handlePlacaChange={handlePlacaChange}
                 />
 
                 <div className={styles.footer_form}>

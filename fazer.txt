@@ -32,35 +32,43 @@
 
 
 
-async listarVeiculosUsuario(request, response) {
-        try {
-            // Definindo a consulta SQL para selecionar todas as colunas da tabela veiculo_usuario
-            const sql = `SELECT 
-                veic_usu_id, 
-                veic_id, 
-                usu_id, 
-                ehproprietario, 
-                data_inicial, 
-                data_final
-                FROM veiculo_usuario`;
 
-            // Executando a consulta e armazenando os resultados
-            const [veiculosUsuarios] = await db.query(sql);
-            const nItens = veiculosUsuarios.length;
 
-            // Retornando a lista de veículos-usuários em formato JSON
-            return response.status(200).json({
-                sucesso: true,
-                mensagem: 'Lista de veículos e usuários.',
-                dados: veiculosUsuarios,
-                nItens
-            });
-        } catch (error) {
-            // Tratamento de erro
-            return response.status(500).json({
+    
+async verificarPlaca(request, response) {
+    try {
+        const { veic_placa } = request.body;
+
+        if (!veic_placa) {
+            return response.status(400).json({
                 sucesso: false,
-                mensagem: 'Erro na requisição.',
-                dados: error.message
+                mensagem: 'Placa não fornecida.',
             });
         }
-    },
+
+        const sql = `SELECT veic_id FROM veiculos WHERE veic_placa = ? LIMIT 1`;
+        const values = [veic_placa]; // Garantir que a busca seja case-insensitive
+
+        const [result] = await db.query(sql, values);
+
+        if (result.length > 0) {
+            // Placa já existe
+            return response.status(409).json({  // Alterado para 409
+                sucesso: false,
+                mensagem: 'Placa já cadastrada.',
+            });
+        }
+
+        // Placa disponível
+        return response.status(200).json({
+            sucesso: true,
+            mensagem: 'Placa disponível.',
+        });
+    } catch (error) {
+        return response.status(500).json({
+            sucesso: false,
+            mensagem: 'Erro no servidor.',
+            dados: error.message
+        });
+    }
+}

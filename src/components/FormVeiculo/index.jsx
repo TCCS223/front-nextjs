@@ -10,105 +10,125 @@ export default function FormVeiculo({
     setSelectedVeic,
     isViewing,
     isEditing,
-    handleSubmit,
+    handleSubmit,  // A função handleSubmit agora inclui a lógica de validação no componente pai
     categorias,
     marcas,
     listarMarcas,
     modelos,
-    listarModelos
+    listarModelos,
+    placaErro,
+    anoErro,
+    isPlacaValidando,
+    isSubmitting,
+    handlePlacaChange
 }) {
 
     const isDisabled = isViewing || isEditing;
-    const [placaErro, setPlacaErro] = useState('');
-    const [anoErro, setAnoErro] = useState('');
-    const [isPlacaValidando, setIsPlacaValidando] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    // const [placaErro, setPlacaErro] = useState('');
+    // const [anoErro, setAnoErro] = useState('');
+    // const [isPlacaValidando, setIsPlacaValidando] = useState(false);
+    // const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handlePlacaChange = (e) => {
-        const placa = e.target.value.toUpperCase();
-        setSelectedVeic({ ...selectedVeic, veic_placa: placa });
-        setPlacaErro('');
+    // const handlePlacaChange = (e) => {
+    //     const placa = e.target.value.toUpperCase();
+    //     setSelectedVeic({ ...selectedVeic, veic_placa: placa });
+    //     setPlacaErro('');
+    // };
+
+    // const handleAnoChange = (e) => {
+    //     const anoAtual = new Date().getFullYear();
+    //     const anoMax = anoAtual + 1;
+    //     const anoInput = e.target.value;
+
+    //     const ano = parseInt(anoInput, 10);
+    //     setSelectedVeic({ ...selectedVeic, veic_ano: anoInput });
+
+    //     if (isNaN(ano) || ano < 1886 || ano > anoMax) {
+    //         setAnoErro(`O ano deve ser entre 1886 e ${anoMax}.`);
+    //     } else {
+    //         setAnoErro('');
+    //     }
+    // };
+
+    // const handleFormSubmit = async (e) => {
+    //     e.preventDefault();
+    //     setIsSubmitting(true);
+
+    //     let valid = true;
+
+    //     setPlacaErro('');
+    //     setAnoErro('');
+
+    //     const anoAtual = new Date().getFullYear();
+    //     const anoMax = anoAtual + 1;
+    //     const ano = parseInt(selectedVeic.veic_ano, 10);
+
+    //     if (isNaN(ano) || ano < 1886 || ano > anoMax) {
+    //         setAnoErro(`O ano deve ser entre 1886 e ${anoMax}.`);
+    //         valid = false;
+    //     }
+
+    //     const placa = selectedVeic.veic_placa;
+    //     const placaRegex = /^(?:[A-Z]{3}-\d{4}|[A-Z]{3}\d[A-Z]\d{2})$/;
+
+    //     if (!placaRegex.test(placa)) {
+    //         setPlacaErro('Formato de placa inválido. Use "ABC-1234" ou "ABC1D23".');
+    //         valid = false;
+    //     } else {
+    //         try {
+    //             setIsPlacaValidando(true);
+    //             const response = await api.post('/verificarPlaca', { veic_placa: placa });
+
+    //             if (response.status === 200 && response.data.existe) {
+    //                 setPlacaErro('Placa já cadastrada.');
+    //                 valid = false;
+    //             }
+    //         } catch (error) {
+    //             console.error("Erro ao validar placa:", error);
+    //             setPlacaErro('Placa já cadastrada.');
+    //             valid = false;
+    //         } finally {
+    //             setIsPlacaValidando(false);
+    //         }
+    //     }
+
+    //     if (!valid) {
+    //         setIsSubmitting(false);
+    //         return;
+    //     }
+
+    //     try {
+    //         await handleSubmit(selectedVeic);
+    //         Swal.fire({
+    //             title: "Sucesso!",
+    //             text: "Veículo cadastrado com sucesso.",
+    //             icon: "success",
+    //         });
+    //     } catch (error) {
+    //         console.error("Erro ao cadastrar veículo:", error);
+    //         Swal.fire({
+    //             title: "Erro!",
+    //             text: "Não foi possível cadastrar o veículo.",
+    //             icon: "error",
+    //         });
+    //     }
+    //     setIsSubmitting(false);
+    // };
+
+    const handlePlacaInputChange = (e) => {
+        const placa = e.target.value;
+        handlePlacaChange(placa);  // Chama a função do pai e passa a placa
     };
 
     const handleAnoChange = (e) => {
-        const anoAtual = new Date().getFullYear();
-        const anoMax = anoAtual + 1;
-        const anoInput = e.target.value;
-
-        const ano = parseInt(anoInput, 10);
-        setSelectedVeic({ ...selectedVeic, veic_ano: anoInput });
-
-        if (isNaN(ano) || ano < 1886 || ano > anoMax) {
-            setAnoErro(`O ano deve ser entre 1886 e ${anoMax}.`);
-        } else {
-            setAnoErro('');
-        }
+        setSelectedVeic({ ...selectedVeic, veic_ano: e.target.value });
     };
 
     const handleFormSubmit = async (e) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-
-        let valid = true;
-
-        setPlacaErro('');
-        setAnoErro('');
-
-        const anoAtual = new Date().getFullYear();
-        const anoMax = anoAtual + 1;
-        const ano = parseInt(selectedVeic.veic_ano, 10);
-
-        if (isNaN(ano) || ano < 1886 || ano > anoMax) {
-            setAnoErro(`O ano deve ser entre 1886 e ${anoMax}.`);
-            valid = false;
-        }
-
-        const placa = selectedVeic.veic_placa;
-        const placaRegex = /^(?:[A-Z]{3}-\d{4}|[A-Z]{3}\d[A-Z]\d{2})$/;
-
-        if (!placaRegex.test(placa)) {
-            setPlacaErro('Formato de placa inválido. Use "ABC-1234" ou "ABC1D23".');
-            valid = false;
-        } else {
-            try {
-                setIsPlacaValidando(true);
-                const response = await api.post('/verificarPlaca', { veic_placa: placa });
-
-                if (response.status === 200 && response.data.existe) {
-                    setPlacaErro('Placa já cadastrada.');
-                    valid = false;
-                }
-            } catch (error) {
-                console.error("Erro ao validar placa:", error);
-                setPlacaErro('Placa já cadastrada.');
-                valid = false;
-            } finally {
-                setIsPlacaValidando(false);
-            }
-        }
-
-        if (!valid) {
-            setIsSubmitting(false);
-            return;
-        }
-
-        try {
-            await handleSubmit(selectedVeic);
-            Swal.fire({
-                title: "Sucesso!",
-                text: "Veículo cadastrado com sucesso.",
-                icon: "success",
-            });
-        } catch (error) {
-            console.error("Erro ao cadastrar veículo:", error);
-            Swal.fire({
-                title: "Erro!",
-                text: "Não foi possível cadastrar o veículo.",
-                icon: "error",
-            });
-        }
-        setIsSubmitting(false);
+        e.preventDefault(); // Previne o comportamento padrão do formulário
+        await handleSubmit(selectedVeic); // Aguarde o resultado de handleSubmit
     };
+    
 
     const handleCategoryChange = (e) => {
         const catId = parseInt(e.target.value, 10);
@@ -149,7 +169,7 @@ export default function FormVeiculo({
 
                 <div className={`${styles.grid_item} ${styles.grid_categoria}`}>
                     <label htmlFor="cat_nome" className={styles.label_veiculos}>Categoria</label>
-
+                    
                     {isDisabled ? (
                         <input
                             type="text"
@@ -255,7 +275,7 @@ export default function FormVeiculo({
                         id="veic_placa"
                         name="veic_placa"
                         value={selectedVeic ? selectedVeic.veic_placa : ''}
-                        onChange={handlePlacaChange}
+                        onChange={handlePlacaInputChange}
                         className={`${styles.input_veiculos} ${placaErro ? styles.inputErro : ''}`}
                         disabled={isDisabled}
                         required
@@ -436,16 +456,6 @@ export default function FormVeiculo({
                             required
                         />
                     )}
-                </div>
-
-                <div className={styles.grid_item}>
-                    <button 
-                        type="submit" 
-                        className={styles.submitButton}
-                        disabled={isSubmitting || isPlacaValidando || isDisabled}
-                    >
-                        {isSubmitting ? 'Enviando...' : 'Cadastrar'}
-                    </button>
                 </div>
             </div>
         </form>
