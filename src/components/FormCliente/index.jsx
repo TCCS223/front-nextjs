@@ -147,7 +147,6 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                             name="usu_sexo"
                             value={selectedUser ? sexoMap[selectedUser.usu_sexo] || '' : ''}
                             onChange={(e) => setSelectedUser({ ...selectedUser, usu_sexo: parseInt(e.target.value) })}
-                            // onChange={(e) => setSelectedUser({ ...selectedUser, usu_data_nasc: e.target.value })}
                             disabled={isViewing}
                             className={styles.input_cliente}
                             required

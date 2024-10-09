@@ -258,6 +258,12 @@
     color: #dc3545;
 }
 
+.errorMessage {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
 .resultTableContainer {
     display: flex;
     align-items: start;

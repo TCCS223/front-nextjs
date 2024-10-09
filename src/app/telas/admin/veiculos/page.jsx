@@ -180,60 +180,15 @@ export default function Veiculos() {
         setIsEditing(false);
     };
 
-    // const handleSubmit = async (veiculo) => {
-
-    //     const data = {
-    //         mod_id: veiculo.mod_id,
-    //         veic_placa: veiculo.veic_placa,
-    //         veic_ano: veiculo.veic_ano,
-    //         veic_cor: veiculo.veic_cor,
-    //         veic_combustivel: veiculo.veic_combustivel,
-    //         veic_observ: veiculo.veic_observ,
-    //         veic_situacao: veiculo.veic_situacao
-    //     };
-
-    //     try {
-    //         let response;
-    //         if (veiculo.veic_id) {
-    //             response = await api.patch(`/veiculos/${veiculo.veic_id}`, data);
-    //         } else {
-    //             response = await api.post('/veiculos', data);
-    //         }
-
-    //         console.log(response.data); // Adicione isso para verificar a resposta da API
-    //         Swal.fire({
-    //             title: 'Sucesso!',
-    //             text: response.data.mensagem,
-    //             icon: 'success',
-    //         });
-
-    //         setShowForm(false);
-    //         setSelectedVeic(null);
-    //         setIsViewing(false);
-    //         setIsEditing(false);
-    //         ListarVeiculos();
-    //     } catch (error) {
-    //         console.error("Dados do erro:", error.response.data);
-    //         Swal.fire({
-    //             title: 'Erro!',
-    //             text: error.response?.data.mensagem || 'Erro desconhecido.',
-    //             icon: 'error',
-    //         });
-    //     }
-    // };
-
     const handlePlacaChange = async (placa) => {
-        // Atualiza o estado da placa selecionada
         setSelectedVeic(prevState => ({
             ...prevState,
             veic_placa: placa
         }));
-        setPlacaErro(''); // Limpa a mensagem de erro antes da validação
+        setPlacaErro('');
 
-        // Expressão regular para validar o formato da placa
         const placaRegex = /^(?:[A-Z]{3}-\d{4}|[A-Z]{3}\d[A-Z]\d{2})$/;
 
-        // Valida o formato da placa
         if (!placaRegex.test(placa)) {
             setPlacaErro('');
             return false;
@@ -241,13 +196,12 @@ export default function Veiculos() {
 
         try {
             setIsPlacaValidando(true);
-            // console.log("Dados da placa sendo enviados:", { veic_placa: placa });
 
             const response = await api.post('/verificarPlaca', { veic_placa: placa });
 
             if (response.status === 200) {
                 setPlacaErro('');
-                return true;  // Resposta de sucesso
+                return true;
             }
         } catch (error) {
             console.error("Erro ao validar placa:", error);
@@ -284,17 +238,13 @@ export default function Veiculos() {
 
     const handleSubmit = async (veiculo) => {
 
-        // console.log("Dados a serem enviados:", veiculo);
-
         setIsSubmitting(true);
         setPlacaErro('');
         setAnoErro('');
 
-        // Chama a função de validação da placa
         const placaValida = await handlePlacaChange(veiculo.veic_placa);
         const anoValido = validarAno(veiculo.veic_ano);
 
-        // Se alguma validação falhar, não prosseguir
         if (!placaValida || !anoValido) {
             setIsSubmitting(false);
             return;
@@ -306,7 +256,7 @@ export default function Veiculos() {
             veic_ano: veiculo.veic_ano,
             veic_cor: veiculo.veic_cor,
             veic_combustivel: veiculo.veic_combustivel,
-            veic_observ: veiculo.veic_observ || '', // Alterar para null se estiver vazio
+            veic_observ: veiculo.veic_observ || '',
             veic_situacao: veiculo.veic_situacao,
         };
 
@@ -348,8 +298,8 @@ export default function Veiculos() {
             veic_ano: '',
             veic_cor: '',
             veic_combustivel: '',
-            veic_observ: '',  // Este pode ser vazio, mas não deve ser nulo.
-            veic_situacao: 1, // Este valor deve ser definido corretamente.
+            veic_observ: '',
+            veic_situacao: 1,
         });
         setShowForm(true);
         ListarCategorias();
@@ -399,7 +349,7 @@ export default function Veiculos() {
                     setSelectedVeic(null);
                     setIsViewing(false);
                     setIsEditing(false);
-                    ListarVeiculos(); // Reiniciar o estado de edição
+                    ListarVeiculos();
                 });
             }
         });
@@ -423,7 +373,6 @@ export default function Veiculos() {
                     <div className={styles.contentSearch}>
                         <div className={styles.search}>
                             <div className={styles.searchInput}>
-
                                 <input
                                     type="text"
                                     placeholder="Digite aqui..."

@@ -447,10 +447,7 @@ export default function CadCliente() {
                                             <td>
                                                 <div className={styles.actionIcons}>
                                                     <i>
-                                                        <MdRemoveRedEye
-                                                            title="Visualizar"
-                                                            onClick={() => handleViewUser(usuario)}
-                                                        />
+                                                        
                                                     </i>
                                                     <i>
                                                         <MdEdit

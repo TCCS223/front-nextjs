@@ -9,9 +9,7 @@
 
 - SERVIÇOS -
 
-- FORMVEICULOS
-    ajustar mensagem de erro embaixo do input
-    verificar data (não pode ser maior do que o ano atual +1)
+- FORMVEICULOS -
 
 - TELA DE ADMIN -
     agenda
@@ -27,48 +25,3 @@
     
     corrigir css do espaçamento dos icons de ação nas tabela (tentar padronizar)
     (inserir possivel validação de senha) -> se der tempo
-
-
-
-
-
-
-
-    
-async verificarPlaca(request, response) {
-    try {
-        const { veic_placa } = request.body;
-
-        if (!veic_placa) {
-            return response.status(400).json({
-                sucesso: false,
-                mensagem: 'Placa não fornecida.',
-            });
-        }
-
-        const sql = `SELECT veic_id FROM veiculos WHERE veic_placa = ? LIMIT 1`;
-        const values = [veic_placa]; // Garantir que a busca seja case-insensitive
-
-        const [result] = await db.query(sql, values);
-
-        if (result.length > 0) {
-            // Placa já existe
-            return response.status(409).json({  // Alterado para 409
-                sucesso: false,
-                mensagem: 'Placa já cadastrada.',
-            });
-        }
-
-        // Placa disponível
-        return response.status(200).json({
-            sucesso: true,
-            mensagem: 'Placa disponível.',
-        });
-    } catch (error) {
-        return response.status(500).json({
-            sucesso: false,
-            mensagem: 'Erro no servidor.',
-            dados: error.message
-        });
-    }
-}
