@@ -79,7 +79,6 @@ export default function Cadastro() {
     };
 
     const validateCPF = async () => {
-        // const cpfNumbers = usuario.usu_cpf.replace(/\D/g, '');
         const cpfNumbers = usuario.usu_cpf.trim();
         let errorMessage = null;
 

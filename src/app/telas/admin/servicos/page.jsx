@@ -27,7 +27,6 @@ export default function Servicos() {
     const [categoriasServ, setCategoriasServ] = useState([]);
     // const [servicoCat, setServicoCat] = useState([]);
 
-    // Estados para o Modal de Nova Categoria
     const [modalCategoriaOpen, setModalCategoriaOpen] = useState(false);
 
     const usersPerPage = 15;
@@ -45,13 +44,12 @@ export default function Servicos() {
     }, [servicos]);
 
     useEffect(() => {
-        handleSearch(); // Chama o filtro sempre que o status ou searchText for alterado
+        handleSearch();
     }, [searchText, statusFilter]);
 
     const ListarServicos = async () => {
         try {
             const response = await api.get('/servicos');
-            console.log(response.data.dados);
             setServicos(response.data.dados);
         } catch (error) {
             console.error("Erro ao buscar os serviços:", error);
@@ -61,17 +59,12 @@ export default function Servicos() {
                 icon: "error",
             });
         }
-    };
-
-
-    console.log(selectedServico);
-    
+    };    
 
     const ListarCategoriasServ = async () => {
         try {
             const response = await api.get('/categoriasServicos');
             setCategoriasServ(response.data.dados);
-            console.log(response.data.dados);
         } catch (error) {
             console.error("Erro ao buscar as categorias:", error);
             Swal.fire({
@@ -82,6 +75,7 @@ export default function Servicos() {
         }
     }
 
+    // NAO TIRAR
     // const ListarServicoPorCatergoria = async (catServId) => {
     //     try {
     //         const response = await api.get(`/servicos/categoria/${catServId}`);

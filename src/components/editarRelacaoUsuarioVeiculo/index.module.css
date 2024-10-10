@@ -16,7 +16,7 @@
     background-color: white;
     padding: 20px;
     border-radius: 10px;
-    max-width: 600px;
+    max-width: 800px; /* Aumentando a largura do modal */
     width: 90%;
     box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
     position: relative;
@@ -50,14 +50,25 @@
     margin-bottom: 20px;
 }
 
-.modalTable_td_icon{
+.modalTable_td_icon {
     display: flex;
     justify-content: center;
 }
 
-.modalTable_th, .modalTable_td {
+.modalTable_th,
+.modalTable_td {
     padding: 12px;
     text-align: left;
+    min-width: 135px;
+}
+
+/* Ajuste para as linhas da tabela */
+.modalTable_tr {
+    height: 60px; /* Ajusta a altura das linhas */
+}
+
+.modalTable_td {
+    white-space: nowrap; /* Impede a quebra de linha nos dados */
 }
 
 .modalTable_th {
@@ -76,28 +87,33 @@
 
 /* Estilos para inputs de data */
 .inputDate {
-    width: 100px; /* Ajusta a largura do campo de data */
-    padding: 5px; /* Adiciona um pouco de preenchimento */
-    border: 1px solid #ccc; /* Borda padrão */
-    border-radius: 4px; /* Bordas arredondadas */
-    font-size: 14px; /* Tamanho da fonte */
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
     transition: border-color 0.3s ease;
 }
 
 .inputDate:focus {
-    border-color: #ff9d00; /* Cor da borda ao focar */
-    outline: none; /* Remove o contorno padrão */
+    border-color: #ff9d00;
+    outline: none;
+}
+
+.modalTable_td input {
+    width: 100px; /* Mantém o tamanho fixo do input de data ao editar */
 }
 
 /* Botões de ação */
-.btnCancel, .btnSave, .btnEdit {
-    width: auto; /* Ajusta a largura do botão */
-    padding: 6px 10px; /* Ajusta o padding */
+.btnCancel,
+.btnSave,
+.btnEdit {
+    width: auto;
+    padding: 6px 10px;
     font-size: 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-   
     transition: background-color 0.3s ease;
 }
 
@@ -120,12 +136,12 @@
 }
 
 .btnEdit {
-    background-color: #ff9d00; /* Azul para o botão de editar */
+    background-color: #ff9d00;
     color: white;
 }
 
 .btnEdit:hover {
-    background-color: #f39200; /* Azul mais escuro ao passar o mouse */
+    background-color: #f39200;
 }
 
 /* Ajustes para tela pequena */
@@ -135,12 +151,15 @@
         padding: 15px;
     }
 
-    .modalTable_th, .modalTable_td {
+    .modalTable_th,
+    .modalTable_td {
         font-size: 14px;
         padding: 8px;
     }
 
-    .btnCancel, .btnSave, .btnEdit {
+    .btnCancel,
+    .btnSave,
+    .btnEdit {
         padding: 8px;
         font-size: 14px;
     }

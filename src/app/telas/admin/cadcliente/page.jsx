@@ -138,7 +138,7 @@ export default function CadCliente() {
     };
 
     const handleExit = () => {
-        setShowForm(false);  // Fecha o formulário
+        setShowForm(false);
         setSelectedUser({
             usu_nome: '',
             usu_cpf: '',
@@ -150,13 +150,10 @@ export default function CadCliente() {
             usu_acesso: 0,
             usu_senha: '',
             usu_situacao: 1,
-        });  // Limpa o usuário selecionado
-        setIsViewing(false);  // Reinicializa o modo de visualização
+        }); 
+        setIsViewing(false); 
         setIsEditing(false);
     };
-
-    console.log(selectedUser);
-
 
     const handleSubmit = async (usuario) => {
         if (!validarCPF(usuario.usu_cpf)) {
@@ -169,7 +166,7 @@ export default function CadCliente() {
         }
 
         if (!validaEmail(usuario)) {
-            return; // Saia da função se o e-mail for inválido
+            return;
         }
 
         try {
@@ -251,9 +248,6 @@ export default function CadCliente() {
 
         return true;
     }
-
-    
-    
 
     const sortByColumn = (column) => {
         let newIsAsc = true;
@@ -447,7 +441,10 @@ export default function CadCliente() {
                                             <td>
                                                 <div className={styles.actionIcons}>
                                                     <i>
-                                                        
+                                                    <MdRemoveRedEye
+                                                            title="Visualizar"
+                                                            onClick={() => handleViewUser(usuario)}
+                                                        />
                                                     </i>
                                                     <i>
                                                         <MdEdit

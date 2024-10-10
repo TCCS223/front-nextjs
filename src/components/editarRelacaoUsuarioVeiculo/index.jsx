@@ -109,7 +109,7 @@ export default function ModalProprietarios({ isOpen, onClose, veiculoId }) {
                                     <td className={`${styles.modalTable_td} ${styles.modalTable_td_icon}`}>
                                         {editId === proprietario.veic_usu_id ? (
                                             <>
-                                                <button  className={styles.btnCancel} onClick={() => {setEditId(null); etEditStartDate(''); setEditEndDate(''); }}>
+                                                <button  className={styles.btnCancel} onClick={() => {setEditId(null); setEditStartDate(''); setEditEndDate(''); }}>
                                                 <MdClose />
                                                 </button>
                                                 <button onClick={() => handleSalvar(proprietario.veic_usu_id)} className={styles.btnSave}>

@@ -33,12 +33,10 @@ export default function Veiculos() {
     const [modalOpenRelacao, setModalOpenRelacao] = useState(false);
 
 
-
     const [placaErro, setPlacaErro] = useState('');
     const [anoErro, setAnoErro] = useState('');
     const [isPlacaValidando, setIsPlacaValidando] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-
 
 
     const usersPerPage = 15;
@@ -129,7 +127,7 @@ export default function Veiculos() {
                 setSelectedVeic(response.data.dados);
                 setShowForm(true);
                 setIsViewing(true);
-                setIsEditing(false); // Adicione isso
+                setIsEditing(false);
             } else {
                 throw new Error(response.data.mensagem);
             }
@@ -222,7 +220,6 @@ export default function Veiculos() {
         }
     };
 
-
     const validarAno = (ano) => {
         const anoAtual = new Date().getFullYear();
         const anoMax = anoAtual + 1;
@@ -235,8 +232,8 @@ export default function Veiculos() {
         return true;
     };
 
-
     const handleSubmit = async (veiculo) => {
+  console.log("Dados a serem enviados:", veiculo);
 
         setIsSubmitting(true);
         setPlacaErro('');
@@ -260,6 +257,9 @@ export default function Veiculos() {
             veic_situacao: veiculo.veic_situacao,
         };
 
+        
+        
+
         try {
             let response;
             if (veiculo.veic_id) {
@@ -267,6 +267,8 @@ export default function Veiculos() {
             } else {
                 response = await api.post('/veiculos', data);
             }
+
+            console.log(response.data); // Adicione isso para verificar a resposta da API
             Swal.fire({
                 title: 'Sucesso!',
                 text: response.data.mensagem,
@@ -287,7 +289,6 @@ export default function Veiculos() {
         }
         setIsSubmitting(false);
     };
-
 
     const Create = () => {
         setSelectedVeic({
@@ -354,7 +355,6 @@ export default function Veiculos() {
             }
         });
     }
-
 
     const handleRelacionarUsuario = () => {
         setModalOpen(true);
