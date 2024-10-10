@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './index.module.css';
-import { IoMdTrash } from "react-icons/io";
-import { MdEdit } from "react-icons/md";
+import { MdEdit, MdCheck, MdClose } from "react-icons/md";
 import { format } from 'date-fns';
 import api from '@/services/api';
 import Swal from 'sweetalert2';
@@ -30,56 +29,28 @@ export default function ModalProprietarios({ isOpen, onClose, veiculoId }) {
         }
     };
 
-    const handleExcluir = (proprietarioId) => {
-        Swal.fire({
-            title: 'Você tem certeza?',
-            text: "Essa ação não pode ser desfeita!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#4caf50',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sim, excluir!',
-            cancelButtonText: 'Cancelar'
-        }).then(result => {
-            if (result.isConfirmed) {
-                api.delete(`/proprietarios/${proprietarioId}`)
-                    .then(() => {
-                        setProprietarios(prevProprietarios => prevProprietarios.filter(p => p.veic_usu_id !== proprietarioId));
-                        Swal.fire('Excluído!', 'O proprietário foi excluído.', 'success');
-                    })
-                    .catch(() => {
-                        Swal.fire('Erro!', 'Não foi possível excluir o proprietário.', 'error');
-                    });
-            }
-        });
-    };
-
     const handleEditar = (proprietario) => {
         setEditId(proprietario.veic_usu_id);
         setEditStartDate(format(new Date(proprietario.data_inicial), 'yyyy-MM-dd'));
         setEditEndDate(proprietario.data_final ? format(new Date(proprietario.data_final), 'yyyy-MM-dd') : '');
-
     };
 
-    const handleSalvar = async () => {
-
+    const handleSalvar = async (proprietarioId) => {
         const dados = {
             data_inicial: editStartDate,
             data_final: editEndDate
-        }
+        };
 
-        
         try {
-            const response = await api.patch(`/veiculoUsuario/${editId}`, dados);
+            const response = await api.patch(`/veiculoUsuario/${proprietarioId}`, dados);
             Swal.fire('Sucesso!', 'Proprietário atualizado com sucesso.', 'success');
-            console.log(dados, editId);
             buscarProprietarios(veiculoId); // Atualiza a lista após salvar
             setEditId(null);
             setEditStartDate('');
             setEditEndDate('');
         } catch (error) {
             Swal.fire('Erro!', 'Não foi possível atualizar o proprietário.', 'error');
-            console.log(error.message)
+            console.log(error.message);
         }
     };
 
@@ -95,28 +66,27 @@ export default function ModalProprietarios({ isOpen, onClose, veiculoId }) {
         <div className={styles.modalOverlay}>
             <div className={`${styles.modalContent} ${isOpen ? styles.enterActive : ''}`}>
                 <h2 className={styles.modalTitle}>Proprietários do Veículo</h2>
-                <table>
+                <table className={styles.modalTable}>
                     <thead>
-                        <tr className={styles.header}>
-                            <th>Nome</th>
-                            <th>CPF</th>
-                            <th>Data de Início</th>
-                            <th>Data de Fim</th>
-                            <th>Ações</th>
+                        <tr className={styles.modalTable_tr}>
+                            <th className={styles.modalTable_th}>Nome</th>
+                            <th className={styles.modalTable_th}>CPF</th>
+                            <th className={styles.modalTable_th}>Data de Início</th>
+                            <th className={styles.modalTable_th}>Data de Fim</th>
+                            <th className={styles.modalTable_th}>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         {proprietarios.length > 0 ? (
                             proprietarios.map(proprietario => (
-                                <tr key={proprietario.veic_usu_id} className={styles.item}>
-                                    <td>{proprietario.usu_nome}</td>
-                                    <td>{proprietario.usu_cpf}</td>
-                                    <td>
+                                <tr key={proprietario.veic_usu_id} className={styles.modalTable_tr}>
+                                    <td className={styles.modalTable_td}>{proprietario.usu_nome}</td>
+                                    <td className={styles.modalTable_td}>{proprietario.usu_cpf}</td>
+                                    <td className={styles.modalTable_td}>
                                         {editId === proprietario.veic_usu_id ? (
                                             <input
                                                 type="date"
-                                                value={editStartDate} // O valor aqui já é no formato adequado para input date
-
+                                                value={editStartDate}
                                                 onChange={(e) => setEditStartDate(e.target.value)}
                                                 className={styles.inputDate}
                                             />
@@ -124,7 +94,7 @@ export default function ModalProprietarios({ isOpen, onClose, veiculoId }) {
                                             format(new Date(proprietario.data_inicial), 'dd/MM/yyyy')
                                         )}
                                     </td>
-                                    <td>
+                                    <td className={styles.modalTable_td}>
                                         {editId === proprietario.veic_usu_id ? (
                                             <input
                                                 type="date"
@@ -133,50 +103,35 @@ export default function ModalProprietarios({ isOpen, onClose, veiculoId }) {
                                                 className={styles.inputDate}
                                             />
                                         ) : (
-                                            proprietario.data_final ? format(new Date(proprietario.data_final), 'dd/MM/yyyy') : 'Não definido'
+                                            proprietario.data_final ? format(new Date(proprietario.data_final), 'dd/MM/yyyy') : 'N/A'
                                         )}
-
                                     </td>
-                                    <td>
+                                    <td className={`${styles.modalTable_td} ${styles.modalTable_td_icon}`}>
                                         {editId === proprietario.veic_usu_id ? (
                                             <>
-                                                <button className={styles.btnSave} onClick={handleSalvar}>
-                                                    Salvar
+                                                <button  className={styles.btnCancel} onClick={() => {setEditId(null); etEditStartDate(''); setEditEndDate(''); }}>
+                                                <MdClose />
                                                 </button>
-                                                <button
-                                                    className={styles.btnCancel}
-                                                    onClick={() => {
-                                                        setEditId(null);
-                                                        setEditStartDate('');
-                                                        setEditEndDate('');
-                                                    }}
-                                                >
-                                                    Cancelar
+                                                <button onClick={() => handleSalvar(proprietario.veic_usu_id)} className={styles.btnSave}>
+                                                    <MdCheck />
                                                 </button>
                                             </>
                                         ) : (
-                                            <>
-                                                <MdEdit
-                                                    title="Editar"
-                                                    onClick={() => handleEditar(proprietario)} // Passando o proprietário correto
-                                                />
-                                                <IoMdTrash
-                                                    title="Excluir"
-                                                    onClick={() => handleExcluir(proprietario.veic_usu_id)} // Passando o ID correto para exclusão
-                                                />
-                                            </>
+                                            <button onClick={() => handleEditar(proprietario)} className={styles.btnEdit}>
+                                                <MdEdit />
+                                            </button>
                                         )}
                                     </td>
                                 </tr>
                             ))
                         ) : (
-                            <tr>
-                                <td colSpan="5">Nenhum proprietário encontrado.</td>
+                            <tr className={styles.modalTable_tr}>
+                                <td className={styles.modalTable_td} colSpan="5" style={{ textAlign: 'center' }}>Nenhum proprietário encontrado.</td>
                             </tr>
                         )}
                     </tbody>
                 </table>
-                <button className={styles.btnCancel} onClick={onClose}>Fechar</button>
+                <button onClick={onClose} className={styles.btnCancel}>Cancelar</button>
             </div>
         </div>
     );

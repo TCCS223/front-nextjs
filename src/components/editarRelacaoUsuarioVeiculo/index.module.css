@@ -5,7 +5,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); /* Escurecimento da sobreposição */
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,11 +14,11 @@
 
 .modalContent {
     background-color: white;
-    padding: 30px; /* Aumentar o padding para dar mais espaço */
-    border-radius: 15px; /* Bordas mais arredondadas */
+    padding: 20px;
+    border-radius: 10px;
     max-width: 600px;
     width: 90%;
-    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5); /* Sombra mais profunda */
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
     position: relative;
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
@@ -36,11 +36,11 @@
 
 /* Título do modal */
 .modalTitle {
-    font-size: 28px; /* Título um pouco maior */
+    font-size: 24px;
     font-weight: bold;
     margin-bottom: 20px;
     text-align: center;
-    color: #444; /* Cor do texto um pouco mais escura */
+    color: #333;
 }
 
 /* Estilos da tabela */
@@ -50,47 +50,64 @@
     margin-bottom: 20px;
 }
 
-.modalTable_th,
-.modalTable_td {
-    padding: 12px; /* Aumentar o espaçamento das células */
+.modalTable_td_icon{
+    display: flex;
+    justify-content: center;
+}
+
+.modalTable_th, .modalTable_td {
+    padding: 12px;
     text-align: left;
-    border-bottom: 1px solid #ddd; /* Linha de separação mais leve */
 }
 
 .modalTable_th {
-    background-color: #f7f7f7; /* Cor de fundo para o cabeçalho */
+    background-color: #f0f0f0;
     font-weight: bold;
+    border-bottom: 2px solid #ccc;
 }
 
 .modalTable_tr:nth-child(even) {
-    background-color: #f9f9f9; /* Cor de fundo alternada */
+    background-color: #f9f9f9;
 }
 
 .modalTable_tr:hover {
-    background-color: #f1f1f1; /* Cor ao passar o mouse */
+    background-color: #f0f0f0;
+}
+
+/* Estilos para inputs de data */
+.inputDate {
+    width: 100px; /* Ajusta a largura do campo de data */
+    padding: 5px; /* Adiciona um pouco de preenchimento */
+    border: 1px solid #ccc; /* Borda padrão */
+    border-radius: 4px; /* Bordas arredondadas */
+    font-size: 14px; /* Tamanho da fonte */
+    transition: border-color 0.3s ease;
+}
+
+.inputDate:focus {
+    border-color: #ff9d00; /* Cor da borda ao focar */
+    outline: none; /* Remove o contorno padrão */
 }
 
 /* Botões de ação */
-.btnCancel,
-.btnSave {
-    width: 100%;
-    padding: 12px;
+.btnCancel, .btnSave, .btnEdit {
+    width: auto; /* Ajusta a largura do botão */
+    padding: 6px 10px; /* Ajusta o padding */
     font-size: 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+   
+    transition: background-color 0.3s ease;
 }
 
 .btnCancel {
-    background-color: #ff6f61; /* Cor mais vibrante para cancelar */
+    background-color: #f44336;
     color: white;
 }
 
 .btnCancel:hover {
-    background-color: #ff5c50; /* Cor mais escura ao passar o mouse */
-    transform: translateY(-2px); /* Leve efeito de elevação */
+    background-color: #d32f2f;
 }
 
 .btnSave {
@@ -100,50 +117,31 @@
 
 .btnSave:hover {
     background-color: #45a049;
-    transform: translateY(-2px); /* Leve efeito de elevação */
 }
 
-/* Estilos para inputs de data */
-.inputDate {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 2px solid #ccc; /* Bordas mais suaves */
-    border-radius: 5px;
-    font-size: 16px;
-    background-color: #fff; /* Fundo branco para inputs */
-    transition: border-color 0.3s ease;
+.btnEdit {
+    background-color: #ff9d00; /* Azul para o botão de editar */
+    color: white;
 }
 
-.inputDate:focus {
-    border-color: #ff9d00; /* Cor de foco */
-    outline: none;
-}
-
-/* Grupo de botões */
-.buttonGroup {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    margin-top: 20px;
+.btnEdit:hover {
+    background-color: #f39200; /* Azul mais escuro ao passar o mouse */
 }
 
 /* Ajustes para tela pequena */
 @media (max-width: 768px) {
     .modalContent {
         max-width: 100%;
-        padding: 20px; /* Ajustar padding para telas menores */
+        padding: 15px;
     }
 
-    .modalTable_th,
-    .modalTable_td {
-        font-size: 14px; /* Diminuir texto para telas menores */
-        padding: 10px; /* Diminuir padding para células */
+    .modalTable_th, .modalTable_td {
+        font-size: 14px;
+        padding: 8px;
     }
 
-    .btnCancel,
-    .btnSave {
-        padding: 10px;
-        font-size: 14px; /* Ajustar tamanho dos botões */
+    .btnCancel, .btnSave, .btnEdit {
+        padding: 8px;
+        font-size: 14px;
     }
 }
