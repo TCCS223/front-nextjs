@@ -56,23 +56,30 @@ export default function ModalProprietarios({ isOpen, onClose, veiculoId }) {
 
     const handleEditar = (proprietario) => {
         setEditId(proprietario.veic_usu_id);
-        setEditStartDate(proprietario.data_inicial);
-        setEditEndDate(proprietario.data_final || '');
+        setEditStartDate(format(new Date(proprietario.data_inicial), 'yyyy-MM-dd'));
+        setEditEndDate(proprietario.data_final ? format(new Date(proprietario.data_final), 'yyyy-MM-dd') : '');
+
     };
 
     const handleSalvar = async () => {
+
+        const dados = {
+            data_inicial: editStartDate,
+            data_final: editEndDate
+        }
+
+        
         try {
-            await api.put(`/proprietarios/${editId}`, {
-                data_inicial: editStartDate,
-                data_final: editEndDate
-            });
+            const response = await api.patch(`/veiculoUsuario/${editId}`, dados);
             Swal.fire('Sucesso!', 'Proprietário atualizado com sucesso.', 'success');
+            console.log(dados, editId);
             buscarProprietarios(veiculoId); // Atualiza a lista após salvar
             setEditId(null);
             setEditStartDate('');
             setEditEndDate('');
         } catch (error) {
             Swal.fire('Erro!', 'Não foi possível atualizar o proprietário.', 'error');
+            console.log(error.message)
         }
     };
 
@@ -108,7 +115,8 @@ export default function ModalProprietarios({ isOpen, onClose, veiculoId }) {
                                         {editId === proprietario.veic_usu_id ? (
                                             <input
                                                 type="date"
-                                                value={editStartDate.slice(0, 10)} // Formato adequado para input date
+                                                value={editStartDate} // O valor aqui já é no formato adequado para input date
+
                                                 onChange={(e) => setEditStartDate(e.target.value)}
                                                 className={styles.inputDate}
                                             />
@@ -120,13 +128,14 @@ export default function ModalProprietarios({ isOpen, onClose, veiculoId }) {
                                         {editId === proprietario.veic_usu_id ? (
                                             <input
                                                 type="date"
-                                                value={editEndDate.slice(0, 10)} // Formato adequado para input date
+                                                value={editEndDate}
                                                 onChange={(e) => setEditEndDate(e.target.value)}
                                                 className={styles.inputDate}
                                             />
                                         ) : (
-                                            proprietario.data_final
+                                            proprietario.data_final ? format(new Date(proprietario.data_final), 'dd/MM/yyyy') : 'Não definido'
                                         )}
+
                                     </td>
                                     <td>
                                         {editId === proprietario.veic_usu_id ? (
@@ -134,8 +143,8 @@ export default function ModalProprietarios({ isOpen, onClose, veiculoId }) {
                                                 <button className={styles.btnSave} onClick={handleSalvar}>
                                                     Salvar
                                                 </button>
-                                                <button 
-                                                    className={styles.btnCancel} 
+                                                <button
+                                                    className={styles.btnCancel}
                                                     onClick={() => {
                                                         setEditId(null);
                                                         setEditStartDate('');

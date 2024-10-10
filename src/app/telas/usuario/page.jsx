@@ -15,13 +15,9 @@ import UsuarioDados from "./UsuarioDados/page";
 import CadastrarVeiculos from "./CadastrarVeiculo/page";
 
 
-// import Localizar2 from "./components/modais/modais_clientes/modal_localizar";
-// import img from '../../public/logo.png'
-
-
 export default function Home() {
 
-    const [modalOpen, setModalOpen] = useState(false); // Estado para controlar a exibição do modal
+    const [modalOpen, setModalOpen] = useState(false);
     const [tela, setTela] = useState(0);
 
     const teste = () => {
