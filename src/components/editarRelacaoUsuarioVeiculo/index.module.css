@@ -53,6 +53,7 @@
 .modalTable_td_icon {
     display: flex;
     justify-content: center;
+    gap: .5rem;
 }
 
 .modalTable_th,

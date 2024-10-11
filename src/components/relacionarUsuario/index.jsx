@@ -72,13 +72,6 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
         setDataInicial('');
     }
 
-    // console.log(
-    //     VeiculoId,
-    //     usuarioSelecionado,
-    //     ehProprietario ? 1 : 0,
-    //     dataInicial);
-
-
     if (!isOpen) return null;
 
     console.log(cpf);
@@ -87,8 +80,6 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
         <form className={styles.modalOverlay}>
             <div className={styles.modalContent}>
 
-               
-           
                 <h2 className={styles.modalTitle}>Associar Usuário</h2>
                 <div className={styles.formGroup}>
                     <label htmlFor="cpf">CPF do usuário</label>
