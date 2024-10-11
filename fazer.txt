@@ -1,8 +1,6 @@
 - CADCLIENTE -
     posicionar o campo de ver proprietarios  (somente se for isViewing)
-    ajustar mensagem de erro embaixo do input
     botao associar veiculo so pode aparecer na edicao
-    corrigir cpfs no banco e descomentar a linha disabled={isDisabled} do codigo
     bug de editar como feminino
 
 - VEICULOS -

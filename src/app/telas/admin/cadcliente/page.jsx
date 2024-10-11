@@ -46,6 +46,7 @@ export default function CadCliente() {
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
+console.log(selectedUser);
 
 
     useEffect(() => {
@@ -168,6 +169,13 @@ export default function CadCliente() {
         if (!validaEmail(usuario)) {
             return;
         }
+
+        const update = {...selectedUser, usu_sexo: parseInt(selectedUser.usu_sexo, 10)}
+
+        
+
+        console.log("dados:", update);
+        
 
         try {
             let response;

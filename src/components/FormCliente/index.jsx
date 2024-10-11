@@ -19,6 +19,8 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
         setShowPassword(!showPassword);
     };
 
+
+    
     const sexoMap = {
         0: 'Feminino',
         1: 'Masculino',
@@ -111,7 +113,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         value={selectedUser ? selectedUser.usu_cpf : ''}
                         onChange={handleCPFChange}
                         onBlur={handleBlurCPF}
-                        // disabled={isDisabled}
+                        disabled={isDisabled}
                         className={styles.input_cliente}
                         required
                     />

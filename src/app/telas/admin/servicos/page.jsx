@@ -9,8 +9,10 @@ import Swal from 'sweetalert2';
 import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import FormServicos from '@/components/FormServicos';
 
+
 import api from '@/services/api';
 import ModalNovaCategoria from '@/components/novaCategoria';
+import EditarCategoria from '@/components/editarCategoria';
 
 export default function Servicos() {
     const [servicos, setServicos] = useState([]);
@@ -28,6 +30,8 @@ export default function Servicos() {
     // const [servicoCat, setServicoCat] = useState([]);
 
     const [modalCategoriaOpen, setModalCategoriaOpen] = useState(false);
+    const [editarCategoriaOpen, setEditarCategoriaOpen] = useState(false);
+
 
     const usersPerPage = 15;
 
@@ -246,6 +250,10 @@ export default function Servicos() {
         ListarCategoriasServ();
     };
 
+    const handleEditCategoria = () => {
+        setEditarCategoriaOpen(true);
+    }
+
     return (
         <div id="servicos" className={`${styles.content_section}`}>
             <h2 className={styles.title_page}>Gerenciamento de Serviços</h2>
@@ -422,6 +430,15 @@ export default function Servicos() {
 
                                 <button
                                     type="button" 
+                                    onClick={handleEditCategoria} 
+                                    className={styles.button_editCategory}
+                                >
+                                    Editar Categoria
+                                    <MdAdd className={styles.iconAdd} />
+                                </button>
+
+                                <button
+                                    type="button" 
                                     onClick={Cancelar}
                                     className={styles.button_cancel}
                                 >
@@ -450,6 +467,11 @@ export default function Servicos() {
                 isOpen={modalCategoriaOpen}
                 onClose={() => setModalCategoriaOpen(false)}
                 onCategoriaCriada={handleCategoriaCriada}
+            />
+
+            <EditarCategoria
+                isOpen={editarCategoriaOpen}
+                onClose={() => setEditarCategoriaOpen(false)}                
             />
         </div>
     );
