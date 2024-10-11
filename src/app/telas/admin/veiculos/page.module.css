@@ -80,15 +80,10 @@
     font-size: 1em;
     transition: background-color 0.3s;
     grid-column: span 1;
-    grid-area: 1 / 1 / 2 / 3;
+    grid-area: 1 / 1 / 2 / 2;
 }
 
-.button_AddUsuario:hover {
-    background-color: #f39200;
-    color: #222;
-}
-
-.button_teste{
+.button_relation{
     padding: 10px 20px;
     background-color: #ff9d00;
     display: flex;
@@ -101,7 +96,12 @@
     font-size: 1em;
     transition: background-color 0.3s;
     grid-column: span 1;
-    grid-area: 1 / 3 / 2 / 4;
+    grid-area: 1 / 2 / 2 / 3;
+}
+
+.button_AddUsuario:hover, .button_relation:hover {
+    background-color: #f39200;
+    color: #222;
 }
 
 .iconAdd{

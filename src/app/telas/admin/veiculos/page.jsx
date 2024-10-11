@@ -32,12 +32,10 @@ export default function Veiculos() {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalOpenRelacao, setModalOpenRelacao] = useState(false);
 
-
     const [placaErro, setPlacaErro] = useState('');
     const [anoErro, setAnoErro] = useState('');
     const [isPlacaValidando, setIsPlacaValidando] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-
 
     const usersPerPage = 15;
     // Paginação
@@ -57,7 +55,6 @@ export default function Veiculos() {
         try {
             const response = await api.get(`/modelos/cat/${selectedVeic.cat_id}/mar/${marID}`);
             setModelos(response.data.dados);
-            // console.log(response.data);
         } catch (error) {
             console.error("Erro ao buscar as marcas:", error);
         }
@@ -231,61 +228,6 @@ export default function Veiculos() {
         setAnoErro('');
         return true;
     };
-
-    // const handleSubmit = async (veiculo) => {
-    //     console.log("Dados a serem enviados:", veiculo);
-
-    //     setIsSubmitting(true);
-    //     setPlacaErro('');
-    //     setAnoErro('');
-
-    //     const placaValida = await handlePlacaChange(veiculo.veic_placa);
-    //     const anoValido = validarAno(veiculo.veic_ano);
-
-    //     if (!placaValida || !anoValido) {
-    //         setIsSubmitting(false);
-    //         return;
-    //     }
-
-    //     const data = {
-    //         mod_id: veiculo.mod_id,
-    //         veic_placa: veiculo.veic_placa,
-    //         veic_ano: veiculo.veic_ano,
-    //         veic_cor: veiculo.veic_cor,
-    //         veic_combustivel: veiculo.veic_combustivel,
-    //         veic_observ: veiculo.veic_observ || '',
-    //         veic_situacao: veiculo.veic_situacao,
-    //     };
-
-    //     try {
-    //         let response;
-    //         if (veiculo.veic_id) {
-    //             response = await api.patch(`/veiculos/${veiculo.veic_id}`, data);
-    //         } else {
-    //             response = await api.post('/veiculos', data);
-    //         }
-
-    //         console.log(response.data); // Adicione isso para verificar a resposta da API
-    //         Swal.fire({
-    //             title: 'Sucesso!',
-    //             text: response.data.mensagem,
-    //             icon: 'success',
-    //         });
-    //         setShowForm(false);
-    //         setSelectedVeic(null);
-    //         setIsViewing(false);
-    //         setIsEditing(false);
-    //         ListarVeiculos();
-    //     } catch (error) {
-    //         console.error("Erro ao salvar veículo:", error);
-    //         Swal.fire({
-    //             title: 'Erro!',
-    //             text: error.response?.data.mensagem || 'Erro desconhecido.',
-    //             icon: 'error',
-    //         });
-    //     }
-    //     setIsSubmitting(false);
-    // };
 
     const handleSubmit = async (veiculo) => {
 
@@ -627,16 +569,16 @@ export default function Veiculos() {
                                         className={styles.button_AddUsuario}
                                         onClick={handleRelacionarUsuario}
                                     >
-                                        Usuário
-                                        <MdAdd className={styles.iconAdd} />
+                                        Proprietários
+                                        {/* <MdAdd className={styles.iconAdd} /> */}
                                     </button>
                                     <button
                                         type="button"
-                                        className={styles.button_teste}
+                                        className={styles.button_relation}
                                         onClick={handleEditarRelacao}
                                     >
-                                        teste
-                                        <MdAdd className={styles.iconAdd} />
+                                        Relacionamento
+                                        {/* <MdAdd className={styles.iconAdd} /> */}
                                     </button>
                                     <button
                                         type="reset"
@@ -679,7 +621,6 @@ export default function Veiculos() {
                                     </button>
                                 </>
                             )}
-
                         </>
                     )}
                 </div>

@@ -2,12 +2,16 @@
     posicionar o campo de ver proprietarios  (somente se for isViewing)
     ajustar mensagem de erro embaixo do input
     botao associar veiculo so pode aparecer na edicao
+    corrigir cpfs no banco e descomentar a linha disabled={isDisabled} do codigo
+    bug de editar como feminino
 
 - VEICULOS -
     posicionar o campo de ver proprietarios  (somente se for isViewing)
     https://chatgpt.com/share/670078ab-7c1c-8001-bdf4-21d79e143263
 
 - SERVIÇOS -
+
+    opção de excluir categoria
 
 - FORMVEICULOS -
 
@@ -25,3 +29,114 @@
     
     corrigir css do espaçamento dos icons de ação nas tabela (tentar padronizar)
     (inserir possivel validação de senha) -> se der tempo
+
+
+
+
+
+
+    async listarUsuarioPorCpf(request, response) {
+        try {
+            const { usu_acesso, usu_id  } = request.body; // Obtém o CPF do corpo da requisição
+    
+            // Verifica se o CPF foi fornecido
+            if (!usu_cpf) {
+                return response.status(400).json({
+                    sucesso: false,
+                    mensagem: 'CPF do usuário é obrigatório.',
+                });
+            }
+    
+            const sql = `
+                SELECT 
+                    u.usu_id,
+                    u.usu_nome,
+                    u.usu_cpf,
+                    u.usu_email
+                FROM usuarios u
+                WHERE u.usu_cpf LIKE ?
+                 WHERE ((?= 1
+                        AND Usu.usu_id = Usu.usu_id)
+                        OR 
+                        (? = 0
+                        AND ? = Usu.usu_id))
+            `;
+    
+            const values = [usu_acesso, usu_acesso, usu_id]; // Usar o operador LIKE para permitir busca parcial pelo CPF
+           // const values = [`%${usu_cpf}%`]; // Usar o operador LIKE para permitir busca parcial pelo CPF
+    
+            const [usuarios] = await db.query(sql, values);
+            const nItens = usuarios.length;
+    
+            return response.status(200).json({
+                sucesso: true,
+                mensagem: 'Lista de usuários.',
+                dados: usuarios,
+                nItens
+            });
+        } catch (error) {
+            return response.status(500).json({
+                sucesso: false,
+                mensagem: 'Erro na requisição.',
+                dados: error.message
+            });
+        }
+    },
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    SELECT * FROM VEICULO_USUARIO
+
+INSERT INTO VEICULO_USUARIO (veic_id, usu_id, ehproprietario, data_inicial, data_final)
+					 VALUES (2,1,1,'2024-09-25',NULL)
+
+              SELECT v.veic_id, 
+                     mo.mod_nome AS modelo,  -- Puxando o nome do modelo
+                     v.veic_placa, 
+                     v.veic_ano, 
+                     v.veic_cor, 
+                     v.veic_combustivel, 
+                     v.veic_observ, 
+                     v.veic_situacao = 1 AS veic_situacao,
+                     m.mar_nome AS marca,
+                     GROUP_CONCAT(DISTINCT u.usu_nome SEPARATOR ', ') AS proprietarios,
+                     COUNT(DISTINCT vu.usu_id) AS num_proprietarios
+                FROM veiculos         v
+                JOIN modelos         mo ON v.mod_id  = mo.mod_id
+                JOIN marcas           m ON mo.mar_id = m.mar_id
+           LEFT JOIN veiculo_usuario vu ON v.veic_id = vu.veic_id
+           LEFT JOIN usuarios         u ON vu.usu_id = u.usu_id
+               WHERE ((0 = 1 AND u.usu_id = u.usu_id) /*PRIMEIRO PARÂMETRO É O TIPO DO USUÁRIO*/
+                  OR  (0 = 0 AND u.usu_id = 1))		  /*PRIMEIRO PARÂMETRO É O TIPO DO USUÁRIO, SEGUNDO PARÂMETRO É O USU_ID*/
+            GROUP BY v.veic_id, 
+                     mo.mod_nome, 
+                     m.mar_nome, 
+                     v.veic_placa, 
+                     v.veic_ano, 
+                     v.veic_cor, 
+                     v.veic_combustivel, 
+                     v.veic_observ, 
+                     v.veic_situacao

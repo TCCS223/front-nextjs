@@ -79,13 +79,14 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         id="codigo_cliente"
                         name="codigo_cliente"
                         value={selectedUser ? selectedUser.usu_id : ''}
-                        disabled
                         className={styles.input_cliente}
+                        disabled
                         required
                     />
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_nome}`}>
+
                     <label htmlFor="nome_cliente" className={styles.label_cliente}>Nome</label>
                     <input
                         type="text"
@@ -93,7 +94,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         name="nome_cliente"
                         value={selectedUser ? selectedUser.usu_nome : ''}
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_nome: e.target.value })}
-                        disabled={isViewing}
+                        disabled={isDisabled}
                         className={styles.input_cliente}
                         placeholder="Nome Completo"
                         required
@@ -110,7 +111,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         value={selectedUser ? selectedUser.usu_cpf : ''}
                         onChange={handleCPFChange}
                         onBlur={handleBlurCPF}
-                        disabled={isViewing}
+                        // disabled={isDisabled}
                         className={styles.input_cliente}
                         required
                     />
@@ -131,7 +132,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         name="data_nasc_cliente"
                         value={selectedUser ? selectedUser.usu_data_nasc : ''}
                         onChange={(e) => setSelectedUser({ ...selectedUser, usu_data_nasc: e.target.value })}
-                        disabled={isViewing}
+                        disabled={isDisabled}
                         className={styles.input_cliente}
                         required
                     />
