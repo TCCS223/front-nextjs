@@ -27,11 +27,9 @@ export default function ModalCategorias({ isOpen, onClose }) {
             await api.patch(`/categoriasServicos/${categoriaId}/visibilidade`, { cat_serv_visibilidade: valorVisibilidade });
             buscarCategorias();
         } catch (error) {
-            // Swal.fire('Erro!', 'Não foi possível atualizar a visibilidade da categoria.', 'error');
             console.error(error.message);
         }
     };
-
 
     const handleExcluir = async (categoriaId) => {
         const resultado = await Swal.fire({
@@ -88,20 +86,20 @@ export default function ModalCategorias({ isOpen, onClose }) {
                             {categorias.length > 0 ? (
                                 categorias.map(categoria => (
                                     <tr key={categoria.cat_serv_id} className={styles.modalTable_tr}>
-                                        <td className={styles.modalTable_td}>{categoria.cat_serv_nome}</td>
-                                        <td className={styles.modalTable_td}>
+                                        <td className={`${styles.modalTable_td} ${styles.headerNome}`}>{categoria.cat_serv_nome}</td>
+                                        <td className={`${styles.modalTable_td} ${styles.headerVisivel}`}>
                                             <label className={styles.switch}>
-                                                <input 
-                                                    type="checkbox" 
-                                                    checked={categoria.cat_serv_visibilidade} 
+                                                <input
+                                                    type="checkbox"
+                                                    checked={!!categoria.cat_serv_visibilidade} 
                                                     onChange={() => handleToggleVisibilidade(categoria.cat_serv_id, categoria.cat_serv_visibilidade)} 
                                                 />
                                                 <span className={styles.slider}></span>
                                             </label>
                                         </td>
-                                        <td className={`${styles.modalTable_td} ${styles.modalTable_td_icon}`}>
+                                        <td className={`${styles.modalTable_td} ${styles.headerAcao} ${styles.modalTable_td_icon}`}>
                                             <button onClick={() => handleExcluir(categoria.cat_serv_id)} className={styles.btnDelete}>
-                                                <MdDelete />
+                                                <MdDelete className={styles.iconDelete}/>
                                             </button>
                                         </td>
                                     </tr>

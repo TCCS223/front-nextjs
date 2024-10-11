@@ -41,19 +41,56 @@
 .modalTable {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed;
+}
+
+/* Ajuste para o cabeçalho e corpo da tabela com flexbox */
+.modalTableHead,
+.modalTableBody {
+    display: flex;
+    flex-direction: column; /* Mantém as linhas em coluna */
+}
+
+.modalTable_tr {
+    display: flex; /* Usar flexbox para as linhas */
+    width: 100%;
 }
 
 .modalTableHead {
     background-color: #ff9d00;
 }
 
-.modalTable_th, .modalTable_td {
+.modalTable_th {
+    background-color: #ff9d00;
     padding: 12px;
     text-align: left;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    flex: 1;
+}
+.modalTable_td {
+    padding: 12px;
+    text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    flex: 1;
+}
+
+/* Ajuste a largura das colunas com flex */
+.headerNome {
+    flex: 2; /* Nome terá o dobro da largura */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.headerVisivel,
+.headerAcao {
+    flex: 1; /* Visível e Ação terão a mesma largura */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .modalTable_tr:nth-child(odd) {
@@ -63,16 +100,6 @@
 .modalTable_tr:hover {
     background-color: #f0f0f0;
 }
-
-.headerNome {
-    flex: 2;
-}
-
-.headerVisivel, .headerAcao {
-    flex: 1;
-}
-
-
 
 /* Estilos para toggle switch */
 .switch {
@@ -132,6 +159,11 @@ input:checked + .slider:before {
 
 .btnDelete:hover {
     background-color: #d32f2f;
+}
+
+.iconDelete {
+    width: 1.25rem;
+    height: 1.25rem;
 }
 
 .iconModalClose {

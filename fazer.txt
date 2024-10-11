@@ -29,6 +29,9 @@
     (inserir possivel validação de senha) -> se der tempo
 
 
+    limpar codigos
+    corrigir todos os swal
+
 
 
 
