@@ -364,7 +364,8 @@
 .actionIcons {
     display: flex;
     justify-content: space-between;
-    width: 70%;
+    width: 70px;
+    /* max-width: 50%; */
 }
 
 .actionIcons svg {

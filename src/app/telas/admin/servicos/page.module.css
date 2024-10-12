@@ -266,7 +266,7 @@
 
 .resultTableContainer {
     display: flex;
-    align-items: start;
+    align-items: flex-start;
     padding: 0;
     width: 100%;
     margin-top: 20px;
@@ -321,6 +321,7 @@
 
 .acao {
     width: 10%;
+
 }
 
 .tableBody {
@@ -345,7 +346,8 @@
 .actionIcons {
     display: flex;
     justify-content: space-between;
-    width: 70%;
+    width: 70px;
+    max-width: 50%;
 }
 
 .actionIcons svg {

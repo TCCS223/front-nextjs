@@ -78,7 +78,7 @@ export default function FormVeiculo({
 
                 <div className={`${styles.grid_item} ${styles.grid_categoria}`}>
                     <label htmlFor="cat_nome" className={styles.label_veiculos}>Categoria</label>
-                    
+
                     {isDisabled ? (
                         <input
                             type="text"
@@ -286,6 +286,34 @@ export default function FormVeiculo({
                     )}
                 </div>
 
+                {isViewing ? (
+                    <div className={`${styles.grid_item} ${styles.grid_observacoesSmall} ${styles.grid_item_observacoes}`}>
+                        <label htmlFor="veic_observ" className={styles.label_veiculos}>Observações</label>
+                        <input
+                            type="text"
+                            id="veic_observ"
+                            name="veic_observ"
+                            value={selectedVeic ? selectedVeic.veic_observ : ''}
+                            onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_observ: e.target.value })}
+                            className={styles.input_veiculos}
+                            disabled={isViewing}
+                        />
+                    </div>
+                ) : (
+                    <div className={`${styles.grid_item} ${styles.grid_observacoes} ${styles.grid_item_observacoes}`}>
+                        <label htmlFor="veic_observ" className={styles.label_veiculos}>Observações</label>
+                        <input
+                            type="text"
+                            id="veic_observ"
+                            name="veic_observ"
+                            value={selectedVeic ? selectedVeic.veic_observ : ''}
+                            onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_observ: e.target.value })}
+                            className={styles.input_veiculos}
+                            disabled={isViewing}
+                        />
+                    </div>
+                )}
+
                 {isViewing && (
                     selectedVeic.num_proprietarios > 1 ? (
                         <div className={`${styles.grid_item} ${styles.grid_proprietario}`}>
@@ -325,19 +353,6 @@ export default function FormVeiculo({
                         </div>
                     )
                 )}
-
-                <div className={`${styles.grid_item} ${styles.grid_observacoes} ${styles.grid_item_observacoes}`}>
-                    <label htmlFor="veic_observ" className={styles.label_veiculos}>Observações</label>
-                    <input
-                        type="text"
-                        id="veic_observ"
-                        name="veic_observ"
-                        value={selectedVeic ? selectedVeic.veic_observ : ''}
-                        onChange={(e) => setSelectedVeic({ ...selectedVeic, veic_observ: e.target.value })}
-                        className={styles.input_veiculos}
-                        disabled={isViewing}
-                    />
-                </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_situacao}`}>
                     <label htmlFor="veic_situacao" className={styles.label_veiculos}>Situação</label>

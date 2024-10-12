@@ -1,4 +1,4 @@
-// components/ModalNovaCategoria.js
+'use client'
 
 import React, { useState } from 'react';
 import styles from './index.module.css';
@@ -49,17 +49,7 @@ export default function ModalNovaCategoria({ isOpen, onClose, onCategoriaCriada 
                             className={styles.inputCategoria}
                         />
                     </div>
-                    <div className={styles.formGroup}>
-                        {/* <label htmlFor="icone">Ícone</label>
-                        <input
-                            type="text"
-                            id="icone"
-                            value={icone}
-                            onChange={(e) => setIcone(e.target.value)}
-                            placeholder="Opcional"
-                        />
-                        <small>Exemplo: <code>icone.jpeg</code></small> */}
-                    </div>
+                   
                     <div className={styles.buttonGroup}>
                         <button type="submit" className={styles.btnSubmit}>Criar</button>
                         <button type="button" onClick={onClose} className={styles.btnCancel}>Cancelar</button>
