@@ -48,20 +48,23 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
             data_inicial: dataInicial
         };
 
+        console.log(dados);
+
+
         try {
             await api.post(`/veiculoUsuario`, dados);
             Swal.fire('Sucesso', 'Relacionamento realizado com sucesso!', 'success');
             onClose();
-            
-            
+
+
             limparCampos();
         } catch (error) {
             console.error("Erro ao associar usuário:", error.response);
-            Swal.fire('Erro!', 'Erro ao associar usuário.', 'error');a
+            Swal.fire('Erro!', 'Erro ao associar usuário.', 'error'); a
         }
     }
 
- 
+
 
 
     const limparCampos = () => {

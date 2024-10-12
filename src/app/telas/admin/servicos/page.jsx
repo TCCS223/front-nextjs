@@ -254,6 +254,10 @@ export default function Servicos() {
         setEditarCategoriaOpen(true);
     }
 
+    const handleCategoriaExcluida = () => {
+        ListarCategoriasServ();
+    };
+
     return (
         <div id="servicos" className={`${styles.content_section}`}>
             <h2 className={styles.title_page}>Gerenciamento de Serviços</h2>
@@ -471,7 +475,8 @@ export default function Servicos() {
 
             <EditarCategoria
                 isOpen={editarCategoriaOpen}
-                onClose={() => setEditarCategoriaOpen(false)}                
+                onClose={() => setEditarCategoriaOpen(false)}
+                onCategoriaExcluida={handleCategoriaExcluida}                
             />
         </div>
     );

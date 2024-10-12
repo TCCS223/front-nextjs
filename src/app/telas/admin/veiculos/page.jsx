@@ -43,6 +43,9 @@ export default function Veiculos() {
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentVeiculos = filteredVeiculos.slice(indexOfFirstUser, indexOfLastUser);
 
+console.log(selectedVeic?.veic_id);
+
+
     useEffect(() => {
         ListarVeiculos();
     }, []);

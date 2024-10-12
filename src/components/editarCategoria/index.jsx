@@ -4,7 +4,7 @@ import { MdDelete, MdClose } from "react-icons/md";
 import api from '@/services/api';
 import Swal from 'sweetalert2';
 
-export default function ModalCategorias({ isOpen, onClose }) {
+export default function ModalCategorias({ isOpen, onClose, onCategoriaExcluida }) {
     const [categorias, setCategorias] = useState([]);
 
     const buscarCategorias = async () => {
@@ -53,6 +53,7 @@ export default function ModalCategorias({ isOpen, onClose }) {
                     confirmButtonColor: 'rgb(40, 167, 69)',
                     iconColor: 'rgb(40, 167, 69)',
                 });
+                onCategoriaExcluida();
                 buscarCategorias();
             } catch (error) {
                 Swal.fire('Erro!', 'Não foi possível excluir a categoria.', 'error');

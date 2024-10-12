@@ -34,8 +34,6 @@
 
 
 
-
-
     async listarUsuarioPorCpf(request, response) {
         try {
             const { usu_acesso, usu_id  } = request.body; // Obtém o CPF do corpo da requisição
