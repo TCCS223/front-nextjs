@@ -72,6 +72,7 @@
     background-color: #ff9d00;
     color: white;
     display: flex;
+    flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
     border: none;
@@ -80,7 +81,7 @@
     font-size: 1em;
     transition: background-color 0.3s;
     grid-column: span 1;
-    grid-area: 1 / 1 / 2 / 3;
+    grid-area: 1 / 1 / 2 / 2;
 }
 
 .button_newCategory:hover {
@@ -101,7 +102,7 @@
     font-size: 1em;
     transition: background-color 0.3s;
     grid-column: span 1;
-    grid-area: 1 / 3 / 2 / 4;
+    grid-area: 1 / 2 / 2 / 3;
 }
 
 .button_editCategory:hover {

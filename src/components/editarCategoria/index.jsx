@@ -4,7 +4,7 @@ import { MdDelete, MdClose } from "react-icons/md";
 import api from '@/services/api';
 import Swal from 'sweetalert2';
 
-export default function ModalCategorias({ isOpen, onClose, onCategoriaExcluida }) {
+export default function ModalCategorias({ isOpen, onClose, onCategoriaExcluida, listarCategoriasServAtivas }) {
     const [categorias, setCategorias] = useState([]);
 
     const buscarCategorias = async () => {
@@ -26,6 +26,8 @@ export default function ModalCategorias({ isOpen, onClose, onCategoriaExcluida }
         try {
             await api.patch(`/categoriasServicos/${categoriaId}/visibilidade`, { cat_serv_visibilidade: valorVisibilidade });
             buscarCategorias();
+            listarCategoriasServAtivas();
+            
         } catch (error) {
             console.error(error.message);
         }

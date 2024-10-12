@@ -63,11 +63,11 @@ export default function Servicos() {
                 icon: "error",
             });
         }
-    };    
+    };
 
-    const ListarCategoriasServ = async () => {
+    const ListarCategoriasServAtivas = async () => {
         try {
-            const response = await api.get('/categoriasServicos');
+            const response = await api.get('/categoriasServicosAtivas');
             setCategoriasServ(response.data.dados);
         } catch (error) {
             console.error("Erro ao buscar as categorias:", error);
@@ -145,10 +145,10 @@ export default function Servicos() {
     };
 
     const handleExit = () => {
-        setShowForm(false); 
+        setShowForm(false);
         setSelectedServico(null);
-        setIsViewing(false);  
-        setIsEditing(false);  
+        setIsViewing(false);
+        setIsEditing(false);
     };
 
     const handleSubmit = async (servico) => {
@@ -190,7 +190,7 @@ export default function Servicos() {
             serv_situacao: 1
         })
         setShowForm(true);
-        ListarCategoriasServ();
+        ListarCategoriasServAtivas();
     }
 
     const sortByColumn = (column) => {
@@ -206,9 +206,9 @@ export default function Servicos() {
             return 0;
         });
 
-        setFilteredServicos(sortedData); 
-        setSortedColumn(column); 
-        setIsAsc(newIsAsc); 
+        setFilteredServicos(sortedData);
+        setSortedColumn(column);
+        setIsAsc(newIsAsc);
     };
 
     const Cancelar = () => {
@@ -247,7 +247,7 @@ export default function Servicos() {
     };
 
     const handleCategoriaCriada = () => {
-        ListarCategoriasServ();
+        ListarCategoriasServAtivas();
     };
 
     const handleEditCategoria = () => {
@@ -255,9 +255,9 @@ export default function Servicos() {
     }
 
     const handleCategoriaExcluida = () => {
-        ListarCategoriasServ();
+        ListarCategoriasServAtivas();
     };
-
+    
     return (
         <div id="servicos" className={`${styles.content_section}`}>
             <h2 className={styles.title_page}>Gerenciamento de Serviços</h2>
@@ -424,25 +424,25 @@ export default function Servicos() {
                         ) : (
                             <>
                                 <button
-                                    type="button" 
-                                    onClick={handleNovaCategoria} 
+                                    type="button"
+                                    onClick={handleNovaCategoria}
                                     className={styles.button_newCategory}
                                 >
                                     Nova Categoria
-                                    <MdAdd className={styles.iconAdd} />
+                                    {/* <MdAdd className={styles.iconAdd} /> */}
                                 </button>
 
                                 <button
-                                    type="button" 
-                                    onClick={handleEditCategoria} 
+                                    type="button"
+                                    onClick={handleEditCategoria}
                                     className={styles.button_editCategory}
                                 >
                                     Editar Categoria
-                                    <MdAdd className={styles.iconAdd} />
+                                    {/* <MdAdd className={styles.iconAdd} /> */}
                                 </button>
 
                                 <button
-                                    type="button" 
+                                    type="button"
                                     onClick={Cancelar}
                                     className={styles.button_cancel}
                                 >
@@ -466,7 +466,7 @@ export default function Servicos() {
                     </div>
                 </>
             )}
-            
+
             <ModalNovaCategoria
                 isOpen={modalCategoriaOpen}
                 onClose={() => setModalCategoriaOpen(false)}
@@ -476,7 +476,8 @@ export default function Servicos() {
             <EditarCategoria
                 isOpen={editarCategoriaOpen}
                 onClose={() => setEditarCategoriaOpen(false)}
-                onCategoriaExcluida={handleCategoriaExcluida}                
+                onCategoriaExcluida={handleCategoriaExcluida}
+                listarCategoriasServAtivas={ListarCategoriasServAtivas}
             />
         </div>
     );

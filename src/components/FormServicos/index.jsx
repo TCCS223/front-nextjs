@@ -80,7 +80,7 @@ export default function FormServicos({ selectedServico, setSelectedServico, isVi
                         value={selectedServico ? selectedServico.serv_nome : ''}
                         onChange={(e) => setSelectedServico({ ...selectedServico, serv_nome: e.target.value })}
                         className={styles.input_servicos}
-                        disabled={isDisabled}
+                        disabled={isViewing}
                         required
                     />
                     {/* {isDisabled ? (

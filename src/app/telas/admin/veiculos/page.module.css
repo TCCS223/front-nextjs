@@ -136,11 +136,8 @@
     border: 3px solid #636262;
     border-radius: 4px;
     box-sizing: border-box;
-    /* margin-right: 10px; */
     width: calc(100%-20px);
     display: inline-flex;
-    /* height: auto; */
-    /* background-color: black; */
 }
 
 .searchInput:focus {
@@ -266,7 +263,7 @@
 
 .resultTableContainer {
     display: flex;
-    align-items: start;
+    align-items: flex-start;
     padding: 0;
     width: 100%;
     margin-top: 20px;
