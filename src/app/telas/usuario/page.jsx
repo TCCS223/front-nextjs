@@ -3,25 +3,27 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+import { MdPowerSettingsNew } from "react-icons/md";
 
 import styles from "./page.module.css";
 import UsuarioVeiculos from "./UsuarioVeiculos/page";
 import UsuarioDados from "./UsuarioDados/page";
 
 import CadastrarVeiculos from "./CadastrarVeiculo/page";
+// import { useRouter } from "next/router";
 
 
 export default function Home() {
 
-    const [modalOpen, setModalOpen] = useState(false);
+    // const [modalOpen, setModalOpen] = useState(false);
     const [tela, setTela] = useState(0);
 
-    const teste = () => {
-        alert('Você clicou no ícone de power!');
+    // const router = useRouter(); // Obtém a instância do roteador
+
+    const clearLocalStorage = () => {
+        localStorage.clear(); // Limpa todo o localStorage
+        // alert("Local Storage limpo!"); // Mensagem de confirmação (opcional)
+        // router.push('/'); // Redireciona para a página principal
     };
 
     return (
@@ -30,7 +32,7 @@ export default function Home() {
                 <h1 className={styles.title}>Painel do Usuário</h1>
 
                 {/* <span className={styles.power} onClick={teste}><Link href="/"></Link></span> */}
-                <Link href="/" className={styles.linkPower}><span className={styles.power}></span></Link>
+                <Link href="/" className={styles.iconPower}><MdPowerSettingsNew className={styles.power} onClick={clearLocalStorage}/></Link>
 
 
                 {/* <div className={styles.button_logout}>

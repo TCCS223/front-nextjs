@@ -52,6 +52,7 @@ export default function LoginUsu() {
                     router.push('/telas/admin');
                 } else {
                     router.push('/telas/usuario');
+                    
                 }
 
             } else {
