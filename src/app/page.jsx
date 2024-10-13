@@ -1,3 +1,5 @@
+'use client'
+
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
@@ -11,7 +13,13 @@ import Footer from "@/components/footer";
 import CarrosselEquipe from "@/components/carrosselEquipe";
 import CarrosselEquipeMobile from "@/components/carrosselEquipeMobile";
 
+// import { useContext } from 'react';
+// import { UserContext } from "./context/UserContext";
+
 export default function Home() {
+
+    // const { userId } = useContext(UserContext);
+    // {userId}
     return (
         <html>
             <body>

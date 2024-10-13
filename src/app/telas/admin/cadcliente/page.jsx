@@ -88,6 +88,7 @@ console.log(selectedUser);
         try {
             const response = await api.get('/usuarios');
             setUsuarios(response.data.dados);
+            console.log(response.data.dados)
         } catch (error) {
             console.error("Erro ao buscar os usuários:", error);
             Swal.fire({

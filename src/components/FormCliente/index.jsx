@@ -173,21 +173,6 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
 
                 </div>
 
-                <div className={`${styles.grid_item} ${styles.grid_acesso}`}>
-                    <label htmlFor="nivel_acesso" className={styles.label_cliente}>Nível de Acesso</label>
-                    <select
-                        id="nivel_acesso"
-                        name="nivel_acesso"
-                        className={`${styles.select_cliente} ${styles.input_acesso}`}
-                        value={selectedUser ? selectedUser.usu_acesso : ''}
-                        onChange={(e) => setSelectedUser({ ...selectedUser, usu_acesso: parseInt(e.target.value) })}
-                        disabled={isViewing}
-                    >
-                        <option value="0">Usuário</option>
-                        <option value="1">Administrador</option>
-                    </select>
-                </div>
-
                 <div className={`${styles.grid_item} ${styles.grid_telefone}`}>
                     <label htmlFor="usu_telefone" className={styles.label_cliente}>Telefone</label>
                     <InputMask
@@ -254,6 +239,21 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                         className={styles.input_cliente}
                         required
                     />
+                </div>
+
+                <div className={`${styles.grid_item} ${styles.grid_acesso}`}>
+                    <label htmlFor="nivel_acesso" className={styles.label_cliente}>Nível de Acesso</label>
+                    <select
+                        id="nivel_acesso"
+                        name="nivel_acesso"
+                        className={`${styles.select_cliente} ${styles.input_acesso}`}
+                        value={selectedUser ? selectedUser.usu_acesso : ''}
+                        onChange={(e) => setSelectedUser({ ...selectedUser, usu_acesso: parseInt(e.target.value) })}
+                        disabled={isViewing}
+                    >
+                        <option value="0">Usuário</option>
+                        <option value="1">Administrador</option>
+                    </select>
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_situacao}`}>

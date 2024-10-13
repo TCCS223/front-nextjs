@@ -12,8 +12,8 @@ import Swal from "sweetalert2";
 import styles from "./page.module.css";
 
 export default function LoginUsu() {
-    const [email, setEmail] = useState('admin@admin.com');
-    const [senha, setSenha] = useState('admin');
+    const [email, setEmail] = useState('user@user.com');
+    const [senha, setSenha] = useState('user');
     const [showPassword, setShowPassword] = useState(false);
 
     const router = useRouter();
@@ -47,6 +47,7 @@ export default function LoginUsu() {
                 localStorage.clear();
                 localStorage.setItem('user', JSON.stringify(objLogado));
 
+                
                 if (usuario.usu_acesso === 1) {
                     router.push('/telas/admin');
                 } else {

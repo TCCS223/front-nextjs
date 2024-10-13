@@ -5,8 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 import styles from "./page.module.css";
 import UsuarioVeiculos from "./UsuarioVeiculos/page";
@@ -23,19 +23,6 @@ export default function Home() {
     const teste = () => {
         alert('Você clicou no ícone de power!');
     };
-
-    useEffect(() => {
-        toast.success('Logado com sucesso!', {
-            position: "bottom-right",
-            autoClose: 3000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-        });
-    }, []);
 
     return (
         <div className={styles.grid_container}>
@@ -73,17 +60,6 @@ export default function Home() {
                                         : <></>
                 }
             </div>
-
-            {/* <div className={styles.logo}>
-            <Image
-              src={'logo.png'}
-              width={190}
-              height={45}
-              alt={"logo"}
-              unoptimized={true}
-            />
-            </div> */}
-            <ToastContainer />
         </div>
     )
 }

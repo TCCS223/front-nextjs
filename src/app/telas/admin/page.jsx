@@ -11,6 +11,23 @@ import FullCalendar from "./agenda/page";
 
 
 export default function Home() {
+
+
+   const [userId, setUserId] = useState(null);
+
+useEffect(() => {
+  // Obtém o ID do usuário do localStorage
+  const storedUser = localStorage.getItem('user');
+  
+  // Verifica se existe um valor armazenado e faz o parse do JSON
+  if (storedUser) {
+    const parsedUser = JSON.parse(storedUser);
+    setUserId(parsedUser); // Acessa apenas o id
+  }
+}, []);
+
+console.log(userId?.id); 
+  
     
     const [tela, setTela] = useState(0);
 
