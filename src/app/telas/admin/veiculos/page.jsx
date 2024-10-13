@@ -187,7 +187,8 @@ export default function Veiculos() {
         }));
         setPlacaErro('');
 
-        const placaRegex = /^(?:[A-Z]{3}-\d{4}|[A-Z]{3}\d[A-Z]\d{2})$/;
+        // const placaRegex = /^(?:[A-Z]{3}-\d{4}|[A-Z]{3}\d[A-Z]\d{2})$/;
+        const placaRegex = /^[A-Z]{3}-\d{4}$|^[A-Z]{3}-\d{1}[A-Z]{1}\d{2}$/;
 
         if (!placaRegex.test(placa)) {
             setPlacaErro('');

@@ -138,6 +138,7 @@
     width: 24px;
     height: 24px;
     margin: auto 10px;
+    cursor: pointer;
 }
 
 .footer_form {

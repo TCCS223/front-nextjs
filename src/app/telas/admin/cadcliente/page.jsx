@@ -571,7 +571,7 @@ export default function CadCliente() {
                                             onClick={handleNovaCategoria}
                                         >
                                             veículo
-                                            <MdAdd className={styles.iconAdd} />
+                                            {/* <MdAdd className={styles.iconAdd} /> */}
                                         </button>
                                         <button
                                             type="reset"

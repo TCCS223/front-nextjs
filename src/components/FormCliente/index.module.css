@@ -47,11 +47,6 @@
     background-color: #f9f9f9;
 }
 
-/* .input_cliente_password:focus{
-    outline: none;
-    border: none;
-} */
-
 .grid {
   display: contents;
 }
@@ -161,6 +156,7 @@
     width: 24px;
     height: 24px;
     margin: auto 10px;
+    cursor: pointer;
 }
 
 .error {

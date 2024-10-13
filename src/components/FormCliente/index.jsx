@@ -18,7 +18,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
-    
+
     const sexoMap = {
         0: 'Feminino',
         1: 'Masculino',
@@ -239,19 +239,35 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                     />
                 </div>
 
+
                 <div className={`${styles.grid_item} ${styles.grid_acesso}`}>
                     <label htmlFor="nivel_acesso" className={styles.label_cliente}>Nível de Acesso</label>
-                    <select
-                        id="nivel_acesso"
-                        name="nivel_acesso"
-                        className={`${styles.select_cliente} ${styles.input_acesso}`}
-                        value={selectedUser ? selectedUser.usu_acesso : ''}
-                        onChange={(e) => setSelectedUser({ ...selectedUser, usu_acesso: parseInt(e.target.value) })}
-                        disabled={isViewing}
-                    >
-                        <option value="0">Usuário</option>
-                        <option value="1">Administrador</option>
-                    </select>
+                    {isViewing ? (
+                        <input
+                            type="text"
+                            id="nivel_acesso"
+                            name="nivel_acesso"
+                            value={selectedUser ? (selectedUser.usu_acesso === 0 ? 'Usuário' : 'Administrador') : ''}
+                            onChange={(e) => setSelectedUser({ ...selectedUser, usu_acesso: parseInt(e.target.value) })}
+                            className={styles.input_cliente}
+                            disabled={isViewing}
+                            required
+                        />
+                    ) : (
+                        <select
+                            id="nivel_acesso"
+                            name="nivel_acesso"
+                            className={`${styles.select_cliente} ${styles.input_acesso}`}
+                            value={selectedUser ? selectedUser.usu_acesso : ''}
+                            onChange={(e) => setSelectedUser({ ...selectedUser, usu_acesso: parseInt(e.target.value) })}
+
+                        >
+                            <option value="0">Usuário</option>
+                            <option value="1">Administrador</option>
+                        </select>
+                    )}
+
+
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_situacao}`}>

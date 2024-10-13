@@ -3,6 +3,7 @@ import styles from './index.module.css';
 import api from '@/services/api';
 import Swal from 'sweetalert2';
 
+
 export default function ModalRelacionarVeiculo({ isOpen, onClose, usuarioId }) {
     const [nome, setNome] = useState('');
     const [veiculos, setVeiculos] = useState([]);
@@ -82,7 +83,7 @@ export default function ModalRelacionarVeiculo({ isOpen, onClose, usuarioId }) {
             <div className={styles.modalContent}>
                 <h2 className={styles.modalTitle}>Associar Veículo</h2>
                 <div className={styles.formGroup}>
-                    <label htmlFor="nome">Nome do veículo</label>
+                    <label htmlFor="nome">Placa do veículo</label>
                     <input
                         type="text"
                         id="nome"
