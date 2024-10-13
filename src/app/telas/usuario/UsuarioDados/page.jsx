@@ -13,7 +13,7 @@ export default function DadosDoUsuario() {
     const [showPassword, setShowPassword] = useState(false);
 
     const [originalCpf, setOriginalCpf] = useState('');
-const [originalEmail, setOriginalEmail] = useState('');
+    const [originalEmail, setOriginalEmail] = useState('');
 
 
     const [userId, setUserId] = useState(null);
@@ -32,35 +32,22 @@ const [originalEmail, setOriginalEmail] = useState('');
         }
     }, [userId]); // Só chama a função listarDadosUsuario se o userId estiver disponível
 
-    // const listarDadosUsuario = async () => {
-    //     if (!userId) return; // Se userId for nulo, não faz a requisição
-
-    //     try {
-    //         const response = await api.get(`/usuarios/dadosUsuario/${userId}`);
-    //         setMeusDados(response.data.dados);
-    //         console.log("Usuários:", response.data.dados);
-    //     } catch (error) {
-    //         console.error("Erro ao buscar dados do usuário:", error);
-    //     }
-    // };
-
     const listarDadosUsuario = async () => {
         if (!userId) return;
-    
+
         try {
             const response = await api.get(`/usuarios/dadosUsuario/${userId}`);
             setMeusDados(response.data.dados);
-            
+
             // Armazena os valores originais ao carregar os dados
             setOriginalCpf(response.data.dados.usu_cpf);
             setOriginalEmail(response.data.dados.usu_email);
-    
+
             console.log("Usuários:", response.data.dados);
         } catch (error) {
             console.error("Erro ao buscar dados do usuário:", error);
         }
     };
-    
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -117,14 +104,6 @@ const [originalEmail, setOriginalEmail] = useState('');
             }
         });
     }
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-
-    //     console.log("Dados salvos:", meusDados);
-    //     setIsEditing(false);
-    // };
-
 
     const validarCPF = async (cpf) => {
         const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;
@@ -201,66 +180,9 @@ const [originalEmail, setOriginalEmail] = useState('');
         return null;
     };
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-
-    //     // Validação de CPF
-    //     const cpfError = await validarCPF(meusDados.usu_cpf);
-    //     if (cpfError) {
-    //         Swal.fire({
-    //             title: "Erro",
-    //             text: cpfError,
-    //             icon: "error",
-    //             confirmButtonColor: "rgb(40, 167, 69)"
-    //         });
-    //         return;
-    //     }
-
-    //     // Validação de email
-    //     const emailError = await validaEmail(meusDados);
-    //     if (emailError) {
-    //         Swal.fire({
-    //             title: "Erro",
-    //             text: emailError,
-    //             icon: "error",
-    //             confirmButtonColor: "rgb(40, 167, 69)"
-    //         });
-    //         return;
-    //     }
-
-    //     try {
-    //         // Enviar os dados para o backend
-    //         const response = await api.patch(`/usuarios/${meusDados.usu_id}`, meusDados);
-    //         if (response.data.sucesso) {
-    //             Swal.fire({
-    //                 title: "Sucesso",
-    //                 text: "Dados salvos com sucesso!",
-    //                 icon: "success",
-    //                 confirmButtonColor: "rgb(40, 167, 69)"
-    //             });
-    //             setIsEditing(false);
-    //         } else {
-    //             Swal.fire({
-    //                 title: "Erro",
-    //                 text: "Falha ao salvar os dados.",
-    //                 icon: "error",
-    //                 confirmButtonColor: "rgb(40, 167, 69)"
-    //             });
-    //         }
-    //     } catch (error) {
-    //         Swal.fire({
-    //             title: "Erro",
-    //             text: "Ocorreu um erro ao salvar os dados.",
-    //             icon: "error",
-    //             confirmButtonColor: "rgb(40, 167, 69)"
-    //         });
-    //         console.error("Erro ao salvar dados:", error);
-    //     }
-    // };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         // Verifica se o CPF foi alterado
         if (meusDados.usu_cpf !== originalCpf) {
             const cpfError = await validarCPF(meusDados.usu_cpf);
@@ -273,7 +195,7 @@ const [originalEmail, setOriginalEmail] = useState('');
                 return; // Para o envio do formulário
             }
         }
-    
+
         // Verifica se o email foi alterado
         if (meusDados.usu_email !== originalEmail) {
             const emailError = await validaEmail(meusDados);
@@ -286,11 +208,11 @@ const [originalEmail, setOriginalEmail] = useState('');
                 return; // Para o envio do formulário
             }
         }
-    
+
         try {
             // Enviar os dados para o backend
             const response = await api.patch(`/usuarios/${meusDados.usu_id}`, meusDados);
-    
+
             if (response.data.sucesso) {
                 Swal.fire({
                     title: "Sucesso",
@@ -317,9 +239,6 @@ const [originalEmail, setOriginalEmail] = useState('');
             console.error("Erro ao salvar dados:", error);
         }
     };
-    
-    
-
 
     return (
         <div id="clientes" className={styles.content_section}>
