@@ -18,8 +18,6 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
-
-
     
     const sexoMap = {
         0: 'Feminino',

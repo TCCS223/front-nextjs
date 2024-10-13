@@ -14,15 +14,15 @@
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     gap: 30px 15px;
-  }
-  
-  .label_cliente {
+}
+
+.label_cliente {
     display: block;
     margin-bottom: 8px;
     color: #333;
-  }
-  
-  .input_cliente {
+}
+
+.input_cliente {
     width: calc(100% - 20px);
     padding: 10px;
     margin-top: 5px;
@@ -31,104 +31,76 @@
     box-sizing: border-box;
     font-size: 18px;
     background-color: #f9f9f9;
-  }
-  
-  .input_cliente_senha{
-      width: calc(100% - 20px);
-      margin-top: 5px;
-     display: inline-flex;
-      border: 3px solid #8d8c8c;
-      border-radius: 4px;
-      box-sizing: border-box;
-      font-size: 18px;
-      background-color: #f9f9f9;
-  }
-  
-  .input_cliente_password{
-     border: none;
-     width: 100%;
-      border-radius: 4px;
-      box-sizing: border-box;
-      padding: 10px;
-       font-size: 18px;
-      background-color: #f9f9f9;
-  }
-  
-  /* .input_cliente_password:focus{
+}
+
+.input_cliente_senha {
+    width: calc(100% - 20px);
+    margin-top: 5px;
+    display: inline-flex;
+    border: 3px solid #8d8c8c;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 18px;
+    background-color: transparent;
+}
+
+.input_cliente_password {
+    border: none;
+    width: 100%;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 18px;
+    background-color: transparent;
+}
+
+/* .input_cliente_password:focus{
       outline: none;
       border: none;
   } */
-  
-  .grid {
+
+.grid {
     display: contents;
-  }
-  
-  .grid_item {
+}
+
+.grid_item {
     display: flex;
     flex-direction: column;
-  }
-  
-  .grid_codigo,
-  .grid_situacao {
+}
+
+.grid_codigo,
+.grid_situacao {
     grid-column: span 2;
-  }
-  
-  .grid_telefone,
-  .grid_data,
-  .grid_sexo,
-  .grid_acesso,
-  .grid_senha,
-  .grid_email  {
+}
+
+.grid_telefone,
+.grid_data,
+.grid_sexo,
+.grid_acesso,
+.grid_senha,
+.grid_email {
     grid-column: span 4;
-  }
-  
-  .grid_cpf {
+}
+
+.grid_cpf {
     grid-column: span 4;
-  }
-  
-  .grid_nome {
+}
+
+.grid_nome {
     grid-column: span 6;
-  }
-  
-  .grid_observacoes {
+}
+
+.grid_observacoes {
     grid-column: span 10;
-  }
-  
-  
-  .input_sexo,
-  .input_acesso,
-  .input_situacao {
+}
+
+.input_sexo,
+.input_acesso,
+.input_situacao {
     flex: 1;
-  }
-  
-  .grid_item_descricao {
-    grid-column: span 8;
-  }
-  
-  .table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .th,
-  .td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align: left;
-  }
-  
-  .th {
-    background-color: #333;
-    color: white;
-  }
-  
-  .td {
-    background-color: #fff;
-  }
-  
-  .select_cliente {
+}
+
+.select_cliente {
     width: calc(100% - 20px);
     padding: 8px;
     margin-top: 5px;
@@ -144,54 +116,37 @@
     background-repeat: no-repeat;
     background-position: right 10px top 50%;
     cursor: pointer;
-  }
-  
-  .select_cliente:hover {
+}
+
+.select_cliente:hover {
     border-color: #ff9d00;
-  }
-  
-  .select_cliente:focus,
-  .input_cliente:focus,
-   .input_cliente_senha:focus,
-   .input_cliente_password:focus {
+}
+
+.select_cliente:focus,
+.input_cliente:focus,
+.input_cliente_senha:focus,
+.input_cliente_password:focus {
     border-color: #ff9d00;
     outline: none;
-  }
-  
-  .input_medium_select {
-    flex: 2;
-  }
-  
-  .mdEye{
-      width: 24px;
-      height: 24px;
-      margin: auto 10px;
-  }
-  
-  .error {
-    color: red;
-    font-size: 0.9em;
-  }
-  
-  .success {
-    color: green;
-    font-size: 0.9em;
-  }
-  
-  .loading {
-    color: blue;
-    font-size: 0.9em;
-  }
+}
 
-  .footer_form {
+.input_medium_select {
+    flex: 2;
+}
+
+.mdEye {
+    width: 24px;
+    height: 24px;
+    margin: auto 10px;
+}
+
+.footer_form {
     position: relative;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     gap: 15px;
     padding: 50px 40px 50px 20px;
 }
-
-
 
 .button_edit {
     padding: 10px 20px;

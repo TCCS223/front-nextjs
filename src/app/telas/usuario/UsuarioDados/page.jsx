@@ -1,14 +1,19 @@
 import React, { useContext, useState, useEffect } from "react";
 import { UserContext } from "@/app/context/UserContext";
 import { IoMdEyeOff, IoMdEye } from "react-icons/io";
+import { format } from 'date-fns';
 import api from "@/services/api";
 import styles from "./page.module.css";
 
 export default function DadosDoUsuario() {
     const { userId } = useContext(UserContext);
-    const [showPassword, setShowPassword] = useState(false);
     const [meusDados, setMeusDados] = useState([]);
-    const [isEditing, setIsEditing] = useState(false); // Estado para controle de edição
+    const [isEditing, setIsEditing] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
+    useEffect(() => {
+        listarDadosUsuario();
+    }, [userId]);
 
     const listarDadosUsuario = async () => {
         try {
@@ -20,14 +25,9 @@ export default function DadosDoUsuario() {
         }
     };
 
-    useEffect(() => {
-        listarDadosUsuario();
-    }, []);
-
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
-
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -48,20 +48,20 @@ export default function DadosDoUsuario() {
     };
 
     const handleEdit = () => {
-        setIsEditing(true); // Habilitar modo de edição
+        setIsEditing(true); 
     };
 
     const handleCancel = () => {
-        setIsEditing(false); // Desabilitar modo de edição
-        listarDadosUsuario(); // Recarregar dados do usuário para descartar alterações
-        togglePasswordVisibility(false); // Toggle
+        setIsEditing(false); 
+        listarDadosUsuario(); 
+        togglePasswordVisibility(false); 
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Lógica para salvar os dados (não implementada)
+
         console.log("Dados salvos:", meusDados);
-        setIsEditing(false); // Desabilitar modo de edição após salvar
+        setIsEditing(false); 
     };
 
     console.log("Dados do usuário:", meusDados);
@@ -89,7 +89,7 @@ export default function DadosDoUsuario() {
                                     name="codigo_cliente"
                                     className={styles.input_cliente}
                                     value={meusDados?.usu_id || ''}
-                                    disabled // O código é sempre desabilitado para edição
+                                    disabled 
                                 />
                             </div>
 
@@ -103,7 +103,7 @@ export default function DadosDoUsuario() {
                                     placeholder="Nome Completo"
                                     value={meusDados?.usu_nome || ''}
                                     onChange={handleChange}
-                                    disabled={!isEditing} // Desabilita se não estiver editando
+                                    disabled={!isEditing}
                                 />
                             </div>
 
@@ -117,7 +117,7 @@ export default function DadosDoUsuario() {
                                     placeholder="000.000.000-00"
                                     value={meusDados?.usu_cpf || ''}
                                     onChange={handleChange}
-                                    disabled={!isEditing} // Desabilita se não estiver editando
+                                    disabled={!isEditing} 
                                 />
                             </div>
 
@@ -130,13 +130,12 @@ export default function DadosDoUsuario() {
                                     className={styles.input_cliente}
                                     value={meusDados?.usu_data_nasc ? new Date(meusDados.usu_data_nasc).toISOString().split("T")[0] : ''}
                                     onChange={handleChange}
-                                    disabled={!isEditing} // Desabilita se não estiver editando
+                                    disabled={!isEditing} 
                                 />
                             </div>
 
                             <div className={`${styles.grid_item} ${styles.grid_sexo}`}>
                                 <label htmlFor="usu_sexo" className={styles.label_cliente}>Sexo</label>
-
 
                                 {isEditing ? (
                                     <select
@@ -159,7 +158,7 @@ export default function DadosDoUsuario() {
                                         className={`${styles.input_cliente} ${styles.input_sexo}`}
                                         value={sexoMap[meusDados?.usu_sexo] || ''}
                                         onChange={handleChange}
-                                        disabled // Desabilita se não estiver editando
+                                        disabled 
                                     />
                                 )}
                             </div>
@@ -174,7 +173,7 @@ export default function DadosDoUsuario() {
                                     placeholder="(xx) xxxxx - xxxxx"
                                     value={meusDados?.usu_telefone || ''}
                                     onChange={handleChange}
-                                    disabled={!isEditing} // Desabilita se não estiver editando
+                                    disabled={!isEditing} 
                                 />
                             </div>
 
@@ -188,7 +187,7 @@ export default function DadosDoUsuario() {
                                         placeholder="exemplo@exemplo.com"
                                         value={meusDados?.usu_email || ''}
                                         onChange={handleChange}
-                                        disabled={!isEditing} // Desabilita se não estiver editando
+                                        disabled={!isEditing}
                                     />
 
                                 </div>
@@ -224,7 +223,7 @@ export default function DadosDoUsuario() {
                                         className={styles.input_cliente}
                                         value={meusDados?.usu_acesso === 0 ? "Usuário" : "Administrador" || ''}
                                         onChange={handleChange}
-                                        disabled  // Desabilita se não estiver editando
+                                        disabled  
                                     />
                                 </div>
 
@@ -237,7 +236,7 @@ export default function DadosDoUsuario() {
                                         className={styles.input_cliente}
                                         value={meusDados?.usu_observ || ''}
                                         onChange={handleChange}
-                                        disabled={!isEditing} // Desabilita se não estiver editando
+                                        disabled={!isEditing} 
                                     />
                                 </div>
 

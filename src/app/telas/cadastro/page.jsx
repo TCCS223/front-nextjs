@@ -26,6 +26,9 @@ export default function Cadastro() {
         usu_senha: '',
         usu_situacao: 1,
     });
+
+    console.log(usuario);
+    
     const [cpfError, setCpfError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [isCheckingEmail, setIsCheckingEmail] = useState(false);

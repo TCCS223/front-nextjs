@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import { MdRemoveRedEye, MdEdit, MdAdd } from "react-icons/md";
 // import {  } from "react-icons/md";
-import { format } from 'date-fns';
+import { parseISO, format } from 'date-fns';
 import Swal from 'sweetalert2';
 import FormCliente from '@/components/FormCliente';
 import api from '@/services/api';
@@ -438,12 +438,13 @@ console.log(selectedUser);
                             </thead>
                             <tbody className={styles.tableBody}>
                                 {currentUsers.length > 0 ? (
-                                    currentUsers.map((usuario) => (
+                                    currentUsers?.map((usuario) => (
                                         <tr key={usuario.usu_id}>
                                             <td className={styles.tdId}>{usuario.usu_id}</td>
                                             <td>{usuario.usu_nome}</td>
                                             <td>{usuario.usu_cpf}</td>
-                                            <td>{format(new Date(usuario.usu_data_nasc), 'dd/MM/yyyy')}</td>
+                                            {/* <td>{format(new Date(usuario?.usu_data_nasc), 'dd/MM/yyyy')}</td> */}
+                                            <td>{format(parseISO(usuario?.usu_data_nasc), 'dd/MM/yyyy')}</td>
                                             <td>{sexoMap[usuario.usu_sexo] || 'Desconhecido'}</td>
                                             <td>{usuario.usu_telefone}</td>
                                             <td>{usuario.usu_email}</td>
