@@ -3,7 +3,7 @@ import styles from './index.module.css';
 
 export default function FormServicos({ selectedServico, setSelectedServico, isViewing, isEditing, handleSubmit, categoriasServ }) {
 
-    const isDisabled = isViewing || isEditing; // Define se os campos devem estar desabilitados
+    const isDisabled = isViewing || isEditing;
 
     // Função para lidar com a mudança na categoria
     // const handleCategoryChange = (e) => {
@@ -171,7 +171,6 @@ export default function FormServicos({ selectedServico, setSelectedServico, isVi
                         </>
                     )} */}
                     {isEditing ? (
-                        // Modo de edição - mostrar como select
                         <select
                             id="serv_situacao"
                             name="serv_situacao"
@@ -184,7 +183,6 @@ export default function FormServicos({ selectedServico, setSelectedServico, isVi
                             <option value="0" className={styles.option}>Inativo</option>
                         </select>
                     ) : (
-                        // Modo de visualização e criação - mostrar como input desabilitado
                         <input
                             type="text"
                             name="serv_situacao"
@@ -194,7 +192,6 @@ export default function FormServicos({ selectedServico, setSelectedServico, isVi
                             disabled
                         />
                     )}
-
 
                 </div>
             </div>

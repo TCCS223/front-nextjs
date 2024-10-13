@@ -6,23 +6,18 @@ import Image from 'next/image'
 import { useState } from 'react'
 
 export default function Header() {
-    // Define dois estados: um para controlar a abertura do menu mobile (mobile) e outro para controlar o fechamento com animação (closing)
     const [mobile, setMobile] = useState(false);
     const [closing, setClosing] = useState(false);
 
-    // Função que ativa/desativa o menu mobile
     function ativaMenuMobile() {
         if (mobile === false) {
-            // Se o menu não está aberto, abre o menu
             setMobile(true);
         } else {
-            // Se o menu está aberto, inicia o processo de fechamento
             setClosing(true);
             setTimeout(() => {
-                // Após 300ms (tempo da animação), fecha completamente o menu e reseta o estado de fechamento
                 setMobile(false);
                 setClosing(false);
-            }, 300); // Tempo da animação de fechamento
+            }, 300);
         }
     }
 
@@ -50,12 +45,10 @@ export default function Header() {
                     </div>
                 </div>
 
-                {/* Exibe o fundo de opacidade preta se o menu mobile estiver ativo e não estiver fechando */}
                 {mobile && !closing && (
                     <div className={styles.menuBackground} onClick={() => ativaMenuMobile()}></div>
                 )}
 
-                {/* Renderiza o menu mobile com diferentes classes de estilo dependendo se está abrindo, fechando, ou oculto */}
                 <div className={mobile ? (closing ? styles.menuMobileClosing : styles.menuMobileActive) : styles.hidden}>
                     <div className={styles.closeMenu} onClick={() => ativaMenuMobile()}>
                         <Image

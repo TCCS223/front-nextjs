@@ -43,11 +43,17 @@ export default function ModalProprietarios({ isOpen, onClose, veiculoId }) {
 
         try {
             const response = await api.patch(`/veiculoUsuario/${proprietarioId}`, dados);
-            Swal.fire('Sucesso!', 'Proprietário atualizado com sucesso.', 'success');
-            buscarProprietarios(veiculoId); // Atualiza a lista após salvar
+            Swal.fire({
+                title: 'Categoria excluída com sucesso',
+                icon: 'success',
+                confirmButtonColor: 'rgb(40, 167, 69)',
+                iconColor: 'rgb(40, 167, 69)',
+            });
+            buscarProprietarios(veiculoId);
             setEditId(null);
             setEditStartDate('');
             setEditEndDate('');
+            
         } catch (error) {
             Swal.fire('Erro!', 'Não foi possível atualizar o proprietário.', 'error');
             console.log(error.message);

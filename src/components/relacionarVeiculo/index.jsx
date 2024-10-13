@@ -46,12 +46,24 @@ export default function ModalRelacionarVeiculo({ isOpen, onClose, usuarioId }) {
 
         try {
             await api.post(`/veiculoUsuario`, dadosVeiculo);
-            Swal.fire('Sucesso', 'Veículo associado com sucesso!', 'success');
-            onClose(); // Fecha o modal após salvar
-            limparCampos(); // Limpa os campos
+            Swal.fire({
+                title: 'Sucesso!',
+                text: 'Veículo associado com sucesso!',
+                icon: 'success',
+                iconColor: "rgb(40, 167, 69)",
+                confirmButtonColor: "rgb(40, 167, 69)",
+            });
+            onClose();
+            limparCampos();
         } catch (error) {
             console.error("Erro ao associar veículo:", error.response);
-            Swal.fire('Erro!', 'Erro ao associar veículo.', 'error');
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Erro ao associar veículo!',
+                icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
+            });
         }
     };
 
@@ -131,7 +143,7 @@ export default function ModalRelacionarVeiculo({ isOpen, onClose, usuarioId }) {
                         type="button"
                         onClick={handleSalvar}
                         className={styles.btnSave}
-                        disabled={!veiculoSelecionado || !dataInicial} // Desabilitar se não houver veículo ou data inicial
+                        disabled={!veiculoSelecionado || !dataInicial}
                     >
                         Salvar
                     </button>

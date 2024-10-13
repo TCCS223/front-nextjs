@@ -46,9 +46,6 @@ export default function CadCliente() {
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
-console.log(selectedUser);
-
-
     useEffect(() => {
         ListarUsuarios();
     }, []);
@@ -67,7 +64,6 @@ console.log(selectedUser);
         2: 'Outro'
     };
 
-
     const Create = () => {
         setSelectedUser({
             usu_nome: '',
@@ -81,7 +77,7 @@ console.log(selectedUser);
             usu_senha: '',
             usu_situacao: 1,
         });
-        setShowForm(true); // ListarCategorias();
+        setShowForm(true);
     }
 
     const ListarUsuarios = async () => {
@@ -95,6 +91,8 @@ console.log(selectedUser);
                 title: "Erro!",
                 text: "Não foi possível carregar os usuários.",
                 icon: "error",
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
             });
         }
     };
@@ -163,6 +161,8 @@ console.log(selectedUser);
                 title: 'Erro!',
                 text: 'CPF inválido',
                 icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
             });
             return;
         }
@@ -172,11 +172,7 @@ console.log(selectedUser);
         }
 
         const update = {...selectedUser, usu_sexo: parseInt(selectedUser.usu_sexo, 10)}
-
-        
-
         console.log("dados:", update);
-        
 
         try {
             let response;
@@ -191,6 +187,8 @@ console.log(selectedUser);
                 title: 'Sucesso!',
                 text: response.data.mensagem,
                 icon: 'success',
+                iconColor: "rgb(40, 167, 69)",
+                confirmButtonColor: "rgb(40, 167, 69)",
             });
 
             ListarUsuarios();
@@ -200,6 +198,8 @@ console.log(selectedUser);
                 title: 'Erro!',
                 text: error.response ? error.response.data.mensagem : 'Erro ao salvar usuário.',
                 icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
             });
         }
     };
@@ -244,6 +244,8 @@ console.log(selectedUser);
                 title: 'Erro!',
                 text: 'O e-mail do usuário é obrigatório',
                 icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
             });
             return false;
         } else if (!checkEmail(usuario.usu_email)) {
@@ -251,6 +253,8 @@ console.log(selectedUser);
                 title: 'Erro!',
                 text: 'Insira um e-mail válido',
                 icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
             });
             return false;
         }

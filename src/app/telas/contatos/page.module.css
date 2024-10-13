@@ -133,7 +133,6 @@
     align-items: center;
 }
 
-
 @media screen and (max-width: 1128px) {
     .main {
         height: 110vh;
@@ -151,7 +150,6 @@
         width: 85%;
     }
 }
-
 
 @media screen and (max-width: 850px) {
     .card {
@@ -178,7 +176,6 @@
         width: 90%;
     }
 }
-
 
 @media screen and (max-width: 780px) {
     .main {

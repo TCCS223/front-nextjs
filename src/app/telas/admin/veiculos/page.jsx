@@ -43,9 +43,6 @@ export default function Veiculos() {
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentVeiculos = filteredVeiculos.slice(indexOfFirstUser, indexOfLastUser);
 
-console.log(selectedVeic?.veic_id);
-
-
     useEffect(() => {
         ListarVeiculos();
     }, []);
@@ -76,7 +73,6 @@ console.log(selectedVeic?.veic_id);
         try {
             const response = await api.get(`/marcas/categorias/${catId}`);
             setMarcas(response.data.dados);
-            // console.log(response.data);
         } catch (error) {
             console.error("Erro ao buscar as marcas:", error);
         }
@@ -90,9 +86,11 @@ console.log(selectedVeic?.veic_id);
         } catch (error) {
             console.error("Erro ao buscar os usuários:", error);
             Swal.fire({
-                title: "Erro!",
-                text: "Não foi possível carregar os usuários.",
-                icon: "error",
+                title: 'Erro!',
+                text: 'Não foi possível carregar os usuários.',
+                icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
             });
         }
     };
@@ -138,9 +136,11 @@ console.log(selectedVeic?.veic_id);
                 console.error("Status do erro:", error.response.status);
             }
             Swal.fire({
-                title: "Erro!",
+                title: 'Erro!',
                 text: error.response ? error.response.data.mensagem : 'Erro desconhecido ao buscar veículo.',
-                icon: "error",
+                icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
             });
         }
     };
@@ -153,7 +153,7 @@ console.log(selectedVeic?.veic_id);
                 setSelectedVeic(response.data.dados);
                 setShowForm(true);
                 setIsViewing(false);
-                setIsEditing(true); // Adicione isso
+                setIsEditing(true);
             } else {
                 throw new Error(response.data.mensagem);
             }
@@ -164,9 +164,11 @@ console.log(selectedVeic?.veic_id);
                 console.error("Status do erro:", error.response.status);
             }
             Swal.fire({
-                title: "Erro!",
+                title: 'Erro!',
                 text: error.response ? error.response.data.mensagem : 'Erro desconhecido ao buscar veículo.',
-                icon: "error",
+                icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
             });
         }
     };
@@ -234,14 +236,12 @@ console.log(selectedVeic?.veic_id);
 
     const handleSubmit = async (veiculo) => {
 
-    
         setIsSubmitting(true);
         setPlacaErro('');
         setAnoErro('');
     
         let placaValida = true;
     
-        // Só verificar a placa se ela for diferente da atual
         if (!veiculo.veic_id || veiculo.veic_placa !== selectedVeic.veic_placa) {
             placaValida = await handlePlacaChange(veiculo.veic_placa);
         }
@@ -275,18 +275,24 @@ console.log(selectedVeic?.veic_id);
                 title: 'Sucesso!',
                 text: response.data.mensagem,
                 icon: 'success',
+                iconColor: "rgb(40, 167, 69)",
+                confirmButtonColor: "rgb(40, 167, 69)",
             });
+
             setShowForm(false);
             setSelectedVeic(null);
             setIsViewing(false);
             setIsEditing(false);
             ListarVeiculos();
+            
         } catch (error) {
             console.error("Erro ao salvar veículo:", error);
             Swal.fire({
                 title: 'Erro!',
                 text: error.response?.data.mensagem || 'Erro desconhecido.',
                 icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
             });
         }
         setIsSubmitting(false);

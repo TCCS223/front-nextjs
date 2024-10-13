@@ -22,7 +22,7 @@ const FullCalendar = () => {
         const title = prompt('Digite o título do evento:');
         if (title) {
             const newEvent = {
-                id: String(events.length + 1), // Gera um ID único
+                id: String(events.length + 1),
                 title: title,
                 start: arg.date,
                 allDay: true,
@@ -77,20 +77,20 @@ const FullCalendar = () => {
           events: events,
           dateClick: handleDateClick,
           eventClick: handleEventClick,
-          slotMinTime: '08:00:00', // Define a hora inicial da visualização
-          slotMaxTime: '18:00:00', // Define a hora final da visualização
-          minTime: '08:00:00',     // Define a hora inicial para eventos
+          slotMinTime: '08:00:00',
+          slotMaxTime: '18:00:00',
+          minTime: '08:00:00',
           maxTime: '18:00:00',
           businessHours: [
             {
-              daysOfWeek: [1, 2, 3, 4, 5], // De segunda a sexta-feira
-              startTime: '08:00', // Horário de início
-              endTime: '12:00' // Horário de fim
+              daysOfWeek: [1, 2, 3, 4, 5],
+              startTime: '08:00',
+              endTime: '12:00'
             },
             {
-              daysOfWeek: [1, 2, 3, 4, 5], // De segunda a sexta-feira
-              startTime: '13:00', // Horário de início
-              endTime: '18:00' // Horário de fim
+              daysOfWeek: [1, 2, 3, 4, 5],
+              startTime: '13:00',
+              endTime: '18:00'
             }
           ]
         });

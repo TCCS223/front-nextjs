@@ -1,4 +1,3 @@
-/* Estilos principais do modal */
 .modalOverlay {
     position: fixed;
     top: 0;
@@ -23,7 +22,6 @@
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* Efeito de entrada */
 .modalContent_enterActive {
     transform: scale(1);
     opacity: 1;
@@ -37,9 +35,8 @@
     color: #333;
 }
 
-/* Estilos da tabela */
 .modalTableWrapper {
-    height: 300px; /* Altura máxima com rolagem */
+    height: 300px;
     overflow-y: auto;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -48,7 +45,7 @@
 .modalTable {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed; /* Fixar o layout da tabela */
+    table-layout: fixed;
 }
 
 .modalTableHead {
@@ -61,7 +58,7 @@
 .modalTable_th, .modalTable_td {
     padding: 12px;
     text-align: left;
-    white-space: nowrap; /* Impede a quebra de linha nos dados */
+    white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
 }
@@ -81,19 +78,17 @@
 }
 
 .modalTable_tr:nth-child(odd) {
-    background-color: #f9f9f9; /* Tom de cinza claro para linhas ímpares */
+    background-color: #f9f9f9;
 }
 
 .modalTable_tr:nth-child(even) {
-    background-color: white; /* Cor de fundo branca para linhas pares */
+    background-color: white;
 }
 
-/* Restante do CSS */
 .modalTable_tr:hover {
-    background-color: #f0f0f0; /* Cor ao passar o mouse sobre a linha */
+    background-color: #f0f0f0;
 }
 
-/* Estilos para inputs de data */
 .inputDate {
     width: 100%;
     padding: 5px;
@@ -112,7 +107,6 @@
     width: 100px;
 }
 
-/* Botões de ação */
 .btnCancel, .btnSave, .btnEdit {
     width: auto;
     padding: 6px 10px;
@@ -159,7 +153,6 @@
     height: 1.5rem;
 }
 
-/* Ajustes para telas pequenas */
 @media (max-width: 768px) {
     .modalContent {
         max-width: 100%;

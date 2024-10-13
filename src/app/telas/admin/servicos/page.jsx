@@ -58,9 +58,11 @@ export default function Servicos() {
         } catch (error) {
             console.error("Erro ao buscar os serviços:", error);
             Swal.fire({
-                title: "Erro!",
-                text: "Não foi possível carregar os serviços.",
-                icon: "error",
+                title: 'Erro!',
+                text: 'Não foi possível carregar os serviços.',
+                icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
             });
         }
     };
@@ -72,9 +74,11 @@ export default function Servicos() {
         } catch (error) {
             console.error("Erro ao buscar as categorias:", error);
             Swal.fire({
-                title: "Erro!",
-                text: "Não foi possível carregar as categorias.",
-                icon: "error",
+                title: 'Erro!',
+                text: 'Não foi possível buscar as categorias.',
+                icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
             });
         }
     }
@@ -130,11 +134,14 @@ export default function Servicos() {
         } catch (error) {
             console.error("Erro ao visualizar serviço:", error);
             Swal.fire({
-                title: "Erro!",
+                title: 'Erro!',
                 text: error.response ? error.response.data.mensagem : 'Erro desconhecido ao buscar serviço.',
-                icon: "error",
+                icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
             });
         }
+        
     };
 
     const handleEditServicos = (servicos) => {
@@ -165,7 +172,8 @@ export default function Servicos() {
                 title: 'Sucesso!',
                 text: response.data.mensagem,
                 icon: 'success',
-                confirmButtonColor: "rgb(40, 167, 69)",
+                confirmButtonColor: 'rgb(40, 167, 69)',
+                iconColor: 'rgb(40, 167, 69)',
             });
 
             ListarServicos();
@@ -176,6 +184,8 @@ export default function Servicos() {
                 title: 'Erro!',
                 text: error.response ? error.response.data.mensagem : 'Erro ao salvar serviço.',
                 icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
             });
         }
     };

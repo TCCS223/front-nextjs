@@ -19,7 +19,6 @@ export default function Servicos() {
     const [tela, setTela] = useState(1);
 
     useEffect(() => {
-        // Simula o clique no primeiro botão ao carregar a página
         setTela(1);
     }, []);
 
@@ -164,12 +163,7 @@ export default function Servicos() {
                                 <div className={styles.contentText}>
                                     Proteja a pintura do seu carro com nosso serviço de aplicação de proteção cerâmica. Esse revestimento cria uma barreira resistente contra contaminantes, UV, e desgaste, além de oferecer um brilho duradouro. Ideal para quem deseja preservar a beleza e valor do veículo por mais tempo.</div>
                             </div>
-
                         </div>
-
-
-
-
                     </div>
                 </section>
             </main>

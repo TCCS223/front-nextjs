@@ -136,11 +136,12 @@ export default function Cadastro() {
                 title: 'Dados Incorretos',
                 html: errors.join('<br/>'),
                 icon: 'error',
-                confirmButtonText: 'OK'
+                confirmButtonText: 'OK',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
             });
             return;
         }
-
         cadastrar();
     };
 
@@ -208,7 +209,9 @@ export default function Cadastro() {
                         title: 'CPF Já Cadastrado',
                         text: 'O CPF informado já está cadastrado. Por favor, verifique ou utilize outro CPF.',
                         icon: 'error',
-                        confirmButtonText: 'OK'
+                        confirmButtonText: 'OK',
+                        iconColor: '#d33',
+                        confirmButtonColor: '#d33',
                     });
                 } else {
                     toast.error('Erro no cadastro. Tente novamente.', {
@@ -230,14 +233,18 @@ export default function Cadastro() {
                     title: 'CPF Já Cadastrado',
                     text: 'O CPF informado já está cadastrado. Por favor, verifique ou utilize outro CPF.',
                     icon: 'error',
-                    confirmButtonText: 'OK'
+                    confirmButtonText: 'OK',
+                    iconColor: '#d33',
+                    confirmButtonColor: '#d33',
                 });
             } else {
                 Swal.fire({
                     title: 'Erro no Cadastro',
                     text: 'Ocorreu um erro durante o cadastro. Por favor, tente novamente mais tarde.',
                     icon: 'error',
-                    confirmButtonText: 'OK'
+                    confirmButtonText: 'OK',
+                    iconColor: '#d33',
+                    confirmButtonColor: '#d33',
                 });
             }
         }

@@ -2,15 +2,12 @@
     width: 70%;
     height: 45%;
     display: flex;
-    /* background-color: dodgerblue; */
-    /* position: relative; */
     align-items: center;
     justify-content: center;
     color: black;
     font-size: clamp(1.2rem, 0.4615rem + 0.9231vw, 1.5rem);
         text-align: center;
     line-height: 2rem;
-    
   }
   
   .image_servicos {
@@ -19,11 +16,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background-color: darkslateblue; */
-    /* position: absolute; */
   }
-
-  
 
   .hr {
     width: 90%;

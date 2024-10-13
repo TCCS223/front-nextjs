@@ -19,7 +19,6 @@ export default function Servico1() {
 
         </div>
 
-
         <hr className={styles.hr}></hr>
 
         <div className={styles.image_descricao}>

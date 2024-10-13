@@ -3,7 +3,6 @@
     padding: 0;
 }
 
-
 .main {
     color: #fff;
     background-color: #1c1c1c;
@@ -37,7 +36,6 @@
     height: 100%;
     object-fit: cover;
     border-right: solid #ff9d00;
-    /* border-radius: 0 15px 15px 0; */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     z-index: 1;
 }
@@ -50,7 +48,6 @@
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.2);
-    /* border-radius: 15px; */
     z-index: 2;
 }
 
@@ -106,7 +103,6 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    /* Certifique-se de que o inputGroup tenha position: relative */
 }
 
 .error {
@@ -128,7 +124,6 @@
     border-color: #ff4d4d;
     box-shadow: 0 0 6px rgba(255, 77, 77, 0.7);
 }
-
 
 .labelCadastro {
     font-size: 1.2rem;
@@ -174,7 +169,6 @@
     background-color: #e68900;
 }
 
-/* Container do checkbox */
 .checkboxContainer {
     width: 30%;
     display: flex;
@@ -184,7 +178,6 @@
     justify-content: flex-end;
 }
 
-/* Estilização personalizada do checkbox */
 .checkbox {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -216,7 +209,6 @@
     transform: rotate(45deg);
 }
 
-/* Estilo do rótulo do checkbox */
 .checkboxLabel {
     font-size: 1.2rem;
     color: #ffffff;
@@ -246,8 +238,6 @@
     text-decoration: underline;
 }
 
-
-/* Media Queries para Responsividade */
 @media (max-width: 1500px) {
     .checkboxContainer {
         width: 37.5%;
@@ -298,7 +288,6 @@
 @media (max-width: 997px) {
     .container {
         width: 90%;
-
     }
 
     .image {
@@ -338,9 +327,7 @@
     }
 }
 
-/* Atualização para telas menores que 780px */
 @media (max-width: 780px) {
-
     .main {
         color: #fff;
         background-color: #1c1c1c;
@@ -372,11 +359,9 @@
         justify-content: flex-start;
     }
 
-
     .titleCadastro {
         font-size: 2.2rem;
     }
-
 }
 
 @media (max-width: 767px) {
@@ -384,7 +369,6 @@
         width: 100%;
         padding: 0 1.5rem;
     }
-
 
     .image {
         display: none;
@@ -414,14 +398,12 @@
         padding: 0.8rem;
     }
 
-
     .checkboxLabel {
         font-size: 0.8rem;
     }
 }
 
 @media (max-width: 575px) {
-
     .logoImg {
         width: 70%;
     }
@@ -449,7 +431,6 @@
         padding: .8rem;
     }
 
-
     .checkboxLabel {
         font-size: 0.9rem;
     }
@@ -457,14 +438,12 @@
 
 
 @media (max-width: 480px) {
-
     .logoImg {
         width: 80%;
     }
 }
 
 @media (max-width: 470px) {
-
     .main {
         height: 120vh;
     }

@@ -9,37 +9,33 @@ import Veiculos from "./veiculos/page";
 import Servicos from "./servicos/page";
 import FullCalendar from "./agenda/page";
 
-
 export default function Home() {
 
+    const [userId, setUserId] = useState(null);
 
-   const [userId, setUserId] = useState(null);
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
 
-useEffect(() => {
-  // Obtém o ID do usuário do localStorage
-  const storedUser = localStorage.getItem('user');
-  
-  // Verifica se existe um valor armazenado e faz o parse do JSON
-  if (storedUser) {
-    const parsedUser = JSON.parse(storedUser);
-    setUserId(parsedUser); // Acessa apenas o id
-  }
-}, []);
+        if (storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            setUserId(parsedUser);
+        }
+    }, []);
 
-console.log(userId?.id); 
-  
-    
+    console.log(userId?.id);
+
+
     const [tela, setTela] = useState(0);
 
     return (
         <div className={styles.grid_container}>
             <div className={styles.header}>
                 <h1 className={styles.title}>Painel Administrativo</h1>
-            
+
                 <Link href="/" className={styles.linkPower}>
-                <span className={styles.power} title="Sair"></span>
+                    <span className={styles.power} title="Sair"></span>
                 </Link>
-                
+
             </div>
             <div className={styles.sidebar}>
                 <button data-target="#clientes" onClick={() => setTela(1)}>Clientes</button>

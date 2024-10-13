@@ -97,11 +97,8 @@
     border: 3px solid #636262;
     border-radius: 4px;
     box-sizing: border-box;
-    /* margin-right: 10px; */
     width: calc(100%-20px);
     display: inline-flex;
-    /* height: auto; */
-    /* background-color: black; */
 }
 
 .searchInput:focus {
@@ -243,6 +240,7 @@
 }
 
 /*---------------------*/
+
 .resultTableContainer {
     display: flex;
     align-items: flex-start;
@@ -335,6 +333,7 @@
 }
 
 /*---------------------*/
+
 .pagination {
     display: flex;
     justify-content: center;
@@ -390,8 +389,6 @@
 /* MEDIA QUERY*/
 
 @media (min-width: 992px) and (max-width: 1150px) {
-    /* Regras para tablets */
-
     .form {
         margin: 17px 0;
     }
@@ -448,8 +445,6 @@
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
-    /* Regras para tablets */
-
     .button_group {
         padding: 10px 0 10px 20px;
         grid-template-columns: repeat(4, 1fr);

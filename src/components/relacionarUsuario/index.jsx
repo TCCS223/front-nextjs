@@ -25,8 +25,6 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
         }
     }
 
-
-
     useEffect(() => {
         buscarUsuarios(cpf);
     }, [cpf])
@@ -53,14 +51,26 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
 
         try {
             await api.post(`/veiculoUsuario`, dados);
-            Swal.fire('Sucesso', 'Relacionamento realizado com sucesso!', 'success');
+            Swal.fire({
+                title: 'Sucesso!',
+                text: 'Relacionamento realizado com sucesso!',
+                icon: 'success',
+                iconColor: "rgb(40, 167, 69)",
+                confirmButtonColor: "rgb(40, 167, 69)",
+            });
             onClose();
 
 
             limparCampos();
         } catch (error) {
             console.error("Erro ao associar usuário:", error.response);
-            Swal.fire('Erro!', 'Erro ao associar usuário.', 'error'); a
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Erro ao associar usuário!',
+                icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
+            });
         }
     }
 

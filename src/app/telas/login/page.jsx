@@ -59,7 +59,9 @@ export default function LoginUsu() {
                     icon: 'error',
                     title: 'Erro',
                     text: 'Email e/ou senha inválidos.',
-                    confirmButtonText: 'OK'
+                    confirmButtonText: 'OK',
+                    iconColor: '#d33',
+                    confirmButtonColor: '#d33',
                 });
             }
 
@@ -72,6 +74,8 @@ export default function LoginUsu() {
                     confirmButtonText: "OK",
                     backdrop: "rgba(0,0,0,0.7)",
                     scrollbarPadding: false,
+                    iconColor: '#d33',
+                    confirmButtonColor: '#d33',
                 });
                 setSenha("");
                 setEmail("");
@@ -80,7 +84,9 @@ export default function LoginUsu() {
                     icon: 'error',
                     title: 'Erro na Conexão',
                     text: 'Ocorreu um erro ao tentar realizar o login. Verifique sua conexão e tente novamente.',
-                    confirmButtonText: 'Ok'
+                    confirmButtonText: 'OK',
+                    iconColor: '#d33',
+                    confirmButtonColor: '#d33',
                 });
             }
         }
