@@ -156,33 +156,40 @@ export default function CadCliente() {
     };
 
     const handleSubmit = async (usuario) => {
-        if (!validarCPF(usuario.usu_cpf)) {
+    
+        const errors = [];
+    
+        const cpfError = await validarCPF(usuario.usu_cpf);
+        if (cpfError) {
+            errors.push(cpfError);
+        }
+
+        const emailError = await validaEmail(usuario);
+        if (emailError) {
+            errors.push(emailError);
+        }
+
+        if (errors.length > 0) {
             Swal.fire({
-                title: 'Erro!',
-                text: 'CPF inválido',
+                title: 'Dados Incorretos',
+                html: errors.join('<br/>'),
                 icon: 'error',
+                confirmButtonText: 'OK',
                 iconColor: '#d33',
                 confirmButtonColor: '#d33',
             });
             return;
         }
 
-        if (!validaEmail(usuario)) {
-            return;
-        }
-
-        const update = {...selectedUser, usu_sexo: parseInt(selectedUser.usu_sexo, 10)}
-        console.log("dados:", update);
-
         try {
             let response;
-
+    
             if (usuario.usu_id) {
                 response = await api.patch(`/usuarios/${usuario.usu_id}`, usuario);
             } else {
                 response = await api.post('/usuarios', usuario);
             }
-
+    
             Swal.fire({
                 title: 'Sucesso!',
                 text: response.data.mensagem,
@@ -190,47 +197,86 @@ export default function CadCliente() {
                 iconColor: "rgb(40, 167, 69)",
                 confirmButtonColor: "rgb(40, 167, 69)",
             });
-
+    
             ListarUsuarios();
             setShowForm(false);
         } catch (error) {
-            Swal.fire({
-                title: 'Erro!',
-                text: error.response ? error.response.data.mensagem : 'Erro ao salvar usuário.',
-                icon: 'error',
-                iconColor: '#d33',
-                confirmButtonColor: '#d33',
-            });
+            const backendErrors = [];
+    
+            if (error.response && error.response.data) {
+                if (error.response.data.erros && Array.isArray(error.response.data.erros)) {
+                    backendErrors.push(...error.response.data.erros);
+                } else if (error.response.data.mensagem) {
+                    backendErrors.push(error.response.data.mensagem);
+                }
+            }
+    
+            if (backendErrors.length > 0) {
+                Swal.fire({
+                    title: 'Erro!',
+                    html: backendErrors.join('<br/>'),
+                    icon: 'error',
+                    iconColor: '#d33',
+                    confirmButtonColor: '#d33',
+                });
+            } else {
+                Swal.fire({
+                    title: 'Erro!',
+                    text: 'Erro ao salvar usuário.',
+                    icon: 'error',
+                    iconColor: '#d33',
+                    confirmButtonColor: '#d33',
+                });
+            }
         }
     };
-
-    function validarCPF(cpf) {
+    
+    const validarCPF = async (cpf) => {
         const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;
-
+    
         if (!cpfRegex.test(cpf)) {
-            return false;
+            return 'CPF inválido.';
         }
-
+    
         const numbersOnly = cpf.replace(/[^\d]/g, '');
-
-        if (numbersOnly.length !== 11 || /^(\d)\1+$/.test(numbersOnly)) return false;
-
+    
+        if (numbersOnly.length !== 11 || /^(\d)\1+$/.test(numbersOnly)) {
+            return 'CPF inválido.';
+        }
+    
         let soma = 0;
         let resto;
-
-        for (let i = 1; i <= 9; i++) soma += parseInt(numbersOnly.substring(i - 1, i)) * (11 - i);
+    
+        for (let i = 1; i <= 9; i++) {
+            soma += parseInt(numbersOnly.substring(i - 1, i)) * (11 - i);
+        }
         resto = (soma * 10) % 11;
         if (resto === 10 || resto === 11) resto = 0;
-        if (resto !== parseInt(numbersOnly.substring(9, 10))) return false;
-
+        if (resto !== parseInt(numbersOnly.substring(9, 10))) {
+            return 'CPF inválido.';
+        }
+    
         soma = 0;
-        for (let i = 1; i <= 10; i++) soma += parseInt(numbersOnly.substring(i - 1, i)) * (12 - i);
+        for (let i = 1; i <= 10; i++) {
+            soma += parseInt(numbersOnly.substring(i - 1, i)) * (12 - i);
+        }
         resto = (soma * 10) % 11;
         if (resto === 10 || resto === 11) resto = 0;
-        if (resto !== parseInt(numbersOnly.substring(10, 11))) return false;
-
-        return true;
-    }
+        if (resto !== parseInt(numbersOnly.substring(10, 11))) {
+            return 'CPF inválido.';
+        }
+        try {
+            const response = await api.post('/usuarios/verificarCpf', { usu_cpf: cpf });
+            if (response.data.sucesso && response.data.dados) {
+                return 'CPF já está cadastrado.';
+            }
+        } catch (error) {
+            console.error('Erro na verificação do CPF:', error);
+            return 'Ocorreu um erro ao verificar o CPF. Por favor, tente novamente.';
+        }
+    
+        return null;
+    };
 
     function checkEmail(email) {
         return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
@@ -238,30 +284,28 @@ export default function CadCliente() {
         );
     }
 
-    function validaEmail(usuario) {
-        if (!usuario.usu_email) {
-            Swal.fire({
-                title: 'Erro!',
-                text: 'O e-mail do usuário é obrigatório',
-                icon: 'error',
-                iconColor: '#d33',
-                confirmButtonColor: '#d33',
-            });
-            return false;
-        } else if (!checkEmail(usuario.usu_email)) {
-            Swal.fire({
-                title: 'Erro!',
-                text: 'Insira um e-mail válido',
-                icon: 'error',
-                iconColor: '#d33',
-                confirmButtonColor: '#d33',
-            });
-            return false;
+    const validaEmail = async (usuario) => {
+        const email = usuario.usu_email.trim();
+        
+        if (!email) {
+            return 'O e-mail do usuário é obrigatório.';
+        } else if (!checkEmail(email)) {
+            return 'Insira um e-mail válido.';
         }
 
-        return true;
-    }
-
+        try {
+            const response = await api.post('/usuarios/verificarEmail', { usu_email: email });
+            if (response.data.sucesso && response.data.dados) {
+                return 'Email já está cadastrado.';
+            }
+        } catch (error) {
+            console.error('Erro na verificação do email:', error);
+            return 'Ocorreu um erro ao verificar o email. Por favor, tente novamente.';
+        }
+    
+        return null;
+    };
+    
     const sortByColumn = (column) => {
         let newIsAsc = true;
 
