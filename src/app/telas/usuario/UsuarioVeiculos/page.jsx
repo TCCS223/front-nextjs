@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Link from "next/link";
 import styles from "./page.module.css";
 import Swal from "sweetalert2";
+import api from "@/services/api";
 
 export default function UsuarioVeiculos() {
     const [showForm, setShowForm] = useState(false);
@@ -11,6 +12,38 @@ export default function UsuarioVeiculos() {
         marca: "",
         modelo: ""
     });
+    const [veiculos, setVeiculos] = useState([])
+
+    const [userId, setUserId] = useState(null);
+
+    useEffect(() => {
+        const storedUserId = localStorage.getItem('user');
+        if (storedUserId) {
+            const parsedUser = JSON.parse(storedUserId);
+            setUserId(parsedUser?.id || null);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (userId) {
+            ListarVeiculosUsuario();
+        }
+    }, [userId]);
+
+    const ListarVeiculosUsuario = async () => {
+        if (!userId) return;
+
+        try {
+            const response = await api.get(`/veiculoUsuario/usuario/${userId}`);
+            setVeiculos(response.data.dados);
+
+        
+
+            console.log("veiculos:", response.data.dados);
+        } catch (error) {
+            console.error("Erro ao buscar veículos:", error);
+        }
+    }
 
     const handleAlterarClick = (veiculo) => {
         setSelectedVehicle(veiculo);
@@ -37,7 +70,7 @@ export default function UsuarioVeiculos() {
         try {
             const response = await api.get('/veiculoUsuario');
             // console.log(Array.isArray(teste)); // Adicionando um log para inspecionar os dados
-            setUsuarioVeiculo(response.data.dados); // Atualiza o estado com os dados dos usuários
+            setUsuarioVeiculo(response.data.dados);
         } catch (error) {
             console.error("Erro ao buscar os usuários:", error.response ? error.response.data : error.message);
             Swal.fire({
@@ -50,7 +83,7 @@ export default function UsuarioVeiculos() {
     }
 
     useEffect(() => {
-        fetchUsuarioVeiculo(); // Chama a função quando o componente é montado
+        fetchUsuarioVeiculo();
     }, []);
 
     return (
@@ -64,37 +97,49 @@ export default function UsuarioVeiculos() {
             <div className={styles.container}>
                 {!showForm ? (
                     <ol className={styles.fundocards}>
-                        <li className={styles.lista}>
+                    {veiculos.map((veiculo) => (
+                        <li key={veiculo.veic_usu_id} className={styles.lista}>
                             <div className={styles.icone}>
                                 <span className={styles.iconeCarro}></span>
                             </div>
-
+                
                             <div className={styles.botoeslink}>
                                 <button
                                     className={styles.link}
                                     onClick={() =>
                                         handleAlterarClick({
-                                            placa: "PLA-4884",
-                                            marca: "Mercedes",
-                                            modelo: "Z-4"
+                                            placa: veiculo.veic_placa,
+                                            marca: veiculo.marca,
+                                            modelo: veiculo.modelo
                                         })
                                     }
                                 >
                                     <span className={styles.iconeAlterar}></span>
                                 </button>
-
-                                <Link href="/UsuarioVeiculos/excluirVeiculo" className={styles.link}>
+                
+                                <Link href={`/UsuarioVeiculos/excluirVeiculo/${veiculo.veic_id}`} className={styles.link}>
                                     <span className={styles.iconeExcluir}></span>
                                 </Link>
                             </div>
-
+                
                             <div className={styles.content}>
-                                <span className={styles.placa}>PLA-4884</span>
-                                <span className={styles.marca}>Mercedes</span>
-                                <span className={styles.modelo}>Z-4</span>
+                                <span className={styles.placa}>{veiculo.veic_placa}</span>
+                                <span className={styles.marca}>{veiculo.marca}</span>
+                                <span className={styles.modelo}>{veiculo.modelo}</span>
+                                <span className={styles.ano}>Ano: {veiculo.veic_ano}</span>
+                                {/* <span className={styles.cor}>Cor: {veiculo.veic_cor}</span> */}
+                                {/* <span className={styles.combustivel}>Combustível: {veiculo.veic_combustivel}</span>
+                                <span className={styles.observacoes}>{veiculo.veic_observ}</span> */}
+                                {veiculo.ehproprietario === 1 ? (
+                                    <span className={styles.proprietario}>Proprietário</span>
+                                ): (
+                                    <span className={styles.naoProprietario}>Não Proprietário</span>
+                                )}
                             </div>
                         </li>
-                    </ol>
+                    ))}
+                </ol>
+                
                 ) : (
                     <form id="veiculoForm" className={styles.form}>
                         <input type="hidden" id="veiculoId" className={styles.input_veiculos} />

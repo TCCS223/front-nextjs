@@ -2,7 +2,9 @@
 
 
 - VEICULOS -
-
+não permitir cadastrar o mesmo veiculo duas vezes para o mesmo usuarios
+erro no modal 
+esta relacionando todos os veiculos como proprietarios com o usu_id
 
 - SERVIÇOS -
 
@@ -18,6 +20,7 @@
     conexão com o veiculo na api para mostrar os veiculos que o ID esta cadastrado
     estilização dos campos
     histórico de SERVIÇOS
+    erro de cpf ja cadastrado
     (agenda) -> se der tempo
 
 
