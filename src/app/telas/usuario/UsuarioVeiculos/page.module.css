@@ -8,10 +8,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  background-color: #f8f9fa; /* Fundo claro para contraste */
+  background-color: #f8f9fa;
 }
 
-/* Lista de Veículos */
 .fundocards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -20,20 +19,17 @@
   padding: 0;
   list-style: none;
   width: 100%;
-
 }
 
-/* Item da Lista */
 .lista {
   display: grid;
   grid-template-columns: 35% 65%;
   grid-template-areas: "icone content";
   padding: 1.5rem;
   border-radius: 12px;
-  background-color: #b8358c; /* Fundo branco para cards */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Sombra sutil */
+  background-color: #222;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s, box-shadow 0.3s;
-  display: flex;
   flex-direction: row;
   align-items: center;
   margin-bottom: 1rem;
@@ -44,9 +40,8 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
-/* Ícone do Carro */
 .iconeCarro {
-  display: inline-block;
+  display: flex;
   width: 80px;
   height: 80px;
   background-repeat: no-repeat;
@@ -54,32 +49,31 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ff9d00' d='M21.907 9.641a1.1 1.1 0 0 0-.088-1.05c-.27-.519-2.14-.647-2.056-.033c.034.248.1.416-.206.446a2.4 2.4 0 0 1-.137-.317l-.53-1.627a2.65 2.65 0 0 0-1.282-1.5l-.373-.2A3.9 3.9 0 0 0 15.4 4.9H8.605a3.9 3.9 0 0 0-1.837.457l-.372.2a2.65 2.65 0 0 0-1.282 1.5L4.58 8.682A2.4 2.4 0 0 1 4.444 9c-.308-.03-.241-.2-.207-.446c.084-.614-1.786-.486-2.056.033a1.1 1.1 0 0 0-.088 1.05a2.16 2.16 0 0 0 1.721.287l-1.079 1.317a2.1 2.1 0 0 0-.578 1.459l.029 5.364A1.083 1.083 0 0 0 3.3 19.1h1.644a.5.5 0 0 0 .516-.475v-.021L5.432 17.4h13.142l-.029 1.21a.5.5 0 0 0 .5.5h1.664a1.083 1.083 0 0 0 1.116-1.04l.03-5.364a2.1 2.1 0 0 0-.578-1.459l-1.091-1.324a2.16 2.16 0 0 0 1.721-.282M5.388 8.9a3.18 3.18 0 0 1 3.279-3.07h6.666a3.183 3.183 0 0 1 3.281 3.076v.45a.125.125 0 0 1-.125.124H5.512a.124.124 0 0 1-.124-.124Zm1.393 4.029a.25.25 0 0 1-.205.115h-3.06c-.136 0-.418-.062-.418-.475l.207-1.069c.071-.372.806-.351 1.133-.156L6.7 12.591a.25.25 0 0 1 .081.342zM20.7 11.5l.207 1.073c0 .413-.282.475-.418.475h-3.06a.247.247 0 0 1-.124-.457l2.266-1.247c.318-.195 1.053-.218 1.129.156'/%3E%3C/svg%3E");
 }
 
-/* Área do Ícone */
 .icone {
   grid-area: icone;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 0.6rem;
   width: 80px;
   height: 80px;
 }
 
-/* Conteúdo Principal */
 .content {
   grid-area: content;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.5rem;
   padding-left: 1.2rem;
 }
 
-/* Detalhes do Veículo */
 .placa {
   color: #333;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   padding: 0.5rem 1rem;
+  text-align: center;
   border-radius: 12px;
-  background-color: #e9ecef; /* Fundo suave para destaque */
+  background-color: #e9ecef;
   margin-bottom: 0.8rem;
   font-weight: 600;
 }
@@ -87,25 +81,21 @@
 .marca,
 .modelo,
 .ano {
-  color: #555;
-  font-size: 1.1rem;
+  color: #e9ecef;
+  font-size: 1.2rem;
   line-height: 1.6rem;
 }
 
-/* Destaque para Proprietário */
 .proprietario {
-  font-weight: bold;
-  color: #28a745; /* Verde moderno */
+  color: #28a745;
   font-size: 1rem;
 }
 
 .naoProprietario {
-  font-weight: bold;
-  color: #dc3545; /* Vermelho moderno */
+  color: #dc3545;
   font-size: 1rem;
 }
 
-/* Botões de Ação */
 .botoeslink {
   display: flex;
   gap: 1rem;
@@ -128,9 +118,8 @@
   opacity: 0.8;
 }
 
-/* Ícone de Excluir */
 .iconeExcluir {
-  display: inline-block;
+  display: flex;
   width: 2em;
   height: 2em;
   background-repeat: no-repeat;
@@ -139,9 +128,8 @@
   filter: brightness(0) invert(1);
 }
 
-/* Ícone de Alterar */
 .iconeAlterar {
-  display: inline-block;
+  display: flex;
   width: 2.4em;
   height: 2.3em;
   background-repeat: no-repeat;
@@ -150,10 +138,9 @@
   filter: brightness(0) invert(1);
 }
 
-/* Botão de Novo Veículo */
 .botaonovo button {
   padding: 12px 24px;
-  background-color: #007bff; /* Azul vibrante */
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 8px;
@@ -165,9 +152,20 @@
 }
 
 .botaonovo button:hover {
-  background-color: #0056b3; /* Azul mais escuro no hover */
+  background-color: #0056b3;
   transform: translateY(-2px);
 }
+
+/* .form {
+  margin: 20px 0;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 30px 15px;
+} */
 
 .form {
   margin: 20px 0;
@@ -184,19 +182,18 @@
   display: block;
   margin-bottom: 8px;
   color: #333;
-  font-weight: bold;
 }
 
 .input_veiculos, 
 .select_veiculos {
-  width: 100%;
-  padding: 10px;
-  margin-top: 5px;
-  border: 2px solid #8d8c8c;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 16px;
-  background-color: #f9f9f9;
+  width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 5px;
+    border: 3px solid #8d8c8c;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 18px;
+    background-color: #f9f9f9;
 }
 
 .input_veiculos:focus, 
@@ -225,7 +222,7 @@
 }
 
 .grid_observacoes {
-  grid-column: span 6;
+  grid-column: span 9;
 }
 
 .select_veiculos {
@@ -239,17 +236,43 @@
   border-color: #4CAF50;
 }
 
+.footer_form {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 15px;
+  padding: 50px 40px 50px 20px;
+}
+
 .submitButton {
-  margin-top: 20px;
-  padding: 12px 20px;
-  background-color: #4CAF50;
+  padding: 10px 20px;
+  background-color: #ff9d00;
+  color: white;
   border: none;
   border-radius: 4px;
-  color: white;
-  font-size: 16px;
   cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s;
 }
 
 .submitButton:hover {
-  background-color: #45A049;
+  background-color: #f39200;
+  color: #222;
+}
+
+.button_cancel {
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s;
+  grid-column: span 1;
+  grid-area: 1 / 7 / 2 / 8;
+}
+
+.button_cancel:hover {
+  background-color: #ff9d00;
+  color: #222;
 }

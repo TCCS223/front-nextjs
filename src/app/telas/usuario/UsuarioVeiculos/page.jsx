@@ -97,11 +97,11 @@ export default function UsuarioVeiculos() {
 
     return (
         <>
-            <div className={styles.navbar}>
+            {/* <div className={styles.navbar}>
                 <div className={styles.botaonovo}>
                     <button id="novoCliente">Novo</button>
                 </div>
-            </div>
+            </div> */}
 
             <div className={styles.container}>
                 {!showForm ? (
@@ -141,7 +141,7 @@ export default function UsuarioVeiculos() {
                                     <span className={styles.placa}>{veiculo.veic_placa}</span>
                                     <span className={styles.marca}>{veiculo.mar_nome}</span>
                                     <span className={styles.modelo}>{veiculo.mod_nome}</span>
-                                    <span className={styles.ano}>Ano: {veiculo.veic_ano}</span>
+                                    {/* <span className={styles.ano}>Ano: {veiculo.veic_ano}</span> */}
                                     {veiculo.ehproprietario === 1 ? (
                                         <span className={styles.proprietario}>Proprietário</span>
                                     ) : (
