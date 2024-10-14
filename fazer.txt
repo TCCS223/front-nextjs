@@ -25,6 +25,7 @@ esta relacionando todos os veiculos como proprietarios com o usu_id
 
     criar outro modal para editar data inicial, data final e ehproprietario do veiculo 
 
+    mudar nome das função - usuarioEditandoVeiculo e da rota também
 
 - GERAL -
     (inserir possivel validação de senha) -> se der tempo
