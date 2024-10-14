@@ -23,6 +23,8 @@ esta relacionando todos os veiculos como proprietarios com o usu_id
     erro de cpf ja cadastrado
     (agenda) -> se der tempo
 
+    criar outro modal para editar data inicial, data final e ehproprietario do veiculo 
+
 
 - GERAL -
     (inserir possivel validação de senha) -> se der tempo

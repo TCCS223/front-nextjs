@@ -32,7 +32,7 @@ export default function Home() {
                 <h1 className={styles.title}>Painel do Usuário</h1>
 
                 {/* <span className={styles.power} onClick={teste}><Link href="/"></Link></span> */}
-                <Link href="/" className={styles.iconPower}><MdPowerSettingsNew className={styles.power} onClick={clearLocalStorage}/></Link>
+                <Link href="/" className={styles.iconPower}><MdPowerSettingsNew className={styles.power} onClick={clearLocalStorage} /></Link>
 
 
                 {/* <div className={styles.button_logout}>
@@ -56,9 +56,9 @@ export default function Home() {
                             : tela === 3 ?
                                 <CadastrarVeiculos />
                                 : tela === 4 ?
-                                    <FullCalendar />
+                                    <UsuarioDados />
                                     : tela === 5 ?
-                                        <FullCalendar /> // trocar pelo histórico
+                                        <UsuarioDados /> // trocar pelo histórico
                                         : <></>
                 }
             </div>

@@ -168,3 +168,88 @@
   background-color: #0056b3; /* Azul mais escuro no hover */
   transform: translateY(-2px);
 }
+
+.form {
+  margin: 20px 0;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 30px 15px;
+}
+
+.label_veiculos {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  font-weight: bold;
+}
+
+.input_veiculos, 
+.select_veiculos {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 2px solid #8d8c8c;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+  background-color: #f9f9f9;
+}
+
+.input_veiculos:focus, 
+.select_veiculos:focus {
+  border-color: #45A049;
+  outline: none;
+}
+
+.grid {
+  display: contents;
+}
+
+.grid_item {
+  display: flex;
+  flex-direction: column;
+}
+
+.grid_placa, 
+.grid_marca, 
+.grid_modelo, 
+.grid_ano, 
+.grid_cor, 
+.grid_combustivel, 
+.grid_proprietario {
+  grid-column: span 4;
+}
+
+.grid_observacoes {
+  grid-column: span 6;
+}
+
+.select_veiculos {
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M7 10l5 5 5-5H7z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+.select_veiculos:hover {
+  border-color: #4CAF50;
+}
+
+.submitButton {
+  margin-top: 20px;
+  padding: 12px 20px;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background-color: #45A049;
+}
