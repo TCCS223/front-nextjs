@@ -179,7 +179,7 @@ export default function FormVeiculo({
                 <div className={`${styles.grid_item} ${styles.grid_placa}`}>
                     <label htmlFor="veic_placa" className={styles.label_veiculos}>Placa</label>
                     <InputMask
-                        mask="aaa-9999"
+                        mask="aaa-9*99"
                         type="text"
                         id="veic_placa"
                         name="veic_placa"

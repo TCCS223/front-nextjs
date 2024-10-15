@@ -44,7 +44,8 @@ export default function ModalRelacionarVeiculo({ isOpen, onClose, usuarioId }) {
             ehproprietario: ehProprietario ? 1 : 0,
             data_inicial: dataInicial,
         };
-
+        console.log("Dados enviados para o banco:", dadosVeiculo);  // Adiciona log completo dos dados
+        
         try {
             await api.post(`/veiculoUsuario`, dadosVeiculo);
             Swal.fire({
@@ -121,7 +122,7 @@ export default function ModalRelacionarVeiculo({ isOpen, onClose, usuarioId }) {
                             <input
                                 type="checkbox"
                                 checked={ehProprietario}
-                                onChange={(e) => setEhProprietario(e.target.checked)}
+                                onChange={(e) => setEhProprietario(e.target.checked ? 1 : 0)}  // Ajustar para garantir que o valor seja 1 ou 0
                             />
                             É Proprietário?
                         </label>
