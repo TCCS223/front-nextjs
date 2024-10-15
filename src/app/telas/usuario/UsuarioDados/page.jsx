@@ -4,6 +4,7 @@ import { IoMdEyeOff, IoMdEye } from "react-icons/io";
 import Swal from "sweetalert2";
 import { format } from 'date-fns';
 import api from "@/services/api";
+import InputMask from "react-input-mask";
 import styles from "./page.module.css";
 
 export default function DadosDoUsuario() {
@@ -339,7 +340,8 @@ export default function DadosDoUsuario() {
 
                             <div className={`${styles.grid_item} ${styles.grid_telefone}`}>
                                 <label htmlFor="usu_telefone" className={styles.label_cliente}>Telefone</label>
-                                <input
+                                <InputMask
+                                    mask="(99) 99999-9999"
                                     type="tel"
                                     id="usu_telefone"
                                     name="usu_telefone"

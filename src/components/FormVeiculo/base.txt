@@ -4,12 +4,6 @@ import { format } from 'date-fns';
 import { useRef, useState } from 'react';
 
 export default function FormVeiculo({ selectedVeic, setSelectedVeic, isViewing, handleSubmit, Cancelar }) {
-
-
-
-
-
-
     return (
         <>
             <form id="veiculoForm" className={styles.form}>

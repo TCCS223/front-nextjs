@@ -17,86 +17,17 @@ esta relacionando todos os veiculos como proprietarios com o usu_id
 
 
 - TELA DE USUÁRIO -
-    conexão com o veiculo na api para mostrar os veiculos que o ID esta cadastrado
-    estilização do botão salvar e cancelar no form de editar veiculo
+    estilizar o input de data no editar veiculos (tamanho)
+    cadastrar novo veiculo no botão
     histórico de SERVIÇOS
-    erro de cpf ja cadastrado
+
+
     (agenda) -> se der tempo
-
-    criar outro modal para editar data inicial, data final e ehproprietario do veiculo 
-
-    mudar nome das função - usuarioEditandoVeiculo e da rota também
 
 - GERAL -
     (inserir possivel validação de senha) -> se der tempo
 
-
-
-
-
-    async listarUsuarioPorCpf(request, response) {
-        try {
-            const { usu_acesso, usu_id  } = request.body; // Obtém o CPF do corpo da requisição
-    
-            // Verifica se o CPF foi fornecido
-            if (!usu_cpf) {
-                return response.status(400).json({
-                    sucesso: false,
-                    mensagem: 'CPF do usuário é obrigatório.',
-                });
-            }
-    
-            const sql = `
-                SELECT 
-                    u.usu_id,
-                    u.usu_nome,
-                    u.usu_cpf,
-                    u.usu_email
-                FROM usuarios u
-                WHERE u.usu_cpf LIKE ?
-                 WHERE ((?= 1
-                        AND Usu.usu_id = Usu.usu_id)
-                        OR 
-                        (? = 0
-                        AND ? = Usu.usu_id))
-            `;
-    
-            const values = [usu_acesso, usu_acesso, usu_id]; // Usar o operador LIKE para permitir busca parcial pelo CPF
-           // const values = [`%${usu_cpf}%`]; // Usar o operador LIKE para permitir busca parcial pelo CPF
-    
-            const [usuarios] = await db.query(sql, values);
-            const nItens = usuarios.length;
-    
-            return response.status(200).json({
-                sucesso: true,
-                mensagem: 'Lista de usuários.',
-                dados: usuarios,
-                nItens
-            });
-        } catch (error) {
-            return response.status(500).json({
-                sucesso: false,
-                mensagem: 'Erro na requisição.',
-                dados: error.message
-            });
-        }
-    },
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    pegar backup do banco (inserts)
 
 
 
