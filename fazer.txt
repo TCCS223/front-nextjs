@@ -17,7 +17,6 @@ esta relacionando todos os veiculos como proprietarios com o usu_id
 
 
 - TELA DE USUÁRIO -
-    estilizar o input de data no editar veiculos (tamanho)
     cadastrar novo veiculo no botão
     histórico de SERVIÇOS
 

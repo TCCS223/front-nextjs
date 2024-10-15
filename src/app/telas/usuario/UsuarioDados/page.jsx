@@ -143,7 +143,8 @@ export default function DadosDoUsuario() {
         try {
             const response = await api.post('/usuarios/verificarCpf', { usu_cpf: cpf });
             if (response.data.sucesso && response.data.dados) {
-                return 'CPF já está cadastrado.';
+                // return 'CPF já está cadastrado.';
+                return 'CPF indisponível';
             }
         } catch (error) {
             console.error('Erro na verificação do CPF:', error);
