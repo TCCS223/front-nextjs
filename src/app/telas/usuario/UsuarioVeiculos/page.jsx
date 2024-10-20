@@ -19,10 +19,14 @@ export default function UsuarioVeiculos() {
     const [isCreate, setIsCreate] = useState(false);
     const [isViewing, setIsViewing] = useState(false);
     const [originalVehicle, setOriginalVehicle] = useState(null);
+    const [categorias, setCategorias] = useState([]);
+    const [marcas, setMarcas] = useState([]);
+    const [modelos, setModelos] = useState([]);
+    // const [selectedCategoryId, setSelectedCategoryId] = useState("");
+    // const [selectedBrandId, setSelectedBrandId] = useState("");
 
 
     const [selectedVehicle, setSelectedVehicle] = useState({
-
         veic_id: "",
         veic_usu_id: "",
         veic_placa: "",
@@ -59,6 +63,17 @@ export default function UsuarioVeiculos() {
     }, [userId]);
 
 
+    useEffect(() => {
+        if (selectedVehicle.cat_id) {
+            ListarMarcas();
+        }
+    }, [selectedVehicle.cat_id]);
+
+    useEffect(() => {
+        if (selectedVehicle.mar_id) {
+            ListarModelos();
+        }
+    }, [selectedVehicle.mar_id]);
 
     const ListarVeiculosUsuario = async () => {
         if (!userId) return;
@@ -74,14 +89,59 @@ export default function UsuarioVeiculos() {
         }
     }
 
+    const ListarCategorias = async () => {
+        try {
+            const response = await api.get('/categorias');
+            setCategorias(response.data.dados);
+        } catch (error) {
+            console.error("Erro ao buscar as categorias:", error);
+        }
+    }
+
+    const ListarMarcas = async () => {
+
+        try {
+            const response = await api.get(`/marcas/categorias/${selectedVehicle.cat_id}`);
+            setMarcas(response.data.dados);
+        } catch (error) {
+            console.error("Erro ao buscar as marcas:", error);
+        }
+    }
+
+    const ListarModelos = async () => {
+
+
+        try {
+            const response = await api.get(`/modelos/cat/${selectedVehicle.cat_id}/mar/${selectedVehicle.mar_id}`);
+            setModelos(response.data.dados);
+        } catch (error) {
+            console.error("Erro ao buscar as marcas:", error);
+        }
+    }
+
+    console.log(selectedVehicle);
+
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
         setSelectedVehicle((prevVehicle) => ({
             ...prevVehicle,
-            [name]: name === 'ehproprietario' ? parseInt(value, 10) : value
+            [name]: (name === 'cat_id' || name === 'mar_id' || name === 'mod_id' || name === 'ehproprietario')
+                ? parseInt(value, 10)
+                : value
         }));
     };
+
+
+    // const handleInputChange = (e) => {
+    //     const { name, value } = e.target;
+
+    //     setSelectedVehicle((prevVehicle) => ({
+    //         ...prevVehicle,
+    //         [name]: name === 'ehproprietario' ? parseInt(value, 10) : value
+    //     }));
+    // };
 
     const handleExcluirVeiculo = async (veic_usu_id) => {
         Swal.fire({
@@ -165,11 +225,35 @@ export default function UsuarioVeiculos() {
             ehproprietario
         };
 
+
+        // const newVeiculo ={
+
+        // }
+
         try {
-            const [responseVehicle, responseVehicleUser] = await Promise.all([
-                api.patch(`/veiculos/usuario/${selectedVehicle.veic_id}`, updatedVeiculo),
-                api.patch(`/veiculoUsuario/${selectedVehicle.veic_usu_id}`, updatedVeiculoUsuario)
-            ]);
+            let responseVehicle;
+            let responseVehicleUser;
+
+            // Verifica se o veic_id existe, caso contrário faz um POST.
+            if (selectedVehicle.veic_id) {
+                // Requisição de PATCH se veic_id existir
+                [responseVehicle, responseVehicleUser] = await Promise.all([
+                    api.patch(`/veiculos/usuario/${selectedVehicle.veic_id}`, updatedVeiculo),
+                    api.patch(`/veiculoUsuario/${selectedVehicle.veic_usu_id}`, updatedVeiculoUsuario)
+                ]);
+            } else {
+                // Requisição de POST se veic_id não existir
+                [responseVehicle, responseVehicleUser] = await Promise.all([
+                    api.post(`/veiculos`, updatedVeiculo),  // POST para criar novo veículo
+                    // api.post(`/veiculoUsuario`, updatedVeiculoUsuario)  // POST para criar nova relação veículo-usuário
+                ]);
+            }
+
+
+            // const [responseVehicle, responseVehicleUser] = await Promise.all([
+            //     api.patch(`/veiculos/usuario/${selectedVehicle.veic_id}`, updatedVeiculo),
+            //     api.patch(`/veiculoUsuario/${selectedVehicle.veic_usu_id}`, updatedVeiculoUsuario)
+            // ]);
 
             if (responseVehicle.data.sucesso && responseVehicleUser.data.sucesso) {
                 ListarVeiculosUsuario();
@@ -268,6 +352,9 @@ export default function UsuarioVeiculos() {
             veic_observ: "",
             ehproprietario: 0
         };
+        ListarCategorias();
+        // ListarMarcas();
+        // ListarModelos();
         setSelectedVehicle(vehicleData);
         setShowForm(true);
         setIsCreate(true);
@@ -275,9 +362,7 @@ export default function UsuarioVeiculos() {
         setIsViewing(false);
     }
 
-    const handleEdit = () => {
-        setIsEditing(true);
-    };
+
 
     const handleReturn = () => {
         setShowForm(false)
@@ -414,17 +499,17 @@ export default function UsuarioVeiculos() {
                                         <select
                                             name="cat_id"
                                             id="cat_id"
-                                            value={selectedVehicle.cat_nome}
+                                            value={selectedVehicle.cat_id}
                                             onChange={handleInputChange}
                                             className={styles.select_veiculos}
                                             required
                                         >
                                             <option value="" hidden>Selecione</option>
-                                            {/* {
-                                       categorias.map((categoria) => (
-                                           <option key={categoria.cat_id} value={categoria.cat_id}>{categoria.cat_nome}</option>
-                                       ))
-                                   } */}
+                                            {
+                                                categorias.map((categoria) => (
+                                                    <option key={categoria.cat_id} value={categoria.cat_id}>{categoria.cat_nome}</option>
+                                                ))
+                                            }
                                         </select>
                                     ) : (
                                         <input
@@ -445,19 +530,21 @@ export default function UsuarioVeiculos() {
                                     <label htmlFor="mar_nome" className={styles.label_veiculos}>Marca</label>
                                     {isCreate ? (
                                         <select
-                                            name="mar_nome"
-                                            id="mar_nome"
-                                            value={selectedVehicle.mar_nome}
+                                            name="mar_id"
+                                            id="mar_id"
+                                            value={selectedVehicle.mar_id}
                                             onChange={handleInputChange}
                                             className={styles.select_veiculos}
                                             required
+                                            disabled={!selectedVehicle.cat_id}
+                                        // disabled={!selectedCategoryId}
                                         >
                                             <option value="" hidden>Selecione</option>
-                                            {/* {
-                                        categorias.map((categoria) => (
-                                            <option key={categoria.cat_id} value={categoria.cat_id}>{categoria.cat_nome}</option>
-                                        ))
-                                    } */}
+                                            {
+                                                marcas.map((marca) => (
+                                                    <option key={marca.mar_id} value={marca.mar_id}>{marca.mar_nome}</option>
+                                                ))
+                                            }
                                         </select>
                                     ) : (
                                         <input
@@ -479,19 +566,21 @@ export default function UsuarioVeiculos() {
 
                                     {isCreate ? (
                                         <select
-                                            name="mod_nome"
-                                            id="mod_nome"
-                                            value={selectedVehicle.mod_nome}
+                                            name="mod_id"
+                                            id="mod_id"
+                                            value={selectedVehicle.mod_id}
                                             onChange={handleInputChange}
                                             className={styles.select_veiculos}
+                                            disabled={!selectedVehicle.mar_id}
                                             required
+                                        // disabled={!selectedBrandId}
                                         >
                                             <option value="" hidden>Selecione</option>
-                                            {/* {
-                                    categorias.map((categoria) => (
-                                        <option key={categoria.cat_id} value={categoria.cat_id}>{categoria.cat_nome}</option>
-                                    ))
-                                } */}
+                                            {
+                                                modelos.map((modelo) => (
+                                                    <option key={modelo.mod_id} value={modelo.mod_id}>{modelo.mod_nome}</option>
+                                                ))
+                                            }
                                         </select>
                                     ) : (
                                         <input
@@ -517,7 +606,7 @@ export default function UsuarioVeiculos() {
                                         value={selectedVehicle.veic_placa}
                                         onChange={handleInputChange}
                                         required
-                                        disabled
+                                        disabled={!isCreate && !isEditing}
                                         className={styles.input_veiculos}
                                         placeholder="Letras e números"
                                     />
@@ -541,8 +630,22 @@ export default function UsuarioVeiculos() {
                                 <div className={`${styles.grid_item} ${styles.grid_cor}`}>
                                     <label htmlFor="veic_cor" className={styles.label_veiculos}>Cor</label>
 
-                                    {isCreate || isEditing ? (
+                                    {isViewing ? (
                                         <>
+                                            <input
+                                                type="text"
+                                                id="veic_cor"
+                                                name="veic_cor"
+                                                value={selectedVehicle.veic_cor}
+                                                onChange={handleInputChange}
+                                                required
+                                                disabled
+                                                className={styles.input_veiculos}
+                                            />
+                                        </>
+                                    ) : (
+                                        <>
+
                                             <select
                                                 id="veic_cor"
                                                 name="veic_cor"
@@ -570,19 +673,7 @@ export default function UsuarioVeiculos() {
                                                 <option value="Vinho">Vinho</option>
                                                 <option value="Personalizado">Personalizado</option>
                                             </select>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <input
-                                                type="text"
-                                                id="veic_cor"
-                                                name="veic_cor"
-                                                value={selectedVehicle.veic_cor}
-                                                onChange={handleInputChange}
-                                                required
-                                                disabled
-                                                className={styles.input_veiculos}
-                                            />
+
 
                                         </>
                                     )}
@@ -640,36 +731,41 @@ export default function UsuarioVeiculos() {
                                     />
                                 </div>
 
-                                {/* <div className={`${styles.grid_item} ${styles.grid_datafinal}`}>
-                                    <label htmlFor="data_final" className={styles.label_veiculos}>Data Final</label>
-                                    <input
-                                        type="date"
-                                        id="data_final"
-                                        name="data_final"
-                                        value={selectedVehicle?.data_final || ''}
-                                        onChange={handleInputChange}
-                                        className={styles.input_veiculos}
-                                        required
-                                        disabled={!isEditing}
-                                    />
-                                </div> */}
 
                                 <div className={`${styles.grid_item} ${styles.grid_proprietario}`}>
-                                    <label htmlFor="ehproprietario" className={styles.label_veiculos}>Proprietário</label>
-                                    <select
-                                        id="ehproprietario"
-                                        name="ehproprietario"
-                                        value={selectedVehicle.ehproprietario || 0}
-                                        onChange={handleInputChange}
-                                        required
+                                    <label htmlFor="" className={styles.label_veiculos}>Proprietário</label>
 
-                                        disabled={!isEditing}
-                                        className={styles.select_veiculos}
-                                    >
-                                        <option value="" disabled>Selecionar</option>
-                                        <option value="1">Sim</option>
-                                        <option value="0">Não</option>
-                                    </select>
+                                    {isViewing ? (
+                                        <>
+                                            <input
+                                                type="text"
+                                                id="ehproprietario"
+                                                name="ehproprietario"
+                                                value={selectedVehicle.ehproprietario === 1 ? "Sim" : "Não"}
+                                                onChange={handleInputChange}
+                                                className={styles.input_veiculos}
+                                                
+                                            />
+                                        </>
+                                    ) : (
+                                        <>
+                                            <select
+                                                id="ehproprietario"
+                                                name="ehproprietario"
+                                                value={selectedVehicle.ehproprietario || 0}
+                                                onChange={handleInputChange}
+                                                required
+                                               
+                                                className={styles.select_veiculos}
+                                            >
+                                                <option value="" disabled>Selecionar</option>
+                                                <option value="1">Sim</option>
+                                                <option value="0">Não</option>
+                                            </select>
+                                        </>
+                                    )}
+
+
                                 </div>
 
                                 <div className={`${styles.grid_item} ${styles.grid_observacoes}`}>

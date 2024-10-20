@@ -254,14 +254,6 @@
     grid-column: span 4;
 }
 
-/* .grid_datainicial {
-    grid-column: span 4;
-}
-
-.grid_datafinal {
-    grid-column: span 4;
-} */
-
 .grid_observacoes {
     /* grid-column: span 12; */
     grid-column: span 6;
