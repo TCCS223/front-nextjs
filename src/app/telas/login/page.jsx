@@ -12,8 +12,8 @@ import Swal from "sweetalert2";
 import styles from "./page.module.css";
 
 export default function LoginUsu() {
-    const [email, setEmail] = useState('user@user.com');
-    const [senha, setSenha] = useState('user');
+    const [email, setEmail] = useState('testandocadastro@teste.com');
+    const [senha, setSenha] = useState('neiteste');
     const [showPassword, setShowPassword] = useState(false);
 
     const router = useRouter();
