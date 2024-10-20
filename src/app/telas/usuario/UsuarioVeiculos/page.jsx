@@ -161,7 +161,7 @@ export default function UsuarioVeiculos() {
         const updatedVeiculoUsuario = {
             veic_usu_id: selectedVehicle.veic_usu_id || veiculos.veic_usu_id,
             data_inicial: selectedVehicle.data_inicial || veiculos.data_inicial,
-            data_final: selectedVehicle.data_final || veiculos.data_final,
+            // data_final: selectedVehicle.data_final || veiculos.data_final,
             ehproprietario
         };
 
@@ -640,7 +640,7 @@ export default function UsuarioVeiculos() {
                                     />
                                 </div>
 
-                                <div className={`${styles.grid_item} ${styles.grid_datafinal}`}>
+                                {/* <div className={`${styles.grid_item} ${styles.grid_datafinal}`}>
                                     <label htmlFor="data_final" className={styles.label_veiculos}>Data Final</label>
                                     <input
                                         type="date"
@@ -652,7 +652,7 @@ export default function UsuarioVeiculos() {
                                         required
                                         disabled={!isEditing}
                                     />
-                                </div>
+                                </div> */}
 
                                 <div className={`${styles.grid_item} ${styles.grid_proprietario}`}>
                                     <label htmlFor="ehproprietario" className={styles.label_veiculos}>Proprietário</label>
@@ -698,24 +698,7 @@ export default function UsuarioVeiculos() {
                                     <button type="submit" onClick={handleFormSubmit} className={styles.submitButton}>Salvar</button>
                                 </>
                             )}
-
-
-                            {/* {!isEditing ? (
-                                <>
-                                    <button type="button" onClick={handleReturn} className={styles.button_return}>Voltar</button>
-                                    <button type="button" onClick={handleEdit} className={styles.button_edit}>Editar</button>
-                                </>
-                            ) : (isCreate ? (
-                                <>
-                                    <button type="button" onClick={handleCancel} className={styles.button_cancel}>Cancelar</button>
-                                    <button type="submit" onClick={handleFormSubmit} className={styles.submitButton}>Salvar</button>
-                                </>) : (isViewing ? (
-                                    <>
-                                        <button type="button" onClick={handleReturn} className={styles.button_return}>Voltar</button>
-                                    </>) : (<></>))
-                            )} */}
                         </div>
-
                     </>
                 )}
             </div >
