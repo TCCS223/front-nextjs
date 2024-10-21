@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from 'react';
 import Link from "next/link";
 import styles from "./page.module.css";
+import InputMask from "react-input-mask";
 import { MdAdd } from "react-icons/md";
 import { IoCarSport } from "react-icons/io5";
 import { FaMotorcycle } from "react-icons/fa6";
@@ -42,7 +43,8 @@ export default function UsuarioVeiculos() {
         veic_cor: "",
         veic_combustivel: "",
         veic_observ: "",
-        ehproprietario: ""
+        ehproprietario: "", 
+        veic_situacao: 1,
     });
     const [veiculos, setVeiculos] = useState([])
 
@@ -121,27 +123,18 @@ export default function UsuarioVeiculos() {
 
     console.log(selectedVehicle);
 
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-
+    
         setSelectedVehicle((prevVehicle) => ({
             ...prevVehicle,
             [name]: (name === 'cat_id' || name === 'mar_id' || name === 'mod_id' || name === 'ehproprietario')
                 ? parseInt(value, 10)
-                : value
+                : name === 'veic_placa' 
+                    ? value.toUpperCase() // Transforma as letras em maiúsculas apenas para veic_placa
+                    : value
         }));
     };
-
-
-    // const handleInputChange = (e) => {
-    //     const { name, value } = e.target;
-
-    //     setSelectedVehicle((prevVehicle) => ({
-    //         ...prevVehicle,
-    //         [name]: name === 'ehproprietario' ? parseInt(value, 10) : value
-    //     }));
-    // };
 
     const handleExcluirVeiculo = async (veic_usu_id) => {
         Swal.fire({
@@ -200,104 +193,667 @@ export default function UsuarioVeiculos() {
         });
     };
 
+    // const handleFormSubmit = async (e) => {
+    //     e.preventDefault();
+    
+    //     const updatedVeiculo = {
+    //         mod_id: selectedVehicle.mod_id || veiculos.mod_id,
+    //         veic_placa: selectedVehicle.veic_placa || veiculos.veic_placa,
+    //         veic_ano: selectedVehicle.veic_ano || veiculos.veic_ano,
+    //         veic_cor: selectedVehicle.veic_cor || veiculos.veic_cor,
+    //         veic_combustivel: selectedVehicle.veic_combustivel || veiculos.veic_combustivel,
+    //         veic_observ: selectedVehicle.veic_observ || veiculos.veic_observ,
+    //         veic_situacao: selectedVehicle.veic_situacao
+    //     };
+    
+    //     let ehproprietario = selectedVehicle.ehproprietario !== undefined
+    //         ? parseInt(selectedVehicle.ehproprietario, 10)
+    //         : parseInt(veiculos.ehproprietario, 10);
+    
+    //     ehproprietario = !isNaN(ehproprietario) ? ehproprietario : 0;
+    
+    //     const updatedVeiculoUsuario = {
+    //         veic_usu_id: selectedVehicle.veic_usu_id || veiculos.veic_usu_id,
+    //         data_inicial: selectedVehicle.data_inicial || veiculos.data_inicial,
+    //         ehproprietario
+    //     };
+
+
+
+    //     const newVehicle = {
+    //         mod_id: selectedVehicle.mod_id,
+    //         veic_placa: selectedVehicle.veic_placa,
+    //         veic_ano: selectedVehicle.veic_ano,
+    //         veic_cor: selectedVehicle.veic_cor,
+    //         veic_combustivel: selectedVehicle.veic_combustivel,
+    //         veic_observ: selectedVehicle.veic_observ,
+    //         veic_situacao: selectedVehicle.veic_situacao
+    //         };
+    
+    //     try {
+    //         let responseVehicle;
+    //         let responseVehicleUser;
+    
+    //         // Se veic_id não existe, faz POST para criar o veículo
+    //         if (!selectedVehicle.veic_id) {
+    //             // POST para criar novo veículo
+    //             responseVehicle = await api.post('/veiculos', newVehicle);
+    
+    //             if (responseVehicle.data.sucesso) {
+    //                 const novoVeicId = responseVehicle.data.dados.veic_id;  // Pega o ID do veículo criado
+    
+    //                 // Cria a relação veículo-usuário após o veículo ter sido criado
+    //                 updatedVeiculoUsuario.veic_id = novoVeicId;
+    //                 responseVehicleUser = await api.post('/veiculoUsuario', {
+    //                     ...updatedVeiculoUsuario,
+    //                     veic_id: novoVeicId
+    //                 });
+    //             }
+    //         } else {
+    //             // Se veic_id existe, faz PATCH para atualizar
+    //             [responseVehicle, responseVehicleUser] = await Promise.all([
+    //                 api.patch(`/veiculos/${selectedVehicle.veic_id}`, updatedVeiculo),
+    //                 api.patch(`/veiculoUsuario/${selectedVehicle.veic_usu_id}`, updatedVeiculoUsuario)
+    //             ]);
+    //         }
+    
+    //         if (responseVehicle.data.sucesso && responseVehicleUser.data.sucesso) {
+    //             ListarVeiculosUsuario();
+    
+    //             Swal.fire({
+    //                 title: 'Sucesso!',
+    //                 text: 'O veículo foi criado e associado ao usuário com sucesso.',
+    //                 icon: 'success',
+    //                 confirmButtonText: 'OK',
+    //                 iconColor: "rgb(40, 167, 69)",
+    //                 confirmButtonColor: "rgb(40, 167, 69)",
+    //             });
+    //         } else {
+    //             let errorMessage = '';
+    
+    //             if (!responseVehicle.data.sucesso) {
+    //                 errorMessage += `Erro ao criar veículo: ${responseVehicle.data.mensagem}\n`;
+    //             }
+    
+    //             if (!responseVehicleUser.data.sucesso) {
+    //                 errorMessage += `Erro ao associar veículo ao usuário: ${responseVehicleUser.data.mensagem}`;
+    //             }
+    
+    //             Swal.fire({
+    //                 title: 'Erro!',
+    //                 text: errorMessage || 'Ocorreu um erro ao criar o veículo.',
+    //                 icon: 'error',
+    //                 confirmButtonText: 'Ok',
+    //                 iconColor: '#d33',
+    //                 confirmButtonColor: '#d33',
+    //             });
+    //         }
+    //     } catch (error) {
+    //         Swal.fire({
+    //             title: 'Erro!',
+    //             text: `Erro na requisição: ${error.message}`,
+    //             icon: 'error',
+    //             confirmButtonText: 'Ok',
+    //             iconColor: '#d33',
+    //             confirmButtonColor: '#d33',
+    //         });
+    //     }
+    
+    //     setShowForm(false);
+    // };
+   
+    
+
+    // const handleFormSubmit = async (e) => {
+    //     e.preventDefault();
+    
+    //     const updatedVeiculo = {
+    //         mod_id: selectedVehicle.mod_id || veiculos.mod_id,
+    //         veic_placa: selectedVehicle.veic_placa || veiculos.veic_placa,
+    //         veic_ano: selectedVehicle.veic_ano || veiculos.veic_ano,
+    //         veic_cor: selectedVehicle.veic_cor || veiculos.veic_cor,
+    //         veic_combustivel: selectedVehicle.veic_combustivel || veiculos.veic_combustivel,
+    //         veic_observ: selectedVehicle.veic_observ || veiculos.veic_observ,
+    //         veic_situacao: selectedVehicle.veic_situacao
+    //     };
+    
+    //     const newVehicle = {
+    //         mod_id: selectedVehicle.mod_id,
+    //         veic_placa: selectedVehicle.veic_placa,
+    //         veic_ano: selectedVehicle.veic_ano,
+    //         veic_cor: selectedVehicle.veic_cor,
+    //         veic_combustivel: selectedVehicle.veic_combustivel,
+    //         veic_observ: selectedVehicle.veic_observ,
+    //         veic_situacao: selectedVehicle.veic_situacao
+    //     };
+    
+    //     let ehproprietario = selectedVehicle.ehproprietario !== undefined
+    //         ? parseInt(selectedVehicle.ehproprietario, 10)
+    //         : parseInt(veiculos.ehproprietario, 10);
+    
+    //     ehproprietario = !isNaN(ehproprietario) ? ehproprietario : 0;
+    
+    //     const updatedVeiculoUsuario = {
+    //         veic_usu_id: selectedVehicle.veic_usu_id || veiculos.veic_usu_id,
+    //         data_inicial: selectedVehicle.data_inicial || veiculos.data_inicial,
+    //         ehproprietario
+    //     };
+    
+    //     try {
+
+    //         console.log("Dados do veículo:", newVehicle);
+    //         console.log("Dados do veículo (atualização):", updatedVeiculo);
+    //         console.log("Dados do relacionamento:", updatedVeiculoUsuario);
+
+
+    //         let responseVehicle;
+    //         let responseVehicleUser;
+    
+    //         // Se veic_id não existe, faz POST para criar o veículo
+    //         if (!selectedVehicle.veic_id) {
+    //             // POST para criar novo veículo
+    //             responseVehicle = await api.post('/veiculos', newVehicle);
+    
+    //             if (responseVehicle.data.sucesso) {
+    //                 const novoVeicId = responseVehicle.data.dados; // Pega o ID do veículo criado
+    
+    //                 // Define o veic_id para criar a relação com o usuário
+    //                 updatedVeiculoUsuario.veic_id = novoVeicId;
+    
+    //                 // POST para criar nova relação veículo-usuário
+    //                 responseVehicleUser = await api.post('/veiculoUsuario', updatedVeiculoUsuario);
+    //             }
+    //         } else {
+    //             // Se veic_id existe, faz PATCH para atualizar o veículo e o relacionamento
+    //             [responseVehicle, responseVehicleUser] = await Promise.all([
+    //                 api.patch(`/veiculos/${selectedVehicle.veic_id}`, updatedVeiculo),
+    //                 api.patch(`/veiculoUsuario/${selectedVehicle.veic_usu_id}`, updatedVeiculoUsuario)
+    //             ]);
+    //         }
+    
+    //         if (responseVehicle.data.sucesso && (!responseVehicleUser || responseVehicleUser.data.sucesso)) {
+    //             ListarVeiculosUsuario();
+    
+    //             Swal.fire({
+    //                 title: 'Sucesso!',
+    //                 text: 'O veículo e os dados do usuário foram processados com sucesso.',
+    //                 icon: 'success',
+    //                 confirmButtonText: 'OK',
+    //                 iconColor: "rgb(40, 167, 69)",
+    //                 confirmButtonColor: "rgb(40, 167, 69)",
+    //             });
+    //         } else {
+    //             let errorMessage = '';
+    
+    //             if (!responseVehicle.data.sucesso) {
+    //                 errorMessage += `Erro ao processar veículo: ${responseVehicle.data.mensagem}\n`;
+    //             }
+    
+    //             if (responseVehicleUser && !responseVehicleUser.data.sucesso) {
+    //                 errorMessage += `Erro ao processar dados do veículo para o usuário: ${responseVehicleUser.data.mensagem}`;
+    //             }
+    
+    //             Swal.fire({
+    //                 title: 'Erro!',
+    //                 text: errorMessage || 'Ocorreu um erro ao processar as informações.',
+    //                 icon: 'error',
+    //                 confirmButtonText: 'Ok',
+    //                 iconColor: '#d33',
+    //                 confirmButtonColor: '#d33',
+    //             });
+    //         }
+    //     } catch (error) {
+    //         console.error("Erro completo na requisição:", error.response);
+    //         Swal.fire({
+    //             title: 'Erro!',
+    //             text: `Erro na requisição: ${error.response ? error.response.data.mensagem : error.message}`,
+    //             icon: 'error',
+    //             confirmButtonText: 'Ok',
+    //             iconColor: '#d33',
+    //             confirmButtonColor: '#d33',
+    //         });
+    //     }
+    
+    //     setShowForm(false);
+    // };
+    
+
+
+    // const handleFormSubmit = async (e) => {
+    //     e.preventDefault();
+    
+    //     const updatedVeiculo = {
+    //         mod_id: selectedVehicle.mod_id || veiculos.mod_id,
+    //         veic_placa: selectedVehicle.veic_placa || veiculos.veic_placa,
+    //         veic_ano: selectedVehicle.veic_ano || veiculos.veic_ano,
+    //         veic_cor: selectedVehicle.veic_cor || veiculos.veic_cor,
+    //         veic_combustivel: selectedVehicle.veic_combustivel || veiculos.veic_combustivel,
+    //         veic_observ: selectedVehicle.veic_observ || veiculos.veic_observ,
+    //         veic_situacao: selectedVehicle.veic_situacao
+    //     };
+    
+    //     const newVehicle = {
+    //         mod_id: selectedVehicle.mod_id,
+    //         veic_placa: selectedVehicle.veic_placa,
+    //         veic_ano: selectedVehicle.veic_ano,
+    //         veic_cor: selectedVehicle.veic_cor,
+    //         veic_combustivel: selectedVehicle.veic_combustivel,
+    //         veic_observ: selectedVehicle.veic_observ,
+    //         veic_situacao: selectedVehicle.veic_situacao
+    //     };
+    
+    //     let ehproprietario = selectedVehicle.ehproprietario !== undefined
+    //         ? parseInt(selectedVehicle.ehproprietario, 10)
+    //         : parseInt(veiculos.ehproprietario, 10);
+    
+    //     ehproprietario = !isNaN(ehproprietario) ? ehproprietario : 0;
+    
+    //     const updatedVeiculoUsuario = {
+    //         veic_usu_id: selectedVehicle.veic_usu_id || veiculos.veic_usu_id,
+    //         data_inicial: selectedVehicle.data_inicial || veiculos.data_inicial,
+    //         ehproprietario
+    //     };
+    
+    //     // Nova constante para os dados do usuário do veículo
+    //     const newVehicleUsuario = {
+    //         veic_id: responseVehicle.data.dados, // Atribua o ID do veículo criado
+    //         usu_id: selectedVehicle.usu_id || updatedVeiculoUsuario.veic_usu_id, // O ID do usuário deve ser atribuído corretamente
+    //         ehproprietario: updatedVeiculoUsuario.ehproprietario,
+    //         data_inicial: updatedVeiculoUsuario.data_inicial
+    //     };
+        
+    
+    //     try {
+    //         let responseVehicle;
+    //         let responseVehicleUser;
+        
+    //         if (!selectedVehicle.veic_id) {
+    //             // POST para criar novo veículo
+    //             responseVehicle = await api.post('/veiculos', newVehicle);
+        
+    //             // Verifique se a criação do veículo foi bem-sucedida
+    //             if (responseVehicle.data.sucesso) {
+    //                 const novoVeicId = responseVehicle.data.dados; // Atribua o ID do veículo criado
+        
+    //                 // Nova constante para os dados do usuário do veículo
+    //                 const newVehicleUsuario = {
+    //                     veic_id: novoVeicId, // Atribua o ID do veículo criado
+    //                     usu_id: selectedVehicle.usu_id || updatedVeiculoUsuario.veic_usu_id,
+    //                     ehproprietario: updatedVeiculoUsuario.ehproprietario,
+    //                     data_inicial: updatedVeiculoUsuario.data_inicial
+    //                 };
+        
+    //                 // Log para verificar os dados
+    //                 console.log('Dados do novo veículo usuário:', newVehicleUsuario);
+        
+    //                 // Verifique se os dados necessários estão presentes
+    //                 if (!newVehicleUsuario.usu_id || !newVehicleUsuario.data_inicial) {
+    //                     throw new Error('Usuário ID e Data Inicial são obrigatórios para o relacionamento.');
+    //                 }
+        
+    //                 // Crie a relação do veículo com o usuário
+    //                 responseVehicleUser = await api.post('/veiculoUsuario', newVehicleUsuario);
+    //                 console.log('Resposta do relacionamento veículo-usuário:', responseVehicleUser.data);
+    //             }
+    //         } else {
+    //             // Se veic_id existe, faz PATCH para atualizar
+    //             responseVehicle = await api.patch(`/veiculos/${selectedVehicle.veic_id}`, updatedVeiculo);
+    //             // Log para verificar a resposta da atualização do veículo
+    //             console.log('Resposta da atualização do veículo:', responseVehicle.data);
+        
+    //             if (updatedVeiculoUsuario.ehproprietario !== undefined) {
+    //                 responseVehicleUser = await api.patch(`/veiculoUsuario/${selectedVehicle.veic_usu_id}`, updatedVeiculoUsuario);
+    //                 console.log('Resposta da atualização do usuário do veículo:', responseVehicleUser.data);
+    //             } else {
+    //                 throw new Error('Ehproprietario deve estar definido para atualizar o relacionamento.');
+    //             }
+    //         }
+        
+    //         // Verifica as respostas
+    //         if (responseVehicle && responseVehicle.data.sucesso) {
+    //             ListarVeiculosUsuario();
+        
+    //             Swal.fire({
+    //                 title: 'Sucesso!',
+    //                 text: 'O veículo foi criado/atualizado com sucesso.',
+    //                 icon: 'success',
+    //                 confirmButtonText: 'OK',
+    //                 iconColor: "rgb(40, 167, 69)",
+    //                 confirmButtonColor: "rgb(40, 167, 69)",
+    //             });
+    //         } else {
+    //             Swal.fire({
+    //                 title: 'Erro!',
+    //                 text: `Erro ao criar/atualizar veículo: ${responseVehicle ? responseVehicle.data.mensagem : 'Erro desconhecido.'}`,
+    //                 icon: 'error',
+    //                 confirmButtonText: 'Ok',
+    //                 iconColor: '#d33',
+    //                 confirmButtonColor: '#d33',
+    //             });
+    //         }
+        
+    //         // Verifica a resposta do usuário do veículo
+    //         if (responseVehicleUser && responseVehicleUser.data.sucesso) {
+    //             Swal.fire({
+    //                 title: 'Sucesso!',
+    //                 text: 'O relacionamento veículo-usuário foi criado/atualizado com sucesso.',
+    //                 icon: 'success',
+    //                 confirmButtonText: 'OK',
+    //                 iconColor: "rgb(40, 167, 69)",
+    //                 confirmButtonColor: "rgb(40, 167, 69)",
+    //             });
+    //         }
+    //     } 
+    //     catch (error) {
+    //         console.error("Erro completo na requisição:", error.response);
+    //         Swal.fire({
+    //             title: 'Erro!',
+    //             text: `Erro na requisição: ${error.response ? error.response.data.mensagem : error.message}`,
+    //             icon: 'error',
+    //             confirmButtonText: 'Ok',
+    //             iconColor: '#d33',
+    //             confirmButtonColor: '#d33',
+    //         });
+    //     }
+        
+    
+    //     setShowForm(false);
+    // };
+    
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-
-        const updatedVeiculo = {
+    
+        // 1. Definindo as constantes para o novo veículo e o veículo atualizado
+        const NovoVeiculo = {
+            mod_id: selectedVehicle.mod_id,
+            veic_placa: selectedVehicle.veic_placa,
+            veic_ano: selectedVehicle.veic_ano,
+            veic_cor: selectedVehicle.veic_cor,
+            veic_combustivel: selectedVehicle.veic_combustivel,
+            veic_observ: selectedVehicle.veic_observ,
+            veic_situacao: selectedVehicle.veic_situacao
+        };
+    
+        const UpdateVeiculo = {
             mod_id: selectedVehicle.mod_id || veiculos.mod_id,
             veic_placa: selectedVehicle.veic_placa || veiculos.veic_placa,
             veic_ano: selectedVehicle.veic_ano || veiculos.veic_ano,
             veic_cor: selectedVehicle.veic_cor || veiculos.veic_cor,
             veic_combustivel: selectedVehicle.veic_combustivel || veiculos.veic_combustivel,
             veic_observ: selectedVehicle.veic_observ || veiculos.veic_observ,
+            veic_situacao: selectedVehicle.veic_situacao
         };
-
-        let ehproprietario = selectedVehicle.ehproprietario !== undefined
-            ? parseInt(selectedVehicle.ehproprietario, 10)
-            : parseInt(veiculos.ehproprietario, 10);
-
-        ehproprietario = !isNaN(ehproprietario) ? ehproprietario : 0;
-
-        const updatedVeiculoUsuario = {
+    
+        // 2. Definindo a constante para o veículo usuário atualizado
+        const UpdateVeiculoUsuario = {
             veic_usu_id: selectedVehicle.veic_usu_id || veiculos.veic_usu_id,
             data_inicial: selectedVehicle.data_inicial || veiculos.data_inicial,
-            // data_final: selectedVehicle.data_final || veiculos.data_final,
-            ehproprietario
+            ehproprietario: selectedVehicle.ehproprietario !== undefined
+                ? parseInt(selectedVehicle.ehproprietario, 10)
+                : parseInt(veiculos.ehproprietario, 10)
         };
-
-
-        // const newVeiculo ={
-
-        // }
-
+    
+        // 3. Inicializando a variável para o NovoVeiculoUsuario
+        let NovoVeiculoUsuario;
+    
         try {
             let responseVehicle;
-            let responseVehicleUser;
+    
+            // 4. Verifica se o veículo deve ser criado ou atualizado
+            if (!selectedVehicle.veic_id) {
+                // Criando um novo veículo
+                responseVehicle = await api.post('/veiculos', NovoVeiculo);
+                console.log("teste:", responseVehicle.data.dados);
+                
+                if (responseVehicle.data.sucesso) {
+                    const newVeic_id = responseVehicle.data.dados; // Obtendo o ID do veículo criado
+    
+                    // 5. Criando o NovoVeiculoUsuario
+                    NovoVeiculoUsuario = {
+                        veic_id: newVeic_id,
+                        usu_id: userId,
+                        data_inicial: selectedVehicle.data_inicial || veiculos.data_inicial,
+                        ehproprietario: selectedVehicle.ehproprietario !== undefined
+                            ? parseInt(selectedVehicle.ehproprietario, 10)
+                            : parseInt(veiculos.ehproprietario, 10)
+                    };
 
-            // Verifica se o veic_id existe, caso contrário faz um POST.
-            if (selectedVehicle.veic_id) {
-                // Requisição de PATCH se veic_id existir
-                [responseVehicle, responseVehicleUser] = await Promise.all([
-                    api.patch(`/veiculos/usuario/${selectedVehicle.veic_id}`, updatedVeiculo),
-                    api.patch(`/veiculoUsuario/${selectedVehicle.veic_usu_id}`, updatedVeiculoUsuario)
-                ]);
-            } else {
-                // Requisição de POST se veic_id não existir
-                [responseVehicle, responseVehicleUser] = await Promise.all([
-                    api.post(`/veiculos`, updatedVeiculo),  // POST para criar novo veículo
-                    // api.post(`/veiculoUsuario`, updatedVeiculoUsuario)  // POST para criar nova relação veículo-usuário
-                ]);
-            }
-
-
-            // const [responseVehicle, responseVehicleUser] = await Promise.all([
-            //     api.patch(`/veiculos/usuario/${selectedVehicle.veic_id}`, updatedVeiculo),
-            //     api.patch(`/veiculoUsuario/${selectedVehicle.veic_usu_id}`, updatedVeiculoUsuario)
-            // ]);
-
-            if (responseVehicle.data.sucesso && responseVehicleUser.data.sucesso) {
-                ListarVeiculosUsuario();
-
-                Swal.fire({
-                    title: 'Sucesso!',
-                    text: 'O veículo e os dados do usuário foram atualizados com sucesso.',
-                    icon: 'success',
-                    confirmButtonText: 'OK',
-                    iconColor: "rgb(40, 167, 69)",
-                    confirmButtonColor: "rgb(40, 167, 69)",
-                });
-            } else {
-                let errorMessage = '';
-
-                if (!responseVehicle.data.sucesso) {
-                    errorMessage += `Erro ao atualizar veículo: ${responseVehicle.data.mensagem}\n`;
+                    console.log("enviando: ", NovoVeiculoUsuario );
+                    
+    
+                    // 6. Enviando a requisição para criar a relação veículo-usuário
+                    await api.post('/veiculoUsuario', NovoVeiculoUsuario);
                 }
-
-                if (!responseVehicleUser.data.sucesso) {
-                    errorMessage += `Erro ao atualizar dados do veículo para o usuário: ${responseVehicleUser.data.mensagem}`;
-                }
-
-                Swal.fire({
-                    title: 'Erro!',
-                    text: errorMessage || 'Ocorreu um erro ao atualizar as informações.',
-                    icon: 'error',
-                    confirmButtonText: 'Ok',
-                    iconColor: '#d33',
-                    confirmButtonColor: '#d33',
-                });
+            } else {
+                // Atualizando o veículo existente
+                responseVehicle = await api.patch(`/veiculos/${selectedVehicle.veic_id}`, UpdateVeiculo);
+                // Atualizando o veículo-usuário existente
+                await api.patch(`/veiculoUsuario/${selectedVehicle.veic_usu_id}`, UpdateVeiculoUsuario);
             }
-        } catch (error) {
+    
+            // 7. Mensagem de sucesso
+            Swal.fire({
+                title: 'Sucesso!',
+                text: 'O veículo foi criado/atualizado com sucesso.',
+                icon: 'success',
+                confirmButtonText: 'OK',
+                iconColor: "rgb(40, 167, 69)",
+                confirmButtonColor: "rgb(40, 167, 69)",
+            });
+    
+            // Atualiza a lista de veículos do usuário
+            ListarVeiculosUsuario();
+        } catch  (error) {
+            console.error("Erro completo na requisição:", error.response);
             Swal.fire({
                 title: 'Erro!',
-                text: `Erro na requisição: ${error.message}`,
+                text: `Erro na requisição: ${error.response ? error.response.data.mensagem : error.message}`,
                 icon: 'error',
                 confirmButtonText: 'Ok',
                 iconColor: '#d33',
                 confirmButtonColor: '#d33',
             });
         }
+    
         setShowForm(false);
     };
+    
+
+    
+
+
+
+    // const handleFormSubmit = async (e) => {
+    //     e.preventDefault();
+    
+    //     const updatedVeiculo = {
+    //         mod_id: selectedVehicle.mod_id || veiculos.mod_id,
+    //         veic_placa: selectedVehicle.veic_placa || veiculos.veic_placa,
+    //         veic_ano: selectedVehicle.veic_ano || veiculos.veic_ano,
+    //         veic_cor: selectedVehicle.veic_cor || veiculos.veic_cor,
+    //         veic_combustivel: selectedVehicle.veic_combustivel || veiculos.veic_combustivel,
+    //         veic_observ: selectedVehicle.veic_observ || veiculos.veic_observ,
+    //         veic_situacao: selectedVehicle.veic_situacao
+    //     };
+    
+    //     const newVehicle = {
+    //         mod_id: selectedVehicle.mod_id,
+    //         veic_placa: selectedVehicle.veic_placa,
+    //         veic_ano: selectedVehicle.veic_ano,
+    //         veic_cor: selectedVehicle.veic_cor,
+    //         veic_combustivel: selectedVehicle.veic_combustivel,
+    //         veic_observ: selectedVehicle.veic_observ,
+    //         veic_situacao: selectedVehicle.veic_situacao
+    //     };
+
+
+    //     let ehproprietario = selectedVehicle.ehproprietario !== undefined
+    //         ? parseInt(selectedVehicle.ehproprietario, 10)
+    //         : parseInt(veiculos.ehproprietario, 10);
+
+    //     ehproprietario = !isNaN(ehproprietario) ? ehproprietario : 0;
+
+    //     const updatedVeiculoUsuario = {
+    //         veic_usu_id: selectedVehicle.veic_usu_id || veiculos.veic_usu_id,
+    //         data_inicial: selectedVehicle.data_inicial || veiculos.data_inicial,
+    //         // data_final: selectedVehicle.data_final || veiculos.data_final,
+    //         ehproprietario
+    //     };
+    
+    //     try {
+    //         let responseVehicle;
+    //         let responseVehicleUser;
+    
+    //         // Se veic_id não existe, faz POST para criar o veículo
+    //         if (!selectedVehicle.veic_id) {
+    //             // POST para criar novo veículo
+    //             responseVehicle = await api.post('/veiculos', newVehicle);
+    //         } else {
+    //             // Se veic_id existe, faz PATCH para atualizar o veículo
+    //             responseVehicle = await api.patch(`/veiculos/${selectedVehicle.veic_id}`, updatedVeiculo);
+
+    //             const [responseVehicle, responseVehicleUser] = await Promise.all([
+    //                             api.patch(`/veiculos/usuario/${selectedVehicle.veic_id}`, updatedVeiculo),
+    //                             api.patch(`/veiculoUsuario/${selectedVehicle.veic_usu_id}`, updatedVeiculoUsuario)
+    //                         ]);
+    //         }
+    
+    //         if (responseVehicle.data.sucesso) {
+    //             ListarVeiculosUsuario();
+    
+    //             Swal.fire({
+    //                 title: 'Sucesso!',
+    //                 text: 'O veículo foi criado/atualizado com sucesso.',
+    //                 icon: 'success',
+    //                 confirmButtonText: 'OK',
+    //                 iconColor: "rgb(40, 167, 69)",
+    //                 confirmButtonColor: "rgb(40, 167, 69)",
+    //             });
+    //         } else {
+    //             Swal.fire({
+    //                 title: 'Erro!',
+    //                 text: `Erro ao criar/atualizar veículo: ${responseVehicle.data.mensagem}`,
+    //                 icon: 'error',
+    //                 confirmButtonText: 'Ok',
+    //                 iconColor: '#d33',
+    //                 confirmButtonColor: '#d33',
+    //             });
+    //         }
+    //     } catch (error) {
+    //         Swal.fire({
+    //             title: 'Erro!',
+    //             text: `Erro na requisição: ${error.message}`,
+    //             icon: 'error',
+    //             confirmButtonText: 'Ok',
+    //             iconColor: '#d33',
+    //             confirmButtonColor: '#d33',
+    //         });
+    //     }
+    
+    //     setShowForm(false);
+    // };
+    
+
+
+    // const handleFormSubmit = async (e) => {
+    //     e.preventDefault();
+
+    //     const updatedVeiculo = {
+    //         mod_id: selectedVehicle.mod_id || veiculos.mod_id,
+    //         veic_placa: selectedVehicle.veic_placa || veiculos.veic_placa,
+    //         veic_ano: selectedVehicle.veic_ano || veiculos.veic_ano,
+    //         veic_cor: selectedVehicle.veic_cor || veiculos.veic_cor,
+    //         veic_combustivel: selectedVehicle.veic_combustivel || veiculos.veic_combustivel,
+    //         veic_observ: selectedVehicle.veic_observ || veiculos.veic_observ,
+    //     };
+
+    //     let ehproprietario = selectedVehicle.ehproprietario !== undefined
+    //         ? parseInt(selectedVehicle.ehproprietario, 10)
+    //         : parseInt(veiculos.ehproprietario, 10);
+
+    //     ehproprietario = !isNaN(ehproprietario) ? ehproprietario : 0;
+
+    //     const updatedVeiculoUsuario = {
+    //         veic_usu_id: selectedVehicle.veic_usu_id || veiculos.veic_usu_id,
+    //         data_inicial: selectedVehicle.data_inicial || veiculos.data_inicial,
+    //         // data_final: selectedVehicle.data_final || veiculos.data_final,
+    //         ehproprietario
+    //     };
+
+
+    //     // const newVeiculo ={
+
+    //     // }
+
+    //     try {
+    //         let responseVehicle;
+    //         let responseVehicleUser;
+
+    //         // Verifica se o veic_id existe, caso contrário faz um POST.
+    //         if (selectedVehicle.veic_id) {
+    //             // Requisição de PATCH se veic_id existir
+    //             [responseVehicle, responseVehicleUser] = await Promise.all([
+    //                 api.patch(`/veiculos/usuario/${selectedVehicle.veic_id}`, updatedVeiculo),
+    //                 api.patch(`/veiculoUsuario/${selectedVehicle.veic_usu_id}`, updatedVeiculoUsuario)
+    //             ]);
+    //         } else {
+    //             // Requisição de POST se veic_id não existir
+    //             [responseVehicle, responseVehicleUser] = await Promise.all([
+    //                 api.post(`/veiculos`, updatedVeiculo),  // POST para criar novo veículo
+    //                 // api.post(`/veiculoUsuario`, updatedVeiculoUsuario)  // POST para criar nova relação veículo-usuário
+    //             ]);
+    //         }
+
+
+    //         // const [responseVehicle, responseVehicleUser] = await Promise.all([
+    //         //     api.patch(`/veiculos/usuario/${selectedVehicle.veic_id}`, updatedVeiculo),
+    //         //     api.patch(`/veiculoUsuario/${selectedVehicle.veic_usu_id}`, updatedVeiculoUsuario)
+    //         // ]);
+
+    //         if (responseVehicle.data.sucesso && responseVehicleUser.data.sucesso) {
+    //             ListarVeiculosUsuario();
+
+    //             Swal.fire({
+    //                 title: 'Sucesso!',
+    //                 text: 'O veículo e os dados do usuário foram atualizados com sucesso.',
+    //                 icon: 'success',
+    //                 confirmButtonText: 'OK',
+    //                 iconColor: "rgb(40, 167, 69)",
+    //                 confirmButtonColor: "rgb(40, 167, 69)",
+    //             });
+    //         } else {
+    //             let errorMessage = '';
+
+    //             if (!responseVehicle.data.sucesso) {
+    //                 errorMessage += `Erro ao atualizar veículo: ${responseVehicle.data.mensagem}\n`;
+    //             }
+
+    //             if (!responseVehicleUser.data.sucesso) {
+    //                 errorMessage += `Erro ao atualizar dados do veículo para o usuário: ${responseVehicleUser.data.mensagem}`;
+    //             }
+
+    //             Swal.fire({
+    //                 title: 'Erro!',
+    //                 text: errorMessage || 'Ocorreu um erro ao atualizar as informações.',
+    //                 icon: 'error',
+    //                 confirmButtonText: 'Ok',
+    //                 iconColor: '#d33',
+    //                 confirmButtonColor: '#d33',
+    //             });
+    //         }
+    //     } catch (error) {
+    //         Swal.fire({
+    //             title: 'Erro!',
+    //             text: `Erro na requisição: ${error.message}`,
+    //             icon: 'error',
+    //             confirmButtonText: 'Ok',
+    //             iconColor: '#d33',
+    //             confirmButtonColor: '#d33',
+    //         });
+    //     }
+    //     setShowForm(false);
+    // };
 
     const handleEditar = (veiculo) => {
         const vehicleData = {
@@ -350,7 +906,8 @@ export default function UsuarioVeiculos() {
             veic_cor: "",
             veic_combustivel: "",
             veic_observ: "",
-            ehproprietario: 0
+            ehproprietario: 0,
+            veic_situacao: 1
         };
         ListarCategorias();
         // ListarMarcas();
@@ -599,7 +1156,8 @@ export default function UsuarioVeiculos() {
 
                                 <div className={`${styles.grid_item} ${styles.grid_placa}`}>
                                     <label htmlFor="veic_placa" className={styles.label_veiculos}>Placa</label>
-                                    <input
+                                    <InputMask
+                                        mask="aaa-9*99"
                                         type="text"
                                         id="veic_placa"
                                         name="veic_placa"
@@ -727,7 +1285,7 @@ export default function UsuarioVeiculos() {
                                         onChange={handleInputChange}
                                         className={styles.input_veiculos}
                                         required
-                                        disabled={!isEditing}
+                                        disabled={!isCreate && !isEditing}
                                     />
                                 </div>
 
@@ -744,7 +1302,7 @@ export default function UsuarioVeiculos() {
                                                 value={selectedVehicle.ehproprietario === 1 ? "Sim" : "Não"}
                                                 onChange={handleInputChange}
                                                 className={styles.input_veiculos}
-                                                
+
                                             />
                                         </>
                                     ) : (
@@ -755,7 +1313,7 @@ export default function UsuarioVeiculos() {
                                                 value={selectedVehicle.ehproprietario || 0}
                                                 onChange={handleInputChange}
                                                 required
-                                               
+
                                                 className={styles.select_veiculos}
                                             >
                                                 <option value="" disabled>Selecionar</option>
@@ -777,7 +1335,7 @@ export default function UsuarioVeiculos() {
                                         value={selectedVehicle.veic_observ}
                                         onChange={handleInputChange}
                                         className={styles.input_veiculos}
-                                        disabled={!isEditing}
+                                        disabled={!isCreate && !isEditing}
                                     />
                                 </div>
                             </div>
