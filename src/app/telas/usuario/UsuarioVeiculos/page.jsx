@@ -268,6 +268,8 @@ export default function UsuarioVeiculos() {
                 confirmButtonColor: "rgb(40, 167, 69)",
             });
     
+            setShowForm(false);
+            
             // Atualiza a lista de veículos do usuário
             ListarVeiculosUsuario();
         } catch (error) {
@@ -295,7 +297,7 @@ export default function UsuarioVeiculos() {
             });
         }
     
-        setShowForm(false);
+        
     };
 
     const handleEditar = (veiculo) => {
