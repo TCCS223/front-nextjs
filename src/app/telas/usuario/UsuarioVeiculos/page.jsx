@@ -564,6 +564,9 @@ export default function UsuarioVeiculos() {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
     
+   // Verifica o valor de veic_situacao
+   console.log("Valor de veic_situacao:", selectedVehicle.veic_situacao);
+
         // 1. Definindo as constantes para o novo veículo e o veículo atualizado
         const NovoVeiculo = {
             mod_id: selectedVehicle.mod_id,
@@ -572,7 +575,7 @@ export default function UsuarioVeiculos() {
             veic_cor: selectedVehicle.veic_cor,
             veic_combustivel: selectedVehicle.veic_combustivel,
             veic_observ: selectedVehicle.veic_observ,
-            veic_situacao: selectedVehicle.veic_situacao
+            veic_situacao: selectedVehicle.veic_situacao || 1 // Use o valor padrão aqui
         };
     
         const UpdateVeiculo = {
