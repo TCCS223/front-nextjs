@@ -3,7 +3,6 @@ import styles from './index.module.css';
 import api from '@/services/api';
 import Swal from 'sweetalert2';
 
-
 export default function ModalRelacionarVeiculo({ isOpen, onClose, usuarioId }) {
     const [nome, setNome] = useState('');
     const [veiculos, setVeiculos] = useState([]);
@@ -32,9 +31,33 @@ export default function ModalRelacionarVeiculo({ isOpen, onClose, usuarioId }) {
         setVeiculoSelecionado(veic_id);
     };
 
+ 
+
+    const verificarVeiculoExistente = async () => {
+        try {
+            const response = await api.get(`/veiculoUsuario/verificar/${usuarioId}/${veiculoSelecionado}`);
+            console.log("Resposta da API:", response);  // Log completo da resposta
+
+            // Agora acessa corretamente o campo 'associado' da resposta da API
+            return response.data?.associado || false;
+        } catch (error) {
+            console.error("Erro ao verificar veículo associado:", error.message);
+            return false;
+        }
+    };
+
+
+
+
     const handleSalvar = async () => {
         if (!veiculoSelecionado || !dataInicial) {
             Swal.fire('Atenção', 'Selecione um veículo e uma data inicial.', 'warning');
+            return;
+        }
+
+        const veiculoJaAssociado = await verificarVeiculoExistente();
+        if (veiculoJaAssociado) {
+            Swal.fire('Atenção', 'Este veículo já está associado a este usuário.', 'warning');
             return;
         }
 
@@ -44,8 +67,8 @@ export default function ModalRelacionarVeiculo({ isOpen, onClose, usuarioId }) {
             ehproprietario: ehProprietario ? 1 : 0,
             data_inicial: dataInicial,
         };
-        console.log("Dados enviados para o banco:", dadosVeiculo);  // Adiciona log completo dos dados
-        
+        console.log("Dados enviados para o banco:", dadosVeiculo);
+
         try {
             await api.post(`/veiculoUsuario`, dadosVeiculo);
             Swal.fire({
@@ -68,6 +91,7 @@ export default function ModalRelacionarVeiculo({ isOpen, onClose, usuarioId }) {
             });
         }
     };
+
 
     const limparCampos = () => {
         setNome('');
