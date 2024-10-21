@@ -184,7 +184,7 @@ export default function UsuarioVeiculos() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-
+    
         // 1. Definindo as constantes para o novo veículo e o veículo atualizado
         const NovoVeiculo = {
             mod_id: selectedVehicle.mod_id,
@@ -225,7 +225,7 @@ export default function UsuarioVeiculos() {
             if (!selectedVehicle.veic_id) {
                 // Criando um novo veículo
                 responseVehicle = await api.post('/veiculos', NovoVeiculo);
-                
+    
                 if (responseVehicle.data.sucesso) {
                     const newVeic_id = responseVehicle.data.dados; // Obtendo o ID do veículo criado
     
@@ -241,12 +241,21 @@ export default function UsuarioVeiculos() {
     
                     // 6. Enviando a requisição para criar a relação veículo-usuário
                     await api.post('/veiculoUsuario', NovoVeiculoUsuario);
+                } else {
+                    throw new Error("Falha ao criar veículo: " + responseVehicle.data.mensagem);
                 }
             } else {
                 // Atualizando o veículo existente
                 responseVehicle = await api.patch(`/veiculos/${selectedVehicle.veic_id}`, UpdateVeiculo);
+                if (!responseVehicle.data.sucesso) {
+                    throw new Error("Falha ao atualizar veículo: " + responseVehicle.data.mensagem);
+                }
+    
                 // Atualizando o veículo-usuário existente
-                await api.patch(`/veiculoUsuario/${selectedVehicle.veic_usu_id}`, UpdateVeiculoUsuario);
+                const responseUsuario = await api.patch(`/veiculoUsuario/${selectedVehicle.veic_usu_id}`, UpdateVeiculoUsuario);
+                if (!responseUsuario.data.sucesso) {
+                    throw new Error("Falha ao atualizar veículo-usuário: " + responseUsuario.data.mensagem);
+                }
             }
     
             // 7. Mensagem de sucesso
@@ -261,11 +270,24 @@ export default function UsuarioVeiculos() {
     
             // Atualiza a lista de veículos do usuário
             ListarVeiculosUsuario();
-        } catch  (error) {
-            console.error("Erro completo na requisição:", error.response);
+        } catch (error) {
+            console.error("Erro completo na requisição:", error);
+            let errorMessage;
+    
+            // Tratamento de erro baseado na mensagem do erro
+            if (error.message.includes("Falha ao criar veículo")) {
+                errorMessage = "Erro ao criar veículo: " + error.message;
+            } else if (error.message.includes("Falha ao atualizar veículo")) {
+                errorMessage = "Erro ao atualizar veículo: " + error.message;
+            } else if (error.message.includes("Falha ao atualizar veículo-usuário")) {
+                errorMessage = "Erro ao atualizar veículo-usuário: " + error.message;
+            } else {
+                errorMessage = error.response ? error.response.data.mensagem : error.message;
+            }
+    
             Swal.fire({
                 title: 'Erro!',
-                text: `Erro na requisição: ${error.response ? error.response.data.mensagem : error.message}`,
+                text: errorMessage,
                 icon: 'error',
                 confirmButtonText: 'Ok',
                 iconColor: '#d33',
@@ -275,7 +297,7 @@ export default function UsuarioVeiculos() {
     
         setShowForm(false);
     };
-    
+
     const handleEditar = (veiculo) => {
         const vehicleData = {
             veic_id: veiculo.veic_id || "",
@@ -712,7 +734,7 @@ export default function UsuarioVeiculos() {
                                                 required
                                                 className={styles.select_veiculos}
                                             >
-                                                <option value="" disabled>Selecionar</option>
+                                                <option value="" hidden>Selecionar</option>
                                                 <option value="1">Sim</option>
                                                 <option value="0">Não</option>
                                             </select>
