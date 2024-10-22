@@ -5,7 +5,7 @@ import { IoMdEyeOff, IoMdEye } from "react-icons/io";
 import api from '@/services/api';
 import { cpf as cpfValidator } from 'cpf-cnpj-validator';
 
-export default function FormCliente({ selectedUser, setSelectedUser, isViewing, handleSubmit, isEditing }) {
+export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, setSenhaErro, validarSenha, isViewing, handleSubmit, isEditing }) {
 
     const isDisabled = isViewing || isEditing;
 
@@ -18,6 +18,22 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+
+    // const handleSenhaChange = (e) => {
+    //     const senha = e.target.value;
+    //     setSelectedUser({ ...selectedUser, usu_senha: senha });
+        
+    //     // Chama a função de validação do componente pai
+    //     validarSenha(senha);
+    // };
+
+    const handleChangeSenha = (event) => {
+        const novaSenha = event.target.value;
+        setSelectedUser({ ...selectedUser, usu_senha: novaSenha });
+        const erro = validarSenha(novaSenha); // Chama a função de validação
+        setSenhaErro(erro); // Atualiza o estado do erro da senha
+    };
+
 
     const sexoMap = {
         0: 'Feminino',
@@ -210,19 +226,23 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                             id="usu_senha"
                             name="usu_senha"
                             value={selectedUser ? selectedUser.usu_senha : ''}
-                            onChange={(e) => setSelectedUser({ ...selectedUser, usu_senha: e.target.value })}
+                            onChange={handleChangeSenha }
                             className={styles.input_cliente_password}
                             disabled={isViewing}
                             placeholder="Digite sua senha"
                             required
                         />
 
+                       
                         {showPassword ? (
                             <IoMdEye onClick={togglePasswordVisibility} className={styles.mdEye} />
                         ) : (
                             <IoMdEyeOff onClick={togglePasswordVisibility} className={styles.mdEye} />
                         )}
                     </div>
+                    {senhaErro && <div className={styles.error_message}>{senhaErro}</div>} {/* Mensagem de erro */}
+
+                    {/* {senhaErro && <div className={styles.error_message}>{senhaErro}</div>} */}
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_observacoes}`}>
@@ -299,11 +319,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, isViewing, 
                             className={styles.input_cliente}
                             required
                         />
-
-
                     )}
-
-
                 </div>
             </div>
         </form>

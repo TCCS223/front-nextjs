@@ -96,6 +96,11 @@
   grid-column: span 8;
 }
 
+.error_message {
+    color: red;
+    font-size: 0.9em;
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;

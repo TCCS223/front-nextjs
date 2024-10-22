@@ -23,6 +23,7 @@ export default function CadCliente() {
     const [isEditing, setIsEditing] = useState(false);
     const [sortedColumn, setSortedColumn] = useState(null);
     const [isAsc, setIsAsc] = useState(true);
+    const [senhaErro, setSenhaErro] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedUser, setSelectedUser] = useState({
         usu_nome: '',
@@ -150,15 +151,15 @@ export default function CadCliente() {
             usu_acesso: 0,
             usu_senha: '',
             usu_situacao: 1,
-        }); 
-        setIsViewing(false); 
+        });
+        setIsViewing(false);
         setIsEditing(false);
     };
 
     const handleSubmit = async (usuario) => {
-    
+
         const errors = [];
-    
+
         const cpfError = await validarCPF(usuario.usu_cpf);
         if (cpfError) {
             errors.push(cpfError);
@@ -169,27 +170,37 @@ export default function CadCliente() {
             errors.push(emailError);
         }
 
+        // Validação de senha
+        const senhaError = validarSenha(usuario.usu_senha);
+        if (senhaError) {
+            setSenhaErro(senhaError); // Atualiza o estado da senha
+            errors.push(senhaError); // Adiciona erro à lista
+        } else {
+            setSenhaErro(''); // Limpa o erro se a senha for válida
+        }
+
         if (errors.length > 0) {
             Swal.fire({
                 title: 'Dados Incorretos',
-                html: errors.join('<br/>'),
+                text: "Por favor, revise os dados preenchidos e tente novamente.",
+                // html: errors.join('<br/>'),
                 icon: 'error',
                 confirmButtonText: 'OK',
                 iconColor: '#d33',
                 confirmButtonColor: '#d33',
             });
             return;
-        }
+        }        
 
         try {
             let response;
-    
+
             if (usuario.usu_id) {
                 response = await api.patch(`/usuarios/${usuario.usu_id}`, usuario);
             } else {
                 response = await api.post('/usuarios', usuario);
             }
-    
+
             Swal.fire({
                 title: 'Sucesso!',
                 text: response.data.mensagem,
@@ -197,12 +208,12 @@ export default function CadCliente() {
                 iconColor: "rgb(40, 167, 69)",
                 confirmButtonColor: "rgb(40, 167, 69)",
             });
-    
+
             ListarUsuarios();
             setShowForm(false);
         } catch (error) {
             const backendErrors = [];
-    
+
             if (error.response && error.response.data) {
                 if (error.response.data.erros && Array.isArray(error.response.data.erros)) {
                     backendErrors.push(...error.response.data.erros);
@@ -210,7 +221,7 @@ export default function CadCliente() {
                     backendErrors.push(error.response.data.mensagem);
                 }
             }
-    
+
             if (backendErrors.length > 0) {
                 Swal.fire({
                     title: 'Erro!',
@@ -230,23 +241,30 @@ export default function CadCliente() {
             }
         }
     };
-    
+
+    const validarSenha = (senha) => {
+        if (senha.length < 8) {
+            return 'A senha deve ter pelo menos 8 caracteres.';
+        }
+        return ''; // Retorna uma string vazia se não houver erro
+    };
+
     const validarCPF = async (cpf) => {
         const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;
-    
+
         if (!cpfRegex.test(cpf)) {
             return 'CPF inválido.';
         }
-    
+
         const numbersOnly = cpf.replace(/[^\d]/g, '');
-    
+
         if (numbersOnly.length !== 11 || /^(\d)\1+$/.test(numbersOnly)) {
             return 'CPF inválido.';
         }
-    
+
         let soma = 0;
         let resto;
-    
+
         for (let i = 1; i <= 9; i++) {
             soma += parseInt(numbersOnly.substring(i - 1, i)) * (11 - i);
         }
@@ -255,7 +273,7 @@ export default function CadCliente() {
         if (resto !== parseInt(numbersOnly.substring(9, 10))) {
             return 'CPF inválido.';
         }
-    
+
         soma = 0;
         for (let i = 1; i <= 10; i++) {
             soma += parseInt(numbersOnly.substring(i - 1, i)) * (12 - i);
@@ -274,7 +292,7 @@ export default function CadCliente() {
             console.error('Erro na verificação do CPF:', error);
             return 'Ocorreu um erro ao verificar o CPF. Por favor, tente novamente.';
         }
-    
+
         return null;
     };
 
@@ -286,7 +304,7 @@ export default function CadCliente() {
 
     const validaEmail = async (usuario) => {
         const email = usuario.usu_email.trim();
-        
+
         if (!email) {
             return 'O e-mail do usuário é obrigatório.';
         } else if (!checkEmail(email)) {
@@ -302,10 +320,10 @@ export default function CadCliente() {
             console.error('Erro na verificação do email:', error);
             return 'Ocorreu um erro ao verificar o email. Por favor, tente novamente.';
         }
-    
+
         return null;
     };
-    
+
     const sortByColumn = (column) => {
         let newIsAsc = true;
 
@@ -499,7 +517,7 @@ export default function CadCliente() {
                                             <td>
                                                 <div className={styles.actionIcons}>
                                                     <i>
-                                                    <MdRemoveRedEye
+                                                        <MdRemoveRedEye
                                                             title="Visualizar"
                                                             onClick={() => handleViewUser(usuario)}
                                                         />
@@ -548,6 +566,10 @@ export default function CadCliente() {
                         isEditing={isEditing}
                         handleSubmit={handleSubmit}
                         Cancelar={Cancelar}
+
+                        setSenhaErro={setSenhaErro} // Passando a função de atualização do erro também
+                        senhaErro={senhaErro}  // Passa a mensagem de erro para o filho
+                        validarSenha={validarSenha}  // Passa a função de validação para o filho
                     />
 
                     <div className={styles.footer_form}>

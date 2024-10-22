@@ -209,7 +209,7 @@ export default function Veiculos() {
 
             if (error.response) {
                 console.error("Erro da API:", error.response.data);
-                setPlacaErro(`${error.response.data.mensagem}`);
+                setPlacaErro(`teste : ${error.response.data.mensagem}`);
             } else if (error.request) {
                 console.error("Nenhuma resposta da API:", error.request);
                 setPlacaErro('Nenhuma resposta da API.');
