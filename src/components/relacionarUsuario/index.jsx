@@ -151,7 +151,7 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
                         type="button"
                         onClick={handleSalvar}
                         className={styles.btnSave}
-                        disabled={!usuarioSelecionado || !dataInicial} // Desabilitar se não houver veículo ou data inicial
+                        disabled={!usuarioSelecionado || !dataInicial}
                     >
                         Salvar
                     </button>

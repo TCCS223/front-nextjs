@@ -24,7 +24,7 @@ export default function CadCliente() {
     const [sortedColumn, setSortedColumn] = useState(null);
     const [isAsc, setIsAsc] = useState(true);
     const [senhaErro, setSenhaErro] = useState('');
-    const [focused, setFocused] = useState(false); // Estado para controlar o foco no campo
+    const [focused, setFocused] = useState(false);
     const [senha, setSenha] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedUser, setSelectedUser] = useState({
@@ -44,7 +44,6 @@ export default function CadCliente() {
 
     const usersPerPage = 15;
 
-    // Paginação
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
@@ -66,8 +65,6 @@ export default function CadCliente() {
         1: 'Masculino',
         2: 'Outro'
     };
-
-
 
     const Create = () => {
         setSelectedUser({
@@ -188,7 +185,7 @@ export default function CadCliente() {
         if (senhaError) {
             errors.push("A senha não atende aos requisitos.");
         } else {
-            setSenhaErro(''); // Limpa a mensagem de erro se a senha for válida
+            setSenhaErro('');
         }
 
         if (errors.length > 0) {
@@ -349,15 +346,14 @@ export default function CadCliente() {
         }
     };
 
-     // Manipuladores de foco
-  const handleFocus = () => {
-    setFocused(true); // Mostra as exigências da senha ao focar no campo
-  };
+    const handleFocus = () => {
+        setFocused(true);
+    };
 
-  const handleBlur = () => {
-    setFocused(false); // Esconde as exigências quando perde o foco
-    validarSenha(senha); // Valida a senha e, se houver erro, exibe a mensagem de erro
-  };
+    const handleBlur = () => {
+        setFocused(false);
+        validarSenha(senha);
+    };
 
 
     const validarCPF = async (cpf) => {

@@ -52,9 +52,7 @@ export default function LoginUsu() {
                     router.push('/telas/admin');
                 } else {
                     router.push('/telas/usuario');
-                    
                 }
-
             } else {
                 Swal.fire({
                     icon: 'error',
@@ -177,7 +175,6 @@ export default function LoginUsu() {
                         priority={true}
                     />
                 </div>
-
             </main>
         </>
     );

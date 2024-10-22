@@ -59,12 +59,10 @@ export default function ModalRelacionarVeiculo({ isOpen, onClose, usuarioId }) {
         };
     
         try {
-            // Tenta cadastrar o veículo
             const response = await api.post(`/veiculoUsuario`, dadosVeiculo);
-    
             Swal.fire({
                 title: 'Sucesso!',
-                text: response.data.mensagem, // Mensagem do backend
+                text: response.data.mensagem,
                 icon: 'success',
                 iconColor: "rgb(40, 167, 69)",
                 confirmButtonColor: "rgb(40, 167, 69)",
@@ -74,9 +72,14 @@ export default function ModalRelacionarVeiculo({ isOpen, onClose, usuarioId }) {
             limparCampos();
     
         } catch (error) {
-            // Verifica se o erro é de veículo duplicado ou outro tipo
             if (error.response && error.response.status === 400) {
-                Swal.fire('Atenção', error.response.data.mensagem, 'warning'); // Mostra a mensagem de erro do backend
+                Swal.fire({
+                    title: 'Atenção',
+                    text: error.response.data.mensagem,
+                    icon: 'warning',
+                    iconColor: '#ff9d00',
+                    confirmButtonColor: '#ff9d00',
+                });
             } else {
                 Swal.fire({
                     title: 'Erro!',
@@ -142,7 +145,7 @@ export default function ModalRelacionarVeiculo({ isOpen, onClose, usuarioId }) {
                             <input
                                 type="checkbox"
                                 checked={ehProprietario}
-                                onChange={(e) => setEhProprietario(e.target.checked ? 1 : 0)}  // Ajustar para garantir que o valor seja 1 ou 0
+                                onChange={(e) => setEhProprietario(e.target.checked ? 1 : 0)}
                             />
                             É Proprietário?
                         </label>

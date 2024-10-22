@@ -120,7 +120,7 @@ export default function UsuarioVeiculos() {
             [name]: (name === 'cat_id' || name === 'mar_id' || name === 'mod_id' || name === 'ehproprietario')
                 ? parseInt(value, 10)
                 : name === 'veic_placa' 
-                    ? value.toUpperCase() // Transforma as letras em maiúsculas apenas para veic_placa
+                    ? value.toUpperCase()
                     : value
         }));
     };
@@ -185,7 +185,6 @@ export default function UsuarioVeiculos() {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
     
-        // 1. Definindo as constantes para o novo veículo e o veículo atualizado
         const NovoVeiculo = {
             mod_id: selectedVehicle.mod_id,
             veic_placa: selectedVehicle.veic_placa,
@@ -193,7 +192,7 @@ export default function UsuarioVeiculos() {
             veic_cor: selectedVehicle.veic_cor,
             veic_combustivel: selectedVehicle.veic_combustivel,
             veic_observ: selectedVehicle.veic_observ,
-            veic_situacao: selectedVehicle.veic_situacao || 1 // Use o valor padrão aqui
+            veic_situacao: selectedVehicle.veic_situacao || 1
         };
     
         const UpdateVeiculo = {
@@ -206,7 +205,6 @@ export default function UsuarioVeiculos() {
             veic_situacao: selectedVehicle.veic_situacao
         };
     
-        // 2. Definindo a constante para o veículo usuário atualizado
         const UpdateVeiculoUsuario = {
             veic_usu_id: selectedVehicle.veic_usu_id || veiculos.veic_usu_id,
             data_inicial: selectedVehicle.data_inicial || veiculos.data_inicial,
@@ -215,21 +213,17 @@ export default function UsuarioVeiculos() {
                 : parseInt(veiculos.ehproprietario, 10)
         };
     
-        // 3. Inicializando a variável para o NovoVeiculoUsuario
         let NovoVeiculoUsuario;
     
         try {
             let responseVehicle;
     
-            // 4. Verifica se o veículo deve ser criado ou atualizado
             if (!selectedVehicle.veic_id) {
-                // Criando um novo veículo
                 responseVehicle = await api.post('/veiculos', NovoVeiculo);
     
                 if (responseVehicle.data.sucesso) {
-                    const newVeic_id = responseVehicle.data.dados; // Obtendo o ID do veículo criado
+                    const newVeic_id = responseVehicle.data.dados;
     
-                    // 5. Criando o NovoVeiculoUsuario
                     NovoVeiculoUsuario = {
                         veic_id: newVeic_id,
                         usu_id: userId,
@@ -239,26 +233,22 @@ export default function UsuarioVeiculos() {
                             : parseInt(veiculos.ehproprietario, 10)
                     };
     
-                    // 6. Enviando a requisição para criar a relação veículo-usuário
                     await api.post('/veiculoUsuario', NovoVeiculoUsuario);
                 } else {
                     throw new Error("Falha ao criar veículo: " + responseVehicle.data.mensagem);
                 }
             } else {
-                // Atualizando o veículo existente
                 responseVehicle = await api.patch(`/veiculos/${selectedVehicle.veic_id}`, UpdateVeiculo);
                 if (!responseVehicle.data.sucesso) {
                     throw new Error("Falha ao atualizar veículo: " + responseVehicle.data.mensagem);
                 }
     
-                // Atualizando o veículo-usuário existente
                 const responseUsuario = await api.patch(`/veiculoUsuario/${selectedVehicle.veic_usu_id}`, UpdateVeiculoUsuario);
                 if (!responseUsuario.data.sucesso) {
                     throw new Error("Falha ao atualizar veículo-usuário: " + responseUsuario.data.mensagem);
                 }
             }
     
-            // 7. Mensagem de sucesso
             Swal.fire({
                 title: 'Sucesso!',
                 text: 'O veículo foi criado/atualizado com sucesso.',
@@ -270,13 +260,11 @@ export default function UsuarioVeiculos() {
     
             setShowForm(false);
             
-            // Atualiza a lista de veículos do usuário
             ListarVeiculosUsuario();
         } catch (error) {
             console.error("Erro completo na requisição:", error);
             let errorMessage;
     
-            // Tratamento de erro baseado na mensagem do erro
             if (error.message.includes("Falha ao criar veículo")) {
                 errorMessage = "Erro ao criar veículo: " + error.message;
             } else if (error.message.includes("Falha ao atualizar veículo")) {
@@ -296,8 +284,6 @@ export default function UsuarioVeiculos() {
                 confirmButtonColor: '#d33',
             });
         }
-    
-        
     };
 
     const handleEditar = (veiculo) => {
@@ -413,9 +399,9 @@ export default function UsuarioVeiculos() {
                                                 <IoCarSport className={styles.iconeVeiculo} />
 
                                             ) : veiculo.cat_id === 3 ? (
-                                                <FaMotorcycle className={styles.iconeVeiculo} /> // ícone para Caminhão (ou outro veículo)
+                                                <FaMotorcycle className={styles.iconeVeiculo} />
                                             ) : (
-                                                <MdOutlineQuestionMark className={styles.iconeVeiculo} /> // ícone padrão para categoria desconhecida
+                                                <MdOutlineQuestionMark className={styles.iconeVeiculo} />
                                             )}
                                         </div>
 
