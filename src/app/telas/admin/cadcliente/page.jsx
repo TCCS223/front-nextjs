@@ -24,6 +24,8 @@ export default function CadCliente() {
     const [sortedColumn, setSortedColumn] = useState(null);
     const [isAsc, setIsAsc] = useState(true);
     const [senhaErro, setSenhaErro] = useState('');
+    const [focused, setFocused] = useState(false); // Estado para controlar o foco no campo
+    const [senha, setSenha] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedUser, setSelectedUser] = useState({
         usu_nome: '',
@@ -64,6 +66,8 @@ export default function CadCliente() {
         1: 'Masculino',
         2: 'Outro'
     };
+
+
 
     const Create = () => {
         setSelectedUser({
@@ -170,13 +174,21 @@ export default function CadCliente() {
             errors.push(emailError);
         }
 
+        // // Validação de senha
+        // const senhaError = validarSenha(usuario.usu_senha);
+        // if (senhaError) {
+        //     setSenhaErro(senhaError); // Atualiza o estado da senha
+        //     errors.push(senhaError); // Adiciona erro à lista
+        // } else {
+        //     setSenhaErro(''); // Limpa o erro se a senha for válida
+        // }
+
         // Validação de senha
         const senhaError = validarSenha(usuario.usu_senha);
         if (senhaError) {
-            setSenhaErro(senhaError); // Atualiza o estado da senha
-            errors.push(senhaError); // Adiciona erro à lista
+            errors.push("A senha não atende aos requisitos.");
         } else {
-            setSenhaErro(''); // Limpa o erro se a senha for válida
+            setSenhaErro(''); // Limpa a mensagem de erro se a senha for válida
         }
 
         if (errors.length > 0) {
@@ -190,7 +202,7 @@ export default function CadCliente() {
                 confirmButtonColor: '#d33',
             });
             return;
-        }        
+        }
 
         try {
             let response;
@@ -242,12 +254,111 @@ export default function CadCliente() {
         }
     };
 
+    // const validarSenha = (senha) => {
+    //     if (senha.length < 8) {
+    //         return 'A senha deve ter pelo menos 8 caracteres.';
+    //     }
+    //     return ''; // Retorna uma string vazia se não houver erro
+    // };
+
+    // const validarSenha = (senha) => {
+    //     const minLength = 8;
+    //     const hasUpperCase = /[A-Z]/.test(senha);
+    //     const hasLowerCase = /[a-z]/.test(senha);
+    //     const hasNumber = /\d/.test(senha);
+    //     const hasSpecialChar = /[!@#$%^&*]/.test(senha);
+    //     const hasSpaces = /\s/.test(senha);
+
+    //     let errorMessage = [];
+
+    //     if (senha.length < minLength) {
+    //         errorMessage.push(`A senha deve ter pelo menos ${minLength} caracteres.`);
+    //     }
+    //     if (!hasUpperCase) {
+    //         errorMessage.push('A senha deve conter pelo menos uma letra maiúscula.');
+    //     }
+    //     if (!hasLowerCase) {
+    //         errorMessage.push('A senha deve conter pelo menos uma letra minúscula.');
+    //     }
+    //     if (!hasNumber) {
+    //         errorMessage.push('A senha deve conter pelo menos um número.');
+    //     }
+    //     if (!hasSpecialChar) {
+    //         errorMessage.push('A senha deve conter pelo menos um caractere especial (ex: !@#$%^&*).');
+    //     }
+    //     if (hasSpaces) {
+    //         errorMessage.push('A senha não deve conter espaços em branco.');
+    //     }
+
+    //     // Atualiza o estado da mensagem de erro
+    //     if (errorMessage.length > 0) {
+    //         setSenhaErro(errorMessage.join('\n'));
+    //         return true; // Indica que a senha é inválida
+    //     } else {
+    //         setSenhaErro('');
+    //         return false; // Indica que a senha é válida
+    //     }
+    // };
+
+
     const validarSenha = (senha) => {
-        if (senha.length < 8) {
-            return 'A senha deve ter pelo menos 8 caracteres.';
+        const minLength = 8;
+        const hasUpperCase = /[A-Z]/.test(senha);
+        const hasLowerCase = /[a-z]/.test(senha);
+        const hasNumber = /\d/.test(senha);
+        const hasSpecialChar = /[!@#$%^&*]/.test(senha);
+        const hasSpaces = /\s/.test(senha);
+
+        let errorMessage = [];
+
+        if (senha.length < minLength) {
+            errorMessage.push(`Pelo menos ${minLength} caracteres.`);
         }
-        return ''; // Retorna uma string vazia se não houver erro
+        if (!hasUpperCase) {
+            errorMessage.push('Uma letra maiúscula.');
+        }
+        if (!hasLowerCase) {
+            errorMessage.push('Uma letra minúscula.');
+        }
+        if (!hasNumber) {
+            errorMessage.push('Um número.');
+        }
+        if (!hasSpecialChar) {
+            errorMessage.push('Um caractere especial (ex: !@#$%^&*).');
+        }
+        if (hasSpaces) {
+            errorMessage.push('Sem espaços em branco.');
+        }
+
+        // Atualiza o estado com os critérios restantes
+        // if (errorMessage.length > 0) {
+        //     setSenhaErro(`A senha precisa de: ${errorMessage.join(', ')}`);
+        //     return true; // A senha ainda não cumpre os requisitos
+        // } else {
+        //     setSenhaErro(''); // Todos os critérios foram cumpridos
+        //     return false; // A senha é válida
+        // }
+
+        // Se houver mensagem de erro, define o estado com a mensagem, senão limpa o erro
+        if (errorMessage) {
+            setSenhaErro(errorMessage);
+            return false;
+        } else {
+            setSenhaErro('');
+            return true;
+        }
     };
+
+     // Manipuladores de foco
+  const handleFocus = () => {
+    setFocused(true); // Mostra as exigências da senha ao focar no campo
+  };
+
+  const handleBlur = () => {
+    setFocused(false); // Esconde as exigências quando perde o foco
+    validarSenha(senha); // Valida a senha e, se houver erro, exibe a mensagem de erro
+  };
+
 
     const validarCPF = async (cpf) => {
         const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;
@@ -570,6 +681,12 @@ export default function CadCliente() {
                         setSenhaErro={setSenhaErro} // Passando a função de atualização do erro também
                         senhaErro={senhaErro}  // Passa a mensagem de erro para o filho
                         validarSenha={validarSenha}  // Passa a função de validação para o filho
+
+
+                        focused={focused}
+                        senha={senha}
+                        handleFocus={handleFocus}
+                        handleBlur={handleBlur}
                     />
 
                     <div className={styles.footer_form}>

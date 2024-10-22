@@ -5,7 +5,7 @@ import { IoMdEyeOff, IoMdEye } from "react-icons/io";
 import api from '@/services/api';
 import { cpf as cpfValidator } from 'cpf-cnpj-validator';
 
-export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, setSenhaErro, validarSenha, isViewing, handleSubmit, isEditing }) {
+export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, setSenhaErro, focused, senha, handleFocus, handleBlur, validarSenha, isViewing, handleSubmit, isEditing }) {
 
     const isDisabled = isViewing || isEditing;
 
@@ -15,6 +15,10 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState('');
 
+
+    
+
+
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
@@ -22,7 +26,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
     // const handleSenhaChange = (e) => {
     //     const senha = e.target.value;
     //     setSelectedUser({ ...selectedUser, usu_senha: senha });
-        
+
     //     // Chama a função de validação do componente pai
     //     validarSenha(senha);
     // };
@@ -226,21 +230,62 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
                             id="usu_senha"
                             name="usu_senha"
                             value={selectedUser ? selectedUser.usu_senha : ''}
-                            onChange={handleChangeSenha }
+                            // onChange={handleChangeSenha }
+                            // onChange={(e) => setSelectedUser({ ...selectedUser, usu_senha: e.target.value })}
+                            onChange={(e) => {
+                                const novaSenha = e.target.value;
+                                setSelectedUser({ ...selectedUser, usu_senha: novaSenha });
+                                validarSenha(novaSenha); // Valida a senha enquanto digita
+                            }}
                             className={styles.input_cliente_password}
                             disabled={isViewing}
                             placeholder="Digite sua senha"
                             required
+                            onFocus={handleFocus} // Quando o campo é focado
+                            onBlur={handleBlur} // Quando o campo perde o foco
                         />
 
-                       
+
                         {showPassword ? (
                             <IoMdEye onClick={togglePasswordVisibility} className={styles.mdEye} />
                         ) : (
                             <IoMdEyeOff onClick={togglePasswordVisibility} className={styles.mdEye} />
                         )}
                     </div>
-                    {senhaErro && <div className={styles.error_message}>{senhaErro}</div>} {/* Mensagem de erro */}
+
+
+                    {/* {focused && ( // Exibe a mensagem apenas quando o campo está focado ou há um erro
+        <div className={`${styles.error_message} ${senhaErro === '' ? styles.hidden : ''}`}>
+          {senhaErro || 'A senha deve ter pelo menos 8 caracteres, uma letra maiúscula, um número e um caractere especial.'}
+        </div>
+      )} */}
+
+
+ {/* Durante o foco, mostra as exigências ainda não cumpridas */}
+ {focused && senhaErro.length > 0 && (
+        <div className={styles.error_message}>
+          <ul>
+            {senhaErro.map((erro, index) => (
+              <li key={index}>{erro}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Quando o campo perder o foco, se houver erros, mostra "Senha inválida" */}
+      {!focused && senhaErro.length > 0 && (
+        <div className={styles.error_message_simples}>
+          Senha inválida.
+        </div>
+      )}
+
+                    {/* {senhaErro && (
+                        <div className={`${styles.error_message} ${senhaErro === '' ? styles.hidden : ''}`}>
+                            {senhaErro}
+                        </div>
+                    )} */}
+
+                    {/* {senhaErro && <div className={styles.error_message}>{senhaErro}</div>} Mensagem de erro ESSA FUNCIONA OK */}
 
                     {/* {senhaErro && <div className={styles.error_message}>{senhaErro}</div>} */}
                 </div>
