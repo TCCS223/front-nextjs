@@ -46,9 +46,6 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
             data_inicial: dataInicial
         };
 
-        console.log(dados);
-
-
         try {
             await api.post(`/veiculoUsuario`, dados);
             Swal.fire({
@@ -59,8 +56,6 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
                 confirmButtonColor: "rgb(40, 167, 69)",
             });
             onClose();
-
-
             limparCampos();
         } catch (error) {
             console.error("Erro ao associar usuário:", error.response);
@@ -74,9 +69,6 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
         }
     }
 
-
-
-
     const limparCampos = () => {
         setCpf('');
         setUsuarios([]);
@@ -86,8 +78,6 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
     }
 
     if (!isOpen) return null;
-
-    console.log(cpf);
 
     return (
         <form className={styles.modalOverlay}>
@@ -103,8 +93,10 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
                         value={cpf}
                         onChange={(e) => setCpf(e.target.value.toUpperCase())}
                         className={styles.inputCpf}
+                        placeholder="Digite 3 dígitos no mínimo..."
                         required
                     />
+                    
                     <ul className={styles.list}>
                         <li className={styles.header}>
                             <span className={styles.spanInput}></span>
@@ -129,6 +121,7 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
                             </li>
                         ))}
                     </ul>
+
                     <div className={styles.checkboxDateContainer}>
                         <label>
                             <input
@@ -151,6 +144,7 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
                         </div>
                     </div>
                 </div>
+
                 <div className={styles.buttonGroup}>
                     <button type="button" onClick={() => { onClose(); limparCampos(); }} className={styles.btnCancel}>Cancelar</button>
                     <button
