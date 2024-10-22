@@ -43,10 +43,10 @@ export default function UsuarioVeiculos() {
         veic_cor: "",
         veic_combustivel: "",
         veic_observ: "",
-        ehproprietario: "", 
+        ehproprietario: "",
         veic_situacao: 1,
     });
-    
+
 
     useEffect(() => {
         const storedUserId = localStorage.getItem('user');
@@ -114,12 +114,12 @@ export default function UsuarioVeiculos() {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-    
+
         setSelectedVehicle((prevVehicle) => ({
             ...prevVehicle,
             [name]: (name === 'cat_id' || name === 'mar_id' || name === 'mod_id' || name === 'ehproprietario')
                 ? parseInt(value, 10)
-                : name === 'veic_placa' 
+                : name === 'veic_placa'
                     ? value.toUpperCase()
                     : value
         }));
@@ -184,7 +184,7 @@ export default function UsuarioVeiculos() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-    
+
         const NovoVeiculo = {
             mod_id: selectedVehicle.mod_id,
             veic_placa: selectedVehicle.veic_placa,
@@ -194,7 +194,7 @@ export default function UsuarioVeiculos() {
             veic_observ: selectedVehicle.veic_observ,
             veic_situacao: selectedVehicle.veic_situacao || 1
         };
-    
+
         const UpdateVeiculo = {
             mod_id: selectedVehicle.mod_id || veiculos.mod_id,
             veic_placa: selectedVehicle.veic_placa || veiculos.veic_placa,
@@ -204,7 +204,7 @@ export default function UsuarioVeiculos() {
             veic_observ: selectedVehicle.veic_observ || veiculos.veic_observ,
             veic_situacao: selectedVehicle.veic_situacao
         };
-    
+
         const UpdateVeiculoUsuario = {
             veic_usu_id: selectedVehicle.veic_usu_id || veiculos.veic_usu_id,
             data_inicial: selectedVehicle.data_inicial || veiculos.data_inicial,
@@ -212,18 +212,21 @@ export default function UsuarioVeiculos() {
                 ? parseInt(selectedVehicle.ehproprietario, 10)
                 : parseInt(veiculos.ehproprietario, 10)
         };
-    
+
         let NovoVeiculoUsuario;
-    
+
         try {
+
+            console.log("teste aqui: ", NovoVeiculo);
+
             let responseVehicle;
-    
+
             if (!selectedVehicle.veic_id) {
                 responseVehicle = await api.post('/veiculos', NovoVeiculo);
-    
+
                 if (responseVehicle.data.sucesso) {
                     const newVeic_id = responseVehicle.data.dados;
-    
+
                     NovoVeiculoUsuario = {
                         veic_id: newVeic_id,
                         usu_id: userId,
@@ -232,7 +235,7 @@ export default function UsuarioVeiculos() {
                             ? parseInt(selectedVehicle.ehproprietario, 10)
                             : parseInt(veiculos.ehproprietario, 10)
                     };
-    
+
                     await api.post('/veiculoUsuario', NovoVeiculoUsuario);
                 } else {
                     throw new Error("Falha ao criar veículo: " + responseVehicle.data.mensagem);
@@ -242,13 +245,13 @@ export default function UsuarioVeiculos() {
                 if (!responseVehicle.data.sucesso) {
                     throw new Error("Falha ao atualizar veículo: " + responseVehicle.data.mensagem);
                 }
-    
+
                 const responseUsuario = await api.patch(`/veiculoUsuario/${selectedVehicle.veic_usu_id}`, UpdateVeiculoUsuario);
                 if (!responseUsuario.data.sucesso) {
                     throw new Error("Falha ao atualizar veículo-usuário: " + responseUsuario.data.mensagem);
                 }
             }
-    
+
             Swal.fire({
                 title: 'Sucesso!',
                 text: 'O veículo foi criado/atualizado com sucesso.',
@@ -257,14 +260,14 @@ export default function UsuarioVeiculos() {
                 iconColor: "rgb(40, 167, 69)",
                 confirmButtonColor: "rgb(40, 167, 69)",
             });
-    
+
             setShowForm(false);
-            
+
             ListarVeiculosUsuario();
         } catch (error) {
             console.error("Erro completo na requisição:", error);
             let errorMessage;
-    
+
             if (error.message.includes("Falha ao criar veículo")) {
                 errorMessage = "Erro ao criar veículo: " + error.message;
             } else if (error.message.includes("Falha ao atualizar veículo")) {
@@ -274,7 +277,7 @@ export default function UsuarioVeiculos() {
             } else {
                 errorMessage = error.response ? error.response.data.mensagem : error.message;
             }
-    
+
             Swal.fire({
                 title: 'Erro!',
                 text: errorMessage,

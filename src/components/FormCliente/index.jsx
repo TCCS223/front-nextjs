@@ -15,10 +15,6 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState('');
 
-
-    
-
-
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
