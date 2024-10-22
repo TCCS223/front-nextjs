@@ -11,6 +11,7 @@ esta relacionando todos os veiculos como proprietarios com o usu_id
 
 - FORMVEICULOS -
 
+ validar ano maximo permitido (1886 a 2025)
 
 - TELA DE ADMIN -
     agenda
@@ -19,6 +20,7 @@ esta relacionando todos os veiculos como proprietarios com o usu_id
 - TELA DE USUÁRIO -
     histórico de SERVIÇOS
 
+    veic_situacao indo 0 pro banco
 
     (agenda) -> se der tempo
 
