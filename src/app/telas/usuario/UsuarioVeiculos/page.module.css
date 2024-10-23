@@ -169,6 +169,12 @@
     height: 2rem;
     color: #fff;
     cursor: pointer;
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.iconeVisualizar:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
 }
 
 .botaonovo button {
@@ -255,7 +261,6 @@
 }
 
 .grid_observacoes {
-    /* grid-column: span 12; */
     grid-column: span 6;
 }
 

@@ -27,6 +27,9 @@ export default function UsuarioVeiculos() {
     const [marcas, setMarcas] = useState([]);
     const [modelos, setModelos] = useState([]);
 
+    const [ano, setAno] = useState('');
+    const [anoErro, setAnoErro] = useState('');
+
     const [selectedVehicle, setSelectedVehicle] = useState({
         veic_id: "",
         veic_usu_id: "",
@@ -185,6 +188,24 @@ export default function UsuarioVeiculos() {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
 
+        console.log("Iniciando validação do ano:", selectedVehicle.veic_ano);
+        // Validação do ano
+        
+        if (!validarAno(selectedVehicle.veic_ano)) {
+            setAnoErro(`O ano deve ser entre 1886 e ${new Date().getFullYear() + 1}.`);
+            Swal.fire({
+                title: 'Erro!',
+                text: 'O ano inserido é inválido. Por favor, insira um ano válido.',
+                icon: 'error',
+                confirmButtonText: 'Ok',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
+            });
+            return;
+        }
+    
+        setAnoErro('');
+
         const NovoVeiculo = {
             mod_id: selectedVehicle.mod_id,
             veic_placa: selectedVehicle.veic_placa,
@@ -216,9 +237,6 @@ export default function UsuarioVeiculos() {
         let NovoVeiculoUsuario;
 
         try {
-
-            console.log("teste aqui: ", NovoVeiculo);
-
             let responseVehicle;
 
             if (!selectedVehicle.veic_id) {
@@ -381,6 +399,18 @@ export default function UsuarioVeiculos() {
                 });
             }
         });
+    };
+
+    const validarAno = (ano) => {
+        const anoAtual = new Date().getFullYear();
+        const anoMax = anoAtual + 1;
+        const anoNum = parseInt(ano, 10);
+    
+        // Valida se o ano é um número válido dentro do intervalo permitido
+        if (isNaN(anoNum) || anoNum < 1886 || anoNum > anoMax) {
+            return false;
+        }
+        return true;
     };
 
     return (
@@ -596,12 +626,14 @@ export default function UsuarioVeiculos() {
                                         type="number"
                                         id="veic_ano"
                                         name="veic_ano"
-                                        value={selectedVehicle.veic_ano}
-                                        onChange={handleInputChange}
+                                        value={selectedVehicle.veic_ano || ''}
+                                        onChange={(e) => setSelectedVehicle({ ...selectedVehicle, veic_ano: e.target.value })}
+                                        onBlur={() => validarAno(ano)}
                                         className={styles.input_veiculos}
                                         required
                                         disabled={!isCreate && !isEditing}
                                     />
+                                    {anoErro && <span className="erro">{anoErro}</span>}
                                 </div>
 
                                 <div className={`${styles.grid_item} ${styles.grid_cor}`}>
