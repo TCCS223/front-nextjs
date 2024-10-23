@@ -9,7 +9,8 @@ import styles from "./page.module.css";
 import UsuarioVeiculos from "./UsuarioVeiculos/page";
 import UsuarioDados from "./UsuarioDados/page";
 
-import CadastrarVeiculos from "./CadastrarVeiculo/page";
+// import CadastrarVeiculos from "./CadastrarVeiculo/page";
+import FullCalendarUsuario from "./agenda/page";
 // import { useRouter } from "next/router";
 
 
@@ -43,6 +44,7 @@ export default function Home() {
                 <button data-target="#meusdados" onClick={() => setTela(1)}>Meus Dados</button>
                 <button data-target="#meusveiculos" onClick={() => setTela(2)}>Meus Veículos</button>
                 <button data-target="#historico" onClick={() => setTela(4)}>Histórico</button>
+                <button data-target="#historico" onClick={() => setTela(5)}>agenda</button>
                 {/* <button data-target="#agenda" onClick={() => setTela(3)}>Cadastrar Veiculos</button> */}
                 {/* <button data-target="#historico" onClick={() => setTela(5)}>Histórico</button> */}
             </div>
@@ -54,11 +56,11 @@ export default function Home() {
                         : tela === 2 ?
                             <UsuarioVeiculos />
                             : tela === 3 ?
-                                <CadastrarVeiculos />
+                                <UsuarioVeiculos  />
                                 : tela === 4 ?
                                     <UsuarioDados />
                                     : tela === 5 ?
-                                        <UsuarioDados /> // trocar pelo histórico
+                                        <FullCalendarUsuario /> // trocar pelo histórico
                                         : <></>
                 }
             </div>
