@@ -12,10 +12,11 @@ import styles from './page.module.css';
 
 const FullCalendar = () => {
     const calendarRef = useRef(null);
-    const [calendarApi, setCalendarApi] = useState(null); // Estado para armazenar a instância do calendário
+    const [calendarApi, setCalendarApi] = useState(null);
     const [userId, setUserId] = useState(null);
     const [events, setEvents] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [modalEvent, setModalEvent] = useState(null); // Estado para armazenar o evento clicado
     const [veiculos, setVeiculos] = useState([]);
     const [formValues, setFormValues] = useState({
         veic_usu_id: '',
@@ -28,11 +29,12 @@ const FullCalendar = () => {
     const [agendamentosTodos, setAgendamentoTodos] = useState([]);
     const [eventos, setEventos] = useState([]);
 
+    console.log(eventos);
+
+
     useEffect(() => {
         if (userId) {
             ListarVeiculosUsuario();
-            // ListarAgendamentosUsuario();
-            
         }
     }, [userId]);
 
@@ -52,25 +54,19 @@ const FullCalendar = () => {
     const ListarAgendamentosUsuario = async () => {
         try {
             const response = await api.get(`/agendamentos/usuarios/${userId}`);
-            setAgendamentoUsuario(response.data.dadosUsuario)
-            setEventos(response.data.dadosTodos)
-
+            setAgendamentoUsuario(response.data.dadosUsuario);
+            setEventos(response.data.dadosTodos);
         } catch (error) {
-            console.error("Erro ao buscar veículos:", error);
+            console.error("Erro ao buscar agendamentos:", error);
         }
-    }
-
-    // console.log(agendamentosUsuario);
-    console.log(eventos);
-
+    };
 
     const ListarVeiculosUsuario = async () => {
         if (!userId) return;
 
         try {
             const response = await api.get(`/veiculoUsuario/usuario/${userId}`);
-            setVeiculos(response.data.dados || []); // Verifique se 'dados' contém o array
-            // console.log("teste: ", response.data.dados);
+            setVeiculos(response.data.dados || []);
         } catch (error) {
             console.error("Erro ao buscar veículos:", error);
         }
@@ -78,25 +74,28 @@ const FullCalendar = () => {
 
     const handleDateClick = (arg) => {
         if (calendarApi) {
-            // Mudar a visualização para o modo de dia
-            calendarApi.changeView('timeGridDay', arg.date);  // 'arg.date' é a data clicada
+            calendarApi.changeView('timeGridDay', arg.date);
         }
 
         if (arg?.dateStr) {
-            const formattedDate = format(parseISO(arg.dateStr), 'yyyy-MM-dd');  // Formata a data
-            const formattedTime = format(arg.date, 'HH:mm');  // Formata o horário
+            const formattedDate = format(parseISO(arg.dateStr), 'yyyy-MM-dd');
+            const formattedTime = format(arg.date, 'HH:mm');
 
             setFormValues({
                 ...formValues,
-                agend_data: formattedDate,  // Data formatada
-                agend_horario: formattedTime  // Horário formatado
+                agend_data: formattedDate,
+                agend_horario: formattedTime
             });
-            setShowModal(true);  // Abre o modal
+            setShowModal(true);
         } else {
             console.error("Data inválida no evento.");
         }
     };
 
+    const handleEventClick = (info) => {
+        setModalEvent(info.event); // Armazena o evento clicado
+        setShowModal(true); // Abre o modal
+    };
 
     const handleInputChange = (e) => {
         setFormValues({
@@ -142,14 +141,13 @@ const FullCalendar = () => {
             },
             events: eventos,
             dateClick: handleDateClick,
+            eventClick: handleEventClick, // Adiciona o manipulador de clique de evento
             slotMinTime: '08:00:00',
             slotMaxTime: '18:00:00',
         });
 
-        setCalendarApi(calendar); // Armazene a instância do calendário no estado
+        setCalendarApi(calendar);
         calendar.render();
-
-        ListarVeiculosUsuario();
 
         return () => {
             calendar.destroy();
@@ -162,56 +160,68 @@ const FullCalendar = () => {
             {showModal && (
                 <div className={styles.modal}>
                     <div className={styles.modalContent}>
-                        <h2>Novo Agendamento</h2>
-                        <form onSubmit={handleSubmit}>
-                            <label>Veículo:</label>
-                            <select
-                                name="veic_usu_id"
-                                value={formValues.veic_usu_id}
-                                onChange={handleInputChange}
-                                required
-                            >
-                                <option value="">Selecione o veículo</option>
-                                {veiculos.length > 0 ? (
-                                    veiculos.map((veiculo) => (
-                                        <option key={veiculo.veic_usu_id} value={veiculo.veic_usu_id}>
-                                            {veiculo.veic_placa}
-                                        </option>
-                                    ))
-                                ) : (
-                                    <option disabled>Nenhum veículo disponível</option>
-                                )}
-                            </select>
+                        {modalEvent ? (
+                            <>
+                                <h2>{modalEvent.title}</h2>
+                                <p>ID: {modalEvent.agend_id}</p>
+                                <p>Data: {modalEvent.start.toISOString()}</p>
+                                <p>Observações: {modalEvent.extendedProps.agend_observ || 'Nenhuma observação'}</p>
+                                <button onClick={() => setShowModal(false)}>Fechar</button>
+                            </>
+                        ) : (
+                            <>
+                                <h2>Novo Agendamento</h2>
+                                <form onSubmit={handleSubmit}>
+                                    <label>Veículo:</label>
+                                    <select
+                                        name="veic_usu_id"
+                                        value={formValues.veic_usu_id}
+                                        onChange={handleInputChange}
+                                        required
+                                    >
+                                        <option value="">Selecione o veículo</option>
+                                        {veiculos.length > 0 ? (
+                                            veiculos.map((veiculo) => (
+                                                <option key={veiculo.veic_usu_id} value={veiculo.veic_usu_id}>
+                                                    {veiculo.veic_placa}
+                                                </option>
+                                            ))
+                                        ) : (
+                                            <option disabled>Nenhum veículo disponível</option>
+                                        )}
+                                    </select>
 
-                            <label>Data do Agendamento:</label>
-                            <input
-                                type="date"
-                                name="agend_data"
-                                value={formValues.agend_data}
-                                onChange={handleInputChange}
-                                required
-                            />
+                                    <label>Data do Agendamento:</label>
+                                    <input
+                                        type="date"
+                                        name="agend_data"
+                                        value={formValues.agend_data}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
 
-                            <label>Horário:</label>
-                            <input
-                                type="time"
-                                name="agend_horario"
-                                value={formValues.agend_horario}
-                                onChange={handleInputChange}
-                                required
-                            />
+                                    <label>Horário:</label>
+                                    <input
+                                        type="time"
+                                        name="agend_horario"
+                                        value={formValues.agend_horario}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
 
-                            <label>Observações:</label>
-                            <textarea
-                                name="agend_observ"
-                                value={formValues.agend_observ}
-                                onChange={handleInputChange}
-                                required
-                            />
+                                    <label>Observações:</label>
+                                    <textarea
+                                        name="agend_observ"
+                                        value={formValues.agend_observ}
+                                        onChange={handleInputChange}
+                                        required
+                                    />
 
-                            <button type="submit">Salvar</button>
-                            <button onClick={() => setShowModal(false)}>Cancelar</button>
-                        </form>
+                                    <button type="submit">Salvar</button>
+                                    <button type="button" onClick={() => setShowModal(false)}>Cancelar</button>
+                                </form>
+                            </>
+                        )}
                     </div>
                 </div>
             )}
