@@ -24,12 +24,21 @@ const FullCalendar = () => {
         agend_situacao: 1,
         agend_observ: ''
     });
+    const [agendamentosUsuario, setAgendamentoUsuario] = useState([]);
+    const [agendamentosTodos, setAgendamentoTodos] = useState([]);
+    const [eventos, setEventos] = useState([]);
 
     useEffect(() => {
         if (userId) {
             ListarVeiculosUsuario();
+            // ListarAgendamentosUsuario();
+            
         }
     }, [userId]);
+
+    useEffect(() => {
+        ListarAgendamentosUsuario();
+    }, []);
 
     useEffect(() => {
         const storedUserId = localStorage.getItem('user');
@@ -39,13 +48,29 @@ const FullCalendar = () => {
         }
     }, []);
 
+    // LISTA AGENDAMENTO 
+    const ListarAgendamentosUsuario = async () => {
+        try {
+            const response = await api.get(`/agendamentos/usuarios/${userId}`);
+            setAgendamentoUsuario(response.data.dadosUsuario)
+            setEventos(response.data.dadosTodos)
+
+        } catch (error) {
+            console.error("Erro ao buscar veículos:", error);
+        }
+    }
+
+    // console.log(agendamentosUsuario);
+    console.log(eventos);
+
+
     const ListarVeiculosUsuario = async () => {
         if (!userId) return;
 
         try {
             const response = await api.get(`/veiculoUsuario/usuario/${userId}`);
             setVeiculos(response.data.dados || []); // Verifique se 'dados' contém o array
-            console.log("teste: ", response.data.dados);
+            // console.log("teste: ", response.data.dados);
         } catch (error) {
             console.error("Erro ao buscar veículos:", error);
         }
@@ -56,11 +81,11 @@ const FullCalendar = () => {
             // Mudar a visualização para o modo de dia
             calendarApi.changeView('timeGridDay', arg.date);  // 'arg.date' é a data clicada
         }
-    
+
         if (arg?.dateStr) {
             const formattedDate = format(parseISO(arg.dateStr), 'yyyy-MM-dd');  // Formata a data
             const formattedTime = format(arg.date, 'HH:mm');  // Formata o horário
-    
+
             setFormValues({
                 ...formValues,
                 agend_data: formattedDate,  // Data formatada
@@ -71,7 +96,7 @@ const FullCalendar = () => {
             console.error("Data inválida no evento.");
         }
     };
-    
+
 
     const handleInputChange = (e) => {
         setFormValues({
@@ -115,7 +140,7 @@ const FullCalendar = () => {
                 center: 'title',
                 right: 'today prev,next'
             },
-            events: events,
+            events: eventos,
             dateClick: handleDateClick,
             slotMinTime: '08:00:00',
             slotMaxTime: '18:00:00',
@@ -129,7 +154,7 @@ const FullCalendar = () => {
         return () => {
             calendar.destroy();
         };
-    }, [events]);
+    }, [eventos]);
 
     return (
         <div>
