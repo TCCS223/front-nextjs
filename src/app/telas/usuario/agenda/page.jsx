@@ -35,12 +35,9 @@ const FullCalendar = () => {
     useEffect(() => {
         if (userId) {
             ListarVeiculosUsuario();
+            ListarAgendamentosUsuario();
         }
     }, [userId]);
-
-    useEffect(() => {
-        ListarAgendamentosUsuario();
-    }, []);
 
     useEffect(() => {
         const storedUserId = localStorage.getItem('user');
