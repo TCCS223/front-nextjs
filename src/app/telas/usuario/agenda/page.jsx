@@ -9,6 +9,7 @@ import ptLocale from '@fullcalendar/core/locales/pt-br';
 import api from '@/services/api';
 import { parseISO, format } from "date-fns";
 import styles from './page.module.css';
+import Swal from 'sweetalert2';
 
 const FullCalendarGeral = () => {
     const calendarRef = useRef(null);
@@ -18,6 +19,11 @@ const FullCalendarGeral = () => {
     const [showModal, setShowModal] = useState(false);
     const [modalEvent, setModalEvent] = useState(null);
     const [veiculos, setVeiculos] = useState([]);
+    // const [agendamentosUsuario, setAgendamentoUsuario] = useState([]);
+    // const [agendamentosTodos, setAgendamentoTodos] = useState([]);
+    const [eventos, setEventos] = useState([]);
+    const [categoriaServicos, setCategoriaServicos] = useState([]);
+    const [servicos, setServicos] = useState([]);
     const [formValues, setFormValues] = useState({
         veic_usu_id: '',
         agend_data: '',
@@ -26,17 +32,7 @@ const FullCalendarGeral = () => {
         agend_observ: '',
         serv_id: '',
         agend_serv_situ_id: 1
-        
     });
-    const [agendamentosUsuario, setAgendamentoUsuario] = useState([]);
-    const [agendamentosTodos, setAgendamentoTodos] = useState([]);
-    const [eventos, setEventos] = useState([]);
-    const [categoriaServicos, setCategoriaServicos] = useState([]);
-    const [servicos, setServicos] = useState([]);
-
-    
-
-    console.log(categoriaServicos);
 
     useEffect(() => {
         if (userId) {
@@ -54,8 +50,9 @@ const FullCalendarGeral = () => {
         }
     }, []);
 
-    // LISTA AGENDAMENTO 
     const ListarAgendamentosUsuario = async () => {
+        // if (!userId) return;
+
         try {
             const response = await api.get(`/agendamentos/usuarios/${userId}`);
             setAgendamentoUsuario(response.data.dadosUsuario);
@@ -63,8 +60,6 @@ const FullCalendarGeral = () => {
         } catch (error) {
             console.error("Erro ao buscar agendamentos:", error);
         }
-
-
     };
 
     const ListarVeiculosUsuario = async () => {
@@ -131,20 +126,20 @@ const FullCalendarGeral = () => {
     };
 
     const handleEventClick = (info) => {
-        setModalEvent(info.event); // Armazena o evento clicado
-        setShowModal(true); // Abre o modal
+        setModalEvent(info.event);
+        setShowModal(true);
     };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-    
+
         if (name === "cat_serv_id" || name === "serv_id" || name === "veic_usu_id") {
-            const parsedValue = parseInt(value, 10); // Converte para inteiro
+            const parsedValue = parseInt(value, 10);
             setFormValues((prevValues) => ({
                 ...prevValues,
                 [name]: parsedValue
             }));
-    
+
             if (name === "cat_serv_id") {
                 listarServicosPorCategoria(parsedValue);
             }
@@ -155,16 +150,12 @@ const FullCalendarGeral = () => {
             });
         }
     };
-    
-    console.log(formValues);
-    
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
-        // Remove o campo `cat_serv_id` antes de enviar ao banco
+
         const { cat_serv_id, ...dataToSend } = formValues;
-    
+
         const newEvent = {
             id: String(events.length + 1),
             title: `Veículo: ${dataToSend.veic_usu_id}`,
@@ -173,18 +164,80 @@ const FullCalendarGeral = () => {
             backgroundColor: '#FF9D00',
             textColor: '#000'
         };
-    
+
         try {
-            await api.post('/agendamentos', dataToSend); // Envia sem o `cat_serv_id`
-            setEvents([...events, newEvent]); // Atualiza o estado dos eventos
-            setShowModal(false); // Fecha o modal após o envio
+            await api.post('/agendamentos', dataToSend);
+            setEvents([...events, newEvent]);
+            clearFields();
+            setShowModal(false);
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Agendamento realizado com sucesso!',
+                text: 'O agendamento foi salvo com sucesso',
+                confirmButtonColor: '#FF9D00'
+            });
         } catch (error) {
             console.error("Erro ao salvar agendamento:", error);
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro ao salvar agendamento!',
+                text: 'Ocorreu um erro ao tentar salvar o agendamento. Por favor, tente novamente.',
+                confirmButtonColor: '#FF9D00'
+            });
         }
-    
         ListarAgendamentosUsuario();
     };
-    
+
+    const handleCancel = () => {
+        Swal.fire({
+            title: "Deseja Cancelar esse agendamento?",
+            text: "As informações não serão salvas",
+            icon: "warning",
+            iconColor: "orange",
+            showCancelButton: true,
+            cancelButtonColor: "#d33",
+            confirmButtonColor: "rgb(40, 167, 69)",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Confirmar",
+            reverseButtons: true,
+            backdrop: "rgba(0,0,0,0.7)",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Cancelado!",
+                    text: "As alterações foram canceladas.",
+                    icon: "success",
+                    iconColor: "rgb(40, 167, 69)",
+                    confirmButtonColor: "rgb(40, 167, 69)",
+                }).then(() => {
+                    setFormValues({
+                        veic_usu_id: '',
+                        agend_data: '',
+                        agend_horario: '',
+                        agend_situacao: 1,
+                        agend_observ: '',
+                        serv_id: '',
+                        agend_serv_situ_id: 1
+                    });
+                    setShowModal(false);
+                });
+            }
+        });
+    };
+
+    const clearFields = () => {
+        setFormValues({
+            veic_usu_id: '',
+            agend_data: '',
+            agend_horario: '',
+            agend_situacao: 1,
+            agend_observ: '',
+            serv_id: '',
+            agend_serv_situ_id: 1
+        });
+    };
 
     useEffect(() => {
         const calendar = new Calendar(calendarRef.current, {
@@ -231,92 +284,115 @@ const FullCalendarGeral = () => {
                             </>
                         ) : (
                             <>
-                                <h2>Novo Agendamento</h2>
-                                <form onSubmit={handleSubmit}>
-                                    <label>Veículo:</label>
-                                    <select
-                                        name="veic_usu_id"
-                                        value={formValues.veic_usu_id}
-                                        onChange={handleInputChange}
-                                        required
-                                    >
-                                        <option value="">Selecione o veículo</option>
-                                        {veiculos.length > 0 ? (
-                                            veiculos.map((veiculo) => (
-                                                <option key={veiculo.veic_usu_id} value={veiculo.veic_usu_id}>
-                                                    {veiculo.veic_placa}
-                                                </option>
-                                            ))
-                                        ) : (
-                                            <option disabled>Nenhum veículo disponível</option>
-                                        )}
-                                    </select>
+                                <h2 className={styles.title_page}>Novo Agendamento</h2>
 
-                                    <label>Data do Agendamento:</label>
-                                    <input
-                                        type="date"
-                                        name="agend_data"
-                                        value={formValues.agend_data}
-                                        onChange={handleInputChange}
-                                        required
-                                    />
+                                <form onSubmit={handleSubmit} className={styles.form}>
+                                    <div className={`${styles.grid} ${styles.grid_veiculo}`}>
+                                        <label className={styles.label}>Veículo</label>
 
-                                    <label>Horário:</label>
-                                    <input
-                                        type="time"
-                                        name="agend_horario"
-                                        value={formValues.agend_horario}
-                                        onChange={handleInputChange}
-                                        required
-                                    />
+                                        <select
+                                            name="veic_usu_id"
+                                            value={formValues.veic_usu_id}
+                                            onChange={handleInputChange}
+                                            className={styles.select}
+                                            required
+                                        >
+                                            <option value="">Selecione o veículo</option>
+                                            {veiculos.length > 0 ? (
+                                                veiculos.map((veiculo) => (
+                                                    <option key={veiculo.veic_usu_id} value={veiculo.veic_usu_id}>
+                                                        {veiculo.veic_placa}
+                                                    </option>
+                                                ))
+                                            ) : (
+                                                <option disabled>Nenhum veículo disponível</option>
+                                            )}
+                                        </select>
+                                    </div>
 
-                                    <label>Observações:</label>
-                                    <textarea
-                                        name="agend_observ"
-                                        value={formValues.agend_observ}
-                                        onChange={handleInputChange}
-                                        required
-                                    />
+                                    <div className={`${styles.grid} ${styles.grid_data}`}>
+                                        <label className={styles.label}>Data do Agendamento</label>
+                                        <input
+                                            type="date"
+                                            name="agend_data"
+                                            value={formValues.agend_data}
+                                            onChange={handleInputChange}
+                                            className={styles.input}
+                                            required
+                                        />
+                                    </div>
 
-                                    <select
-                                        name="cat_serv_id"
-                                        value={formValues.cat_serv_id}
-                                        onChange={handleInputChange}
-                                        required
-                                    >
-                                        <option value="">Selecione a categoria do serviço</option>
-                                        {categoriaServicos.length > 0 ? (
-                                            categoriaServicos.map((cat_serv) => (
-                                                <option key={cat_serv.cat_serv_id} value={cat_serv.cat_serv_id}>
-                                                    {cat_serv.cat_serv_nome}
-                                                </option>
-                                            ))
-                                        ) : (
-                                            <option disabled>Nenhuma categoria disponível</option>
-                                        )}
-                                    </select>
-                                    
-                                    <select
-                                        name="serv_id"
-                                        value={formValues.serv_id || ''}
-                                        onChange={handleInputChange}
-                                        disabled={!formValues.cat_serv_id}
-                                        required
-                                    >
-                                        <option value="">Selecione o serviço</option>
-                                        {servicos.length > 0 ? (
-                                            servicos.map((servico) => (
-                                                <option key={servico.serv_id} value={servico.serv_id}>
-                                                    {servico.serv_nome}
-                                                </option>
-                                            ))
-                                        ) : (
-                                            <option disabled>Nenhum serviço disponível</option>
-                                        )}
-                                    </select>
+                                    <div className={`${styles.grid} ${styles.grid_horario}`}>
+                                        <label className={styles.label}>Horário</label>
+                                        <input
+                                            type="time"
+                                            name="agend_horario"
+                                            value={formValues.agend_horario}
+                                            onChange={handleInputChange}
+                                            className={styles.input}
+                                            required
+                                        />
+                                    </div>
 
-                                    <button type="submit">Salvar</button>
-                                    <button type="button" onClick={() => setShowModal(false)}>Cancelar</button>
+                                    <div className={`${styles.grid} ${styles.grid_cat_serv}`}>
+                                        <label className={styles.label}>Categoria de serviço</label>
+                                        <select
+                                            name="cat_serv_id"
+                                            value={formValues.cat_serv_id}
+                                            onChange={handleInputChange}
+                                            className={styles.select}
+                                            required
+                                        >
+                                            <option value="">Selecione</option>
+                                            {categoriaServicos.length > 0 ? (
+                                                categoriaServicos.map((cat_serv) => (
+                                                    <option key={cat_serv.cat_serv_id} value={cat_serv.cat_serv_id}>
+                                                        {cat_serv.cat_serv_nome}
+                                                    </option>
+                                                ))
+                                            ) : (
+                                                <option disabled>Nenhuma categoria disponível</option>
+                                            )}
+                                        </select>
+                                    </div>
+
+                                    <div className={`${styles.grid} ${styles.grid_serv}`}>
+                                        <label className={styles.label}>Serviço</label>
+                                        <select
+                                            name="serv_id"
+                                            value={formValues.serv_id || ''}
+                                            onChange={handleInputChange}
+                                            disabled={!formValues.cat_serv_id}
+                                            className={styles.select}
+                                            required
+                                        >
+                                            <option value="">Selecione o serviço</option>
+                                            {servicos.length > 0 ? (
+                                                servicos.map((servico) => (
+                                                    <option key={servico.serv_id} value={servico.serv_id}>
+                                                        {servico.serv_nome}
+                                                    </option>
+                                                ))
+                                            ) : (
+                                                <option disabled>Nenhum serviço disponível</option>
+                                            )}
+                                        </select>
+                                    </div>
+
+                                    <div className={`${styles.grid} ${styles.grid_observ}`}>
+                                        <label className={styles.label}>Observações</label>
+                                        <input
+                                            name="agend_observ"
+                                            value={formValues.agend_observ}
+                                            onChange={handleInputChange}
+                                            className={styles.input}
+                                        />
+                                    </div>
+
+                                    <div className={`${styles.buttons_form} ${styles.grid} ${styles.grid_footer}`}>
+                                        <button type="submit" className={styles.button_submit}>Salvar</button>
+                                        <button type="button" className={styles.button_cancel} onClick={handleCancel}>Cancelar</button>
+                                    </div>
                                 </form>
                             </>
                         )}
@@ -328,9 +404,3 @@ const FullCalendarGeral = () => {
 };
 
 export default FullCalendarGeral;
-
-
-
-
-
-
