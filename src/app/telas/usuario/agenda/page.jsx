@@ -20,12 +20,13 @@ const FullCalendarGeral = () => {
     const [veiculos, setVeiculos] = useState([]);
     const [formValues, setFormValues] = useState({
         veic_usu_id: '',
-        // cat_serv_id: '',
-        serv_id: '',
         agend_data: '',
         agend_horario: '',
         agend_situacao: 1,
-        agend_observ: ''
+        agend_observ: '',
+        serv_id: '',
+        agend_serv_situ_id: 1
+        
     });
     const [agendamentosUsuario, setAgendamentoUsuario] = useState([]);
     const [agendamentosTodos, setAgendamentoTodos] = useState([]);
@@ -137,17 +138,15 @@ const FullCalendarGeral = () => {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
     
-        // Verifica se o campo alterado é `cat_serv_id` ou `serv_id` e converte para inteiro
-        if (name === "cat_serv_id" || name === "serv_id") {
+        if (name === "cat_serv_id" || name === "serv_id" || name === "veic_usu_id") {
             const parsedValue = parseInt(value, 10); // Converte para inteiro
             setFormValues((prevValues) => ({
                 ...prevValues,
                 [name]: parsedValue
             }));
-            
-            // Se o campo é `cat_serv_id`, chama a função para listar serviços da categoria
+    
             if (name === "cat_serv_id") {
-                listarServicosPorCategoria(parsedValue); // Passa o valor convertido como parâmetro
+                listarServicosPorCategoria(parsedValue);
             }
         } else {
             setFormValues({
@@ -162,26 +161,30 @@ const FullCalendarGeral = () => {
     
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
+        // Remove o campo `cat_serv_id` antes de enviar ao banco
+        const { cat_serv_id, ...dataToSend } = formValues;
+    
         const newEvent = {
             id: String(events.length + 1),
-            title: `Veículo: ${formValues.veic_usu_id}`,
-            start: `${formValues.agend_data}T${formValues.agend_horario}`,
+            title: `Veículo: ${dataToSend.veic_usu_id}`,
+            start: `${dataToSend.agend_data}T${dataToSend.agend_horario}`,
             allDay: false,
             backgroundColor: '#FF9D00',
             textColor: '#000'
         };
-
+    
         try {
-            await api.post('/agendamentos', formValues);
-            setEvents([...events, newEvent]);
-            setShowModal(false);
+            await api.post('/agendamentos', dataToSend); // Envia sem o `cat_serv_id`
+            setEvents([...events, newEvent]); // Atualiza o estado dos eventos
+            setShowModal(false); // Fecha o modal após o envio
         } catch (error) {
             console.error("Erro ao salvar agendamento:", error);
         }
-
+    
         ListarAgendamentosUsuario();
     };
+    
 
     useEffect(() => {
         const calendar = new Calendar(calendarRef.current, {
@@ -325,3 +328,9 @@ const FullCalendarGeral = () => {
 };
 
 export default FullCalendarGeral;
+
+
+
+
+
+
