@@ -10,7 +10,7 @@ import UsuarioVeiculos from "./UsuarioVeiculos/page";
 import UsuarioDados from "./UsuarioDados/page";
 
 // import CadastrarVeiculos from "./CadastrarVeiculo/page";
-import FullCalendarUsuario from "./agenda/page";
+import FullCalendarGeral from "./agenda/page";
 // import { useRouter } from "next/router";
 
 
@@ -60,7 +60,7 @@ export default function Home() {
                                 : tela === 4 ?
                                     <UsuarioDados />
                                     : tela === 5 ?
-                                        <FullCalendarUsuario /> // trocar pelo histórico
+                                        <FullCalendarGeral /> // trocar pelo histórico
                                         : <></>
                 }
             </div>

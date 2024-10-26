@@ -7,19 +7,21 @@ import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import ptLocale from '@fullcalendar/core/locales/pt-br';
 import api from '@/services/api';
-import { parseISO, format } from "date-fns"; // Importação do format e parseISO
+import { parseISO, format } from "date-fns";
 import styles from './page.module.css';
 
-const FullCalendar = () => {
+const FullCalendarGeral = () => {
     const calendarRef = useRef(null);
     const [calendarApi, setCalendarApi] = useState(null);
     const [userId, setUserId] = useState(null);
     const [events, setEvents] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [modalEvent, setModalEvent] = useState(null); // Estado para armazenar o evento clicado
+    const [modalEvent, setModalEvent] = useState(null);
     const [veiculos, setVeiculos] = useState([]);
     const [formValues, setFormValues] = useState({
         veic_usu_id: '',
+        // cat_serv_id: '',
+        serv_id: '',
         agend_data: '',
         agend_horario: '',
         agend_situacao: 1,
@@ -28,14 +30,18 @@ const FullCalendar = () => {
     const [agendamentosUsuario, setAgendamentoUsuario] = useState([]);
     const [agendamentosTodos, setAgendamentoTodos] = useState([]);
     const [eventos, setEventos] = useState([]);
+    const [categoriaServicos, setCategoriaServicos] = useState([]);
+    const [servicos, setServicos] = useState([]);
 
-    console.log(eventos);
+    
 
+    console.log(categoriaServicos);
 
     useEffect(() => {
         if (userId) {
             ListarVeiculosUsuario();
             ListarAgendamentosUsuario();
+            ListarCategoriaServicos();
         }
     }, [userId]);
 
@@ -56,6 +62,8 @@ const FullCalendar = () => {
         } catch (error) {
             console.error("Erro ao buscar agendamentos:", error);
         }
+
+
     };
 
     const ListarVeiculosUsuario = async () => {
@@ -68,6 +76,38 @@ const FullCalendar = () => {
             console.error("Erro ao buscar veículos:", error);
         }
     };
+
+    const listarServicosPorCategoria = async (cat_serv_id) => {
+        try {
+            const response = await api.get(`/servicos/categoria/${cat_serv_id}`);
+            setServicos(response.data.dados);
+        } catch (error) {
+            console.error("Erro ao buscar as categorias:", error);
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Não foi possível buscar as categorias.',
+                icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
+            });
+        }
+    };
+
+    const ListarCategoriaServicos = async () => {
+        try {
+            const response = await api.get('/categoriasServicosAtivas');
+            setCategoriaServicos(response.data.dados);
+        } catch (error) {
+            console.error("Erro ao buscar as categorias:", error);
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Não foi possível buscar as categorias.',
+                icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
+            });
+        }
+    }
 
     const handleDateClick = (arg) => {
         if (calendarApi) {
@@ -95,12 +135,31 @@ const FullCalendar = () => {
     };
 
     const handleInputChange = (e) => {
-        setFormValues({
-            ...formValues,
-            [e.target.name]: e.target.value
-        });
+        const { name, value } = e.target;
+    
+        // Verifica se o campo alterado é `cat_serv_id` ou `serv_id` e converte para inteiro
+        if (name === "cat_serv_id" || name === "serv_id") {
+            const parsedValue = parseInt(value, 10); // Converte para inteiro
+            setFormValues((prevValues) => ({
+                ...prevValues,
+                [name]: parsedValue
+            }));
+            
+            // Se o campo é `cat_serv_id`, chama a função para listar serviços da categoria
+            if (name === "cat_serv_id") {
+                listarServicosPorCategoria(parsedValue); // Passa o valor convertido como parâmetro
+            }
+        } else {
+            setFormValues({
+                ...formValues,
+                [name]: value
+            });
+        }
     };
-
+    
+    console.log(formValues);
+    
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -120,6 +179,8 @@ const FullCalendar = () => {
         } catch (error) {
             console.error("Erro ao salvar agendamento:", error);
         }
+
+        ListarAgendamentosUsuario();
     };
 
     useEffect(() => {
@@ -138,7 +199,7 @@ const FullCalendar = () => {
             },
             events: eventos,
             dateClick: handleDateClick,
-            eventClick: handleEventClick, // Adiciona o manipulador de clique de evento
+            eventClick: handleEventClick,
             slotMinTime: '08:00:00',
             slotMaxTime: '18:00:00',
         });
@@ -214,6 +275,43 @@ const FullCalendar = () => {
                                         required
                                     />
 
+                                    <select
+                                        name="cat_serv_id"
+                                        value={formValues.cat_serv_id}
+                                        onChange={handleInputChange}
+                                        required
+                                    >
+                                        <option value="">Selecione a categoria do serviço</option>
+                                        {categoriaServicos.length > 0 ? (
+                                            categoriaServicos.map((cat_serv) => (
+                                                <option key={cat_serv.cat_serv_id} value={cat_serv.cat_serv_id}>
+                                                    {cat_serv.cat_serv_nome}
+                                                </option>
+                                            ))
+                                        ) : (
+                                            <option disabled>Nenhuma categoria disponível</option>
+                                        )}
+                                    </select>
+                                    
+                                    <select
+                                        name="serv_id"
+                                        value={formValues.serv_id || ''}
+                                        onChange={handleInputChange}
+                                        disabled={!formValues.cat_serv_id}
+                                        required
+                                    >
+                                        <option value="">Selecione o serviço</option>
+                                        {servicos.length > 0 ? (
+                                            servicos.map((servico) => (
+                                                <option key={servico.serv_id} value={servico.serv_id}>
+                                                    {servico.serv_nome}
+                                                </option>
+                                            ))
+                                        ) : (
+                                            <option disabled>Nenhum serviço disponível</option>
+                                        )}
+                                    </select>
+
                                     <button type="submit">Salvar</button>
                                     <button type="button" onClick={() => setShowModal(false)}>Cancelar</button>
                                 </form>
@@ -226,4 +324,4 @@ const FullCalendar = () => {
     );
 };
 
-export default FullCalendar;
+export default FullCalendarGeral;
