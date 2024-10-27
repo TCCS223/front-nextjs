@@ -4,6 +4,7 @@ corrigir cpf obrigatorio
 
 - VEICULOS -
 
+
 - SERVIÇOS -
 
 
@@ -12,20 +13,22 @@ corrigir cpf obrigatorio
 
 - TELA DE ADMIN -
     agenda
+    listar os agendamentos  (pode ser em formato de tabela igual a listagem de usuarios)
 
 
 - TELA DE USUÁRIO -
     histórico de SERVIÇOS
-
-
     (agenda) -> se der tempo
+    listar seus agendamentos
+
+
+- TELA DE CADASTRO
+    implementar validação de senha na hora de criar o cadastro
+
 
 - GERAL -
-    (inserir possivel validação de senha) -> se der tempo
-
     pegar backup do banco (inserts)
-
-
+    bloquear acesso direto pela url nas paginas de admin e usuario (configurar autenticação com tokem -> auth0, firebase.auth, jwt)
 
 
 
