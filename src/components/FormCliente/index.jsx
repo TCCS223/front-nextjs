@@ -27,13 +27,25 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
     //     validarSenha(senha);
     // };
 
+    // const handleChangeSenha = (event) => {
+    //     const novaSenha = event.target.value;
+    //     setSelectedUser({ ...selectedUser, usu_senha: novaSenha });
+
+    //     // Valida a senha e atualiza o estado de erro
+    //     const erros = validarSenha(novaSenha);
+    //     setSenhaErro(erros); // Exibe as mensagens que faltam ser atendidas
+    // };
+
+
     const handleChangeSenha = (event) => {
         const novaSenha = event.target.value;
         setSelectedUser({ ...selectedUser, usu_senha: novaSenha });
-        const erro = validarSenha(novaSenha); // Chama a função de validação
-        setSenhaErro(erro); // Atualiza o estado do erro da senha
-    };
 
+        if (focused) { // Somente valida se o campo estiver focado
+            const erros = validarSenha(novaSenha);
+            setSenhaErro(erros); // Atualiza as mensagens de erro
+        }
+    };
 
     const sexoMap = {
         0: 'Feminino',
@@ -51,24 +63,30 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
 
     const handleBlurCPF = async () => {
         const cpf = selectedUser.usu_cpf.trim();
-
+    
+        console.log("Valor do CPF antes da chamada:", cpf); // Para debug
+    
         if (cpf === '') {
             setErrors('CPF é obrigatório');
             return;
         }
-
+    
+        // Verifique se o CPF é válido, mas não remova a máscara
         if (!cpfValidator.isValid(cpf)) {
             setErrors('CPF inválido');
             return;
         }
+    
         setLoading(true);
-
+    
         try {
-            const res = await api.post('/usuarios', { cpf });
-
-            if (res.data.success) {
-                setCpfExists(res.data.exists);
-                if (res.data.exists && (selectedUser.usu_id ? res.data.existsUserId !== selectedUser.usu_id : true)) {
+            // Envia o CPF com máscara
+            const res = await api.post('/usuarios', { cpf }); // Mantém o CPF com máscara
+            console.log("Resposta da API:", res.data); // Para debug
+    
+            if (res.data.sucesso) {  // Verifica se a resposta é de sucesso
+                setCpfExists(res.data.dados?.exists);
+                if (res.data.dados?.exists && (selectedUser.usu_id ? res.data.dados?.existsUserId !== selectedUser.usu_id : true)) {
                     setErrors('CPF já está cadastrado');
                 } else {
                     setErrors('');
@@ -78,11 +96,15 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
             }
         } catch (error) {
             console.error("Erro ao verificar CPF:", error);
+            // Ajuste aqui para capturar a mensagem de erro correta
+            setErrors(error.response?.data?.mensagem || 'Erro ao verificar CPF');
         }
+    
         setCpfChecked(true);
         setLoading(false);
     };
-
+    
+    
     return (
         <form id="clienteForm" className={styles.form} onSubmit={handleSubmit}>
             <input type="hidden" id="clienteId" value={selectedUser ? selectedUser.usu_id : ''} className={styles.input_cliente} />
@@ -226,27 +248,29 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
                             id="usu_senha"
                             name="usu_senha"
                             value={selectedUser ? selectedUser.usu_senha : ''}
-                            // onChange={handleChangeSenha }
-                            // onChange={(e) => setSelectedUser({ ...selectedUser, usu_senha: e.target.value })}
-                            onChange={(e) => {
-                                const novaSenha = e.target.value;
-                                setSelectedUser({ ...selectedUser, usu_senha: novaSenha });
-                                validarSenha(novaSenha); // Valida a senha enquanto digita
-                            }}
+                            onChange={handleChangeSenha} // Valida enquanto o usuário digita
                             className={styles.input_cliente_password}
                             disabled={isViewing}
                             placeholder="Digite sua senha"
                             required
-                            onFocus={handleFocus} // Quando o campo é focado
-                            onBlur={handleBlur} // Quando o campo perde o foco
+                            onFocus={handleFocus} // Foca no campo
+                            onBlur={handleBlur}   // Valida quando sai do campo
                         />
-
 
                         {showPassword ? (
                             <IoMdEye onClick={togglePasswordVisibility} className={styles.mdEye} />
                         ) : (
                             <IoMdEyeOff onClick={togglePasswordVisibility} className={styles.mdEye} />
                         )}
+
+                        {/* Exibe as mensagens de erro abaixo do campo
+                        {senhaErro && senhaErro.length > 0 && (
+                            <div className={styles.errorMessages}>
+                                {senhaErro.map((erro, index) => (
+                                    <p key={index} className={styles.errorText}>{erro}</p>
+                                ))}
+                            </div>
+                        )} */}
                     </div>
 
 
@@ -257,23 +281,24 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
       )} */}
 
 
- {/* Durante o foco, mostra as exigências ainda não cumpridas */}
- {focused && senhaErro.length > 0 && (
-        <div className={styles.error_message}>
-          <ul>
-            {senhaErro.map((erro, index) => (
-              <li key={index}>{erro}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+                    {/* Durante o foco, mostra as exigências ainda não cumpridas */}
+                    {focused && Array.isArray(senhaErro) && senhaErro.length > 0 && (
+                        <div className={styles.error_message}>
+                            <ul>
+                                {senhaErro.map((erro, index) => (
+                                    <li key={index} className={styles.errorText}>{erro}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
 
-      {/* Quando o campo perder o foco, se houver erros, mostra "Senha inválida" */}
-      {!focused && senhaErro.length > 0 && (
-        <div className={styles.error_message_simples}>
-          Senha inválida.
-        </div>
-      )}
+
+                    {/* Quando o campo perder o foco, se houver erros, mostra "Senha inválida" */}
+                    {!focused && senhaErro.length > 0 && (
+                        <div className={styles.error_message_simples}>
+                            Senha inválida.
+                        </div>
+                    )}
 
                     {/* {senhaErro && (
                         <div className={`${styles.error_message} ${senhaErro === '' ? styles.hidden : ''}`}>
