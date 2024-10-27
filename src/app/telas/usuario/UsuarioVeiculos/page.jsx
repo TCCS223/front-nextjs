@@ -633,7 +633,7 @@ export default function UsuarioVeiculos() {
                                         required
                                         disabled={!isCreate && !isEditing}
                                     />
-                                    {anoErro && <span className="erro">{anoErro}</span>}
+                                    {anoErro && <span className={styles.error_message}>{anoErro}</span>}
                                 </div>
 
                                 <div className={`${styles.grid_item} ${styles.grid_cor}`}>
