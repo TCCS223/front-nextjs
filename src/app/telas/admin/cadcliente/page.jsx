@@ -327,16 +327,6 @@ export default function CadCliente() {
             errorMessage.push('Sem espaços em branco.');
         }
 
-        // Atualiza o estado com os critérios restantes
-        // if (errorMessage.length > 0) {
-        //     setSenhaErro(`A senha precisa de: ${errorMessage.join(', ')}`);
-        //     return true; // A senha ainda não cumpre os requisitos
-        // } else {
-        //     setSenhaErro(''); // Todos os critérios foram cumpridos
-        //     return false; // A senha é válida
-        // }
-
-        // Se houver mensagem de erro, define o estado com a mensagem, senão limpa o erro
         if (errorMessage) {
             setSenhaErro(errorMessage);
             return false;
@@ -673,12 +663,9 @@ export default function CadCliente() {
                         isEditing={isEditing}
                         handleSubmit={handleSubmit}
                         Cancelar={Cancelar}
-
-                        setSenhaErro={setSenhaErro} // Passando a função de atualização do erro também
-                        senhaErro={senhaErro}  // Passa a mensagem de erro para o filho
-                        validarSenha={validarSenha}  // Passa a função de validação para o filho
-
-
+                        setSenhaErro={setSenhaErro} 
+                        senhaErro={senhaErro} 
+                        validarSenha={validarSenha} 
                         focused={focused}
                         senha={senha}
                         handleFocus={handleFocus}

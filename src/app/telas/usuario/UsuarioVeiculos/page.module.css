@@ -355,3 +355,8 @@
     background-color: #ff9d00;
     color: #222;
 }
+
+.error_message {
+    color: red;
+    font-size: 0.9em;
+}
