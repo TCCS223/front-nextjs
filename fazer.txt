@@ -1,5 +1,6 @@
 - CADCLIENTE -
 
+corrigir cpf obrigatorio
 
 - VEICULOS -
 

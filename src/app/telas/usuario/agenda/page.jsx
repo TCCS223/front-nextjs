@@ -19,8 +19,8 @@ const FullCalendarGeral = () => {
     const [showModal, setShowModal] = useState(false);
     const [modalEvent, setModalEvent] = useState(null);
     const [veiculos, setVeiculos] = useState([]);
-    // const [agendamentosUsuario, setAgendamentoUsuario] = useState([]);
-    // const [agendamentosTodos, setAgendamentoTodos] = useState([]);
+    const [agendamentosUsuario, setAgendamentoUsuario] = useState([]);
+    const [agendamentosTodos, setAgendamentoTodos] = useState([]);
     const [eventos, setEventos] = useState([]);
     const [categoriaServicos, setCategoriaServicos] = useState([]);
     const [servicos, setServicos] = useState([]);
