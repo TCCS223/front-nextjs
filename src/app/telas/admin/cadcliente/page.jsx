@@ -23,7 +23,8 @@ export default function CadCliente() {
     const [isEditing, setIsEditing] = useState(false);
     const [sortedColumn, setSortedColumn] = useState(null);
     const [isAsc, setIsAsc] = useState(true);
-    const [senhaErro, setSenhaErro] = useState('');
+    // const [senhaErro, setSenhaErro] = useState('');
+    const [senhaErro, setSenhaErro] = useState([]);
     const [focused, setFocused] = useState(false);
     const [senha, setSenha] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
@@ -251,6 +252,10 @@ export default function CadCliente() {
         }
     };
 
+    console.log("usuario: ",selectedUser);
+    
+
+
     // const validarSenha = (senha) => {
     //     if (senha.length < 8) {
     //         return 'A senha deve ter pelo menos 8 caracteres.';
@@ -298,6 +303,44 @@ export default function CadCliente() {
     // };
 
 
+    // const validarSenha = (senha) => {
+    //     const minLength = 8;
+    //     const hasUpperCase = /[A-Z]/.test(senha);
+    //     const hasLowerCase = /[a-z]/.test(senha);
+    //     const hasNumber = /\d/.test(senha);
+    //     const hasSpecialChar = /[!@#$%^&*]/.test(senha);
+    //     const hasSpaces = /\s/.test(senha);
+
+    //     let errorMessage = [];
+
+    //     if (senha.length < minLength) {
+    //         errorMessage.push(`Pelo menos ${minLength} caracteres.`);
+    //     }
+    //     if (!hasUpperCase) {
+    //         errorMessage.push('Uma letra maiúscula.');
+    //     }
+    //     if (!hasLowerCase) {
+    //         errorMessage.push('Uma letra minúscula.');
+    //     }
+    //     if (!hasNumber) {
+    //         errorMessage.push('Um número.');
+    //     }
+    //     if (!hasSpecialChar) {
+    //         errorMessage.push('Um caractere especial (ex: !@#$%^&*).');
+    //     }
+    //     if (hasSpaces) {
+    //         errorMessage.push('Sem espaços em branco.');
+    //     }
+
+    //     if (errorMessage) {
+    //         setSenhaErro(errorMessage);
+    //         return false;
+    //     } else {
+    //         setSenhaErro('');
+    //         return true;
+    //     }
+    // };
+
     const validarSenha = (senha) => {
         const minLength = 8;
         const hasUpperCase = /[A-Z]/.test(senha);
@@ -305,9 +348,9 @@ export default function CadCliente() {
         const hasNumber = /\d/.test(senha);
         const hasSpecialChar = /[!@#$%^&*]/.test(senha);
         const hasSpaces = /\s/.test(senha);
-
+    
         let errorMessage = [];
-
+    
         if (senha.length < minLength) {
             errorMessage.push(`Pelo menos ${minLength} caracteres.`);
         }
@@ -326,15 +369,11 @@ export default function CadCliente() {
         if (hasSpaces) {
             errorMessage.push('Sem espaços em branco.');
         }
-
-        if (errorMessage) {
-            setSenhaErro(errorMessage);
-            return false;
-        } else {
-            setSenhaErro('');
-            return true;
-        }
+    
+        // Retorna a lista de erros
+        return errorMessage.length > 0 ? errorMessage : [];
     };
+    
 
     const handleFocus = () => {
         setFocused(true);
