@@ -5,7 +5,7 @@ import { IoMdEyeOff, IoMdEye } from "react-icons/io";
 import api from '@/services/api';
 import { cpf as cpfValidator } from 'cpf-cnpj-validator';
 
-export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, setSenhaErro, focused, senha, handleFocus, handleBlur, validarSenha, isViewing, handleSubmit, isEditing }) {
+export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, setSenhaErro, focused, senha, handleFocus, handleBlur, validarSenha, isViewing, handleSubmit, isEditing,   }) {
 
     const isDisabled = isViewing || isEditing;
 
@@ -46,6 +46,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
 
     const handleBlurCPF = async () => {
         const cpf = selectedUser.usu_cpf.trim();
+        const email = selectedUser.usu_email?.trim(); // Pegue o e-mail do usuário
     
         console.log("Valor do CPF antes da chamada:", cpf); // Para debug
     
@@ -63,7 +64,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
         setLoading(true);
     
         try {
-            const res = await api.post('/usuarios', { usu_cpf: cpf });
+            const res = await api.post('/usuarios/verificarCpf', { usu_cpf: cpf});
             console.log("Resposta da API:", res.data); // Para debug
         
             if (res.data.sucesso) {
@@ -74,13 +75,13 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
                     setErrors('');
                 }
             } else {
-                setErrors('Erro ao verificar o CPF');
+                setErrors('Erro aofdsfdfd verificar o CPF'); // <-- ele esta trazendo o erro nessa requisiçãço aqui, por que?
             }
         } catch (error) {
-            console.error("Erro ao verificar CPF:", error);
-            console.log("Detalhes do erro:", error.response);  // Adiciona este log para capturar detalhes
-            console.log("Status da resposta:", error.response?.status);  // Mostra o código de status HTTP
-            console.log("Dados da resposta:", error.response?.data);  // Exibe a mensagem de erro completa
+            console.error("Erro ao verificar CPF:", error); 
+            console.log("Detalhes do erro:", error.response);  
+            console.log("Status da resposta:", error.response?.status);  
+            console.log("Dados da resposta:", error.response?.data); 
             setErrors(error.response?.data?.mensagem || 'Erro ao verificar CPF');
         }
     

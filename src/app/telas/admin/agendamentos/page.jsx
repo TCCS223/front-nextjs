@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import api from '@/services/api';
 import styles from './page.module.css';
 import { PiListMagnifyingGlassBold } from "react-icons/pi";
+import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 
 export default function CadAgendamentos() {
     const [agendamentos, setAgendamentos] = useState([]);
@@ -71,99 +72,121 @@ export default function CadAgendamentos() {
 
     return (
         <div id="clientes" className={styles.content_section}>
-            <div className={styles.contentSearch}>
-                <h2 className={styles.titlePage}>Gerenciamento de Agendamentos</h2>
-                <div className={styles.searchInput}>
-                    <input
-                        type="text"
-                        placeholder="Pesquisar..."
-                        className={styles.inputSearch}
-                        value={searchText}
-                        onChange={(e) => setSearchText(e.target.value)}
-                        onKeyUp={handleSearch}
-                    />
-                    <PiListMagnifyingGlassBold
-                        className={styles.lupa}
-                    />
-                </div>
+            <h2 className={styles.titlePage}>Gerenciamento de Agendamentos</h2>
 
+
+            <div className={styles.contentSearch}>
+                <div className={styles.search}>
+                    <div className={styles.searchInput}>
+                        <input
+                            type="text"
+                            placeholder="Digite aqui..."
+                            className={styles.inputSearch}
+                            value={searchText}
+                            onChange={(e) => setSearchText(e.target.value)}
+                            onKeyUp={handleSearch}
+                        />
+                        <PiListMagnifyingGlassBold
+                            className={styles.lupa}
+                        />
+                    </div>
+
+                </div>
             </div>
-            <table className={styles.resultTable}>
-                <thead className={styles.tableHead}>
-                    <tr>
-                        <th
-                            className={`${styles.tableHeader} ${styles.id}`}
-                            onClick={() => sortByColumn('agend_id')}>
-                            ID
-                            {sortedColumn === 'agend_id' ? (isAsc ? '▲' : '▼') : ''}
-                        </th>
-                        <th
-                            className={styles.tableHeader}
-                            onClick={() => sortByColumn('veic_usu_id')}>
-                            Veículo
-                            {sortedColumn === 'veic_usu_id' ? (isAsc ? '▲' : '▼') : ''}
-                        </th>
-                        <th
-                            className={styles.tableHeader}
-                            onClick={() => sortByColumn('agend_data')}>
-                            Data
-                            {sortedColumn === 'agend_data' ? (isAsc ? '▲' : '▼') : ''}
-                        </th>
-                        <th
-                            className={styles.tableHeader}
-                            onClick={() => sortByColumn('agend_horario')}>
-                            Horário
-                            {sortedColumn === 'agend_horario' ? (isAsc ? '▲' : '▼') : ''}
-                        </th>
-                        <th
-                            className={styles.tableHeader}
-                            onClick={() => sortByColumn('agend_observ')}>
-                            Observações
-                            {sortedColumn === 'agend_observ' ? (isAsc ? '▲' : '▼') : ''}
-                        </th>
-                        <th
-                            className={styles.tableHeader}
-                            onClick={() => sortByColumn('agend_situacao')}>
-                            Situação
-                            {sortedColumn === 'agend_situacao' ? (isAsc ? '▲' : '▼') : ''}
-                        </th>
-                        <th
-                            className={styles.tableHeader}
-                            onClick={() => sortByColumn('serv_id')}>
-                            Serviço
-                            {sortedColumn === 'serv_id' ? (isAsc ? '▲' : '▼') : ''}
-                        </th>
-                        <th
+            <div className={styles.resultTableContainer}>
+                <table className={styles.resultTable}>
+                    <thead className={styles.tableHead}>
+                        <tr>
+                            <th
+                                className={`${styles.tableHeader} ${styles.id}`}
+                                onClick={() => sortByColumn('agend_id')}>
+                                ID
+                                {sortedColumn === 'agend_id' ? (isAsc ? '▲' : '▼') : ''}
+                            </th>
+                            <th
+                                className={styles.tableHeader}
+                                onClick={() => sortByColumn('veic_usu_id')}>
+                                Veículo
+                                {sortedColumn === 'veic_usu_id' ? (isAsc ? '▲' : '▼') : ''}
+                            </th>
+                            <th
+                                className={styles.tableHeader}
+                                onClick={() => sortByColumn('agend_data')}>
+                                Data
+                                {sortedColumn === 'agend_data' ? (isAsc ? '▲' : '▼') : ''}
+                            </th>
+                            <th
+                                className={styles.tableHeader}
+                                onClick={() => sortByColumn('agend_horario')}>
+                                Horário
+                                {sortedColumn === 'agend_horario' ? (isAsc ? '▲' : '▼') : ''}
+                            </th>
+                            <th
+                                className={styles.tableHeader}
+                                onClick={() => sortByColumn('agend_observ')}>
+                                Observações
+                                {sortedColumn === 'agend_observ' ? (isAsc ? '▲' : '▼') : ''}
+                            </th>
+                            <th
+                                className={styles.tableHeader}
+                                onClick={() => sortByColumn('agend_situacao')}>
+                                Situação
+                                {sortedColumn === 'agend_situacao' ? (isAsc ? '▲' : '▼') : ''}
+                            </th>
+                            <th
+                                className={styles.tableHeader}
+                                onClick={() => sortByColumn('serv_id')}>
+                                Serviço
+                                {sortedColumn === 'serv_id' ? (isAsc ? '▲' : '▼') : ''}
+                            </th>
+                            {/* <th
                             className={styles.tableHeader}
                             onClick={() => sortByColumn('agend_serv_situ_id')}>
-                            Situação Serviço
+                            Situação do Serviço
                             {sortedColumn === 'agend_serv_situ_id' ? (isAsc ? '▲' : '▼') : ''}
-                        </th>
-                        <th className={`${styles.tableHeader} ${styles.acao}`}>Ações</th>
-                    </tr>
-                </thead>
-
-                <tbody className={styles.tableBody}>
-                    {currentAgendamentos.length > 0 ? (
-                        currentAgendamentos.map((agendamento) => (
-                            <tr key={agendamento.agend_id} className={styles.tableRow}>
-                                <td className={styles.tdId}>{agendamento.agend_id}</td>
-                                <td>{agendamento.veic_usu_id}</td>
-                                <td>{agendamento.agend_data}</td>
-                                <td>{agendamento.agend_horario}</td>
-                                <td>{agendamento.agend_observ}</td>
-                                <td>{agendamento.agend_situacao}</td>
-                                <td>{agendamento.serv_id}</td>
-                                <td>{agendamento.agend_serv_situ_id}</td>
-                            </tr>
-                        ))
-                    ) : (
-                        <tr className={styles.tableRow}>
-                            <td colSpan="8">Nenhum agendamento encontrado</td>
+                        </th> */}
+                            <th className={`${styles.tableHeader} ${styles.acao}`}>Ações</th>
                         </tr>
-                    )}
-                </tbody>
-            </table>
+                    </thead>
+
+                    <tbody className={styles.tableBody}>
+                        {currentAgendamentos.length > 0 ? (
+                            currentAgendamentos.map((agendamento) => (
+                                <tr key={agendamento.agend_id} className={styles.tableRow}>
+                                    <td className={styles.tdId}>{agendamento.agend_id}</td>
+                                    <td>{agendamento.veic_usu_id}</td>
+                                    <td>{agendamento.agend_data}</td>
+                                    <td>{agendamento.agend_horario}</td>
+                                    <td>{agendamento.agend_observ}</td>
+                                    <td>{agendamento.agend_situacao}</td>
+                                    <td>{agendamento.serv_id}</td>
+                                    <td>{agendamento.agend_serv_situ_id}</td>
+                                    <td>
+                                        <div className={styles.actionIcons}>
+                                            <i>
+                                                <MdRemoveRedEye
+                                                    title="Visualizar"
+                                                    onClick={() => handleViewUser(usuario)}
+                                                />
+                                            </i>
+                                            <i>
+                                                <MdEdit
+                                                    title="Editar"
+                                                    onClick={() => handleEditUser(usuario)}
+                                                />
+                                            </i>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr className={styles.tableRow}>
+                                <td colSpan="8">Nenhum agendamento encontrado</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
 
             <div className={styles.pagination}>
                 <button

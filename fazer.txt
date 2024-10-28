@@ -43,24 +43,6 @@ corrigir cpf obrigatorio
 
 
 
-Dados da resposta: 
-{sucesso: false, mensagem: 'CPF é obrigatório.', dados: null}
-dados
-: 
-null
-mensagem
-: 
-"CPF é obrigatório."
-sucesso
-: 
-false
-[[Prototype]]
-: 
-Object
-
-
-
-
 
 
 

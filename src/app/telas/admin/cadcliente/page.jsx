@@ -3,7 +3,7 @@
 import styles from './page.module.css';
 import { useState, useEffect } from 'react';
 import { PiListMagnifyingGlassBold } from "react-icons/pi";
-import { MdRemoveRedEye, MdEdit, MdAdd } from "react-icons/md";
+import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 // import {  } from "react-icons/md";
 import { parseISO, format } from 'date-fns';
 import Swal from 'sweetalert2';
@@ -39,6 +39,12 @@ export default function CadCliente() {
         usu_acesso: 0,
         usu_senha: '',
         usu_situacao: 1,
+    });
+
+    const [errors, setErrors] = useState({
+        email: '',
+        cpf: '',
+        senha: ''
     });
 
 console.log("meu tesste: ", selectedUser)
@@ -172,6 +178,7 @@ console.log("meu tesste: ", selectedUser)
         const emailError = await validaEmail(usuario);
         if (emailError) {
             errors.push(emailError);
+            
         }
 
 
@@ -592,7 +599,7 @@ console.log("meu tesste: ", selectedUser)
                         >
                             Anterior
                         </button>
-                        <span>Página {currentPage}</span>
+                        <span className={styles.paginationText}>Página {currentPage}</span>
                         <button
                             onClick={() => setCurrentPage(prev => (filteredUsers.length > indexOfLastUser ? prev + 1 : prev))}
                             disabled={filteredUsers.length <= indexOfLastUser}
@@ -617,6 +624,7 @@ console.log("meu tesste: ", selectedUser)
                         senha={senha}
                         handleFocus={handleFocus}
                         handleBlur={handleBlur}
+                       
                     />
 
                     <div className={styles.footer_form}>
