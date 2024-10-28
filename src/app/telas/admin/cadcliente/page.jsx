@@ -41,6 +41,8 @@ export default function CadCliente() {
         usu_situacao: 1,
     });
 
+console.log("meu tesste: ", selectedUser)
+
     const [modalCategoriaOpen, setModalCategoriaOpen] = useState(false);
 
     const usersPerPage = 15;
@@ -172,14 +174,6 @@ export default function CadCliente() {
             errors.push(emailError);
         }
 
-        // // Validação de senha
-        // const senhaError = validarSenha(usuario.usu_senha);
-        // if (senhaError) {
-        //     setSenhaErro(senhaError); // Atualiza o estado da senha
-        //     errors.push(senhaError); // Adiciona erro à lista
-        // } else {
-        //     setSenhaErro(''); // Limpa o erro se a senha for válida
-        // }
 
         // Validação de senha
         const senhaError = validarSenha(usuario.usu_senha);
@@ -254,92 +248,6 @@ export default function CadCliente() {
 
     console.log("usuario: ",selectedUser);
     
-
-
-    // const validarSenha = (senha) => {
-    //     if (senha.length < 8) {
-    //         return 'A senha deve ter pelo menos 8 caracteres.';
-    //     }
-    //     return ''; // Retorna uma string vazia se não houver erro
-    // };
-
-    // const validarSenha = (senha) => {
-    //     const minLength = 8;
-    //     const hasUpperCase = /[A-Z]/.test(senha);
-    //     const hasLowerCase = /[a-z]/.test(senha);
-    //     const hasNumber = /\d/.test(senha);
-    //     const hasSpecialChar = /[!@#$%^&*]/.test(senha);
-    //     const hasSpaces = /\s/.test(senha);
-
-    //     let errorMessage = [];
-
-    //     if (senha.length < minLength) {
-    //         errorMessage.push(`A senha deve ter pelo menos ${minLength} caracteres.`);
-    //     }
-    //     if (!hasUpperCase) {
-    //         errorMessage.push('A senha deve conter pelo menos uma letra maiúscula.');
-    //     }
-    //     if (!hasLowerCase) {
-    //         errorMessage.push('A senha deve conter pelo menos uma letra minúscula.');
-    //     }
-    //     if (!hasNumber) {
-    //         errorMessage.push('A senha deve conter pelo menos um número.');
-    //     }
-    //     if (!hasSpecialChar) {
-    //         errorMessage.push('A senha deve conter pelo menos um caractere especial (ex: !@#$%^&*).');
-    //     }
-    //     if (hasSpaces) {
-    //         errorMessage.push('A senha não deve conter espaços em branco.');
-    //     }
-
-    //     // Atualiza o estado da mensagem de erro
-    //     if (errorMessage.length > 0) {
-    //         setSenhaErro(errorMessage.join('\n'));
-    //         return true; // Indica que a senha é inválida
-    //     } else {
-    //         setSenhaErro('');
-    //         return false; // Indica que a senha é válida
-    //     }
-    // };
-
-
-    // const validarSenha = (senha) => {
-    //     const minLength = 8;
-    //     const hasUpperCase = /[A-Z]/.test(senha);
-    //     const hasLowerCase = /[a-z]/.test(senha);
-    //     const hasNumber = /\d/.test(senha);
-    //     const hasSpecialChar = /[!@#$%^&*]/.test(senha);
-    //     const hasSpaces = /\s/.test(senha);
-
-    //     let errorMessage = [];
-
-    //     if (senha.length < minLength) {
-    //         errorMessage.push(`Pelo menos ${minLength} caracteres.`);
-    //     }
-    //     if (!hasUpperCase) {
-    //         errorMessage.push('Uma letra maiúscula.');
-    //     }
-    //     if (!hasLowerCase) {
-    //         errorMessage.push('Uma letra minúscula.');
-    //     }
-    //     if (!hasNumber) {
-    //         errorMessage.push('Um número.');
-    //     }
-    //     if (!hasSpecialChar) {
-    //         errorMessage.push('Um caractere especial (ex: !@#$%^&*).');
-    //     }
-    //     if (hasSpaces) {
-    //         errorMessage.push('Sem espaços em branco.');
-    //     }
-
-    //     if (errorMessage) {
-    //         setSenhaErro(errorMessage);
-    //         return false;
-    //     } else {
-    //         setSenhaErro('');
-    //         return true;
-    //     }
-    // };
 
     const validarSenha = (senha) => {
         const minLength = 8;
@@ -537,7 +445,6 @@ export default function CadCliente() {
                     <div className={styles.contentSearch}>
                         <div className={styles.search}>
                             <div className={styles.searchInput}>
-
                                 <input
                                     type="text"
                                     placeholder="Digite aqui..."
@@ -638,6 +545,7 @@ export default function CadCliente() {
                                     <th className={`${styles.tableHeader} ${styles.acao}`}>Ações</th>
                                 </tr>
                             </thead>
+                            
                             <tbody className={styles.tableBody}>
                                 {currentUsers.length > 0 ? (
                                     currentUsers?.map((usuario) => (

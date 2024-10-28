@@ -34,6 +34,41 @@ corrigir cpf obrigatorio
 
 
 
+
+
+
+
+
+
+
+
+
+Dados da resposta: 
+{sucesso: false, mensagem: 'CPF é obrigatório.', dados: null}
+dados
+: 
+null
+mensagem
+: 
+"CPF é obrigatório."
+sucesso
+: 
+false
+[[Prototype]]
+: 
+Object
+
+
+
+
+
+
+
+
+
+
+
+
     SELECT * FROM VEICULO_USUARIO
 
 INSERT INTO VEICULO_USUARIO (veic_id, usu_id, ehproprietario, data_inicial, data_final)

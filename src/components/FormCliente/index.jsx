@@ -19,24 +19,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
         setShowPassword(!showPassword);
     };
 
-    // const handleSenhaChange = (e) => {
-    //     const senha = e.target.value;
-    //     setSelectedUser({ ...selectedUser, usu_senha: senha });
-
-    //     // Chama a função de validação do componente pai
-    //     validarSenha(senha);
-    // };
-
-    // const handleChangeSenha = (event) => {
-    //     const novaSenha = event.target.value;
-    //     setSelectedUser({ ...selectedUser, usu_senha: novaSenha });
-
-    //     // Valida a senha e atualiza o estado de erro
-    //     const erros = validarSenha(novaSenha);
-    //     setSenhaErro(erros); // Exibe as mensagens que faltam ser atendidas
-    // };
-
-
+   
     const handleChangeSenha = (event) => {
         const novaSenha = event.target.value;
         setSelectedUser({ ...selectedUser, usu_senha: novaSenha });
@@ -80,11 +63,10 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
         setLoading(true);
     
         try {
-            // Envia o CPF com máscara
-            const res = await api.post('/usuarios', { cpf }); // Mantém o CPF com máscara
+            const res = await api.post('/usuarios', { usu_cpf: cpf });
             console.log("Resposta da API:", res.data); // Para debug
-    
-            if (res.data.sucesso) {  // Verifica se a resposta é de sucesso
+        
+            if (res.data.sucesso) {
                 setCpfExists(res.data.dados?.exists);
                 if (res.data.dados?.exists && (selectedUser.usu_id ? res.data.dados?.existsUserId !== selectedUser.usu_id : true)) {
                     setErrors('CPF já está cadastrado');
@@ -96,7 +78,9 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
             }
         } catch (error) {
             console.error("Erro ao verificar CPF:", error);
-            // Ajuste aqui para capturar a mensagem de erro correta
+            console.log("Detalhes do erro:", error.response);  // Adiciona este log para capturar detalhes
+            console.log("Status da resposta:", error.response?.status);  // Mostra o código de status HTTP
+            console.log("Dados da resposta:", error.response?.data);  // Exibe a mensagem de erro completa
             setErrors(error.response?.data?.mensagem || 'Erro ao verificar CPF');
         }
     
