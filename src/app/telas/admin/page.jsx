@@ -9,6 +9,7 @@ import Veiculos from "./veiculos/page";
 import Servicos from "./servicos/page";
 // import FullCalendar from "./agenda/page";
 import FullCalendarGeral from "../usuario/agenda/page";
+import HistoricoAgendamentos from "./agendamentos/page";
 
 export default function Home() {
 
@@ -57,7 +58,7 @@ export default function Home() {
                                 : tela === 4 ?
                                     <FullCalendarGeral />
                                     : tela === 5 ?
-                                        <FullCalendarGeral /> // trocar pelo histórico
+                                        <HistoricoAgendamentos /> // trocar pelo histórico
                                         : <></>
                 }
             </div>

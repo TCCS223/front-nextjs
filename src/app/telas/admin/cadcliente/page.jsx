@@ -164,26 +164,26 @@ export default function CadCliente() {
 
         const cpfError = await validarCPF(usuario.usu_cpf);
         if (cpfError) {
-            console.log("Erro no CPF:", cpfError); // Log para CPF
+            console.log("Erro no CPF:", cpfError);
             errors.push(cpfError);
         }
     
         const emailError = await validaEmail(usuario);
         if (emailError) {
-            console.log("Erro no Email:", emailError); // Log para Email
+            console.log("Erro no Email:", emailError);
             errors.push(emailError);
         }
     
         const senhaError = validarSenha(usuario.usu_senha);
-        if (senhaError.length > 0) { // Verifica se há algum erro na lista
-            errors.push(senhaError.join(' ')); // Junta os erros em uma string
+        if (senhaError.length > 0) {
+            errors.push(senhaError.join(' '));
         } else {
             setSenhaErro('');
         }
         if (errors.length > 0) {
             Swal.fire({
                 title: 'Dados Incorretos',
-                html: errors.join('<br/>'), // Exibir os erros no SweetAlert
+                html: errors.join('<br/>'),
                 icon: 'error',
                 confirmButtonText: 'OK',
                 iconColor: '#d33',
@@ -360,7 +360,6 @@ export default function CadCliente() {
             errorMessage.push('Sem espaços em branco.');
         }
     
-        // Retorna a lista de erros
         return errorMessage.length > 0 ? errorMessage : [];
     };
     
@@ -452,7 +451,6 @@ export default function CadCliente() {
         return null;
     };
     
-
     const sortByColumn = (column) => {
         let newIsAsc = true;
 
