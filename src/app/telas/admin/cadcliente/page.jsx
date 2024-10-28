@@ -164,36 +164,26 @@ export default function CadCliente() {
 
         const cpfError = await validarCPF(usuario.usu_cpf);
         if (cpfError) {
+            console.log("Erro no CPF:", cpfError); // Log para CPF
             errors.push(cpfError);
         }
-
+    
         const emailError = await validaEmail(usuario);
         if (emailError) {
+            console.log("Erro no Email:", emailError); // Log para Email
             errors.push(emailError);
         }
-
-        // // Validação de senha
-        // const senhaError = validarSenha(usuario.usu_senha);
-        // if (senhaError) {
-        //     setSenhaErro(senhaError); // Atualiza o estado da senha
-        //     errors.push(senhaError); // Adiciona erro à lista
-        // } else {
-        //     setSenhaErro(''); // Limpa o erro se a senha for válida
-        // }
-
-        // Validação de senha
+    
         const senhaError = validarSenha(usuario.usu_senha);
-        if (senhaError) {
-            errors.push("A senha não atende aos requisitos.");
+        if (senhaError.length > 0) { // Verifica se há algum erro na lista
+            errors.push(senhaError.join(' ')); // Junta os erros em uma string
         } else {
             setSenhaErro('');
         }
-
         if (errors.length > 0) {
             Swal.fire({
                 title: 'Dados Incorretos',
-                text: "Por favor, revise os dados preenchidos e tente novamente.",
-                // html: errors.join('<br/>'),
+                html: errors.join('<br/>'), // Exibir os erros no SweetAlert
                 icon: 'error',
                 confirmButtonText: 'OK',
                 iconColor: '#d33',
@@ -387,20 +377,20 @@ export default function CadCliente() {
 
     const validarCPF = async (cpf) => {
         const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;
-
+    
         if (!cpfRegex.test(cpf)) {
             return 'CPF inválido.';
         }
-
+    
         const numbersOnly = cpf.replace(/[^\d]/g, '');
-
+    
         if (numbersOnly.length !== 11 || /^(\d)\1+$/.test(numbersOnly)) {
             return 'CPF inválido.';
         }
-
+    
         let soma = 0;
         let resto;
-
+    
         for (let i = 1; i <= 9; i++) {
             soma += parseInt(numbersOnly.substring(i - 1, i)) * (11 - i);
         }
@@ -409,7 +399,7 @@ export default function CadCliente() {
         if (resto !== parseInt(numbersOnly.substring(9, 10))) {
             return 'CPF inválido.';
         }
-
+    
         soma = 0;
         for (let i = 1; i <= 10; i++) {
             soma += parseInt(numbersOnly.substring(i - 1, i)) * (12 - i);
@@ -419,6 +409,7 @@ export default function CadCliente() {
         if (resto !== parseInt(numbersOnly.substring(10, 11))) {
             return 'CPF inválido.';
         }
+    
         try {
             const response = await api.post('/usuarios/verificarCpf', { usu_cpf: cpf });
             if (response.data.sucesso && response.data.dados) {
@@ -426,11 +417,12 @@ export default function CadCliente() {
             }
         } catch (error) {
             console.error('Erro na verificação do CPF:', error);
-            return 'Ocorreu um erro ao verificar o CPF. Por favor, tente novamente.';
+            return 'Erro na verificação do CPF. Por favor, tente novamente.';
         }
-
+    
         return null;
     };
+    
 
     function checkEmail(email) {
         return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
@@ -440,13 +432,13 @@ export default function CadCliente() {
 
     const validaEmail = async (usuario) => {
         const email = usuario.usu_email.trim();
-
+    
         if (!email) {
             return 'O e-mail do usuário é obrigatório.';
         } else if (!checkEmail(email)) {
             return 'Insira um e-mail válido.';
         }
-
+    
         try {
             const response = await api.post('/usuarios/verificarEmail', { usu_email: email });
             if (response.data.sucesso && response.data.dados) {
@@ -454,11 +446,12 @@ export default function CadCliente() {
             }
         } catch (error) {
             console.error('Erro na verificação do email:', error);
-            return 'Ocorreu um erro ao verificar o email. Por favor, tente novamente.';
+            return 'Erro na verificação do email. Por favor, tente novamente.';
         }
-
+    
         return null;
     };
+    
 
     const sortByColumn = (column) => {
         let newIsAsc = true;

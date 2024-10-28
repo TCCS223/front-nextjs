@@ -61,48 +61,47 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
         setErrors('');
     };
 
-    const handleBlurCPF = async () => {
-        const cpf = selectedUser.usu_cpf.trim();
+    // const handleBlurCPF = async () => {
+    //     const cpf = selectedUser.usu_cpf.trim();
     
-        console.log("Valor do CPF antes da chamada:", cpf); // Para debug
+    //     console.log("Valor do CPF antes da chamada:", cpf); // Para debug
     
-        if (cpf === '') {
-            setErrors('CPF é obrigatório');
-            return;
-        }
+    //     if (cpf === '') {
+    //         setErrors('CPF é obrigatório');
+    //         return;
+    //     }
     
-        // Verifique se o CPF é válido, mas não remova a máscara
-        if (!cpfValidator.isValid(cpf)) {
-            setErrors('CPF inválido');
-            return;
-        }
+    //     // Verifique se o CPF é válido, mas não remova a máscara
+    //     if (!cpfValidator.isValid(cpf)) {
+    //         setErrors('CPF inválido');
+    //         return;
+    //     }
     
-        setLoading(true);
+    //     setLoading(true);
     
-        try {
-            // Envia o CPF com máscara
-            const res = await api.post('/usuarios', { cpf }); // Mantém o CPF com máscara
-            console.log("Resposta da API:", res.data); // Para debug
+    //     try {
+    //         const res = await api.post('/usuarios/verificarCpf', { usu_cpf: cpf });
+        
+    //         console.log("Resposta da API:", res); // Log para verificar o conteúdo da resposta
+        
+    //         if (res.data.sucesso) {
+    //             setCpfExists(res.data.exists);
+    //             if (res.data.exists && (selectedUser.usu_id ? res.data.existsUserId !== selectedUser.usu_id : true)) {
+    //                 setErrors('CPF já está cadastrado');
+    //             } else {
+    //                 setErrors('');
+    //             }
+    //         } else {
+    //             setErrors('Erro ao verificar o CPF');
+    //         }
+    //     } catch (error) {
+    //         console.error("Erro ao verificar CPF:", error.response); // Mostra toda a resposta de erro
+    //         setErrors(error.response?.data?.mensagem || 'Erro ao verificar CPF');
+    //     }
     
-            if (res.data.sucesso) {  // Verifica se a resposta é de sucesso
-                setCpfExists(res.data.dados?.exists);
-                if (res.data.dados?.exists && (selectedUser.usu_id ? res.data.dados?.existsUserId !== selectedUser.usu_id : true)) {
-                    setErrors('CPF já está cadastrado');
-                } else {
-                    setErrors('');
-                }
-            } else {
-                setErrors('Erro ao verificar o CPF');
-            }
-        } catch (error) {
-            console.error("Erro ao verificar CPF:", error);
-            // Ajuste aqui para capturar a mensagem de erro correta
-            setErrors(error.response?.data?.mensagem || 'Erro ao verificar CPF');
-        }
-    
-        setCpfChecked(true);
-        setLoading(false);
-    };
+    //     setCpfChecked(true);
+    //     setLoading(false);
+    // };
     
     
     return (
@@ -148,7 +147,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
                         name="usu_cpf"
                         value={selectedUser ? selectedUser.usu_cpf : ''}
                         onChange={handleCPFChange}
-                        onBlur={handleBlurCPF}
+                        // onBlur={handleBlurCPF}
                         disabled={isDisabled}
                         className={styles.input_cliente}
                         required
