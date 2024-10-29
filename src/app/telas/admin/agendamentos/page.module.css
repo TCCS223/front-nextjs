@@ -75,6 +75,7 @@
     padding: 2rem 0 .5rem;
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
 }
@@ -112,7 +113,7 @@
     padding: 10px;
     border-radius: 4px;
     font-size: 16px;
-    font-weight: norma;
+    font-weight: normal;
     box-sizing: border-box;
 }
 

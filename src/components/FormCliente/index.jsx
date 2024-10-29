@@ -17,8 +17,8 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
         setShowPassword(!showPassword);
     };
 
-    const handleChangeSenha = (event) => {
-        const novaSenha = event.target.value;
+    const handleChangeSenha = (e) => {
+        const novaSenha = e.target.value;
         setSelectedUser({ ...selectedUser, usu_senha: novaSenha });
 
         if (focused) {

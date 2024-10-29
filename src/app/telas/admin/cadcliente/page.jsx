@@ -4,7 +4,6 @@ import styles from './page.module.css';
 import { useState, useEffect } from 'react';
 import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import { MdRemoveRedEye, MdEdit, MdAdd } from "react-icons/md";
-// import {  } from "react-icons/md";
 import { parseISO, format } from 'date-fns';
 import Swal from 'sweetalert2';
 import FormCliente from '@/components/FormCliente';
@@ -66,6 +65,9 @@ export default function CadCliente() {
         1: 'Masculino',
         2: 'Outro'
     };
+
+    console.log(selectedUser);
+    
 
     const Create = () => {
         setSelectedUser({
@@ -596,6 +598,8 @@ export default function CadCliente() {
                 </>
             ) : (
                 <>
+
+                {/* chamada do componente filho */}
                     <FormCliente
                         selectedUser={selectedUser}
                         setSelectedUser={setSelectedUser}

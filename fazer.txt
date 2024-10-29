@@ -12,7 +12,7 @@
 
 - TELA DE ADMIN -
     agendamentos: (ajustar a tabela para mostrar nome do serviço e o nome do usuario)
-    agendamentos: filtrar por data e por situação de serviços
+    agendamentos: filtrar por data e por situação de serviços (Ajustar)
 
 - TELA DE USUÁRIO -
     histórico de SERVIÇOS
