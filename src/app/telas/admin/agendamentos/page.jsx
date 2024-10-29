@@ -22,13 +22,11 @@ export default function HistoricoAgendamentos() {
     const ListarAgendamentos = async () => {
         try {
             const response = await api.get('/agendamentos');
-            
-            // Ordena os agendamentos pelo agend_id em ordem crescente antes de definir o estado
             const agendamentosOrdenados = response.data.dados.sort((a, b) => a.agend_id - b.agend_id);
-    
+
             setAgendamentos(agendamentosOrdenados);
             setFilteredAgendamentos(agendamentosOrdenados);
-            
+
             console.log("Agendamentos carregados: ", agendamentosOrdenados);
         } catch (error) {
             console.error("Erro ao buscar os agendamentos:", error);
@@ -42,29 +40,34 @@ export default function HistoricoAgendamentos() {
         }
     };
 
-    const handleSearch = () => {
+    const handleSearch = (text) => {
+        setSearchText(text);
         const result = agendamentos.filter((agendamento) => {
             return (
-                agendamento.agend_observ.toLowerCase().includes(searchText.toLowerCase())
+                agendamento.agend_observ.toLowerCase().includes(text.toLowerCase()) ||
+                agendamento.veic_placa.toLowerCase().includes(text.toLowerCase()) ||
+                agendamento.agend_id.toString().includes(text) // Para incluir o ID que é um número
             );
         });
         setFilteredAgendamentos(result);
         setCurrentPage(1);
     };
+    
+    
 
     const sortByColumn = (column) => {
         let newIsAsc = true;
-        
+
         if (sortedColumn === column) {
             newIsAsc = !isAsc;
         }
-    
+
         const sortedData = [...filteredAgendamentos].sort((a, b) => {
             if (a[column] < b[column]) return newIsAsc ? -1 : 1;
             if (a[column] > b[column]) return newIsAsc ? 1 : -1;
             return 0;
         });
-    
+
         setFilteredAgendamentos(sortedData);
         setSortedColumn(column);
         setIsAsc(newIsAsc);
@@ -87,14 +90,13 @@ export default function HistoricoAgendamentos() {
                             placeholder="Digite aqui..."
                             className={styles.inputSearch}
                             value={searchText}
-                            onChange={(e) => setSearchText(e.target.value)}
-                            onKeyUp={handleSearch}
+                            onChange={(e) => handleSearch(e.target.value)}
                         />
+
                         <PiListMagnifyingGlassBold
                             className={styles.lupa}
                         />
                     </div>
-
                 </div>
             </div>
             <div className={styles.resultTableContainer}>
@@ -138,7 +140,7 @@ export default function HistoricoAgendamentos() {
                                 {sortedColumn === 'serv_id' ? (isAsc ? '▲' : '▼') : ''}
                             </th>
                             <th
-                               className={`${styles.tableHeader} ${styles.situacao}`}
+                                className={`${styles.tableHeader} ${styles.situacao}`}
                                 onClick={() => sortByColumn('agend_situacao')}>
                                 Situação
                                 {sortedColumn === 'agend_situacao' ? (isAsc ? '▲' : '▼') : ''}

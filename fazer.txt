@@ -11,18 +11,15 @@
 
 
 - TELA DE ADMIN -
-    agenda
-    listar os agendamentos  (pode ser em formato de tabela igual a listagem de usuarios)
-
+    agendamentos: (ajustar a tabela para mostrar nome do serviço e o nome do usuario)
+    agendamentos: filtrar por data e por situação de serviços
 
 - TELA DE USUÁRIO -
     histórico de SERVIÇOS
-    (agenda) -> se der tempo
     listar seus agendamentos
 
 
 - TELA DE CADASTRO
-    implementar validação de senha na hora de criar o cadastro
 
 
 - GERAL -

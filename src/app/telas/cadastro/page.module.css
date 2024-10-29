@@ -464,3 +464,31 @@
     cursor: pointer;
     border-radius: 3px;
 }
+
+
+/*------------------------------*/
+.error_message_simples {
+    color: #fa4545;
+    font-size: 0.9em;
+}
+
+
+/* Estilo da mensagem de erro */
+.error_message {
+    color: #e64843;
+    font-size: 0.9em;
+    background-color: #ffd6d9;
+    border: 1px solid #e64843;
+    padding: 8px 12px;
+    border-radius: 5px;
+    line-height: 1.4;
+    max-width: 400px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    top: 105%;
+    left: 0;
+    z-index: 10;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out, max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+    overflow: hidden;
+}

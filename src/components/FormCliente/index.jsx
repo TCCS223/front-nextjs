@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styles from './index.module.css';
 import InputMask from "react-input-mask";
 import { IoMdEyeOff, IoMdEye } from "react-icons/io";
-import api from '@/services/api';
-import { cpf as cpfValidator } from 'cpf-cnpj-validator';
 
 export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, setSenhaErro, focused, senha, handleFocus, handleBlur, validarSenha, isViewing, handleSubmit, isEditing }) {
 
@@ -19,31 +17,13 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
         setShowPassword(!showPassword);
     };
 
-    // const handleSenhaChange = (e) => {
-    //     const senha = e.target.value;
-    //     setSelectedUser({ ...selectedUser, usu_senha: senha });
-
-    //     // Chama a função de validação do componente pai
-    //     validarSenha(senha);
-    // };
-
-    // const handleChangeSenha = (event) => {
-    //     const novaSenha = event.target.value;
-    //     setSelectedUser({ ...selectedUser, usu_senha: novaSenha });
-
-    //     // Valida a senha e atualiza o estado de erro
-    //     const erros = validarSenha(novaSenha);
-    //     setSenhaErro(erros); // Exibe as mensagens que faltam ser atendidas
-    // };
-
-
     const handleChangeSenha = (event) => {
         const novaSenha = event.target.value;
         setSelectedUser({ ...selectedUser, usu_senha: novaSenha });
 
-        if (focused) { // Somente valida se o campo estiver focado
+        if (focused) {
             const erros = validarSenha(novaSenha);
-            setSenhaErro(erros); // Atualiza as mensagens de erro
+            setSenhaErro(erros);
         }
     };
 
@@ -59,50 +39,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
         setCpfChecked(false);
         setCpfExists(false);
         setErrors('');
-    };
-
-    // const handleBlurCPF = async () => {
-    //     const cpf = selectedUser.usu_cpf.trim();
-    
-    //     console.log("Valor do CPF antes da chamada:", cpf); // Para debug
-    
-    //     if (cpf === '') {
-    //         setErrors('CPF é obrigatório');
-    //         return;
-    //     }
-    
-    //     // Verifique se o CPF é válido, mas não remova a máscara
-    //     if (!cpfValidator.isValid(cpf)) {
-    //         setErrors('CPF inválido');
-    //         return;
-    //     }
-    
-    //     setLoading(true);
-    
-    //     try {
-    //         const res = await api.post('/usuarios/verificarCpf', { usu_cpf: cpf });
-        
-    //         console.log("Resposta da API:", res); // Log para verificar o conteúdo da resposta
-        
-    //         if (res.data.sucesso) {
-    //             setCpfExists(res.data.exists);
-    //             if (res.data.exists && (selectedUser.usu_id ? res.data.existsUserId !== selectedUser.usu_id : true)) {
-    //                 setErrors('CPF já está cadastrado');
-    //             } else {
-    //                 setErrors('');
-    //             }
-    //         } else {
-    //             setErrors('Erro ao verificar o CPF');
-    //         }
-    //     } catch (error) {
-    //         console.error("Erro ao verificar CPF:", error.response); // Mostra toda a resposta de erro
-    //         setErrors(error.response?.data?.mensagem || 'Erro ao verificar CPF');
-    //     }
-    
-    //     setCpfChecked(true);
-    //     setLoading(false);
-    // };
-    
+    };    
     
     return (
         <form id="clienteForm" className={styles.form} onSubmit={handleSubmit}>
@@ -147,7 +84,6 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
                         name="usu_cpf"
                         value={selectedUser ? selectedUser.usu_cpf : ''}
                         onChange={handleCPFChange}
-                        // onBlur={handleBlurCPF}
                         disabled={isDisabled}
                         className={styles.input_cliente}
                         required
@@ -247,13 +183,13 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
                             id="usu_senha"
                             name="usu_senha"
                             value={selectedUser ? selectedUser.usu_senha : ''}
-                            onChange={handleChangeSenha} // Valida enquanto o usuário digita
+                            onChange={handleChangeSenha}
                             className={styles.input_cliente_password}
                             disabled={isViewing}
                             placeholder="Digite sua senha"
                             required
-                            onFocus={handleFocus} // Foca no campo
-                            onBlur={handleBlur}   // Valida quando sai do campo
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
                         />
 
                         {showPassword ? (
@@ -262,25 +198,9 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
                             <IoMdEyeOff onClick={togglePasswordVisibility} className={styles.mdEye} />
                         )}
 
-                        {/* Exibe as mensagens de erro abaixo do campo
-                        {senhaErro && senhaErro.length > 0 && (
-                            <div className={styles.errorMessages}>
-                                {senhaErro.map((erro, index) => (
-                                    <p key={index} className={styles.errorText}>{erro}</p>
-                                ))}
-                            </div>
-                        )} */}
+                      
                     </div>
-
-
-                    {/* {focused && ( // Exibe a mensagem apenas quando o campo está focado ou há um erro
-        <div className={`${styles.error_message} ${senhaErro === '' ? styles.hidden : ''}`}>
-          {senhaErro || 'A senha deve ter pelo menos 8 caracteres, uma letra maiúscula, um número e um caractere especial.'}
-        </div>
-      )} */}
-
-
-                    {/* Durante o foco, mostra as exigências ainda não cumpridas */}
+                    
                     {focused && Array.isArray(senhaErro) && senhaErro.length > 0 && (
                         <div className={styles.error_message}>
                             <ul>
@@ -291,23 +211,11 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
                         </div>
                     )}
 
-
-                    {/* Quando o campo perder o foco, se houver erros, mostra "Senha inválida" */}
                     {!focused && senhaErro.length > 0 && (
                         <div className={styles.error_message_simples}>
                             Senha inválida.
                         </div>
                     )}
-
-                    {/* {senhaErro && (
-                        <div className={`${styles.error_message} ${senhaErro === '' ? styles.hidden : ''}`}>
-                            {senhaErro}
-                        </div>
-                    )} */}
-
-                    {/* {senhaErro && <div className={styles.error_message}>{senhaErro}</div>} Mensagem de erro ESSA FUNCIONA OK */}
-
-                    {/* {senhaErro && <div className={styles.error_message}>{senhaErro}</div>} */}
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_observacoes}`}>
@@ -355,6 +263,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
 
                 </div>
 
+
                 <div className={`${styles.grid_item} ${styles.grid_situacao}`}>
                     <label htmlFor="usu_situacao" className={styles.label_cliente}>Situação</label>
 
@@ -371,8 +280,6 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
                             <option value="1" className={styles.option}>Ativo</option>
                             <option value="0" className={styles.option}>Inativo</option>
                         </select>
-
-
                     ) : (
                         <input
                             type="text"

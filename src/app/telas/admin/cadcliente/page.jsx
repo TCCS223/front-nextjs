@@ -167,13 +167,13 @@ export default function CadCliente() {
             console.log("Erro no CPF:", cpfError);
             errors.push(cpfError);
         }
-    
+
         const emailError = await validaEmail(usuario);
         if (emailError) {
             console.log("Erro no Email:", emailError);
             errors.push(emailError);
         }
-    
+
         const senhaError = validarSenha(usuario.usu_senha);
         if (senhaError.length > 0) {
             errors.push(senhaError.join(' '));
@@ -242,94 +242,7 @@ export default function CadCliente() {
         }
     };
 
-    console.log("usuario: ",selectedUser);
-    
-
-
-    // const validarSenha = (senha) => {
-    //     if (senha.length < 8) {
-    //         return 'A senha deve ter pelo menos 8 caracteres.';
-    //     }
-    //     return ''; // Retorna uma string vazia se não houver erro
-    // };
-
-    // const validarSenha = (senha) => {
-    //     const minLength = 8;
-    //     const hasUpperCase = /[A-Z]/.test(senha);
-    //     const hasLowerCase = /[a-z]/.test(senha);
-    //     const hasNumber = /\d/.test(senha);
-    //     const hasSpecialChar = /[!@#$%^&*]/.test(senha);
-    //     const hasSpaces = /\s/.test(senha);
-
-    //     let errorMessage = [];
-
-    //     if (senha.length < minLength) {
-    //         errorMessage.push(`A senha deve ter pelo menos ${minLength} caracteres.`);
-    //     }
-    //     if (!hasUpperCase) {
-    //         errorMessage.push('A senha deve conter pelo menos uma letra maiúscula.');
-    //     }
-    //     if (!hasLowerCase) {
-    //         errorMessage.push('A senha deve conter pelo menos uma letra minúscula.');
-    //     }
-    //     if (!hasNumber) {
-    //         errorMessage.push('A senha deve conter pelo menos um número.');
-    //     }
-    //     if (!hasSpecialChar) {
-    //         errorMessage.push('A senha deve conter pelo menos um caractere especial (ex: !@#$%^&*).');
-    //     }
-    //     if (hasSpaces) {
-    //         errorMessage.push('A senha não deve conter espaços em branco.');
-    //     }
-
-    //     // Atualiza o estado da mensagem de erro
-    //     if (errorMessage.length > 0) {
-    //         setSenhaErro(errorMessage.join('\n'));
-    //         return true; // Indica que a senha é inválida
-    //     } else {
-    //         setSenhaErro('');
-    //         return false; // Indica que a senha é válida
-    //     }
-    // };
-
-
-    // const validarSenha = (senha) => {
-    //     const minLength = 8;
-    //     const hasUpperCase = /[A-Z]/.test(senha);
-    //     const hasLowerCase = /[a-z]/.test(senha);
-    //     const hasNumber = /\d/.test(senha);
-    //     const hasSpecialChar = /[!@#$%^&*]/.test(senha);
-    //     const hasSpaces = /\s/.test(senha);
-
-    //     let errorMessage = [];
-
-    //     if (senha.length < minLength) {
-    //         errorMessage.push(`Pelo menos ${minLength} caracteres.`);
-    //     }
-    //     if (!hasUpperCase) {
-    //         errorMessage.push('Uma letra maiúscula.');
-    //     }
-    //     if (!hasLowerCase) {
-    //         errorMessage.push('Uma letra minúscula.');
-    //     }
-    //     if (!hasNumber) {
-    //         errorMessage.push('Um número.');
-    //     }
-    //     if (!hasSpecialChar) {
-    //         errorMessage.push('Um caractere especial (ex: !@#$%^&*).');
-    //     }
-    //     if (hasSpaces) {
-    //         errorMessage.push('Sem espaços em branco.');
-    //     }
-
-    //     if (errorMessage) {
-    //         setSenhaErro(errorMessage);
-    //         return false;
-    //     } else {
-    //         setSenhaErro('');
-    //         return true;
-    //     }
-    // };
+    console.log("usuario: ", selectedUser);
 
     const validarSenha = (senha) => {
         const minLength = 8;
@@ -338,9 +251,9 @@ export default function CadCliente() {
         const hasNumber = /\d/.test(senha);
         const hasSpecialChar = /[!@#$%^&*]/.test(senha);
         const hasSpaces = /\s/.test(senha);
-    
+
         let errorMessage = [];
-    
+
         if (senha.length < minLength) {
             errorMessage.push(`Pelo menos ${minLength} caracteres.`);
         }
@@ -359,10 +272,9 @@ export default function CadCliente() {
         if (hasSpaces) {
             errorMessage.push('Sem espaços em branco.');
         }
-    
+
         return errorMessage.length > 0 ? errorMessage : [];
     };
-    
 
     const handleFocus = () => {
         setFocused(true);
@@ -373,23 +285,22 @@ export default function CadCliente() {
         validarSenha(senha);
     };
 
-
     const validarCPF = async (cpf) => {
         const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;
-    
+
         if (!cpfRegex.test(cpf)) {
             return 'CPF inválido.';
         }
-    
+
         const numbersOnly = cpf.replace(/[^\d]/g, '');
-    
+
         if (numbersOnly.length !== 11 || /^(\d)\1+$/.test(numbersOnly)) {
             return 'CPF inválido.';
         }
-    
+
         let soma = 0;
         let resto;
-    
+
         for (let i = 1; i <= 9; i++) {
             soma += parseInt(numbersOnly.substring(i - 1, i)) * (11 - i);
         }
@@ -398,7 +309,7 @@ export default function CadCliente() {
         if (resto !== parseInt(numbersOnly.substring(9, 10))) {
             return 'CPF inválido.';
         }
-    
+
         soma = 0;
         for (let i = 1; i <= 10; i++) {
             soma += parseInt(numbersOnly.substring(i - 1, i)) * (12 - i);
@@ -408,7 +319,7 @@ export default function CadCliente() {
         if (resto !== parseInt(numbersOnly.substring(10, 11))) {
             return 'CPF inválido.';
         }
-    
+
         try {
             const response = await api.post('/usuarios/verificarCpf', { usu_cpf: cpf });
             if (response.data.sucesso && response.data.dados) {
@@ -418,10 +329,10 @@ export default function CadCliente() {
             console.error('Erro na verificação do CPF:', error);
             return 'Erro na verificação do CPF. Por favor, tente novamente.';
         }
-    
+
         return null;
     };
-    
+
 
     function checkEmail(email) {
         return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
@@ -431,13 +342,13 @@ export default function CadCliente() {
 
     const validaEmail = async (usuario) => {
         const email = usuario.usu_email.trim();
-    
+
         if (!email) {
             return 'O e-mail do usuário é obrigatório.';
         } else if (!checkEmail(email)) {
             return 'Insira um e-mail válido.';
         }
-    
+
         try {
             const response = await api.post('/usuarios/verificarEmail', { usu_email: email });
             if (response.data.sucesso && response.data.dados) {
@@ -447,10 +358,10 @@ export default function CadCliente() {
             console.error('Erro na verificação do email:', error);
             return 'Erro na verificação do email. Por favor, tente novamente.';
         }
-    
+
         return null;
     };
-    
+
     const sortByColumn = (column) => {
         let newIsAsc = true;
 
@@ -528,7 +439,6 @@ export default function CadCliente() {
                     <div className={styles.contentSearch}>
                         <div className={styles.search}>
                             <div className={styles.searchInput}>
-
                                 <input
                                     type="text"
                                     placeholder="Digite aqui..."
@@ -693,9 +603,9 @@ export default function CadCliente() {
                         isEditing={isEditing}
                         handleSubmit={handleSubmit}
                         Cancelar={Cancelar}
-                        setSenhaErro={setSenhaErro} 
-                        senhaErro={senhaErro} 
-                        validarSenha={validarSenha} 
+                        setSenhaErro={setSenhaErro}
+                        senhaErro={senhaErro}
+                        validarSenha={validarSenha}
                         focused={focused}
                         senha={senha}
                         handleFocus={handleFocus}

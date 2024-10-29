@@ -6,7 +6,6 @@ import InputMask from "react-input-mask";
 import styles from "./page.module.css";
 import api from "@/services/api";
 import Swal from "sweetalert2";
-
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -28,11 +27,15 @@ export default function Cadastro() {
     });
 
     console.log(usuario);
-    
+
     const [cpfError, setCpfError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [isCheckingEmail, setIsCheckingEmail] = useState(false);
     const [isCheckingCpf, setIsCheckingCpf] = useState(false);
+
+    const [senhaErro, setSenhaErro] = useState([]);
+    const [focused, setFocused] = useState(false);
+    const [senha, setSenha] = useState('');
 
     const router = useRouter();
 
@@ -116,6 +119,59 @@ export default function Cadastro() {
         return errorMessage;
     };
 
+const handleChangeSenha = (event) => {
+    const novaSenha = event.target.value;
+    setSenha(novaSenha);
+    setUsuario({ ...usuario, usu_senha: novaSenha });
+
+    if (focused) {
+        const erros = validarSenha(novaSenha);
+        setSenhaErro(erros);
+        console.log("Erros de senha:", erros);
+    }
+};
+
+    const validarSenha = (senha) => {
+        const minLength = 8;
+        const hasUpperCase = /[A-Z]/.test(senha);
+        const hasLowerCase = /[a-z]/.test(senha);
+        const hasNumber = /\d/.test(senha);
+        const hasSpecialChar = /[!@#$%^&*]/.test(senha);
+        const hasSpaces = /\s/.test(senha);
+
+        let errorMessage = [];
+
+        if (senha.length < minLength) {
+            errorMessage.push(`Pelo menos ${minLength} caracteres.`);
+        }
+        if (!hasUpperCase) {
+            errorMessage.push('Uma letra maiúscula.');
+        }
+        if (!hasLowerCase) {
+            errorMessage.push('Uma letra minúscula.');
+        }
+        if (!hasNumber) {
+            errorMessage.push('Um número.');
+        }
+        if (!hasSpecialChar) {
+            errorMessage.push('Um caractere especial (ex: !@#$%^&*).');
+        }
+        if (hasSpaces) {
+            errorMessage.push('Sem espaços em branco.');
+        }
+
+        return errorMessage.length > 0 ? errorMessage : [];
+    };
+
+    const handleFocus = () => {
+        setFocused(true);
+        console.log("Campo de senha focado");
+    };
+    
+    const handleBlur = () => {
+        setFocused(false);
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -129,6 +185,11 @@ export default function Cadastro() {
         const emailValidationError = await validateEmail();
         if (emailValidationError) {
             errors.push(emailValidationError);
+        }
+
+        const senhaError = validarSenha(senha);
+        if (senhaError.length > 0) {
+            errors.push(senhaError.join(' '));
         }
 
         if (errors.length > 0) {
@@ -386,9 +447,29 @@ export default function Cadastro() {
                                         className={styles.inputCadastro}
                                         placeholder="Digite sua senha"
                                         value={usuario.usu_senha}
-                                        onChange={handleChange}
+                                        onChange={handleChangeSenha}
+                                        onFocus={handleFocus}
+                                        onBlur={handleBlur}
                                         required
                                     />
+
+                                    {focused && Array.isArray(senhaErro) && senhaErro.length > 0 && (
+                                        <div className={styles.error_message}>
+                                            <ul>
+                                                {senhaErro.map((erro, index) => (
+                                                    <li key={index} className={styles.errorText}>{erro}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+
+                                    {!focused && senhaErro.length > 0 && (
+                                        <div className={styles.error_message_simples}>
+                                            Senha inválida.
+                                        </div>
+                                    )}
+
+
                                 </div>
 
                                 <div className={styles.checkboxContainer}>
