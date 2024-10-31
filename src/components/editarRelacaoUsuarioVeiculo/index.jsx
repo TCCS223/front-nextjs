@@ -11,6 +11,12 @@ export default function ModalProprietarios({ isOpen, onClose, veiculoId }) {
     const [editStartDate, setEditStartDate] = useState('');
     const [editEndDate, setEditEndDate] = useState('');
 
+    useEffect(() => {
+        if (isOpen) {
+            buscarProprietarios(veiculoId);
+        }
+    }, [isOpen, veiculoId]);
+
     const buscarProprietarios = async (veiculoId) => {
         if (veiculoId) {
             try {
@@ -59,12 +65,6 @@ export default function ModalProprietarios({ isOpen, onClose, veiculoId }) {
             console.log(error.message);
         }
     };
-
-    useEffect(() => {
-        if (isOpen) {
-            buscarProprietarios(veiculoId);
-        }
-    }, [isOpen, veiculoId]);
 
     if (!isOpen) return null;
 

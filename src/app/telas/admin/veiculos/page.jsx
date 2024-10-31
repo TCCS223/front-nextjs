@@ -38,7 +38,6 @@ export default function Veiculos() {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const usersPerPage = 15;
-    // Paginação
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentVeiculos = filteredVeiculos.slice(indexOfFirstUser, indexOfLastUser);
@@ -187,7 +186,6 @@ export default function Veiculos() {
         }));
         setPlacaErro('');
 
-        // const placaRegex = /^(?:[A-Z]{3}-\d{4}|[A-Z]{3}\d[A-Z]\d{2})$/;
         const placaRegex = /^[A-Z]{3}-\d{4}$|^[A-Z]{3}-\d{1}[A-Z]{1}\d{2}$/;
 
         if (!placaRegex.test(placa)) {
@@ -240,20 +238,20 @@ export default function Veiculos() {
         setIsSubmitting(true);
         setPlacaErro('');
         setAnoErro('');
-    
+
         let placaValida = true;
-    
+
         if (!veiculo.veic_id || veiculo.veic_placa !== selectedVeic.veic_placa) {
             placaValida = await handlePlacaChange(veiculo.veic_placa);
         }
-    
+
         const anoValido = validarAno(veiculo.veic_ano);
-    
+
         if (!placaValida || !anoValido) {
             setIsSubmitting(false);
             return;
         }
-    
+
         const data = {
             mod_id: veiculo.mod_id,
             veic_placa: veiculo.veic_placa,
@@ -263,7 +261,7 @@ export default function Veiculos() {
             veic_observ: veiculo.veic_observ || '',
             veic_situacao: veiculo.veic_situacao,
         };
-    
+
         try {
             let response;
             if (veiculo.veic_id) {
@@ -285,7 +283,7 @@ export default function Veiculos() {
             setIsViewing(false);
             setIsEditing(false);
             ListarVeiculos();
-            
+
         } catch (error) {
             console.error("Erro ao salvar veículo:", error);
             Swal.fire({
@@ -298,7 +296,7 @@ export default function Veiculos() {
         }
         setIsSubmitting(false);
     };
-    
+
     const Create = () => {
         setSelectedVeic({
             cat_id: '',
@@ -445,11 +443,6 @@ export default function Veiculos() {
                                         Placa
                                         {sortedColumn === 'veic_placa' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
-                                    {/* <th className={`${styles.tableHeader} ${styles.ano}`}
-                                    onClick={() => sortByColumn('veic_ano')}>
-                                        Ano 
-                                    {sortedColumn === 'veic_ano' ? (isAsc ? '▲' : '▼') : ''}
-                                    </th> */}
                                     <th className={`${styles.tableHeader} ${styles.cor}`}
                                         onClick={() => sortByColumn('veic_cor')}>
                                         Cor
@@ -476,7 +469,6 @@ export default function Veiculos() {
                                             <td>{veiculo.modelo}</td>
                                             <td>{veiculo.marca}</td>
                                             <td>{veiculo.veic_placa}</td>
-                                            {/* <td>{veiculo.veic_ano}</td> */}
                                             <td>{veiculo.veic_cor}</td>
                                             <td>{veiculo.veic_combustivel}</td>
                                             <td className={styles.tdProprietario}>

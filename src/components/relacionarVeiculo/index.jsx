@@ -31,33 +31,19 @@ export default function ModalRelacionarVeiculo({ isOpen, onClose, usuarioId }) {
         setVeiculoSelecionado(veic_id);
     };
 
-    // const verificarVeiculoExistente = async () => {
-    //     try {
-    //         const response = await api.get(`/veiculoUsuario/verificar/${usuarioId}/${veiculoSelecionado}`);
-    //         console.log("Resposta da API:", response);  // Log completo da resposta
-
-    //         // Agora acessa corretamente o campo 'associado' da resposta da API
-    //         return response.data?.associado || false;
-    //     } catch (error) {
-    //         console.error("Erro ao verificar veículo associado:", error.message);
-    //         return false;
-    //     }
-    // };
-
-
     const handleSalvar = async () => {
         if (!veiculoSelecionado || !dataInicial) {
             Swal.fire('Atenção', 'Selecione um veículo e uma data inicial.', 'warning');
             return;
         }
-    
+
         const dadosVeiculo = {
             veic_id: veiculoSelecionado,
             usu_id: usuarioId,
             ehproprietario: ehProprietario ? 1 : 0,
             data_inicial: dataInicial,
         };
-    
+
         try {
             const response = await api.post(`/veiculoUsuario`, dadosVeiculo);
             Swal.fire({
@@ -67,10 +53,10 @@ export default function ModalRelacionarVeiculo({ isOpen, onClose, usuarioId }) {
                 iconColor: "rgb(40, 167, 69)",
                 confirmButtonColor: "rgb(40, 167, 69)",
             });
-    
+
             onClose();
             limparCampos();
-    
+
         } catch (error) {
             if (error.response && error.response.status === 400) {
                 Swal.fire({
@@ -91,7 +77,7 @@ export default function ModalRelacionarVeiculo({ isOpen, onClose, usuarioId }) {
             }
         }
     };
-    
+
     const limparCampos = () => {
         setNome('');
         setVeiculos([]);

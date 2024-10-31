@@ -141,7 +141,7 @@ export default function Servicos() {
                 confirmButtonColor: '#d33',
             });
         }
-        
+
     };
 
     const handleEditServicos = (servicos) => {
@@ -267,7 +267,7 @@ export default function Servicos() {
     const handleCategoriaExcluida = () => {
         ListarCategoriasServAtivas();
     };
-    
+
     return (
         <div id="servicos" className={`${styles.content_section}`}>
             <h2 className={styles.title_page}>Gerenciamento de Serviços</h2>

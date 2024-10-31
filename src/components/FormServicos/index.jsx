@@ -5,14 +5,6 @@ export default function FormServicos({ selectedServico, setSelectedServico, isVi
 
     const isDisabled = isViewing || isEditing;
 
-    // Função para lidar com a mudança na categoria
-    // const handleCategoryChange = (e) => {
-    //     const catServId = parseInt(e.target.value);
-    //     setSelectedServico({ ...selectedServico, cat_serv_id: catServId });
-    //     listarServicoPorCatergoria(catServId);        // Chame a função listarMarcas passando o id da categoria selecionada
-    // };
-
-
     return (
         <form id="servicoForm" className={styles.form} onSubmit={handleSubmit}>
 
@@ -83,25 +75,6 @@ export default function FormServicos({ selectedServico, setSelectedServico, isVi
                         disabled={isViewing}
                         required
                     />
-                    {/* {isDisabled ? (
-                    ) : (
-                        <>
-                            <select
-                                type="text"
-                                name="serv_nome"
-                                id="serv_nome"
-                                value={selectedServico ? selectedServico.serv_nome : ''}
-                                onChange={(e) => setSelectedServico({ ...selectedServico, serv_nome: e.target.value })}
-                                className={`${styles.select_servicos} ${styles.grid_categoria}`}
-                                defaultValue=""
-                            >
-                                <option value="" disabled hidden>Selecionar</option>
-                                {servicoCat.map((servCat) => (
-                                    <option key={servCat.serv_id} value={servCat.serv_nome}>{servCat.serv_nome}</option>
-                                ))}
-                            </select>
-                        </>
-                    )} */}
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_duracao}`}>

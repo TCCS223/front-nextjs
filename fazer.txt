@@ -11,8 +11,10 @@
 
 
 - TELA DE ADMIN -
-    agendamentos: (ajustar a tabela para mostrar nome do serviço e o nome do usuario)
-    agendamentos: filtrar por data e por situação de serviços (Ajustar)
+    no modal de agendamentos colocar pra digitar o cpf, e puxar os veic_usu_id, conforme o cpf pra pdoer cadastrar
+
+    olhar a agenda estilizacao
+
 
 - TELA DE USUÁRIO -
     histórico de SERVIÇOS

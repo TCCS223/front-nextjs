@@ -148,7 +148,7 @@
 }
 
 .filterSelect {
-    padding: 10px;
+    padding: 10px 5px;
     width: 100%;
     font-size: 16px;
     border: 3px solid #636262;
@@ -166,30 +166,30 @@
 }
 
 .tableHeader {
-    cursor: pointer; 
+    cursor: pointer;
     padding: 10px;
     text-align: left;
     background-color: #f0f0f0;
     border-bottom: 2px solid #ccc;
-    transition: background-color 0.3s; 
+    transition: background-color 0.3s;
 }
 
 .tableHeader:hover {
-    background-color: #e38f08; 
+    background-color: #e38f08;
 }
 
 .sortIcon {
-    margin-left: 5px; 
-    font-size: 0.8em; 
+    margin-left: 5px;
+    font-size: 0.8em;
     vertical-align: middle;
 }
 
 .asc {
-    color: #007bff; 
+    color: #007bff;
 }
 
 .desc {
-    color: #dc3545; 
+    color: #dc3545;
 }
 
 .newButton {
@@ -233,7 +233,7 @@
     color: #222;
 }
 
-.iconAdd{
+.iconAdd {
     width: 1.25rem;
     height: 1.25rem;
     margin: auto 5px;
@@ -284,18 +284,28 @@
     width: 7%;
 }
 
-.veiculo,
-.data
-{
+.placa,
+.data {
+    width: 10%;
+}
+
+.servico {
+    width: auto;
+
+}
+
+.cliente {
     width: 15%;
 }
 
-.situacao, .servico {
-    width: 5%;
+.situacao {
+    width: 10%;
+    min-width: 120px;
 }
 
 .horario {
     width: 10%;
+    min-width: 100px;
 }
 
 .observ {
@@ -372,6 +382,7 @@
     align-self: center;
     margin: 0 2rem;
 }
+
 /*---------------------*/
 
 /* Media Queries */

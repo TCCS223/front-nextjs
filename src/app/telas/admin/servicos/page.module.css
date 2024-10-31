@@ -67,7 +67,7 @@
     color: #222;
 }
 
-.button_newCategory{
+.button_newCategory {
     padding: 10px 20px;
     background-color: #ff9d00;
     color: white;
@@ -89,7 +89,7 @@
     color: #222;
 }
 
-.button_editCategory{
+.button_editCategory {
     padding: 10px 20px;
     background-color: #ff9d00;
     color: white;
@@ -110,11 +110,12 @@
     color: #222;
 }
 
-.iconAdd{
+.iconAdd {
     width: 1.25rem;
     height: 1.25rem;
     margin: auto 5px;
 }
+
 /*--------------------*/
 .contentSearch {
     padding: 2rem 0 .5rem;
@@ -317,8 +318,7 @@
 }
 
 .acao {
-    width: 10%;
-
+    width: 5%;
 }
 
 .tableBody {
@@ -344,7 +344,7 @@
     display: flex;
     justify-content: space-between;
     width: 70px;
-    max-width: 50%;
+    /* max-width: 50%; */
 }
 
 .actionIcons svg {

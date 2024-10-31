@@ -83,7 +83,7 @@
     grid-area: 1 / 1 / 2 / 2;
 }
 
-.button_relation{
+.button_relation {
     padding: 10px 20px;
     background-color: #ff9d00;
     display: flex;
@@ -99,12 +99,13 @@
     grid-area: 1 / 2 / 2 / 3;
 }
 
-.button_AddUsuario:hover, .button_relation:hover {
+.button_AddUsuario:hover,
+.button_relation:hover {
     background-color: #f39200;
     color: #222;
 }
 
-.iconAdd{
+.iconAdd {
     width: 1.25rem;
     height: 1.25rem;
     margin: auto 5px;
@@ -328,12 +329,12 @@
     width: 15%;
 }
 
-.proprietario{
+.proprietario {
     width: 20%;
 }
 
-.tdProprietario{
-    padding: 0 0.5rem ;
+.tdProprietario {
+    padding: 0 0.5rem;
 }
 
 .ano,
@@ -443,6 +444,7 @@
     align-self: center;
     margin: 0 2rem;
 }
+
 /*---------------------*/
 
 @media only screen and (max-width: 500px) {

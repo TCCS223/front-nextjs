@@ -7,7 +7,6 @@ import styles from "./page.module.css";
 import CadCliente from "./cadcliente/page";
 import Veiculos from "./veiculos/page";
 import Servicos from "./servicos/page";
-// import FullCalendar from "./agenda/page";
 import FullCalendarGeral from "../usuario/agenda/page";
 import HistoricoAgendamentos from "./agendamentos/page";
 
@@ -58,7 +57,7 @@ export default function Home() {
                                 : tela === 4 ?
                                     <FullCalendarGeral />
                                     : tela === 5 ?
-                                        <HistoricoAgendamentos /> // trocar pelo histórico
+                                        <HistoricoAgendamentos />
                                         : <></>
                 }
             </div>

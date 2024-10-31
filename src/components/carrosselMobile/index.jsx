@@ -16,8 +16,7 @@ export default function CarrosselMobile() {
                 autoPlay={true}
                 interval={4000}
                 className={styles.carousel}
-                showStatus={false}
-            // renderIndicator={false}    
+                showStatus={false}  
             >
                 <div className={styles.carrosselMobile}>
                     <Image

@@ -7,6 +7,12 @@ import Swal from 'sweetalert2';
 export default function ModalCategorias({ isOpen, onClose, onCategoriaExcluida, listarCategoriasServAtivas }) {
     const [categorias, setCategorias] = useState([]);
 
+    useEffect(() => {
+        if (isOpen) {
+            buscarCategorias();
+        }
+    }, [isOpen]);
+
     const buscarCategorias = async () => {
         try {
             const response = await api.get(`/categoriasServicos`);
@@ -64,12 +70,6 @@ export default function ModalCategorias({ isOpen, onClose, onCategoriaExcluida, 
             }
         }
     };
-
-    useEffect(() => {
-        if (isOpen) {
-            buscarCategorias();
-        }
-    }, [isOpen]);
 
     if (!isOpen) return null;
 

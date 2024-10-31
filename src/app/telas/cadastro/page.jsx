@@ -119,17 +119,17 @@ export default function Cadastro() {
         return errorMessage;
     };
 
-const handleChangeSenha = (event) => {
-    const novaSenha = event.target.value;
-    setSenha(novaSenha);
-    setUsuario({ ...usuario, usu_senha: novaSenha });
+    const handleChangeSenha = (event) => {
+        const novaSenha = event.target.value;
+        setSenha(novaSenha);
+        setUsuario({ ...usuario, usu_senha: novaSenha });
 
-    if (focused) {
-        const erros = validarSenha(novaSenha);
-        setSenhaErro(erros);
-        console.log("Erros de senha:", erros);
-    }
-};
+        if (focused) {
+            const erros = validarSenha(novaSenha);
+            setSenhaErro(erros);
+            console.log("Erros de senha:", erros);
+        }
+    };
 
     const validarSenha = (senha) => {
         const minLength = 8;
@@ -167,7 +167,7 @@ const handleChangeSenha = (event) => {
         setFocused(true);
         console.log("Campo de senha focado");
     };
-    
+
     const handleBlur = () => {
         setFocused(false);
     }

@@ -4,8 +4,7 @@ import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import { useState, useEffect } from 'react';
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 import { parseISO, format } from 'date-fns';
-
-import InputMask from "react-input-mask";
+import Swal from 'sweetalert2';
 
 export default function HistoricoAgendamentos() {
     const [agendamentos, setAgendamentos] = useState([]);
@@ -25,6 +24,13 @@ export default function HistoricoAgendamentos() {
         ListarAgendamentos();
         ListarSituacaoDoAgendamento();
     }, []);
+
+    const agendSituacaoMap = {
+        1: 'Pendente',
+        2: 'Em andamento',
+        3: 'Concluído',
+        4: "Cancelado"
+    };
 
     const ListarAgendamentos = async () => {
         try {
@@ -76,22 +82,22 @@ export default function HistoricoAgendamentos() {
         setStatusFilter(status);
         applyFilters(searchText, startDate, endDate, status);
     };
-    
+
     const applyFilters = (text, start, end, status) => {
         const result = agendamentos.filter((agendamento) => {
             const matchesText = agendamento.agend_observ.toLowerCase().includes(text.toLowerCase()) ||
                 agendamento.veic_placa.toLowerCase().includes(text.toLowerCase()) ||
                 agendamento.agend_id.toString().includes(text);
-    
+
             const agendamentoData = new Date(agendamento.agend_data).setUTCHours(0, 0, 0, 0);
             const startDate = start ? new Date(start).setUTCHours(0, 0, 0, 0) : null;
             const endDate = end ? new Date(end).setUTCHours(23, 59, 59, 999) : null;
-    
+
             const matchesDate = (!startDate || agendamentoData >= startDate) &&
                 (!endDate || agendamentoData <= endDate);
-    
+
             const matchesStatus = status === 'todos' || agendamento.agend_serv_situ_id === parseInt(status);
-    
+
             return matchesText && matchesDate && matchesStatus;
         });
         setFilteredAgendamentos(result);
@@ -112,7 +118,6 @@ export default function HistoricoAgendamentos() {
         setSortedColumn(column);
         setIsAsc(newIsAsc);
     };
-
 
     const indexOfLastAgendamento = currentPage * agendamentosPerPage;
     const indexOfFirstAgendamento = indexOfLastAgendamento - agendamentosPerPage;
@@ -150,7 +155,6 @@ export default function HistoricoAgendamentos() {
                         />
                     </div>
 
-
                     <div className={styles.filterGroup}>
                         <label htmlFor="endDate" className={styles.labelFilter}>Data Fim</label>
                         <input
@@ -163,7 +167,7 @@ export default function HistoricoAgendamentos() {
                     </div>
 
                     <div className={styles.filterGroup}>
-                        {/* <label htmlFor="status" className={styles.labelFilter}>Situação</label> */}
+                        <label htmlFor="status" className={styles.labelFilter}>Situação</label>
                         <select
                             id="status"
                             className={styles.filterSelect}
@@ -191,9 +195,9 @@ export default function HistoricoAgendamentos() {
                                 {sortedColumn === 'agend_id' ? (isAsc ? '▲' : '▼') : ''}
                             </th>
                             <th
-                                className={`${styles.tableHeader} ${styles.veiculo}`}
+                                className={`${styles.tableHeader} ${styles.placa}`}
                                 onClick={() => sortByColumn('veic_placa')}>
-                                Placa do Veículo
+                                Placa
                                 {sortedColumn === 'veic_placa' ? (isAsc ? '▲' : '▼') : ''}
                             </th>
                             <th
@@ -210,15 +214,15 @@ export default function HistoricoAgendamentos() {
                             </th>
                             <th
                                 className={`${styles.tableHeader} ${styles.observ}`}
-                                onClick={() => sortByColumn('agend_observ')}>
-                                Observações
-                                {sortedColumn === 'agend_observ' ? (isAsc ? '▲' : '▼') : ''}
+                                onClick={() => sortByColumn('serv_nome')}>
+                                Serviço
+                                {sortedColumn === 'serv_nome' ? (isAsc ? '▲' : '▼') : ''}
                             </th>
                             <th
-                                className={`${styles.tableHeader} ${styles.servico}`}
-                                onClick={() => sortByColumn('serv_id')}>
-                                Serviço
-                                {sortedColumn === 'serv_id' ? (isAsc ? '▲' : '▼') : ''}
+                                className={`${styles.tableHeader} ${styles.cliente}`}
+                                onClick={() => sortByColumn('usu_nome')}>
+                                Cliente
+                                {sortedColumn === 'usu_nome' ? (isAsc ? '▲' : '▼') : ''}
                             </th>
                             <th
                                 className={`${styles.tableHeader} ${styles.situacao}`}
@@ -226,12 +230,6 @@ export default function HistoricoAgendamentos() {
                                 Situação
                                 {sortedColumn === 'agend_situacao' ? (isAsc ? '▲' : '▼') : ''}
                             </th>
-                            {/* <th
-                            className={styles.tableHeader}
-                            onClick={() => sortByColumn('agend_serv_situ_id')}>
-                            Situação do Serviço
-                            {sortedColumn === 'agend_serv_situ_id' ? (isAsc ? '▲' : '▼') : ''}
-                        </th> */}
                             <th className={`${styles.tableHeader} ${styles.acao}`}>Ações</th>
                         </tr>
                     </thead>
@@ -244,10 +242,9 @@ export default function HistoricoAgendamentos() {
                                     <td>{agendamento.veic_placa}</td>
                                     <td>{format(parseISO(agendamento?.agend_data), 'dd/MM/yyyy')}</td>
                                     <td>{agendamento.agend_horario}</td>
-                                    <td>{agendamento.agend_observ}</td>
-                                    {/* <td>{agendamento.agend_situacao}</td> */}
-                                    <td>{agendamento.serv_id}</td>
-                                    <td>{agendamento.agend_serv_situ_id}</td>
+                                    <td>{agendamento.serv_nome}</td>
+                                    <td>{agendamento.usu_nome}</td>
+                                    <td>{agendSituacaoMap[agendamento.agend_serv_situ_id] || 'Desconhecido'}</td>
                                     <td>
                                         <div className={styles.actionIcons}>
                                             <i>

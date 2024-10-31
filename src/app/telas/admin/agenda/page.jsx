@@ -9,7 +9,7 @@ import ptLocale from '@fullcalendar/core/locales/pt-br';
 import styles from './page.module.css';
 
 const FullCalendar = () => {
-   
+
     const calendarRef = useRef(null);
     const [events, setEvents] = useState([
         { id: '1', title: 'Churrasco de japones', start: '2024-05-25T09:00:00', end: '2024-05-25T14:00:00', backgroundColor: '#FF9D00', textColor: '#000', savedAt: new Date().toISOString() },
@@ -53,7 +53,7 @@ const FullCalendar = () => {
     const handleDeleteClick = () => {
         const eventId = selectedEvent.id;
         const eventTitle = selectedEvent.title;
-    if (window.confirm(`Tem certeza que deseja deletar o evento "${eventTitle}"?`)) {
+        if (window.confirm(`Tem certeza que deseja deletar o evento "${eventTitle}"?`)) {
             const updatedEvents = events.filter(event => event.id !== eventId);
             setEvents(updatedEvents);
             setShowModal(false);
@@ -62,39 +62,42 @@ const FullCalendar = () => {
 
     useEffect(() => {
         const calendar = new Calendar(calendarRef.current, {
-          contentHeight: 600,
-          handleWindowResize: true,
-          selectable: true,
-          locale: ptLocale,
-          timeZone: 'local',
-          plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
-          initialView: 'dayGridMonth',
-          headerToolbar: {
-            left: 'dayGridMonth,timeGridWeek,timeGridDay',
-            center: 'title',
-            right: 'today prev,next'
-          },
-          events: events,
-          dateClick: handleDateClick,
-          eventClick: handleEventClick,
-          slotMinTime: '08:00:00',
-          slotMaxTime: '18:00:00',
-          minTime: '08:00:00',
-          maxTime: '18:00:00',
-          businessHours: [
-            {
-              daysOfWeek: [1, 2, 3, 4, 5],
-              startTime: '08:00',
-              endTime: '12:00'
+            contentHeight: 600,
+            expandRows: true,
+            showNonCurrentDates: false,
+            handleWindowResize: true,
+            selectable: true,
+            fixedWeekCount: false,
+            locale: ptLocale,
+            timeZone: 'local',
+            plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'dayGridMonth,timeGridWeek,timeGridDay',
+                center: 'title',
+                right: 'today prev,next'
             },
-            {
-              daysOfWeek: [1, 2, 3, 4, 5],
-              startTime: '13:00',
-              endTime: '18:00'
-            }
-          ]
+            events: events,
+            dateClick: handleDateClick,
+            eventClick: handleEventClick,
+            slotMinTime: '08:00:00',
+            slotMaxTime: '18:00:00',
+            minTime: '08:00:00',
+            maxTime: '18:00:00',
+            businessHours: [
+                {
+                    daysOfWeek: [1, 2, 3, 4, 5],
+                    startTime: '08:00',
+                    endTime: '12:00'
+                },
+                {
+                    daysOfWeek: [1, 2, 3, 4, 5],
+                    startTime: '13:00',
+                    endTime: '18:00'
+                }
+            ]
         });
-    
+
         calendar.render();
 
         return () => {

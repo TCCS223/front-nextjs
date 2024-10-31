@@ -67,7 +67,7 @@ export default function CadCliente() {
     };
 
     console.log(selectedUser);
-    
+
 
     const Create = () => {
         setSelectedUser({
@@ -521,12 +521,12 @@ export default function CadCliente() {
                                         Data de Nascimento
                                         {sortedColumn === 'usu_data_nasc' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
-                                    <th
-                                        className={`${styles.tableHeader} ${styles.sexo}`}
-                                        onClick={() => sortByColumn('usu_sexo')}>
-                                        Sexo
-                                        {sortedColumn === 'usu_sexo' ? (isAsc ? '▲' : '▼') : ''}
-                                    </th>
+                                    {/* <th
+                                            className={`${styles.tableHeader} ${styles.sexo}`}
+                                            onClick={() => sortByColumn('usu_sexo')}>
+                                            Sexo
+                                            {sortedColumn === 'usu_sexo' ? (isAsc ? '▲' : '▼') : ''}
+                                        </th> */}
                                     <th
                                         className={`${styles.tableHeader} ${styles.telefone}`}
                                         onClick={() => sortByColumn('usu_telefone')}>
@@ -551,7 +551,7 @@ export default function CadCliente() {
                                             <td>{usuario.usu_cpf}</td>
                                             {/* <td>{format(new Date(usuario?.usu_data_nasc), 'dd/MM/yyyy')}</td> */}
                                             <td>{format(parseISO(usuario?.usu_data_nasc), 'dd/MM/yyyy')}</td>
-                                            <td>{sexoMap[usuario.usu_sexo] || 'Desconhecido'}</td>
+                                            {/* <td>{sexoMap[usuario.usu_sexo] || 'Desconhecido'}</td> */}
                                             <td>{usuario.usu_telefone}</td>
                                             <td>{usuario.usu_email}</td>
                                             <td>
@@ -600,7 +600,7 @@ export default function CadCliente() {
             ) : (
                 <>
 
-                {/* chamada do componente filho */}
+                    {/* chamada do componente filho */}
                     <FormCliente
                         selectedUser={selectedUser}
                         setSelectedUser={setSelectedUser}
