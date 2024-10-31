@@ -344,6 +344,7 @@ export default function CadCliente() {
 
     const validaEmail = async (usuario) => {
         const email = usuario.usu_email.trim();
+        const id = usuario.usu_id;
 
         if (!email) {
             return 'O e-mail do usuário é obrigatório.';
@@ -352,7 +353,7 @@ export default function CadCliente() {
         }
 
         try {
-            const response = await api.post('/usuarios/verificarEmail', { usu_email: email });
+            const response = await api.post('/usuarios/verificarEmail', { usu_email: email, usu_id: id });
             if (response.data.sucesso && response.data.dados) {
                 return 'Email já está cadastrado.';
             }
