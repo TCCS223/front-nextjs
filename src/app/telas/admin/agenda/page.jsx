@@ -12,8 +12,6 @@ const FullCalendar = () => {
 
     const calendarRef = useRef(null);
     const [events, setEvents] = useState([
-        { id: '1', title: 'Churrasco de japones', start: '2024-05-25T09:00:00', end: '2024-05-25T14:00:00', backgroundColor: '#FF9D00', textColor: '#000', savedAt: new Date().toISOString() },
-        { id: '2', title: 'Aniversário do Gabrielelel', start: '2024-05-10', savedAt: new Date().toISOString() }
     ]);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [showModal, setShowModal] = useState(false);

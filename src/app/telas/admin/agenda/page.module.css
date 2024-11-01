@@ -35,3 +35,51 @@
   height: 200px;
   width: 400px;
 }
+
+.modalContent h2 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.modalContent p {
+  color: #333;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.buttons_form {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.button_submit {
+  background-color: #FF9D00;
+  color: #FFFFFF;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.button_submit:hover {
+  background-color: #e68c00;
+}
+
+.button_cancel {
+  background-color: #333;
+  color: #FFFFFF;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.button_cancel:hover {
+  background-color: #222;
+}

@@ -15,10 +15,12 @@ const FullCalendarGeral = () => {
     const calendarRef = useRef(null);
     const [calendarApi, setCalendarApi] = useState(null);
     const [userId, setUserId] = useState(null);
+    const [userAcesso, setUserAcesso] = useState(null);
     const [events, setEvents] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [modalEvent, setModalEvent] = useState(null);
     const [veiculos, setVeiculos] = useState([]);
+    const [cpfUsuario, setCpfUsuario] = useState([]);
     const [agendamentosUsuario, setAgendamentoUsuario] = useState([]);
     const [agendamentosTodos, setAgendamentoTodos] = useState([]);
     const [eventos, setEventos] = useState([]);
@@ -43,16 +45,16 @@ const FullCalendarGeral = () => {
     }, [userId]);
 
     useEffect(() => {
-        const storedUserId = localStorage.getItem('user');
-        if (storedUserId) {
-            const parsedUser = JSON.parse(storedUserId);
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            const parsedUser = JSON.parse(storedUser);
             setUserId(parsedUser?.id || null);
+            setUserAcesso(parsedUser?.acesso || 0);
         }
     }, []);
 
     const ListarAgendamentosUsuario = async () => {
         // if (!userId) return;
-
         try {
             const response = await api.get(`/agendamentos/usuarios/${userId}`);
             setAgendamentoUsuario(response.data.dadosUsuario);
@@ -61,6 +63,16 @@ const FullCalendarGeral = () => {
             console.error("Erro ao buscar agendamentos:", error);
         }
     };
+
+    const BuscarUsuarioPorCpf = async () => { // <-- ATENÇÃO NESSA LINHA
+        try {
+            const response = await api.get(`/usuarios/cpf`, { usu_cpf: cpfUsuario });
+            // setAgendamentoUsuario(response.data.dadosUsuario);   
+            // setEventos(response.data.dadosTodos);
+        } catch (error) {
+            console.error("Erro ao buscar usuário:", error);
+        }
+    }
 
     const ListarVeiculosUsuario = async () => {
         if (!userId) return;
@@ -227,6 +239,18 @@ const FullCalendarGeral = () => {
         });
     };
 
+    // const excluirAgendamento = async () => {
+    //     try {
+    //         const confirmacao = window.confirm("Tem certeza que deseja excluir este agendamento?");
+    //         if (confirmacao) {
+    //             await axios.delete(`/agendamentos/${selectedEvent.agend_id}`);
+    //             setShowModal(false); // Fecha o modal
+    //         }
+    //     } catch (error) {
+    //         console.error("Erro ao excluir o agendamento:", error);
+    //     }
+    // };
+
     const clearFields = () => {
         setFormValues({
             veic_usu_id: '',
@@ -276,11 +300,20 @@ const FullCalendarGeral = () => {
                     <div className={styles.modalContent}>
                         {modalEvent ? (
                             <>
-                                <h2>{modalEvent.title}</h2>
-                                <p>ID: {modalEvent.agend_id}</p>
-                                <p>Data: {modalEvent.start.toISOString()}</p>
-                                <p>Observações: {modalEvent.extendedProps.agend_observ || 'Nenhuma observação'}</p>
-                                <button onClick={() => setShowModal(false)}>Fechar</button>
+                                {/* <div className={styles.modal}>
+                                    <div className={styles.modalContent}>
+                                        <h2>Detalhes do Agendamento</h2>
+                                        <p>Início: {new Date(selectedEvent.start).toLocaleString()}</p>
+                                        {selectedEvent.end && <p>Fim: {new Date(selectedEvent.end).toLocaleString()}</p>}
+                                        <p>Salvo em: {new Date(selectedEvent.extendedProps.savedAt).toLocaleString()}</p>
+                                        <p>Observação: {selectedEvent.agend_observ}</p>
+                                        <div className={`${styles.buttons_form} ${styles.grid} ${styles.grid_footer}`}>
+                                            <button className={styles.button_submit} >Editar</button>
+                                            <button className={styles.button_cancel} onClick={excluirAgendamento}>Excluir</button>
+                                            </div>
+                                            </div>
+                                            </div> */}
+                                            <button className={styles.button_cancel} onClick={() => setShowModal(false)}>Fechar</button>
                             </>
                         ) : (
                             <>
@@ -288,6 +321,42 @@ const FullCalendarGeral = () => {
 
                                 <form onSubmit={handleSubmit} className={styles.form}>
                                     <div className={`${styles.grid} ${styles.grid_veiculo}`}>
+
+                                        {userAcesso == 1 ? (
+                                            <>
+                                                <label className={styles.label}>CPF do cliente</label>
+                                                <input
+                                                    type="text"
+                                                    name="usu_cpf"
+                                                    value={formValues.usu_cpf}
+                                                    onChange={handleInputChange}
+                                                    className={styles.input}
+                                                    required
+                                                />
+
+                                                {/* <select
+                                                    name="usu_cpf"
+                                                    value={formValues.usu_cpf}
+                                                    onChange={handleInputChange}
+                                                    className={styles.select}
+                                                    required
+                                                >
+                                                    <option value="">Selecione o CPF desejado</option>
+                                                    {usuarios.length > 0 ? (
+                                                        usuarios.map((usuarios) => (
+                                                            <option key={usuarios.usu_cpf} value={usuarios.veic_usu_id}>
+                                                                {usuarios.veic_placa}
+                                                            </option>
+                                                        ))
+                                                    ) : (
+                                                        <option disabled>Nenhum CPF disponível</option>
+                                                    )}
+                                                </select> */}
+                                            </>
+                                        ) : (
+                                            <>
+                                            </>
+                                        )}
                                         <label className={styles.label}>Veículo</label>
 
                                         <select

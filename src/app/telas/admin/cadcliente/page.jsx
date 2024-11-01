@@ -458,7 +458,6 @@ export default function CadCliente() {
                         <div className={styles.filterButtons}>
                             <div className={styles.filterGroup}>
                                 <label htmlFor="tipoUsuario" className={styles.labelFilter}>Tipo de Usuário</label>
-
                                 <select
                                     id="tipoUsuario"
                                     className={styles.filterSelect}
@@ -600,7 +599,6 @@ export default function CadCliente() {
             ) : (
                 <>
 
-                    {/* chamada do componente filho */}
                     <FormCliente
                         selectedUser={selectedUser}
                         setSelectedUser={setSelectedUser}
@@ -637,7 +635,7 @@ export default function CadCliente() {
                                             className={styles.button_AddVeiculo}
                                             onClick={handleNovaCategoria}
                                         >
-                                            veículo
+                                            Veículo
                                             {/* <MdAdd className={styles.iconAdd} /> */}
                                         </button>
                                         <button
@@ -655,7 +653,6 @@ export default function CadCliente() {
                                                 e.preventDefault();
                                                 handleSubmit(selectedUser);
                                             }}
-                                        // disabled={isViewing}
                                         >
                                             Salvar
                                         </button>
@@ -677,7 +674,6 @@ export default function CadCliente() {
                                                 e.preventDefault();
                                                 handleSubmit(selectedUser);
                                             }}
-                                        // disabled={isViewing}
                                         >
                                             Salvar
                                         </button>
