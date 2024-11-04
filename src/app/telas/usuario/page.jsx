@@ -30,7 +30,7 @@ export default function Home() {
                 <button data-target="#meusdados" onClick={() => setTela(1)}>Meus Dados</button>
                 <button data-target="#meusveiculos" onClick={() => setTela(2)}>Meus Veículos</button>
                 <button data-target="#historico" onClick={() => setTela(4)}>Histórico</button>
-                <button data-target="#historico" onClick={() => setTela(5)}>agenda</button>
+                <button data-target="#agenda" onClick={() => setTela(5)}>Agenda</button>
             </div>
             <div className={styles.main_content}>
 

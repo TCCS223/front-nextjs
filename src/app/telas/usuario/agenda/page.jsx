@@ -10,6 +10,7 @@ import api from '@/services/api';
 import { parseISO, format } from "date-fns";
 import styles from './page.module.css';
 import Swal from 'sweetalert2';
+import CalendarEventDetailsModal from '@/components/modalAgendamentos';
 
 const FullCalendarGeral = () => {
     const calendarRef = useRef(null);
@@ -139,6 +140,8 @@ const FullCalendarGeral = () => {
 
     const handleEventClick = (info) => {
         setModalEvent(info.event);
+        console.log(info.event);
+        
         setShowModal(true);
     };
 
@@ -265,10 +268,11 @@ const FullCalendarGeral = () => {
 
     useEffect(() => {
         const calendar = new Calendar(calendarRef.current, {
-            contentHeight: 600,
+            contentHeight: 600,         
             handleWindowResize: true,
             selectable: true,
             locale: ptLocale,
+            showNonCurrentDates: false,
             timeZone: 'local',
             plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
             initialView: 'dayGridMonth',
@@ -300,20 +304,10 @@ const FullCalendarGeral = () => {
                     <div className={styles.modalContent}>
                         {modalEvent ? (
                             <>
-                                {/* <div className={styles.modal}>
-                                    <div className={styles.modalContent}>
-                                        <h2>Detalhes do Agendamento</h2>
-                                        <p>Início: {new Date(selectedEvent.start).toLocaleString()}</p>
-                                        {selectedEvent.end && <p>Fim: {new Date(selectedEvent.end).toLocaleString()}</p>}
-                                        <p>Salvo em: {new Date(selectedEvent.extendedProps.savedAt).toLocaleString()}</p>
-                                        <p>Observação: {selectedEvent.agend_observ}</p>
-                                        <div className={`${styles.buttons_form} ${styles.grid} ${styles.grid_footer}`}>
-                                            <button className={styles.button_submit} >Editar</button>
-                                            <button className={styles.button_cancel} onClick={excluirAgendamento}>Excluir</button>
-                                            </div>
-                                            </div>
-                                            </div> */}
-                                            <button className={styles.button_cancel} onClick={() => setShowModal(false)}>Fechar</button>
+                                <CalendarEventDetailsModal
+                                    modalEvent={modalEvent}
+                                    onClose={() => setShowModal(false)}
+                                />
                             </>
                         ) : (
                             <>
