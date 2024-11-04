@@ -12,8 +12,8 @@
 
 - TELA DE ADMIN -
     no modal de agendamentos colocar pra digitar o cpf, e puxar os veic_usu_id, conforme o cpf pra pdoer cadastrar
-
-    olhar a agenda estilizacao
+    
+    corrigir status da situacao do serviço
     estilizar modal de msotrar agendamento
 
 - TELA DE USUÁRIO -

@@ -37,6 +37,8 @@ const FullCalendarGeral = () => {
         agend_serv_situ_id: 1
     });
 
+
+
     useEffect(() => {
         if (userId) {
             ListarVeiculosUsuario();
@@ -64,6 +66,8 @@ const FullCalendarGeral = () => {
             console.error("Erro ao buscar agendamentos:", error);
         }
     };
+
+    console.log(agendamentosUsuario)
 
     const BuscarUsuarioPorCpf = async () => { // <-- ATENÇÃO NESSA LINHA
         try {
@@ -140,10 +144,12 @@ const FullCalendarGeral = () => {
 
     const handleEventClick = (info) => {
         setModalEvent(info.event);
-        console.log(info.event);
-        
         setShowModal(true);
     };
+
+    console.log(modalEvent);
+    console.log(modalEvent?._def?.extendedProps?.usu_id);
+    console.log(modalEvent?._def?.title);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -268,7 +274,7 @@ const FullCalendarGeral = () => {
 
     useEffect(() => {
         const calendar = new Calendar(calendarRef.current, {
-            contentHeight: 600,         
+            contentHeight: 600,
             handleWindowResize: true,
             selectable: true,
             locale: ptLocale,
