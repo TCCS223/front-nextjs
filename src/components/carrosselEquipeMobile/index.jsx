@@ -28,7 +28,7 @@ export default function CarrosselEquipeMobile() {
                                 className={styles.customPrevArrow}
                                 aria-label={labelPrev}
                             >
-                                &#9664; {/* Setinha para esquerda */}
+                                &#9664; 
                             </button>
                         )
                     }
@@ -40,7 +40,7 @@ export default function CarrosselEquipeMobile() {
                                 className={styles.customNextArrow}
                                 aria-label={labelNext}
                             >
-                                &#9654; {/* Setinha para direita */}
+                                &#9654;
                             </button>
                         )
                     }
@@ -130,7 +130,7 @@ export default function CarrosselEquipeMobile() {
                                 height={450}
                                 className={styles.employeeImage}
                             />
-                            <h3 className={styles.employeeName}>Calma Calabreso</h3>
+                            <h3 className={styles.employeeName}>Stephen Curry</h3>
                             <p className={styles.employeePosition}>Assistente de Oficina</p>
                             <p className={styles.employeeDescription}>Auxilia nos serviços gerais e manutenção preventiva.</p>
                         </div>

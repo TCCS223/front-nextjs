@@ -26,8 +26,6 @@ export default function Cadastro() {
         usu_situacao: 1,
     });
 
-    console.log(usuario);
-
     const [cpfError, setCpfError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [isCheckingEmail, setIsCheckingEmail] = useState(false);
@@ -127,7 +125,6 @@ export default function Cadastro() {
         if (focused) {
             const erros = validarSenha(novaSenha);
             setSenhaErro(erros);
-            console.log("Erros de senha:", erros);
         }
     };
 
@@ -165,7 +162,6 @@ export default function Cadastro() {
 
     const handleFocus = () => {
         setFocused(true);
-        console.log("Campo de senha focado");
     };
 
     const handleBlur = () => {

@@ -85,7 +85,6 @@
   color: #ff9d00;
 }
 
-/* Ajustes no Mobile */
 @media (max-width: 768px) {
   .employeeCard {
       max-width: 100%;

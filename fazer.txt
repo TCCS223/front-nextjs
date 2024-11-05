@@ -15,11 +15,13 @@
     VERIFICAR METODO da função listarUsuarioPorCpf (não sei se vai manter GET, ou se vai mudar pra POST)
 
     corrigir status da situacao do serviço
-    estilizar modal de mostrar agendamento
+    colocar sinalização de cores na situação do agendamento (opcional)
 
 - TELA DE USUÁRIO -
     histórico de SERVIÇOS
     listar seus agendamentos
+
+    nao conseguir editar a situacao do agendamento
 
 - TELA DE CADASTRO
 

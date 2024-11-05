@@ -33,7 +33,7 @@ export default function ModalCategorias({ isOpen, onClose, onCategoriaExcluida, 
             await api.patch(`/categoriasServicos/${categoriaId}/visibilidade`, { cat_serv_visibilidade: valorVisibilidade });
             buscarCategorias();
             listarCategoriasServAtivas();
-            
+
         } catch (error) {
             console.error(error.message);
         }
@@ -95,15 +95,15 @@ export default function ModalCategorias({ isOpen, onClose, onCategoriaExcluida, 
                                             <label className={styles.switch}>
                                                 <input
                                                     type="checkbox"
-                                                    checked={!!categoria.cat_serv_visibilidade} 
-                                                    onChange={() => handleToggleVisibilidade(categoria.cat_serv_id, categoria.cat_serv_visibilidade)} 
+                                                    checked={!!categoria.cat_serv_visibilidade}
+                                                    onChange={() => handleToggleVisibilidade(categoria.cat_serv_id, categoria.cat_serv_visibilidade)}
                                                 />
                                                 <span className={styles.slider}></span>
                                             </label>
                                         </td>
                                         <td className={`${styles.modalTable_td} ${styles.headerAcao} ${styles.modalTable_td_icon}`}>
                                             <button onClick={() => handleExcluir(categoria.cat_serv_id)} className={styles.btnDelete}>
-                                                <MdDelete className={styles.iconDelete}/>
+                                                <MdDelete className={styles.iconDelete} />
                                             </button>
                                         </td>
                                     </tr>
@@ -116,7 +116,7 @@ export default function ModalCategorias({ isOpen, onClose, onCategoriaExcluida, 
                         </tbody>
                     </table>
                 </div>
-                <MdClose  
+                <MdClose
                     className={styles.iconModalClose}
                     onClick={onClose}
                 />

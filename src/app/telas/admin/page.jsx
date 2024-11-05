@@ -23,9 +23,6 @@ export default function Home() {
         }
     }, []);
 
-    console.log(userId?.id);
-
-
     const [tela, setTela] = useState(0);
 
     return (

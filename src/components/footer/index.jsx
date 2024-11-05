@@ -57,7 +57,7 @@ export default function Footer() {
                 </div>
 
                 <div className={styles.footerAddressMobile}>
-                    <div className={styles.phoneMobile}> 
+                    <div className={styles.phoneMobile}>
                         <span className={styles.iconPhoneMobile}></span>
                         <div className={styles.infoPhoneMobile}>
                             <div className={styles.titlePhoneMobile}>Telefone</div>

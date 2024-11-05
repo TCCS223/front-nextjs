@@ -39,8 +39,8 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
         setCpfChecked(false);
         setCpfExists(false);
         setErrors('');
-    };    
-    
+    };
+
     return (
         <form id="clienteForm" className={styles.form} onSubmit={handleSubmit}>
             <input type="hidden" id="clienteId" value={selectedUser ? selectedUser.usu_id : ''} className={styles.input_cliente} />
@@ -198,9 +198,9 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
                             <IoMdEyeOff onClick={togglePasswordVisibility} className={styles.mdEye} />
                         )}
 
-                      
+
                     </div>
-                    
+
                     {focused && Array.isArray(senhaErro) && senhaErro.length > 0 && (
                         <div className={styles.error_message}>
                             <ul>
@@ -232,7 +232,6 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
                     />
                 </div>
 
-
                 <div className={`${styles.grid_item} ${styles.grid_acesso}`}>
                     <label htmlFor="nivel_acesso" className={styles.label_cliente}>Nível de Acesso</label>
                     {isViewing ? (
@@ -259,10 +258,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
                             <option value="1">Administrador</option>
                         </select>
                     )}
-
-
                 </div>
-
 
                 <div className={`${styles.grid_item} ${styles.grid_situacao}`}>
                     <label htmlFor="usu_situacao" className={styles.label_cliente}>Situação</label>

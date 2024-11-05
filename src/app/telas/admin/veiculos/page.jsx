@@ -4,7 +4,6 @@ import styles from './page.module.css';
 import { useState, useEffect } from 'react';
 
 import { MdRemoveRedEye, MdEdit, MdAdd } from "react-icons/md";
-// import { IoMdTrash } from "react-icons/io";
 import Swal from 'sweetalert2';
 import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import FormVeiculo from '@/components/FormVeiculo';

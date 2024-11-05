@@ -9,7 +9,7 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose }) => {
 
     const situacaoMap = {
         1: 'Pendente',
-        2: 'Em andamento', 
+        2: 'Em andamento',
         3: 'Concluído',
         4: 'Cancelado'
     };
@@ -23,7 +23,7 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose }) => {
     const handleSituacaoChange = (e) => {
         const newSituacao = parseInt(e.target.value, 10);
         setAgendSituacao(newSituacao);
-        editarSituacaoDoAgendamento(modalEvent?._def?.extendedProps?.agend_id, newSituacao); // Chama a função para atualizar a situação
+        editarSituacaoDoAgendamento(modalEvent?._def?.extendedProps?.agend_id, newSituacao);
     };
 
     const editarSituacaoDoAgendamento = async (agend_id, agend_serv_situ_id) => {
@@ -31,9 +31,9 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose }) => {
             const response = await api.patch(`/agendamentos/situacao/${agend_id}`, {
                 agend_serv_situ_id
             });
-            console.log(response.data.mensagem); // Mensagem de sucesso
+
         } catch (error) {
-            console.error('Erro ao atualizar situação do agendamento:', error); // Mensagem de erro
+            console.error('Erro ao atualizar situação do agendamento:', error);
         }
     };
 
@@ -85,7 +85,7 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose }) => {
 
                 <div className={styles.buttons_form}>
                     <button className={styles.button_cancel} onClick={onClose}>Fechar</button>
-                    <button className={styles.button_cancel} onClick={editarSituacaoDoAgendamento}>Salvar</button>
+                    <button className={styles.button_submit} onClick={editarSituacaoDoAgendamento}>Salvar</button>
                 </div>
             </div>
         </div>

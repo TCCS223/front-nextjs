@@ -96,7 +96,7 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
                         placeholder="Digite 3 dígitos no mínimo..."
                         required
                     />
-                    
+
                     <ul className={styles.list}>
                         <li className={styles.header}>
                             <span className={styles.spanInput}></span>

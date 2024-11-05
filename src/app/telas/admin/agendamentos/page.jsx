@@ -54,7 +54,6 @@ export default function HistoricoAgendamentos() {
         try {
             const responde = await api.get('/agendaServicosSituacao');
             setSituacaoDoAgendamento(responde.data.dados);
-            console.log(responde.data.dados);
         } catch (error) {
             console.error("Erro ao buscar os situações dos agendamentos:", error);
             Swal.fire({

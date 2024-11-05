@@ -44,7 +44,7 @@ export default function ModalNovaCategoria({ isOpen, onClose, onCategoriaCriada 
                 confirmButtonColor: '#d33',
             });
         }
-        
+
     };
 
     if (!isOpen) return null;
@@ -64,7 +64,7 @@ export default function ModalNovaCategoria({ isOpen, onClose, onCategoriaCriada 
                             className={styles.inputCategoria}
                         />
                     </div>
-                   
+
                     <div className={styles.buttonGroup}>
                         <button type="submit" className={styles.btnSubmit}>Criar</button>
                         <button type="button" onClick={onClose} className={styles.btnCancel}>Cancelar</button>

@@ -59,10 +59,9 @@ export default function ModalProprietarios({ isOpen, onClose, veiculoId }) {
             setEditId(null);
             setEditStartDate('');
             setEditEndDate('');
-            
+
         } catch (error) {
             Swal.fire('Erro!', 'Não foi possível atualizar o proprietário.', 'error');
-            console.log(error.message);
         }
     };
 
@@ -139,13 +138,13 @@ export default function ModalProprietarios({ isOpen, onClose, veiculoId }) {
                         </tbody>
                     </table>
                 </div>
-                <MdClose  
-                className={styles.iconModalClose}
-                onClick={onClose}
+                <MdClose
+                    className={styles.iconModalClose}
+                    onClick={onClose}
                 />
                 {/* <button onClick={onClose} className={styles.btnCancel}>Cancelar</button> */}
             </div>
         </div>
     );
-    
+
 }

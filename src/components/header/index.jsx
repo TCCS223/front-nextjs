@@ -58,7 +58,7 @@ export default function Header() {
                             alt="icon close"
                         ></Image>
                     </div>
-                    
+
                     <nav className={styles.navlistMobile}>
                         <Link href="/" className={styles.linkNavMobile} onClick={() => ativaMenuMobile()}>Home</Link>
                         <Link href="/telas/sobre" className={styles.linkNavMobile} onClick={() => ativaMenuMobile()}>Sobre</Link>

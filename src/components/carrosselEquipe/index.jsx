@@ -27,7 +27,7 @@ export default function CarrosselEquipe() {
                             className={styles.customPrevArrow}
                             aria-label={labelPrev}
                         >
-                            &#9664; {/* Setinha para esquerda */}
+                            &#9664;
                         </button>
                     )
                 }
@@ -39,7 +39,7 @@ export default function CarrosselEquipe() {
                             className={styles.customNextArrow}
                             aria-label={labelNext}
                         >
-                            &#9654; {/* Setinha para direita */}
+                            &#9654;
                         </button>
                     )
                 }

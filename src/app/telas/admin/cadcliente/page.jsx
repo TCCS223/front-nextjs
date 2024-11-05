@@ -66,9 +66,6 @@ export default function CadCliente() {
         2: 'Outro'
     };
 
-    console.log(selectedUser);
-
-
     const Create = () => {
         setSelectedUser({
             usu_nome: '',
@@ -89,7 +86,6 @@ export default function CadCliente() {
         try {
             const response = await api.get('/usuarios');
             setUsuarios(response.data.dados);
-            console.log(response.data.dados)
         } catch (error) {
             console.error("Erro ao buscar os usuários:", error);
             Swal.fire({
@@ -166,13 +162,11 @@ export default function CadCliente() {
 
         const cpfError = await validarCPF(usuario.usu_cpf);
         if (cpfError) {
-            console.log("Erro no CPF:", cpfError);
             errors.push(cpfError);
         }
 
         const emailError = await validaEmail(usuario);
         if (emailError) {
-            console.log("Erro no Email:", emailError);
             errors.push(emailError);
         }
 
@@ -244,7 +238,6 @@ export default function CadCliente() {
         }
     };
 
-    console.log("usuario: ", selectedUser);
 
     const validarSenha = (senha) => {
         const minLength = 8;
