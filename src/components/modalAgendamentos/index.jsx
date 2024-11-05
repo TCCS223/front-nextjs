@@ -3,6 +3,7 @@ import api from '@/services/api';
 import { format, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import styles from './index.module.css';
+import Swal from 'sweetalert2';
 
 const CalendarEventDetailsModal = ({ modalEvent, onClose }) => {
     const [agendSituacao, setAgendSituacao] = useState(null);
@@ -16,27 +17,45 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose }) => {
 
     useEffect(() => {
         if (modalEvent) {
-            setAgendSituacao(modalEvent?._def?.extendedProps?.agend_serv_situ_id);
+            setAgendSituacao(parseInt(modalEvent?._def?.extendedProps?.agend_serv_situ_id, 10));
         }
     }, [modalEvent]);
 
     const handleSituacaoChange = (e) => {
         const newSituacao = parseInt(e.target.value, 10);
         setAgendSituacao(newSituacao);
-        editarSituacaoDoAgendamento(modalEvent?._def?.extendedProps?.agend_id, newSituacao);
     };
 
-    const editarSituacaoDoAgendamento = async (agend_id, agend_serv_situ_id) => {
+    const editarSituacaoDoAgendamento = async () => {
         try {
-            const response = await api.patch(`/agendamentos/situacao/${agend_id}`, {
-                agend_serv_situ_id
+            await api.patch(`/agendamentos/situacao/${modalEvent?._def?.extendedProps?.agend_id}`, {
+                agend_serv_situ_id: agendSituacao
             });
-
+            Swal.fire({
+                icon: 'success',
+                title: 'Situação atualizada!',
+                text: `A situação foi alterada para ${situacaoMap[agendSituacao]}.`,
+                confirmButtonText: 'OK',
+                iconColor: "rgb(40, 167, 69)",
+                confirmButtonColor: "rgb(40, 167, 69)",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    onClose(); 
+                }
+            });
         } catch (error) {
             console.error('Erro ao atualizar situação do agendamento:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: 'Não foi possível atualizar a situação do agendamento.',
+                confirmButtonText: 'OK',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
+            });
         }
     };
-
+    
     return (
         <div className={styles.modal}>
             <div className={styles.modalContent}>
@@ -70,11 +89,10 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose }) => {
                             onChange={handleSituacaoChange}
                             className={styles.detailsSelect}
                         >
-                            {Object.entries(situacaoMap).map(([value, label]) => (
-                                <option key={value} value={value}>
-                                    {label}
-                                </option>
-                            ))}
+                            <option value='1'>Pendente</option>
+                            <option value='2'>Em andamento</option>
+                            <option value='3'>Concluído</option>
+                            <option value='4'>Cancelado</option>
                         </select>
                     </div>
                     <div className={styles.detailsItem}>
@@ -84,7 +102,10 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose }) => {
                 </div>
 
                 <div className={styles.buttons_form}>
-                    <button className={styles.button_cancel} onClick={onClose}>Fechar</button>
+                    <button className={styles.button_cancel} onClick={() => { 
+                        onClose();
+                        
+                    }}>Fechar</button>
                     <button className={styles.button_submit} onClick={editarSituacaoDoAgendamento}>Salvar</button>
                 </div>
             </div>

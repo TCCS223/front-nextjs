@@ -243,7 +243,10 @@ export default function HistoricoAgendamentos() {
                                     <td>{agendamento.agend_horario}</td>
                                     <td>{agendamento.serv_nome}</td>
                                     <td>{agendamento.usu_nome}</td>
-                                    <td>{agendSituacaoMap[agendamento.agend_serv_situ_id] || 'Desconhecido'}</td>
+                                    
+                                    <td>
+                                        <div className={styles.cleberson}>
+                                            {agendSituacaoMap[agendamento.agend_serv_situ_id] || 'Desconhecido'}</div></td>
                                     <td>
                                         <div className={styles.actionIcons}>
                                             <i>

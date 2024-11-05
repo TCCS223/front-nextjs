@@ -192,6 +192,14 @@
     color: #dc3545;
 }
 
+.cleberson{
+    padding: 6px 12px;
+    background-color: rgba(230, 149, 0, 0.952);
+    width: max-content;
+    border-radius: 20px;
+    color: white;
+}
+
 .newButton {
     flex: 1;
     max-width: 20%;

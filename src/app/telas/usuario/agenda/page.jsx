@@ -20,6 +20,7 @@ const FullCalendarGeral = () => {
     const [userAcesso, setUserAcesso] = useState(null);
     const [events, setEvents] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [showModalVisual, setShowModalVisual] = useState(false);
     const [modalEvent, setModalEvent] = useState(null);
     const [veiculos, setVeiculos] = useState([]);
     const [cpfUsuario, setCpfUsuario] = useState([]);
@@ -47,8 +48,6 @@ const FullCalendarGeral = () => {
         }
     }, []);
 
-    console.log("userAcesso: ", userAcesso);
-
     useEffect(() => {
         if (userAcesso == 0) {
             const storedUser = localStorage.getItem('user');
@@ -60,9 +59,6 @@ const FullCalendarGeral = () => {
         }
     }, [userAcesso])
 
-    console.log("userId: ", userId)
-
-
     useEffect(() => {
         if (userId !== null) {
             ListarVeiculosUsuario();
@@ -72,21 +68,7 @@ const FullCalendarGeral = () => {
         ListarCategoriaServicos();
     }, [userId]);
 
-
-    // useEffect(() => {
-    //     const storedUser = localStorage.getItem('user');
-    //     if (storedUser) {
-    //         const parsedUser = JSON.parse(storedUser);
-    //         setUserId(parsedUser?.id || null);
-    //         setUserAcesso(parsedUser?.acesso || 0);
-    //     }
-    // }, []);
-
-
-
-
     const ListarAgendamentosUsuario = async () => {
-        // if (!userId) return;
         try {
             const response = await api.get(`/agendamentos/usuarios/${userId}`);
             setAgendamentoUsuario(response.data.dadosUsuario);
@@ -96,18 +78,14 @@ const FullCalendarGeral = () => {
         }
     };
 
-    console.log(agendamentosUsuario)
-
     const BuscarUsuarioPorCpf = async () => {
         try {
             const response = await api.get(`/usuarios/cpf/${cpfUsuario}`);
-            console.log(response.data.dados?.usu_id)
             setUserId(response.data.dados?.usu_id)
         } catch (error) {
             console.error("Erro ao buscar usuário:", error);
         }
-    }
-
+    };
 
     const ListarVeiculosUsuario = async () => {
         if (!userId) return;
@@ -119,7 +97,6 @@ const FullCalendarGeral = () => {
             console.error("Erro ao buscar veículos:", error);
         }
     };
-
 
     const listarServicosPorCategoria = async (cat_serv_id) => {
         try {
@@ -174,7 +151,6 @@ const FullCalendarGeral = () => {
             console.error("Data inválida no evento.");
         }
     };
-
 
     const handleEventClick = (info) => {
         setModalEvent(info.event);
@@ -344,6 +320,11 @@ const FullCalendarGeral = () => {
     }, [eventos]);
 
 
+    const visualizacao = () => {
+        setShowModal(false);
+        ListarAgendamentosUsuario();
+    }
+
     return (
         <div>
             <div ref={calendarRef} className={styles.calendar}></div>
@@ -354,7 +335,7 @@ const FullCalendarGeral = () => {
                             <>
                                 <CalendarEventDetailsModal
                                     modalEvent={modalEvent}
-                                    onClose={() => setShowModal(false)}
+                                    onClose={visualizacao}
                                 />
                             </>
                         ) : (
@@ -376,11 +357,10 @@ const FullCalendarGeral = () => {
                                                         className={`${styles.input} ${styles.input_cpf}`}
                                                         required
                                                     />
-                                                
                                             </div>
 
                                             <div className={`${styles.grid} ${styles.grid_buttonSearch}`}>
-                                            <label className={styles.labelButtonSearch}>pesquisar cpf</label>
+                                            <label className={styles.labelButtonSearch}>Pesquisar CPF</label>
                                                 <button
                                                     onClick={BuscarUsuarioPorCpf}
                                                     className={styles.buttonSearch}
@@ -405,7 +385,7 @@ const FullCalendarGeral = () => {
                                             disabled={!userId}
                                             required
                                         >
-                                            <option value="">Selecione o veículo</option>
+                                            <option value="" hidden>Selecione o veículo</option>
                                             {veiculos.length > 0 ? (
                                                 veiculos.map((veiculo) => (
                                                     <option key={veiculo.veic_usu_id} value={veiculo.veic_usu_id}>
