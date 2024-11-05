@@ -11,10 +11,11 @@
 
 
 - TELA DE ADMIN -
-    no modal de agendamentos colocar pra digitar o cpf, e puxar os veic_usu_id, conforme o cpf pra pdoer cadastrar
-    
+     OK  --->  no modal de agendamentos colocar pra digitar o cpf, e puxar os veic_usu_id, conforme o cpf pra pdoer cadastrar
+    VERIFICAR METODO da função listarUsuarioPorCpf (não sei se vai manter GET, ou se vai mudar pra POST)
+
     corrigir status da situacao do serviço
-    estilizar modal de msotrar agendamento
+    estilizar modal de mostrar agendamento
 
 - TELA DE USUÁRIO -
     histórico de SERVIÇOS

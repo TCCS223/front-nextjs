@@ -1,14 +1,13 @@
 "use client";
 
-import React, { useRef, useEffect, useState, Fragment } from 'react';
-import InputMask from "react-input-mask";
+import React, { useRef, useEffect, useState } from 'react';
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import ptLocale from '@fullcalendar/core/locales/pt-br';
 import api from '@/services/api';
-import { parseISO, format, set } from "date-fns";
+import { parseISO, format } from "date-fns";
 import styles from './page.module.css';
 import Swal from 'sweetalert2';
 import CalendarEventDetailsModal from '@/components/modalAgendamentos';
@@ -38,52 +37,24 @@ const FullCalendarGeral = () => {
         agend_serv_situ_id: 1
     });
 
-    useEffect(() => {
-        const storedData = localStorage.getItem('user');
-
-        if (storedData) {
-            const parsedUser = JSON.parse(storedData);
-            setUserAcesso(parsedUser?.acesso !== undefined ? parsedUser.acesso : null);
-        }
-    }, []);
-
-    console.log("userAcesso: ", userAcesso);
-
-    useEffect(() => {
-        if (userAcesso == 0) {
-            const storedUser = localStorage.getItem('user');
-            if (storedUser) {
-                const parsedUser = JSON.parse(storedUser);
-                setUserId(parsedUser?.id || null);
-            }
-
-        }
-    }, [userAcesso])
-
-    console.log("userId: ", userId)
 
 
     useEffect(() => {
-        if (userId !== null) {
+        if (userId) {
             ListarVeiculosUsuario();
+            ListarAgendamentosUsuario();
+            ListarCategoriaServicos();
         }
-
-        ListarAgendamentosUsuario();
-        ListarCategoriaServicos();
     }, [userId]);
 
-
-    // useEffect(() => {
-    //     const storedUser = localStorage.getItem('user');
-    //     if (storedUser) {
-    //         const parsedUser = JSON.parse(storedUser);
-    //         setUserId(parsedUser?.id || null);
-    //         setUserAcesso(parsedUser?.acesso || 0);
-    //     }
-    // }, []);
-
-
-
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            const parsedUser = JSON.parse(storedUser);
+            setUserId(parsedUser?.id || null);
+            setUserAcesso(parsedUser?.acesso || 0);
+        }
+    }, []);
 
     const ListarAgendamentosUsuario = async () => {
         // if (!userId) return;
@@ -98,16 +69,15 @@ const FullCalendarGeral = () => {
 
     console.log(agendamentosUsuario)
 
-    const BuscarUsuarioPorCpf = async () => {
+    const BuscarUsuarioPorCpf = async () => { // <-- ATENÇÃO NESSA LINHA
         try {
-            const response = await api.get(`/usuarios/cpf/${cpfUsuario}`);
-            console.log(response.data.dados?.usu_id)
-            setUserId(response.data.dados?.usu_id)
+            const response = await api.get(`/usuarios/cpf`, { usu_cpf: cpfUsuario });
+            // setAgendamentoUsuario(response.data.dadosUsuario);   
+            // setEventos(response.data.dadosTodos);
         } catch (error) {
             console.error("Erro ao buscar usuário:", error);
         }
     }
-
 
     const ListarVeiculosUsuario = async () => {
         if (!userId) return;
@@ -119,7 +89,6 @@ const FullCalendarGeral = () => {
             console.error("Erro ao buscar veículos:", error);
         }
     };
-
 
     const listarServicosPorCategoria = async (cat_serv_id) => {
         try {
@@ -137,7 +106,6 @@ const FullCalendarGeral = () => {
         }
     };
 
-
     const ListarCategoriaServicos = async () => {
         try {
             const response = await api.get('/categoriasServicosAtivas');
@@ -153,7 +121,6 @@ const FullCalendarGeral = () => {
             });
         }
     };
-
 
     const handleDateClick = (arg) => {
         if (calendarApi) {
@@ -175,12 +142,14 @@ const FullCalendarGeral = () => {
         }
     };
 
-
     const handleEventClick = (info) => {
         setModalEvent(info.event);
         setShowModal(true);
     };
 
+    console.log(modalEvent);
+    console.log(modalEvent?._def?.extendedProps?.usu_id);
+    console.log(modalEvent?._def?.title);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -202,12 +171,6 @@ const FullCalendarGeral = () => {
             });
         }
     };
-
-
-    const handleInputCpf = (e) => {
-        setCpfUsuario(e.target.value);
-    };
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -248,7 +211,6 @@ const FullCalendarGeral = () => {
         ListarAgendamentosUsuario();
     };
 
-
     const handleCancel = () => {
         Swal.fire({
             title: "Deseja Cancelar esse agendamento?",
@@ -286,7 +248,6 @@ const FullCalendarGeral = () => {
         });
     };
 
-
     // const excluirAgendamento = async () => {
     //     try {
     //         const confirmacao = window.confirm("Tem certeza que deseja excluir este agendamento?");
@@ -299,7 +260,6 @@ const FullCalendarGeral = () => {
     //     }
     // };
 
-
     const clearFields = () => {
         setFormValues({
             veic_usu_id: '',
@@ -311,7 +271,6 @@ const FullCalendarGeral = () => {
             agend_serv_situ_id: 1
         });
     };
-
 
     useEffect(() => {
         const calendar = new Calendar(calendarRef.current, {
@@ -343,7 +302,6 @@ const FullCalendarGeral = () => {
         };
     }, [eventos]);
 
-
     return (
         <div>
             <div ref={calendarRef} className={styles.calendar}></div>
@@ -362,39 +320,43 @@ const FullCalendarGeral = () => {
                                 <h2 className={styles.title_page}>Novo Agendamento</h2>
 
                                 <form onSubmit={handleSubmit} className={styles.form}>
-
-                                    {userAcesso == 1 ? (
-                                        <>
-                                            <div className={`${styles.grid} ${styles.grid_cpf}`}>
-                                                    <label className={styles.label}>CPF do cliente</label>
-                                                    <InputMask
-                                                        mask="999.999.999-99"
-                                                        type="text"
-                                                        name="usu_cpf"
-                                                        value={cpfUsuario}
-                                                        onChange={handleInputCpf}
-                                                        className={`${styles.input} ${styles.input_cpf}`}
-                                                        required
-                                                    />
-                                                
-                                            </div>
-
-                                            <div className={`${styles.grid} ${styles.grid_buttonSearch}`}>
-                                            <label className={styles.labelButtonSearch}>pesquisar cpf</label>
-                                                <button
-                                                    onClick={BuscarUsuarioPorCpf}
-                                                    className={styles.buttonSearch}
-                                                >
-                                                    Buscar
-                                                </button>
-                                            </div>
-                                        </>
-                                    ) : (
-                                        <>
-                                        </>
-                                    )}
-
                                     <div className={`${styles.grid} ${styles.grid_veiculo}`}>
+
+                                        {userAcesso == 1 ? (
+                                            <>
+                                                <label className={styles.label}>CPF do cliente</label>
+                                                <input
+                                                    type="text"
+                                                    name="usu_cpf"
+                                                    value={formValues.usu_cpf}
+                                                    onChange={handleInputChange}
+                                                    className={styles.input}
+                                                    required
+                                                />
+
+                                                {/* <select
+                                                    name="usu_cpf"
+                                                    value={formValues.usu_cpf}
+                                                    onChange={handleInputChange}
+                                                    className={styles.select}
+                                                    required
+                                                >
+                                                    <option value="">Selecione o CPF desejado</option>
+                                                    {usuarios.length > 0 ? (
+                                                        usuarios.map((usuarios) => (
+                                                            <option key={usuarios.usu_cpf} value={usuarios.veic_usu_id}>
+                                                                {usuarios.veic_placa}
+                                                            </option>
+                                                        ))
+                                                    ) : (
+                                                        <option disabled>Nenhum CPF disponível</option>
+                                                    )}
+                                                </select> */}
+                                            </>
+                                        ) : (
+                                            <>
+                                            </>
+                                        )}
                                         <label className={styles.label}>Veículo</label>
 
                                         <select
@@ -402,7 +364,6 @@ const FullCalendarGeral = () => {
                                             value={formValues.veic_usu_id}
                                             onChange={handleInputChange}
                                             className={styles.select}
-                                            disabled={!userId}
                                             required
                                         >
                                             <option value="">Selecione o veículo</option>
