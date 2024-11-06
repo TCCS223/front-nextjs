@@ -8,7 +8,7 @@ import { MdPowerSettingsNew } from "react-icons/md";
 import styles from "./page.module.css";
 import UsuarioVeiculos from "./UsuarioVeiculos/page";
 import UsuarioDados from "./UsuarioDados/page";
-
+import UsuarioHistorico from "./usuarioHistórico/page";
 import FullCalendarGeral from "./agenda/page";
 
 export default function Home() {
@@ -29,7 +29,7 @@ export default function Home() {
             <div className={styles.sidebar}>
                 <button data-target="#meusdados" onClick={() => setTela(1)}>Meus Dados</button>
                 <button data-target="#meusveiculos" onClick={() => setTela(2)}>Meus Veículos</button>
-                <button data-target="#historico" onClick={() => setTela(4)}>Histórico</button>
+                <button data-target="#historico" onClick={() => setTela(3)}>Histórico</button>
                 <button data-target="#agenda" onClick={() => setTela(5)}>Agenda</button>
             </div>
             <div className={styles.main_content}>
@@ -40,7 +40,7 @@ export default function Home() {
                         : tela === 2 ?
                             <UsuarioVeiculos />
                             : tela === 3 ?
-                                <UsuarioVeiculos  />
+                                <UsuarioHistorico  />
                                 : tela === 4 ?
                                     <UsuarioDados />
                                     : tela === 5 ?

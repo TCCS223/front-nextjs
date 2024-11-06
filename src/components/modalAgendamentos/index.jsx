@@ -5,7 +5,7 @@ import { ptBR } from 'date-fns/locale';
 import styles from './index.module.css';
 import Swal from 'sweetalert2';
 
-const CalendarEventDetailsModal = ({ modalEvent, onClose }) => {
+const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable }) => {
     const [agendSituacao, setAgendSituacao] = useState(null);
 
     const situacaoMap = {
@@ -82,19 +82,25 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose }) => {
                         <span className={styles.detailsLabel}>Placa:</span>
                         <span>{modalEvent?._def?.extendedProps?.veic_placa}</span>
                     </div>
+                    
                     <div className={styles.detailsItem}>
                         <span className={styles.detailsLabel}>Situação:</span>
-                        <select
-                            value={agendSituacao || ''}
-                            onChange={handleSituacaoChange}
-                            className={styles.detailsSelect}
-                        >
-                            <option value='1'>Pendente</option>
-                            <option value='2'>Em andamento</option>
-                            <option value='3'>Concluído</option>
-                            <option value='4'>Cancelado</option>
-                        </select>
+                        {isEditable ? (
+                            <select
+                                value={agendSituacao || ''}
+                                onChange={handleSituacaoChange}
+                                className={styles.detailsSelect}
+                            >
+                                <option value='1'>Pendente</option>
+                                <option value='2'>Em andamento</option>
+                                <option value='3'>Concluído</option>
+                                <option value='4'>Cancelado</option>
+                            </select>
+                        ) : (
+                            <span>{situacaoMap[agendSituacao]}</span>
+                        )}
                     </div>
+
                     <div className={styles.detailsItem}>
                         <span className={styles.detailsLabel}>Observação:</span>
                         <span>{modalEvent?._def?.extendedProps?.agend_observ}</span>
@@ -102,11 +108,12 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose }) => {
                 </div>
 
                 <div className={styles.buttons_form}>
-                    <button className={styles.button_cancel} onClick={() => { 
-                        onClose();
-                        
-                    }}>Fechar</button>
-                    <button className={styles.button_submit} onClick={editarSituacaoDoAgendamento}>Salvar</button>
+                    <button className={styles.button_cancel} onClick={onClose}>Fechar</button>
+                    {isEditable && (
+                        <button className={styles.button_submit} onClick={editarSituacaoDoAgendamento}>
+                            Salvar
+                        </button>
+                    )}
                 </div>
             </div>
         </div>

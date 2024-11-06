@@ -18,9 +18,6 @@
 
 - TELA DE USUÁRIO -
     histórico de SERVIÇOS
-    listar seus agendamentos
-
-    nao conseguir editar a situacao do agendamento
 
 - TELA DE CADASTRO
 

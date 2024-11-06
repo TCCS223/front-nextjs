@@ -55,7 +55,6 @@ const FullCalendarGeral = () => {
                 const parsedUser = JSON.parse(storedUser);
                 setUserId(parsedUser?.id || null);
             }
-
         }
     }, [userAcesso])
 
@@ -204,7 +203,8 @@ const FullCalendarGeral = () => {
                 icon: 'success',
                 title: 'Agendamento realizado com sucesso!',
                 text: 'O agendamento foi salvo com sucesso',
-                confirmButtonColor: '#FF9D00'
+                iconColor: "rgb(40, 167, 69)",
+                confirmButtonColor: "rgb(40, 167, 69)",
             });
         } catch (error) {
             console.error("Erro ao salvar agendamento:", error);
@@ -213,7 +213,8 @@ const FullCalendarGeral = () => {
                 icon: 'error',
                 title: 'Erro ao salvar agendamento!',
                 text: 'Ocorreu um erro ao tentar salvar o agendamento. Por favor, tente novamente.',
-                confirmButtonColor: '#FF9D00'
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
             });
         }
         ListarAgendamentosUsuario();
@@ -326,6 +327,7 @@ const FullCalendarGeral = () => {
                                 <CalendarEventDetailsModal
                                     modalEvent={modalEvent}
                                     onClose={visualizacao}
+                                    isEditable={userAcesso === 1} 
                                 />
                             </>
                         ) : (
