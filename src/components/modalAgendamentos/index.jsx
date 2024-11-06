@@ -55,7 +55,7 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose }) => {
             });
         }
     };
-    
+ 
     return (
         <div className={styles.modal}>
             <div className={styles.modalContent}>

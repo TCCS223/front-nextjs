@@ -80,12 +80,12 @@ const FullCalendarGeral = () => {
 
     const BuscarUsuarioPorCpf = async () => {
         try {
-            const response = await api.get(`/usuarios/cpf/${cpfUsuario}`);
-            setUserId(response.data.dados?.usu_id)
+            const response = await api.post('/usuarios/cpf', { usu_cpf: cpfUsuario });
+            setUserId(response.data.dados?.usu_id);
         } catch (error) {
             console.error("Erro ao buscar usuário:", error);
         }
-    };
+    };    
 
     const ListarVeiculosUsuario = async () => {
         if (!userId) return;
@@ -114,7 +114,6 @@ const FullCalendarGeral = () => {
         }
     };
 
-
     const ListarCategoriaServicos = async () => {
         try {
             const response = await api.get('/categoriasServicosAtivas');
@@ -130,7 +129,6 @@ const FullCalendarGeral = () => {
             });
         }
     };
-
 
     const handleDateClick = (arg) => {
         if (calendarApi) {
@@ -157,7 +155,6 @@ const FullCalendarGeral = () => {
         setShowModal(true);
     };
 
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
@@ -179,11 +176,9 @@ const FullCalendarGeral = () => {
         }
     };
 
-
     const handleInputCpf = (e) => {
         setCpfUsuario(e.target.value);
     };
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -224,7 +219,6 @@ const FullCalendarGeral = () => {
         ListarAgendamentosUsuario();
     };
 
-
     const handleCancel = () => {
         Swal.fire({
             title: "Deseja Cancelar esse agendamento?",
@@ -262,7 +256,6 @@ const FullCalendarGeral = () => {
         });
     };
 
-
     // const excluirAgendamento = async () => {
     //     try {
     //         const confirmacao = window.confirm("Tem certeza que deseja excluir este agendamento?");
@@ -275,7 +268,6 @@ const FullCalendarGeral = () => {
     //     }
     // };
 
-
     const clearFields = () => {
         setFormValues({
             veic_usu_id: '',
@@ -287,7 +279,6 @@ const FullCalendarGeral = () => {
             agend_serv_situ_id: 1
         });
     };
-
 
     useEffect(() => {
         const calendar = new Calendar(calendarRef.current, {
@@ -319,7 +310,6 @@ const FullCalendarGeral = () => {
         };
     }, [eventos]);
 
-
     const visualizacao = () => {
         setShowModal(false);
         ListarAgendamentosUsuario();
@@ -347,21 +337,22 @@ const FullCalendarGeral = () => {
                                     {userAcesso == 1 ? (
                                         <>
                                             <div className={`${styles.grid} ${styles.grid_cpf}`}>
-                                                    <label className={styles.label}>CPF do cliente</label>
-                                                    <InputMask
-                                                        mask="999.999.999-99"
-                                                        type="text"
-                                                        name="usu_cpf"
-                                                        value={cpfUsuario}
-                                                        onChange={handleInputCpf}
-                                                        className={`${styles.input} ${styles.input_cpf}`}
-                                                        required
-                                                    />
+                                                <label className={styles.label}>CPF do cliente</label>
+                                                <InputMask
+                                                    mask="999.999.999-99"
+                                                    type="text"
+                                                    name="usu_cpf"
+                                                    value={cpfUsuario}
+                                                    onChange={handleInputCpf}
+                                                    className={`${styles.input} ${styles.input_cpf}`}
+                                                    required
+                                                />
                                             </div>
 
                                             <div className={`${styles.grid} ${styles.grid_buttonSearch}`}>
-                                            <label className={styles.labelButtonSearch}>Pesquisar CPF</label>
+                                                <label className={styles.labelButtonSearch}>Pesquisar CPF</label>
                                                 <button
+                                                    type="button"
                                                     onClick={BuscarUsuarioPorCpf}
                                                     className={styles.buttonSearch}
                                                 >

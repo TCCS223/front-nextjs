@@ -12,7 +12,7 @@
 
 - TELA DE ADMIN -
     tratar erros na busca do cpf 
-    VERIFICAR METODO da função listarUsuarioPorCpf (não sei se vai manter GET, ou se vai mudar pra POST)
+    tratar usuario jumento que agenda horario fora do expediente
 
     adicionar funções de editar e visualizar agendamento
 
