@@ -192,11 +192,12 @@
     color: #dc3545;
 }
 
-.cleberson{
-    padding: 6px 12px;
-    background-color: rgba(230, 149, 0, 0.952);
+.corSituacao {
+    padding: 6px 6px;
+    min-width: 132px;
     width: max-content;
     border-radius: 20px;
+    text-align: center;
     color: white;
 }
 

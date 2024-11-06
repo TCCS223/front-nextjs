@@ -32,6 +32,13 @@ export default function HistoricoAgendamentos() {
         4: "Cancelado"
     };
 
+    const colorMap = {
+        1: '#e69500f3',  // Pendente - Dourado
+        2: '#1b77d4',  // Em andamento - Azul
+        3: '#26a426',  // Concluído - Verde
+        4: '#c3290e'   // Cancelado - Vermelho
+    };
+
     const ListarAgendamentos = async () => {
         try {
             const response = await api.get('/agendamentos');
@@ -125,7 +132,6 @@ export default function HistoricoAgendamentos() {
     return (
         <div id="clientes" className={styles.content_section}>
             <h2 className={styles.title_page}>Gerenciamento de Agendamentos</h2>
-
 
             <div className={styles.contentSearch}>
                 <div className={styles.search}>
@@ -243,26 +249,31 @@ export default function HistoricoAgendamentos() {
                                     <td>{agendamento.agend_horario}</td>
                                     <td>{agendamento.serv_nome}</td>
                                     <td>{agendamento.usu_nome}</td>
-                                    
+
                                     <td>
-                                        <div className={styles.cleberson}>
-                                            {agendSituacaoMap[agendamento.agend_serv_situ_id] || 'Desconhecido'}</div></td>
-                                    <td>
-                                        <div className={styles.actionIcons}>
-                                            <i>
-                                                <MdRemoveRedEye
-                                                    title="Visualizar"
-                                                    onClick={() => handleViewUser(usuario)}
-                                                />
-                                            </i>
-                                            <i>
-                                                <MdEdit
-                                                    title="Editar"
-                                                    onClick={() => handleEditUser(usuario)}
-                                                />
-                                            </i>
+                                        <div
+                                            className={styles.corSituacao}
+                                            style={{ backgroundColor: colorMap[agendamento.agend_serv_situ_id] || '#ccc' }}
+                                        >
+                                            {agendSituacaoMap[agendamento.agend_serv_situ_id] || 'Desconhecido'}
                                         </div>
                                     </td>
+                                        <td>
+                                            <div className={styles.actionIcons}>
+                                                <i>
+                                                    <MdRemoveRedEye
+                                                        title="Visualizar"
+                                                        onClick={() => handleViewUser(usuario)}
+                                                    />
+                                                </i>
+                                                <i>
+                                                    <MdEdit
+                                                        title="Editar"
+                                                        onClick={() => handleEditUser(usuario)}
+                                                    />
+                                                </i>
+                                            </div>
+                                        </td>
                                 </tr>
                             ))
                         ) : (

@@ -14,7 +14,7 @@
     tratar erros na busca do cpf 
     VERIFICAR METODO da função listarUsuarioPorCpf (não sei se vai manter GET, ou se vai mudar pra POST)
 
-    colocar sinalização de cores na situação do agendamento (opcional)
+    adicionar funções de editar e visualizar agendamento
 
 - TELA DE USUÁRIO -
     histórico de SERVIÇOS
