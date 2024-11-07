@@ -62,7 +62,7 @@ export default function CarrosselEquipe() {
 
                     <div className={styles.employeeCard}>
                         <Image
-                            src='/mecanico.png'
+                            src='/mecanicomulher.png'
                             alt="Ana Costa"
                             width={450}
                             height={450}
@@ -77,10 +77,10 @@ export default function CarrosselEquipe() {
                 <div className={styles.employeeContainer}>
                     <div className={styles.employeeCard}>
                         <Image
-                            src='/mecanico.png'
+                            src='/mec_zé_ruelas.png'
                             alt="Marcos Pereira"
-                            width={450}
-                            height={450}
+                            width={650}
+                            height={650}
                             className={styles.employeeImage}
                         />
                         <h3 className={styles.employeeName}>Marcos Pereira</h3>
@@ -90,10 +90,10 @@ export default function CarrosselEquipe() {
 
                     <div className={styles.employeeCard}>
                         <Image
-                            src='/mecanico.png'
+                            src='/mecanico_feio_com_fundos.png'
                             alt="João Lima"
-                            width={450}
-                            height={450}
+                            width={650}
+                            height={650}
                             className={styles.employeeImage}
                         />
                         <h3 className={styles.employeeName}>João Lima</h3>

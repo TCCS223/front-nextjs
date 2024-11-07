@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from './index.module.css';
-
 import api from "@/services/api";
-
 import InputMask from "react-input-mask";
 import Swal from "sweetalert2";
 
 export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
-
     const [cpf, setCpf] = useState('');
     const [usuarios, setUsuarios] = useState([]);
     const [usuarioSelecionado, setUsuarioSelecionado] = useState(null);
@@ -15,25 +12,29 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
     const [dataInicial, setDataInicial] = useState('');
 
     const buscarUsuarios = async (cpfDigitado) => {
-        if (cpfDigitado.trim()) {
+        if (cpfDigitado.trim().length >= 3) {
+
             try {
                 const response = await api.post(`/usuarios/cpf`, { usu_cpf: cpfDigitado });
-                setUsuarios(response.data.dados);
+                setUsuarios(response.data.dados); // Armazena o resultado da busca no estado
+                console.log("meus usuarios: ", response.data.dados);
             } catch (error) {
                 console.error("Erro ao buscar usuários:", error);
+                setUsuarios([]); // Limpa a lista em caso de erro
             }
         } else {
-            setUsuarios([]);
+            setUsuarios([]); // Limpa a lista se o CPF tiver menos de 3 dígitos
         }
-    }
+    };
 
-    useEffect(() => {
-        buscarUsuarios(cpf);
-    }, [cpf])
+    const handleBuscarClick = (e) => {
+        e.preventDefault();
+        buscarUsuarios(cpf); // Chama a função passando o CPF atual
+    };
 
-    const handleSelectUsuario = (usu_cpf) => {
-        setUsuarioSelecionado(usu_cpf);
-    }
+    const handleSelectUsuario = (usu_id) => {
+        setUsuarioSelecionado(usu_id);
+    };
 
     const handleSalvar = async () => {
         if (!usuarioSelecionado || !dataInicial) {
@@ -69,7 +70,7 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
                 confirmButtonColor: '#d33',
             });
         }
-    }
+    };
 
     const limparCampos = () => {
         setCpf('');
@@ -77,27 +78,29 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
         setUsuarioSelecionado(null);
         setEhProprietario(false);
         setDataInicial('');
-    }
+    };
 
     if (!isOpen) return null;
 
     return (
-        <form className={styles.modalOverlay}>
+        <form className={styles.modalOverlay} onSubmit={handleBuscarClick}>
             <div className={styles.modalContent}>
-
-                <h2 className={styles.modalTitle}>Associar Usuário</h2>
+                <h2 className={styles.modalTitle}> Associar Usuário</h2>
                 <div className={styles.formGroup}>
                     <label htmlFor="cpf">CPF do usuário</label>
-                    <InputMask
-                        mask="999.999.999-99"
-                        type="text"
-                        id="cpf"
-                        value={cpf}
-                        onChange={(e) => setCpf(e.target.value.toUpperCase())}
-                        className={styles.inputCpf}
-                        placeholder="Digite 3 dígitos no mínimo..."
-                        required
-                    />
+                    <div className={styles.cpfContainer}>
+                        <InputMask
+                            mask="999.999.999-99"
+                            type="text"
+                            id="cpf"
+                            value={cpf}
+                            onChange={(e) => setCpf(e.target.value.toUpperCase())}
+                            className={styles.inputCpf}
+                            placeholder="Digite 3 dígitos no mínimo..."
+                            required
+                        />
+                        <button type="button" onClick={handleBuscarClick} className={styles.btnBuscar}>Buscar</button>
+                    </div>
 
                     <ul className={styles.list}>
                         <li className={styles.header}>
@@ -106,22 +109,26 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
                             <span>CPF</span>
                             <span>Nome</span>
                         </li>
-                        {usuarios.map((usuario) => (
-                            <li key={usuario.veic_id} className={styles.item}>
-                                <span>
-                                    <input
-                                        type="radio"
-                                        name="usuario"
-                                        onChange={() => handleSelectUsuario(usuario.usu_id)}
-                                        checked={usuarioSelecionado === usuario.usu_id}
-                                        className={styles.radio}
-                                    />
-                                </span>
-                                <span className={styles.spanId}>{usuario.usu_id}</span>
-                                <span>{usuario.usu_cpf}</span>
-                                <span>{usuario.usu_nome}</span>
-                            </li>
-                        ))}
+                        {usuarios.length > 0 ? (
+                            usuarios.map((usuario) => (
+                                <li key={usuario.usu_id} className={styles.item}>
+                                    <span>
+                                        <input
+                                            type="radio"
+                                            name="usuario"
+                                            onChange={() => handleSelectUsuario(usuario.usu_id)}
+                                            checked={usuarioSelecionado === usuario.usu_id}
+                                            className={styles.radio}
+                                        />
+                                    </span>
+                                    <span className={styles.spanId}>{usuario.usu_id}</span>
+                                    <span>{usuario.usu_cpf}</span>
+                                    <span>{usuario.usu_nome}</span>
+                                </li>
+                            ))
+                        ) : (
+                            <li className={styles.noResults}>Nenhum usuário encontrado</li>
+                        )}
                     </ul>
 
                     <div className={styles.checkboxDateContainer}>
@@ -160,5 +167,5 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
                 </div>
             </div>
         </form>
-    )
+    );
 }

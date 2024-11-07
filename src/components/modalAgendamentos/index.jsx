@@ -42,7 +42,7 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable }) => {
                 confirmButtonColor: "rgb(40, 167, 69)",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    onClose(); 
+                    onClose();
                 }
             });
         } catch (error) {
@@ -57,7 +57,7 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable }) => {
             });
         }
     };
- 
+
     return (
         <div className={styles.modal}>
             <div className={styles.modalContent}>
@@ -84,7 +84,12 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable }) => {
                         <span className={styles.detailsLabel}>Placa:</span>
                         <span>{modalEvent?._def?.extendedProps?.veic_placa}</span>
                     </div>
-                    
+
+                    <div className={styles.detailsItem}>
+                        <span className={styles.detailsLabel}>Serviço:</span>
+                        <span>{modalEvent?._def?.extendedProps?.serv_nome || 'Não especificado'}</span>
+                    </div>
+
                     <div className={styles.detailsItem}>
                         <span className={styles.detailsLabel}>Situação:</span>
                         {isEditable ? (
