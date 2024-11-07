@@ -1,17 +1,17 @@
 'use client';
 
-import styles from './page.module.css';
 import { useState, useEffect } from 'react';
-
-import { MdRemoveRedEye, MdEdit, MdAdd } from "react-icons/md";
-import Swal from 'sweetalert2';
-import { PiListMagnifyingGlassBold } from "react-icons/pi";
-import FormVeiculo from '@/components/FormVeiculo';
+import styles from './page.module.css';
 
 import api from '@/services/api';
 
+import FormVeiculo from '@/components/FormVeiculo';
 import ModalRelacionarUsuario from '@/components/relacionarUsuario';
 import ModalProprietarios from '@/components/editarRelacaoUsuarioVeiculo';
+
+import { MdRemoveRedEye, MdEdit, MdAdd } from "react-icons/md";
+import { PiListMagnifyingGlassBold } from "react-icons/pi";
+import Swal from 'sweetalert2';
 
 export default function Veiculos() {
     const [veiculos, setVeiculos] = useState([]);
@@ -30,7 +30,6 @@ export default function Veiculos() {
     const [modelos, setModelos] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [modalOpenRelacao, setModalOpenRelacao] = useState(false);
-
     const [placaErro, setPlacaErro] = useState('');
     const [anoErro, setAnoErro] = useState('');
     const [isPlacaValidando, setIsPlacaValidando] = useState(false);

@@ -1,9 +1,9 @@
 'use client'
 
-import styles from './index.module.css'
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
+import styles from './index.module.css'
 
 export default function Header() {
     const [mobile, setMobile] = useState(false);

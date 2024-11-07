@@ -4,12 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
 
+import Header from "@/components/header";
+import Footer from "@/components/footer";
+
 import CarrosselInicial from "@/components/carrosselPage";
 import CarrosselMobile from "@/components/carrosselMobile";
 import CarrosselMobileMedium from "@/components/carrosselMobileMedium";
-
-import Header from "@/components/header";
-import Footer from "@/components/footer";
 import CarrosselEquipe from "@/components/carrosselEquipe";
 import CarrosselEquipeMobile from "@/components/carrosselEquipeMobile";
 

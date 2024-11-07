@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styles from './index.module.css';
+
 import api from "@/services/api";
-import Swal from "sweetalert2";
+
 import InputMask from "react-input-mask";
+import Swal from "sweetalert2";
 
 export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
 

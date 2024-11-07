@@ -1,18 +1,18 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from 'react';
+import styles from './page.module.css';
+
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import ptLocale from '@fullcalendar/core/locales/pt-br';
-import styles from './page.module.css';
 
 const FullCalendar = () => {
 
     const calendarRef = useRef(null);
-    const [events, setEvents] = useState([
-    ]);
+    const [events, setEvents] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [showModal, setShowModal] = useState(false);
 

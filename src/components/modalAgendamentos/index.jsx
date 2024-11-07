@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import styles from './index.module.css';
+
 import api from '@/services/api';
+
 import { format, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import styles from './index.module.css';
 import Swal from 'sweetalert2';
 
 const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable }) => {

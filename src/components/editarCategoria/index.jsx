@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from './index.module.css';
-import { MdDelete, MdClose } from "react-icons/md";
+
 import api from '@/services/api';
+
+import { MdDelete, MdClose } from "react-icons/md";
 import Swal from 'sweetalert2';
 
 export default function ModalCategorias({ isOpen, onClose, onCategoriaExcluida, listarCategoriasServAtivas }) {

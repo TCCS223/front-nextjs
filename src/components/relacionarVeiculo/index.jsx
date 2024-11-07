@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './index.module.css';
+
 import api from '@/services/api';
+
 import Swal from 'sweetalert2';
 
 export default function ModalRelacionarVeiculo({ isOpen, onClose, usuarioId }) {

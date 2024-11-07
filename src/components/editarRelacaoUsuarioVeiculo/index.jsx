@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styles from './index.module.css';
+
+import api from '@/services/api';
+
 import { MdEdit, MdCheck, MdClose } from "react-icons/md";
 import { format } from 'date-fns';
-import api from '@/services/api';
 import Swal from 'sweetalert2';
 
 export default function ModalProprietarios({ isOpen, onClose, veiculoId }) {

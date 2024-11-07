@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './index.module.css';
+
 import InputMask from "react-input-mask";
 import { IoMdEyeOff, IoMdEye } from "react-icons/io";
 
-export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, setSenhaErro, focused, senha, handleFocus, handleBlur, validarSenha, isViewing, handleSubmit, isEditing }) {
+export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, setSenhaErro, focused,  handleFocus, handleBlur, validarSenha, isViewing, handleSubmit, isEditing }) {
 
-    const isDisabled = isViewing || isEditing;
-
+    
     const [showPassword, setShowPassword] = useState(false);
     const [cpfExists, setCpfExists] = useState(false);
     const [cpfChecked, setCpfChecked] = useState(false);
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState('');
-
+    
+    const isDisabled = isViewing || isEditing;
+    
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };

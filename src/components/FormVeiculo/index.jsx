@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './index.module.css';
+
 import InputMask from "react-input-mask";
-import Swal from 'sweetalert2';
-import axios from 'axios';
-import api from '@/services/api';
 
 export default function FormVeiculo({
     selectedVeic,
@@ -18,8 +16,6 @@ export default function FormVeiculo({
     listarModelos,
     placaErro,
     anoErro,
-    isPlacaValidando,
-    isSubmitting,
     handlePlacaChange
 }) {
 

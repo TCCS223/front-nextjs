@@ -1,9 +1,9 @@
 'use client'
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from './page.module.css';
-import { useState, useEffect } from 'react';
 
 import Header from '@/components/header';
 import Footer from '@/components/footer';

@@ -2,17 +2,18 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { MdPowerSettingsNew } from "react-icons/md";
 import styles from "./page.module.css";
+
 import CadCliente from "./cadcliente/page";
-import Cookies from "js-cookie";
 import Veiculos from "./veiculos/page";
 import Servicos from "./servicos/page";
 import FullCalendarGeral from "../usuario/agenda/page";
 import HistoricoAgendamentos from "./agendamentos/page";
 
-export default function Home() {
+import { MdPowerSettingsNew } from "react-icons/md";
+import Cookies from "js-cookie";
 
+export default function Home() {
     const [userId, setUserId] = useState(null);
     const [tela, setTela] = useState(0);
 

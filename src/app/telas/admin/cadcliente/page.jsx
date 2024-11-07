@@ -1,15 +1,17 @@
 'use client';
 
-import styles from './page.module.css';
 import { useState, useEffect } from 'react';
-import { PiListMagnifyingGlassBold } from "react-icons/pi";
-import { MdRemoveRedEye, MdEdit, MdAdd } from "react-icons/md";
-import { parseISO, format } from 'date-fns';
-import Swal from 'sweetalert2';
-import FormCliente from '@/components/FormCliente';
+import styles from './page.module.css';
+
 import api from '@/services/api';
 
+import FormCliente from '@/components/FormCliente';
 import ModalRelacionarVeiculo from '@/components/relacionarVeiculo';
+
+import { PiListMagnifyingGlassBold } from "react-icons/pi";
+import { MdRemoveRedEye, MdEdit } from "react-icons/md";
+import { parseISO, format } from 'date-fns';
+import Swal from 'sweetalert2';
 
 export default function CadCliente() {
     const [usuarios, setUsuarios] = useState([]);
@@ -22,10 +24,10 @@ export default function CadCliente() {
     const [isEditing, setIsEditing] = useState(false);
     const [sortedColumn, setSortedColumn] = useState(null);
     const [isAsc, setIsAsc] = useState(true);
-    // const [senhaErro, setSenhaErro] = useState('');
     const [senhaErro, setSenhaErro] = useState([]);
     const [focused, setFocused] = useState(false);
     const [senha, setSenha] = useState('');
+    const [modalCategoriaOpen, setModalCategoriaOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedUser, setSelectedUser] = useState({
         usu_nome: '',
@@ -39,8 +41,6 @@ export default function CadCliente() {
         usu_senha: '',
         usu_situacao: 1,
     });
-
-    const [modalCategoriaOpen, setModalCategoriaOpen] = useState(false);
 
     const usersPerPage = 15;
 
@@ -59,12 +59,6 @@ export default function CadCliente() {
     useEffect(() => {
         handleSearch();
     }, [usuarios, statusFilter, tipoUsuarioFilter, searchText]);
-
-    const sexoMap = {
-        0: 'Feminino',
-        1: 'Masculino',
-        2: 'Outro'
-    };
 
     const Create = () => {
         setSelectedUser({
@@ -637,7 +631,6 @@ export default function CadCliente() {
                                             onClick={handleNovaCategoria}
                                         >
                                             Veículo
-                                            {/* <MdAdd className={styles.iconAdd} /> */}
                                         </button>
                                         <button
                                             type="reset"

@@ -1,7 +1,9 @@
-import api from '@/services/api';
-import styles from './page.module.css';
-import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import { useState, useEffect } from 'react';
+import styles from './page.module.css';
+
+import api from '@/services/api';
+
+import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 import { parseISO, format } from 'date-fns';
 import Swal from 'sweetalert2';

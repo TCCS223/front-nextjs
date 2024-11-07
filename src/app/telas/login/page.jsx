@@ -1,17 +1,15 @@
 "use client";
 
+import { useRouter } from 'next/navigation';
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-import { useEffect, useState } from "react";
-import { useRouter } from 'next/navigation';
+import styles from "./page.module.css";
 
 import api from "@/services/api";
+
 import Swal from "sweetalert2";
-
 import Cookies from "js-cookie";
-
-import styles from "./page.module.css";
 
 export default function LoginUsu() {
     const [email, setEmail] = useState('');

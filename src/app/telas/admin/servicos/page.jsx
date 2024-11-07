@@ -1,18 +1,17 @@
 'use client'
 
-import styles from './page.module.css';
 import { useState, useEffect } from 'react';
-
-import { MdRemoveRedEye, MdEdit, MdAdd } from "react-icons/md";
-import Swal from 'sweetalert2';
-
-import { PiListMagnifyingGlassBold } from "react-icons/pi";
-import FormServicos from '@/components/FormServicos';
-
+import styles from './page.module.css';
 
 import api from '@/services/api';
+
+import FormServicos from '@/components/FormServicos';
 import ModalNovaCategoria from '@/components/novaCategoria';
 import EditarCategoria from '@/components/editarCategoria';
+
+import { PiListMagnifyingGlassBold } from "react-icons/pi";
+import { MdRemoveRedEye, MdEdit, MdAdd } from "react-icons/md";
+import Swal from 'sweetalert2';
 
 export default function Servicos() {
     const [servicos, setServicos] = useState([]);
@@ -27,11 +26,8 @@ export default function Servicos() {
     const [sortedColumn, setSortedColumn] = useState(null);
     const [isAsc, setIsAsc] = useState(true);
     const [categoriasServ, setCategoriasServ] = useState([]);
-    // const [servicoCat, setServicoCat] = useState([]);
-
     const [modalCategoriaOpen, setModalCategoriaOpen] = useState(false);
     const [editarCategoriaOpen, setEditarCategoriaOpen] = useState(false);
-
 
     const usersPerPage = 15;
 

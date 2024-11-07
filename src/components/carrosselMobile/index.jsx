@@ -1,10 +1,11 @@
 
 'use client'
 
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Image from 'next/image';
 import styles from './index.module.css';
+
+import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 
 export default function CarrosselMobile() {
     return (

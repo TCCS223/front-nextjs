@@ -1,22 +1,20 @@
 import React from "react";
-import { useState, useEffect } from 'react';
 import Link from "next/link";
+import { useState, useEffect } from 'react';
 import styles from "./page.module.css";
-import InputMask from "react-input-mask";
-import { MdAdd } from "react-icons/md";
-import { IoCarSport } from "react-icons/io5";
-import { FaMotorcycle } from "react-icons/fa6";
-import { FaTruckFront } from "react-icons/fa6";
-import { MdOutlineQuestionMark } from "react-icons/md";
-import { MdRemoveRedEye } from "react-icons/md";
-import Swal from "sweetalert2";
 
 import api from "@/services/api";
+
+import Swal from "sweetalert2";
+import InputMask from "react-input-mask";
 import { parseISO, format } from "date-fns";
+
+import { MdAdd, MdOutlineQuestionMark, MdRemoveRedEye } from "react-icons/md";
+import { IoCarSport } from "react-icons/io5";
+import { FaMotorcycle, FaTruckFront } from "react-icons/fa6";
 
 export default function UsuarioVeiculos() {
     const [userId, setUserId] = useState(null);
-
     const [isEditing, setIsEditing] = useState(false);
     const [isViewing, setIsViewing] = useState(false);
     const [isCreate, setIsCreate] = useState(false);
@@ -26,10 +24,8 @@ export default function UsuarioVeiculos() {
     const [categorias, setCategorias] = useState([]);
     const [marcas, setMarcas] = useState([]);
     const [modelos, setModelos] = useState([]);
-
     const [ano, setAno] = useState('');
     const [anoErro, setAnoErro] = useState('');
-
     const [selectedVehicle, setSelectedVehicle] = useState({
         veic_id: "",
         veic_usu_id: "",
@@ -49,7 +45,6 @@ export default function UsuarioVeiculos() {
         ehproprietario: "",
         veic_situacao: 1,
     });
-
 
     useEffect(() => {
         const storedUserId = localStorage.getItem('user');

@@ -1,18 +1,27 @@
 "use client";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import InputMask from "react-input-mask";
-import styles from "./page.module.css";
-import api from "@/services/api";
-import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import styles from "./page.module.css";
+
+import api from "@/services/api";
+
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import InputMask from "react-input-mask";
+import Swal from "sweetalert2";
 import { cpf as cpfValidator } from 'cpf-cnpj-validator';
 
 export default function Cadastro() {
     const [showPassword, setShowPassword] = useState(false);
+    const [cpfError, setCpfError] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [isCheckingEmail, setIsCheckingEmail] = useState(false);
+    const [isCheckingCpf, setIsCheckingCpf] = useState(false);
+    const [senhaErro, setSenhaErro] = useState([]);
+    const [focused, setFocused] = useState(false);
+    const [senha, setSenha] = useState('');
     const [usuario, setUsuario] = useState({
         usu_nome: '',
         usu_cpf: '',
@@ -25,15 +34,6 @@ export default function Cadastro() {
         usu_senha: '',
         usu_situacao: 1,
     });
-
-    const [cpfError, setCpfError] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [isCheckingEmail, setIsCheckingEmail] = useState(false);
-    const [isCheckingCpf, setIsCheckingCpf] = useState(false);
-
-    const [senhaErro, setSenhaErro] = useState([]);
-    const [focused, setFocused] = useState(false);
-    const [senha, setSenha] = useState('');
 
     const router = useRouter();
 
