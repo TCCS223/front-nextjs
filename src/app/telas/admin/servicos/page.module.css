@@ -340,6 +340,10 @@
     text-align: center;
 }
 
+.tdPreco {
+    text-align: right;
+}
+
 .actionIcons {
     display: flex;
     justify-content: space-between;

@@ -559,7 +559,7 @@ export default function Veiculos() {
                             className={styles.button_exit}
                             onClick={handleExit}
                         >
-                            Sair
+                            Voltar
                         </button>
                     ) : (
                         <>

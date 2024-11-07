@@ -85,7 +85,15 @@ export default function CadCliente() {
     const ListarUsuarios = async () => {
         try {
             const response = await api.get('/usuarios');
-            setUsuarios(response.data.dados);
+        
+        // Ordena os usuários pelo nome (usu_nome) em ordem alfabética ao carregar
+        const sortedUsers = response.data.dados.sort((a, b) => {
+            if (a.usu_nome < b.usu_nome) return -1;
+            if (a.usu_nome > b.usu_nome) return 1;
+            return 0;
+        });
+
+        setUsuarios(sortedUsers); // Define `usuarios` ordenado
         } catch (error) {
             console.error("Erro ao buscar os usuários:", error);
             Swal.fire({
@@ -360,17 +368,17 @@ export default function CadCliente() {
 
     const sortByColumn = (column) => {
         let newIsAsc = true;
-
+    
         if (sortedColumn === column) {
             newIsAsc = !isAsc;
         }
-
+    
         const sortedData = [...filteredUsers].sort((a, b) => {
             if (a[column] < b[column]) return newIsAsc ? -1 : 1;
             if (a[column] > b[column]) return newIsAsc ? 1 : -1;
             return 0;
         });
-
+    
         setFilteredUsers(sortedData);
         setSortedColumn(column);
         setIsAsc(newIsAsc);
@@ -617,7 +625,7 @@ export default function CadCliente() {
                                 className={styles.button_exit}
                                 onClick={handleExit}
                             >
-                                Sair
+                                Voltar
                             </button>
                         ) : (
                             <>

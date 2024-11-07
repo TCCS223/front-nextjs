@@ -429,7 +429,7 @@ export default function Servicos() {
                                 className={styles.button_exit}
                                 onClick={handleExit}
                             >
-                                Sair
+                                Voltar
                             </button>
                         ) : (
                             <>
