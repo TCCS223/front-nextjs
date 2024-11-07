@@ -293,7 +293,8 @@ export default function DadosDoUsuario() {
                                     placeholder="000.000.000-00"
                                     value={meusDados?.usu_cpf || ''}
                                     onChange={handleChange}
-                                    disabled={!isEditing}
+                                    disabled
+                                    // disabled={!isEditing}
                                 />
                             </div>
 
@@ -306,7 +307,8 @@ export default function DadosDoUsuario() {
                                     className={styles.input_cliente}
                                     value={meusDados?.usu_data_nasc ? new Date(meusDados.usu_data_nasc).toISOString().split("T")[0] : ''}
                                     onChange={handleChange}
-                                    disabled={!isEditing}
+                                    disabled
+                                    // disabled={!isEditing}
                                 />
                             </div>
 

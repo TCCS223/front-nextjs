@@ -69,7 +69,7 @@ export default function UsuarioVeiculos() {
         if (selectedVehicle.cat_id) {
             ListarMarcas();
         }
-    }, [selectedVehicle.cat_id]);
+    }, [selectedVehicle.cat_id]); // possivel erro nessa linha 
 
     useEffect(() => {
         if (selectedVehicle.mar_id) {
@@ -496,9 +496,9 @@ export default function UsuarioVeiculos() {
                                         name="veic_id"
                                         value={selectedVehicle.veic_id}
                                         onChange={handleInputChange}
+                                        className={styles.input_veiculos}
                                         required
                                         disabled
-                                        className={styles.input_veiculos}
                                     />
                                 </div>
 
@@ -631,7 +631,8 @@ export default function UsuarioVeiculos() {
                                         onBlur={() => validarAno(ano)}
                                         className={styles.input_veiculos}
                                         required
-                                        disabled={!isCreate && !isEditing}
+                                        // disabled
+                                        disabled={!isCreate}
                                     />
                                     {anoErro && <span className={styles.error_message}>{anoErro}</span>}
                                 </div>
