@@ -65,7 +65,7 @@ export default function CarrosselEquipeMobile() {
                     <div className={styles.employeeContainer}>
                         <div className={styles.employeeCard}>
                             <Image
-                                src='/mecanico.png'
+                                src='/Mecanico_Mulher.png'
                                 alt="Ana Costa"
                                 width={450}
                                 height={450}
