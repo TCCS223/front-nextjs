@@ -49,6 +49,9 @@ export default function ModalProprietarios({ isOpen, onClose, veiculoId }) {
             data_final: editEndDate
         };
 
+        console.log(proprietarios);
+        
+
         try {
             const response = await api.patch(`/veiculoUsuario/${proprietarioId}`, dados);
             Swal.fire({
