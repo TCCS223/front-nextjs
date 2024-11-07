@@ -2,9 +2,10 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-
+import { MdPowerSettingsNew } from "react-icons/md";
 import styles from "./page.module.css";
 import CadCliente from "./cadcliente/page";
+import Cookies from "js-cookie";
 import Veiculos from "./veiculos/page";
 import Servicos from "./servicos/page";
 import FullCalendarGeral from "../usuario/agenda/page";
@@ -13,6 +14,7 @@ import HistoricoAgendamentos from "./agendamentos/page";
 export default function Home() {
 
     const [userId, setUserId] = useState(null);
+    const [tela, setTela] = useState(0);
 
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
@@ -23,16 +25,17 @@ export default function Home() {
         }
     }, []);
 
-    const [tela, setTela] = useState(0);
+    const clearLocalStorage = () => {
+        localStorage.clear();
+        Cookies.remove('token', { path: '/' });
+    };
 
     return (
         <div className={styles.grid_container}>
             <div className={styles.header}>
                 <h1 className={styles.title}>Painel Administrativo</h1>
 
-                <Link href="/" className={styles.linkPower}>
-                    <span className={styles.power} title="Sair"></span>
-                </Link>
+                <Link href="/" className={styles.iconPower}><MdPowerSettingsNew className={styles.power} onClick={clearLocalStorage} /></Link>
 
             </div>
             <div className={styles.sidebar}>

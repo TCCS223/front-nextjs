@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { MdPowerSettingsNew } from "react-icons/md";
+import Cookies from "js-cookie";
 
 import styles from "./page.module.css";
 import UsuarioVeiculos from "./UsuarioVeiculos/page";
@@ -17,6 +18,7 @@ export default function Home() {
 
     const clearLocalStorage = () => {
         localStorage.clear();
+        Cookies.remove('token', { path: '/' });
     };
 
     return (
@@ -40,11 +42,11 @@ export default function Home() {
                         : tela === 2 ?
                             <UsuarioVeiculos />
                             : tela === 3 ?
-                                <UsuarioHistorico  />
+                                <UsuarioHistorico />
                                 : tela === 4 ?
                                     <UsuarioDados />
                                     : tela === 5 ?
-                                        <FullCalendarGeral /> // trocar pelo histórico
+                                        <FullCalendarGeral />
                                         : <></>
                 }
             </div>

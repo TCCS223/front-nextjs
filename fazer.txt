@@ -24,7 +24,6 @@
 
 - GERAL -
     pegar backup do banco (inserts)
-    bloquear acesso direto pela url nas paginas de admin e usuario (configurar autenticação com tokem -> auth0, firebase.auth, jwt)
 
 
 

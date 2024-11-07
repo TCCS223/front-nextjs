@@ -1,23 +1,24 @@
 import { NextResponse } from 'next/server';
 
 export function middleware(req) {
-  // Obter o token de autenticação (isso pode vir de cookies, localStorage, etc.)
-  const token = req.cookies.get('token'); // Exemplo usando cookies
+  // Obter o token de autenticação do cookie
+  const token = req.cookies.get('token'); // Certifique-se de que o cookie 'token' está sendo enviado com a requisição
 
   // Defina as rotas que deseja proteger
-  const protectedRoutes = ['/telas/admin', '/telas/usuario']; // Adicione suas rotas privadas
+  const protectedRoutes = ['/telas/admin', '/telas/usuario']; // Rotas privadas
 
-  if (protectedRoutes.some((route) => req.nextUrl.pathname.startsWith(route))) {
-    // Se o token não existir, redirecione para a página de login
+  // Verifica se a rota acessada é protegida
+  if (protectedRoutes.includes(req.nextUrl.pathname)) {
+    // Se o token não existir, redireciona para a página de login
     if (!token) {
       return NextResponse.redirect(new URL('/telas/login', req.url));
     }
   }
 
-  // Continuar normalmente se o usuário estiver autenticado
+  // Se o usuário tiver o token, permite a navegação
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/telas/admin', '/telas/usuario'], // Rotas que o middleware deve interceptar
+  matcher: ['/telas/admin', '/telas/usuario'], // Apenas as rotas principais
 };

@@ -9,11 +9,13 @@ import { useRouter } from 'next/navigation';
 import api from "@/services/api";
 import Swal from "sweetalert2";
 
+import Cookies from "js-cookie";
+
 import styles from "./page.module.css";
 
 export default function LoginUsu() {
-    const [email, setEmail] = useState('admin@admin.com');
-    const [senha, setSenha] = useState('admin');
+    const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
     const [showPassword, setShowPassword] = useState(false);
 
     const router = useRouter();
@@ -33,24 +35,21 @@ export default function LoginUsu() {
                 usu_email: email,
                 usu_senha: senha
             };
-    
+
             const response = await api.post('/login', dados);
-    
+
             if (response.data.sucesso === true) {
                 const usuario = response.data.dados;
                 const objLogado = {
                     "id": usuario.usu_id,
                     "nome": usuario.usu_nome,
-                    "acesso": usuario.usu_acesso,
-                    "token": usuario, // Supondo que o token seja retornado na resposta
+                    "acesso": usuario.usu_acesso
                 };
 
-                // Armazene o token no cookie
-                document.cookie('token', objLogado.token, { expires: 7, path: '/' }); // O token vai expirar em 7 dias
-    
                 localStorage.clear();
                 localStorage.setItem('user', JSON.stringify(objLogado));
-    
+                Cookies.set('token', usuario.usu_id, { expires: 7, path: '/' });
+
                 if (usuario.usu_acesso === 1) {
                     router.push('/telas/admin');
                 } else {
@@ -66,97 +65,18 @@ export default function LoginUsu() {
                     confirmButtonColor: '#d33',
                 });
             }
-    
         } catch (error) {
-            // Erro de login
-            if (error.response && error.response.status === 403) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Erro",
-                    text: "Email e/ou senha inválidos.",
-                    confirmButtonText: "OK",
-                    backdrop: "rgba(0,0,0,0.7)",
-                    scrollbarPadding: false,
-                    iconColor: '#d33',
-                    confirmButtonColor: '#d33',
-                });
-                setSenha("");
-                setEmail("");
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Erro na Conexão',
-                    text: 'Ocorreu um erro ao tentar realizar o login. Verifique sua conexão e tente novamente.',
-                    confirmButtonText: 'OK',
-                    iconColor: '#d33',
-                    confirmButtonColor: '#d33',
-                });
-            }
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: 'Ocorreu um erro ao tentar realizar o login.',
+                confirmButtonText: 'OK',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
+            });
         }
     }
 
-    // async function logar() {
-    //     try {
-    //         const dados = {
-    //             usu_email: email,
-    //             usu_senha: senha
-    //         };
-
-    //         const response = await api.post('/login', dados);
-
-    //         if (response.data.sucesso === true) {
-    //             const usuario = response.data.dados;
-    //             const objLogado = {
-    //                 "id": usuario.usu_id,
-    //                 "nome": usuario.usu_nome,
-    //                 "acesso": usuario.usu_acesso
-    //             };
-
-    //             localStorage.clear();
-    //             localStorage.setItem('user', JSON.stringify(objLogado));
-
-    //             if (usuario.usu_acesso === 1) {
-    //                 router.push('/telas/admin');
-    //             } else {
-    //                 router.push('/telas/usuario');
-    //             }
-    //         } else {
-    //             Swal.fire({
-    //                 icon: 'error',
-    //                 title: 'Erro',
-    //                 text: 'Email e/ou senha inválidos.',
-    //                 confirmButtonText: 'OK',
-    //                 iconColor: '#d33',
-    //                 confirmButtonColor: '#d33',
-    //             });
-    //         }
-
-    //     } catch (error) {
-    //         if (error.response && error.response.status === 403) {
-    //             Swal.fire({
-    //                 icon: "error",
-    //                 title: "Erro",
-    //                 text: "Email e/ou senha inválidos.",
-    //                 confirmButtonText: "OK",
-    //                 backdrop: "rgba(0,0,0,0.7)",
-    //                 scrollbarPadding: false,
-    //                 iconColor: '#d33',
-    //                 confirmButtonColor: '#d33',
-    //             });
-    //             setSenha("");
-    //             setEmail("");
-    //         } else {
-    //             Swal.fire({
-    //                 icon: 'error',
-    //                 title: 'Erro na Conexão',
-    //                 text: 'Ocorreu um erro ao tentar realizar o login. Verifique sua conexão e tente novamente.',
-    //                 confirmButtonText: 'OK',
-    //                 iconColor: '#d33',
-    //                 confirmButtonColor: '#d33',
-    //             });
-    //         }
-    //     }
-    // }
 
     return (
         <>

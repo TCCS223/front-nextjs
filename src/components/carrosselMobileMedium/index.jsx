@@ -29,7 +29,7 @@ export default function CarrosselMobileMedium() {
                 </div>
                 <div className={styles.carrosselMobile}>
                     <Image
-                        src='/imgCarrossel/img2mcopy.jpg'
+                        src='/imgCarrossel/img4.jpg'
                         alt="Ana Costa"
                         width={1920}
                         height={2880}
