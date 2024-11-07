@@ -27,7 +27,7 @@ export default function Footer() {
                         <span className={styles.iconPhone}></span>
                         <div className={styles.infoPhone}>
                             <div className={styles.titlePhone}>Telefone</div>
-                            <Link href='tel:(00) 12345-6789' className={styles.numberPhone}>(00) 12345-6789</Link>
+                            <Link href='tel:(00) 12345-6789' className={styles.numberPhone}>(14) 99675 - 6789</Link>
                         </div>
                     </div>
 
@@ -35,7 +35,7 @@ export default function Footer() {
                         <span className={styles.iconTell}></span>
                         <div className={styles.infoTell}>
                             <div className={styles.titleTell}>Telefone</div>
-                            <Link href='tel:(00) 1234-5678' className={styles.numberTell}>(00) 1234-5678</Link>
+                            <Link href='tel:(00) 1234-5678' className={styles.numberTell}>(14) 3404 - 4014</Link>
                         </div>
                     </div>
 
@@ -43,7 +43,7 @@ export default function Footer() {
                         <span className={styles.iconEmail}></span>
                         <div className={styles.infoEmail}>
                             <div className={styles.titleEmail}>Email</div>
-                            <Link href='mailto: urban_estetica@teste.com' className={styles.addressEmail}>urban_estetica@teste.com</Link>
+                            <Link href='mailto: urban_estetica@teste.com' className={styles.addressEmail}>atendimento@urbanestetica.com</Link>
                         </div>
                     </div>
 
@@ -51,7 +51,7 @@ export default function Footer() {
                         <span className={styles.iconAddress}></span>
                         <div className={styles.infoAddress}>
                             <div className={styles.titleAddress}>Endereço</div>
-                            <div className={styles.localizationEmail}>R Prof Massuyuki, 22, Tupã</div>
+                            <div className={styles.localizationEmail}>R Bezerra de Menezes, 215, Tupã</div>
                         </div>
                     </div>
                 </div>
