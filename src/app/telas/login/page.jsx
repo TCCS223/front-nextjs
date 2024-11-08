@@ -62,8 +62,8 @@ export default function LoginUsu() {
                 if (status === 403 && tipoErro === 'inativo') {
                     Swal.fire({
                         icon: 'warning',
-                        title: 'Aviso',
-                        text: 'Acesso não permitido. Entre em contato com um administrador.',
+                        title: 'Acesso não permitido!',
+                        text: 'Entre em contato com um administrador',
                         confirmButtonText: 'OK',
                         iconColor: '#FFA500',
                         confirmButtonColor: '#FFA500',

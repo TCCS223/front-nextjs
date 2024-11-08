@@ -3,11 +3,16 @@ import React from 'react';
 import styles from './page.module.css';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
+import Link from 'next/link';
 
 const Termos = () => {
     return (
         <>
-            <Header />
+            <header className={styles.header}>
+                        <span className={styles.logo}></span>
+            </header>
+
+            {/* <Header /> */}
 
             <div className={styles.container}>
                 <h1 className={styles.titulo}>Termos, Políticas e Referências</h1>
@@ -51,7 +56,7 @@ const Termos = () => {
                     </p>
                 </section>
             </div>
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 };
