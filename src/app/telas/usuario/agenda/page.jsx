@@ -39,6 +39,11 @@ const FullCalendarGeral = () => {
         agend_serv_situ_id: 1
     });
 
+    const handleRightClick = (e) => {
+        e.preventDefault(); // Isso impede a ação padrão de clique direito
+        // alert("Clique direito desabilitado!");
+      };
+
     useEffect(() => {
         const storedData = localStorage.getItem('user');
 
@@ -65,6 +70,7 @@ const FullCalendarGeral = () => {
 
         ListarAgendamentosUsuario();
         ListarCategoriaServicos();
+        window.addEventListener("contextmenu", handleRightClick);
     }, [userId]);
 
     const ListarAgendamentosUsuario = async () => {
@@ -72,10 +78,14 @@ const FullCalendarGeral = () => {
             const response = await api.get(`/agendamentos/usuarios/${userId}`);
             setAgendamentoUsuario(response.data.dadosUsuario);
             setEventos(response.data.dadosTodos);
+            
         } catch (error) {
             console.error("Erro ao buscar agendamentos:", error);
         }
     };
+
+console.log(eventos);
+
 
     const BuscarUsuarioPorCpf = async () => {
         try {

@@ -46,6 +46,7 @@ export default function LoginUsu() {
 
                 localStorage.clear();
                 localStorage.setItem('user', JSON.stringify(objLogado));
+                
                 Cookies.set('token', usuario.usu_id, { expires: 7, path: '/' });
 
                 if (usuario.usu_acesso === 1) {
