@@ -84,7 +84,7 @@ const FullCalendarGeral = () => {
         } catch (error) {
             console.error("Erro ao buscar usuário:", error);
         }
-    };    
+    };
 
     const ListarVeiculosUsuario = async () => {
         if (!userId) return;
@@ -92,6 +92,8 @@ const FullCalendarGeral = () => {
         try {
             const response = await api.get(`/veiculoUsuario/usuario/${userId}`);
             setVeiculos(response.data.dados || []);
+
+
         } catch (error) {
             console.error("Erro ao buscar veículos:", error);
         }
@@ -284,11 +286,14 @@ const FullCalendarGeral = () => {
     useEffect(() => {
         const calendar = new Calendar(calendarRef.current, {
             contentHeight: 600,
-            handleWindowResize: true,
             selectable: true,
             locale: ptLocale,
+            aspectRatio: 2,
             showNonCurrentDates: false,
             timeZone: 'local',
+            eventOverlap: false,
+            selectOverlap: false,
+            expandRows: true,
             plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
             initialView: 'dayGridMonth',
             headerToolbar: {
@@ -327,7 +332,7 @@ const FullCalendarGeral = () => {
                                 <CalendarEventDetailsModal
                                     modalEvent={modalEvent}
                                     onClose={visualizacao}
-                                    isEditable={userAcesso === 1} 
+                                    isEditable={userAcesso === 1}
                                 />
                             </>
                         ) : (

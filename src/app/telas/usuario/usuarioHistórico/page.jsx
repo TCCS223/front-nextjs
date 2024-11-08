@@ -68,11 +68,11 @@ export default function UsuarioHistorico() {
         } catch (error) {
             console.error("Erro ao buscar os agendamentos:", error);
             Swal.fire({
-                title: "Erro!",
-                text: "Não foi possível carregar os agendamentos.",
-                icon: "error",
-                iconColor: '#d33',
-                confirmButtonColor: '#d33',
+                title: "Aviso",
+                text: "Ainda não há agendamentos.",
+                icon: "warning",
+                iconColor: '#ff9d00',
+                confirmButtonColor: '#ff9d00',
             });
         }
     };
@@ -85,7 +85,7 @@ export default function UsuarioHistorico() {
             console.error("Erro ao buscar os situações dos agendamentos:", error);
             Swal.fire({
                 title: "Erro!",
-                text: "Não foi possível carregar os agendamentos.",
+                text: "Ainda não há agendamentos",
                 icon: "error",
                 iconColor: '#d33',
                 confirmButtonColor: '#d33',

@@ -182,9 +182,6 @@ export default function UsuarioVeiculos() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-
-        console.log("Iniciando validação do ano:", selectedVehicle.veic_ano);
-        // Validação do ano
         
         if (!validarAno(selectedVehicle.veic_ano)) {
             setAnoErro(`O ano deve ser entre 1886 e ${new Date().getFullYear() + 1}.`);

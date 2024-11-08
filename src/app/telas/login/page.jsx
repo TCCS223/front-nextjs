@@ -48,6 +48,17 @@ export default function LoginUsu() {
                 localStorage.setItem('user', JSON.stringify(objLogado));
                 Cookies.set('token', usuario.usu_id, { expires: 7, path: '/' });
 
+if (usuario.usu_situacao === false) {
+    Swal.fire({
+        icon: 'warning',
+        title: 'aviso',
+        text: 'Email e/ou senha inválidos.',
+        confirmButtonText: 'OK',
+        iconColor: '#d33',
+        confirmButtonColor: '#d33',
+    });
+}
+
                 if (usuario.usu_acesso === 1) {
                     router.push('/telas/admin');
                 } else {
@@ -64,6 +75,7 @@ export default function LoginUsu() {
                 });
             }
         } catch (error) {
+
             Swal.fire({
                 icon: 'error',
                 title: 'Erro',

@@ -7,7 +7,7 @@
 }
 
 .calendar {
-    width: 100%;
+    width: 90%;
     height: 60%;
     display: block;
 }
@@ -103,6 +103,10 @@
     grid-column: span 1;
 }
 
+.buttonSearch:hover {
+    background-color: #f39200;
+    color: #ffff;
+}
 
 .labelButtonSearch{
     display: block;
@@ -202,3 +206,6 @@
     outline: none;
 }
 
+.fc-event {
+    width: 100% !important;
+}
