@@ -36,7 +36,7 @@ export default function LoginUsu() {
 
             const response = await api.post('/login', dados);
 
-            if (response.data.sucesso === true) {
+            if (response.data.sucesso) {
                 const usuario = response.data.dados;
                 const objLogado = {
                     "id": usuario.usu_id,
@@ -48,45 +48,59 @@ export default function LoginUsu() {
                 localStorage.setItem('user', JSON.stringify(objLogado));
                 Cookies.set('token', usuario.usu_id, { expires: 7, path: '/' });
 
-if (usuario.usu_situacao === false) {
-    Swal.fire({
-        icon: 'warning',
-        title: 'aviso',
-        text: 'Email e/ou senha inválidos.',
-        confirmButtonText: 'OK',
-        iconColor: '#d33',
-        confirmButtonColor: '#d33',
-    });
-}
-
                 if (usuario.usu_acesso === 1) {
                     router.push('/telas/admin');
                 } else {
                     router.push('/telas/usuario');
                 }
+            } 
+        } catch (error) {
+            if (error.response) {
+                const status = error.response.status;
+                const tipoErro = error.response.data.tipoErro;
+
+                if (status === 403 && tipoErro === 'inativo') {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Aviso',
+                        text: 'Acesso não permitido. Entre em contato com um administrador.',
+                        confirmButtonText: 'OK',
+                        iconColor: '#FFA500',
+                        confirmButtonColor: '#FFA500',
+                    });
+                } 
+                else if (status === 403 && tipoErro === 'credenciais') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro',
+                        text: 'Email e/ou senha inválidos.',
+                        confirmButtonText: 'OK',
+                        iconColor: '#d33',
+                        confirmButtonColor: '#d33',
+                    });
+                } 
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro',
+                        text: 'Ocorreu um erro ao tentar realizar o login.',
+                        confirmButtonText: 'OK',
+                        iconColor: '#d33',
+                        confirmButtonColor: '#d33',
+                    });
+                }
             } else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Erro',
-                    text: 'Email e/ou senha inválidos.',
+                    text: 'Ocorreu um erro ao tentar realizar o login.',
                     confirmButtonText: 'OK',
                     iconColor: '#d33',
                     confirmButtonColor: '#d33',
                 });
             }
-        } catch (error) {
-
-            Swal.fire({
-                icon: 'error',
-                title: 'Erro',
-                text: 'Ocorreu um erro ao tentar realizar o login.',
-                confirmButtonText: 'OK',
-                iconColor: '#d33',
-                confirmButtonColor: '#d33',
-            });
         }
     }
-
 
     return (
         <>

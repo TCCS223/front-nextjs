@@ -27,7 +27,7 @@ export default function Footer() {
                         <span className={styles.iconPhone}></span>
                         <div className={styles.infoPhone}>
                             <div className={styles.titlePhone}>Telefone</div>
-                            <Link href='tel:(00) 12345-6789' className={styles.numberPhone}>(14) 99675 - 6789</Link>
+                            <Link href='tel:(14) 99675 - 6789' className={styles.numberPhone}>(14) 99675 - 6789</Link>
                         </div>
                     </div>
 
@@ -35,7 +35,7 @@ export default function Footer() {
                         <span className={styles.iconTell}></span>
                         <div className={styles.infoTell}>
                             <div className={styles.titleTell}>Telefone</div>
-                            <Link href='tel:(00) 1234-5678' className={styles.numberTell}>(14) 3404 - 4014</Link>
+                            <Link href='tel: (14) 3404 - 4014' className={styles.numberTell}>(14) 3404 - 4014</Link>
                         </div>
                     </div>
 
@@ -43,7 +43,7 @@ export default function Footer() {
                         <span className={styles.iconEmail}></span>
                         <div className={styles.infoEmail}>
                             <div className={styles.titleEmail}>Email</div>
-                            <Link href='mailto: urban_estetica@teste.com' className={styles.addressEmail}>atendimento@urbanestetica.com</Link>
+                            <Link href='mailto: atendimento@urbanestetica.com' className={styles.addressEmail}>atendimento@urbanestetica.com</Link>
                         </div>
                     </div>
 
@@ -61,7 +61,7 @@ export default function Footer() {
                         <span className={styles.iconPhoneMobile}></span>
                         <div className={styles.infoPhoneMobile}>
                             <div className={styles.titlePhoneMobile}>Telefone</div>
-                            <Link href='tel:(00) 1234-5678' className={styles.numberPhoneMobile}>(00) 12345-6789 / (00) 1234-5678</Link>
+                            <Link href='tel:(14) 99675 - 6789' className={styles.numberPhoneMobile}>(14) 99675 - 6789 / (14) 3404 - 4014</Link>
                         </div>
                     </div>
 
@@ -69,7 +69,7 @@ export default function Footer() {
                         <span className={styles.iconEmailMobile}></span>
                         <div className={styles.infoEmailMobile}>
                             <div className={styles.titleEmailMobile}>Email</div>
-                            <Link href='mailto: urban_estetica@teste.com' className={styles.addressEmailMobile}>urban_estetica@teste.com</Link>
+                            <Link href='mailto: atendimento@urbanestetica.com' className={styles.addressEmailMobile}>atendimento@urbanestetica.com.com</Link>
                         </div>
                     </div>
 
@@ -77,14 +77,14 @@ export default function Footer() {
                         <span className={styles.iconAddressMobile}></span>
                         <div className={styles.infoAddressMobile}>
                             <div className={styles.titleAddressMobile}>Endereço</div>
-                            <div className={styles.localizationEmailMobile}>R Prof Massuyuki, 22, Tupã</div>
+                            <div className={styles.localizationEmailMobile}>R Bezerra de Menezes, 215, Tupã</div>
                         </div>
                     </div>
                 </div>
 
                 <div className={styles.footerLicense}>
                     <span className={styles.copyright}>Urban © 2024 - Todos os direitos reservados</span>
-                    <Link href="#" className={styles.footerTerms}>Termos & Políticas</Link>
+                    <Link href="/telas/termos" className={styles.footerTerms}>Termos & Referências</Link>
                 </div>
             </div>
         </footer >

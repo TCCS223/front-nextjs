@@ -12,6 +12,11 @@
   position: relative;
 }
 
+.emalta {
+  font-size: 2em;
+  color: white;
+}
+
 .input {
   display: none;
 }
@@ -57,7 +62,7 @@
 
 .section {
   width: 100%;
-height: 80vh;
+  height: 80vh;
 }
 
 .geral_servicos {
@@ -80,6 +85,11 @@ height: 80vh;
   background-color: #222;
   position: relative;
   margin-right: 15px;
+}
+
+.sidebar_buttons h2 {
+  font-size: 1em;
+  color: white;
 }
 
 .link_button {
@@ -154,7 +164,17 @@ height: 80vh;
 
   .section {
     width: 100%;
- height: 220vh;
+    height: 220vh;
+  }
+
+  .servico p {
+    font-size: 2.5rem;
+    text-align: center;
+    align-items: center;
+  }
+
+  .container_servicosMobile h2 {
+    display: none;
   }
 
   .container_servicos {
@@ -167,19 +187,19 @@ height: 80vh;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    grid-template-areas: 
-    "servico1 servico2"
-    "servico3 servico4"
-    "servico5 servico6";
+    grid-template-areas:
+      "servico1 servico2"
+      "servico3 servico4"
+      "servico5 servico6";
     grid-gap: 1rem;
     border-radius: 1rem;
-    box-shadow: 4px 4px 14px -7px rgba(0, 0, 0, 0.5);
-    margin: 1rem 0 ;
+    /* box-shadow: 4px 4px 14px -7px rgba(0, 0, 0, 0.5); */
+    margin: 1rem 0;
   }
 
-  .servico{
+  .servico {
     width: 100%;
-    height: 100%;
+    height: 85%;
     border-radius: 1rem;
     border: 0.15rem solid #cccccc;
     display: flex;
@@ -188,27 +208,32 @@ height: 80vh;
     justify-content: center;
   }
 
-  .um{
+  .um {
     grid-area: servico1;
   }
-  .dois{
+
+  .dois {
     grid-area: servico2;
   }
-  .tres{
+
+  .tres {
     grid-area: servico3;
   }
-  .quatro{
+
+  .quatro {
     grid-area: servico4;
   }
-  .cinco{
+
+  .cinco {
     grid-area: servico5;
   }
-  .seis{
+
+  .seis {
     grid-area: servico6;
   }
 
 
-  .img{
+  .img {
     width: 100%;
     height: 50%;
     justify-content: center;
@@ -216,7 +241,7 @@ height: 80vh;
     display: flex;
   }
 
-  .contentText{
+  .contentText {
     width: 90%;
     height: 40%;
     padding-top: 10px;
@@ -229,20 +254,20 @@ height: 80vh;
     border-top: .3rem solid #ff9d00;
   }
 
-  .imgServico{
+  .imgServico {
     width: 90%;
     height: 100%;
     margin: auto;
-   object-fit: fill;
+    object-fit: fill;
   }
 }
 
 @media screen and (max-width: 740px) {
 
- .section {
+  .section {
     width: 100%;
- height: 450vh;
- display: flex;
+    height: 450vh;
+    display: flex;
   }
 
   .container_servicosMobile {
@@ -251,13 +276,18 @@ height: 80vh;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(6, 1fr);
-    grid-template-areas: 
-    "servico1" "servico2"
-    "servico3" "servico4"
-    "servico5" "servico6";
+    grid-template-areas:
+      "servico1" "servico2"
+      "servico3" "servico4"
+      "servico5" "servico6";
     grid-gap: 1rem;
     border-radius: 1rem;
-    box-shadow: 4px 4px 14px -7px rgba(0, 0, 0, 0.5);
-    
+    /* box-shadow: 4px 4px 14px -7px rgba(0, 0, 0, 0.5); */
+  }
+
+  .container_servicosMobile h2 {
+    font-size: 2rem;
+    text-align: center;
+    display: flex;
   }
 }

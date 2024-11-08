@@ -30,6 +30,7 @@ export default function Servicos() {
                 <section className={styles.section}>
                     <div className={styles.geral_servicos}>
                         <div className={styles.sidebar_buttons}>
+                            <h1 className={styles.emalta}>Em alta</h1>
 
                             <Link href='' className={`${styles.link_button} ${tela === 1 ? styles.active : ''}`} onClick={() => setTela(1)}>
                                 Polimento e Cristalização da Pintura
@@ -55,6 +56,8 @@ export default function Servicos() {
                                 Proteção Cerâmica
                             </Link>
 
+                            <h2>Para conhecer todos os serviços, cadastre-se</h2>
+
                         </div>
 
                         <div className={styles.container_servicos}>
@@ -79,7 +82,8 @@ export default function Servicos() {
                         <div className={styles.container_servicosMobile}>
 
                             <div className={`${styles.servico} ${styles.um}`}>
-                                <div className={styles.img}>
+                                <p>Polimento</p>
+                                {/* <div className={styles.img}>
                                     <Image
                                         src={'/trocadeoleo1.png'}
                                         alt={"Troca de Óleo"}
@@ -88,13 +92,14 @@ export default function Servicos() {
                                         unoptimized={true}
                                         className={styles.imgServico}
                                     />
-                                </div>
+                                </div> */}
                                 <div className={styles.contentText}>
                                     Revitalize o brilho e a profundidade da cor do seu veículo com nosso serviço de polimento e cristalização. Removemos micro-riscos, manchas e marcas superficiais, aplicando uma camada de proteção que prolonga o efeito visual e protege contra agentes externos, como raios UV e poluição.
                                 </div>
                             </div>
                             <div className={`${styles.servico} ${styles.dois}`}>
-                                <div className={styles.img}>
+                            <p>Higienização</p>
+                                {/* <div className={styles.img}>
                                     <Image
                                         src={'/alinhamentocarro.png'}
                                         alt={"Alinhamento e Balanceamento"}
@@ -103,12 +108,13 @@ export default function Servicos() {
                                         unoptimized={true}
                                         className={styles.imgServico}
                                     />
-                                </div>
+                                </div> */}
                                 <div className={styles.contentText}>
                                     Mantenha o interior do seu carro sempre limpo e agradável. Nosso serviço de higienização interna inclui a limpeza profunda de estofados, carpetes, painéis e portas, utilizando produtos que eliminam odores, manchas e sujeira, garantindo um ambiente fresco e saudável para você e seus passageiros.</div>
                             </div>
                             <div className={`${styles.servico} ${styles.tres}`}>
-                                <div className={styles.img}>
+                            <p>Envelopamento</p>
+                                {/* <div className={styles.img}>
                                     <Image
                                         src={'/revisaodefreio.png'}
                                         alt={"Revisão de freios"}
@@ -117,12 +123,13 @@ export default function Servicos() {
                                         unoptimized={true}
                                         className={styles.imgServico}
                                     />
-                                </div>
+                                </div> */}
                                 <div className={styles.contentText}>
                                     Dê uma nova cara ao seu carro com o nosso serviço de envelopamento automotivo. Oferecemos uma ampla variedade de cores e acabamentos, incluindo fosco, brilhante e metálico. Além de alterar a estética do veículo, o envelopamento protege a pintura original contra arranhões e desgaste.</div>
                             </div>
                             <div className={`${styles.servico} ${styles.quatro}`}>
-                                <div className={styles.img}>
+                            <p>Vitrificação</p>
+                                {/* <div className={styles.img}>
                                     <Image
                                         src={'/bateriatrocar.png'}
                                         alt={"Substituição de Baterias"}
@@ -131,12 +138,13 @@ export default function Servicos() {
                                         unoptimized={true}
                                         className={styles.imgServico}
                                     />
-                                </div>
+                                </div> */}
                                 <div className={styles.contentText}>
                                     Melhore a visibilidade e segurança ao dirigir com nosso tratamento de vitrificação de vidros. Criamos uma camada repelente de água e sujeira sobre o para-brisa e vidros laterais, facilitando a remoção de detritos e garantindo uma visão clara em qualquer condição climática.</div>
                             </div>
                             <div className={`${styles.servico} ${styles.cinco}`}>
-                                <div className={styles.img}>
+                            <p>Pintura</p>
+                                {/* <div className={styles.img}>
                                     <Image
                                         src={'/suspensao.png'}
                                         alt={"Manutenção da Suspensão"}
@@ -145,12 +153,13 @@ export default function Servicos() {
                                         unoptimized={true}
                                         className={styles.imgServico}
                                     />
-                                </div>
+                                </div> */}
                                 <div className={styles.contentText}>
                                     Elimine imperfeições, riscos profundos e manchas na pintura com nosso serviço de correção. Utilizamos técnicas avançadas para restaurar a superfície original do seu veículo, garantindo um acabamento impecável e duradouro, sem a necessidade de repintura completa.</div>
                             </div>
                             <div className={`${styles.servico} ${styles.seis}`}>
-                                <div className={styles.img}>
+                            <p>Proteção Cerâmica</p>
+                                {/* <div className={styles.img}>
                                     <Image
                                         src={'/revisaoeletronica.png'}
                                         alt={"Diagnóstico Eletrônico"}
@@ -159,10 +168,11 @@ export default function Servicos() {
                                         unoptimized={true}
                                         className={styles.imgServico}
                                     />
-                                </div>
+                                </div> */}
                                 <div className={styles.contentText}>
                                     Proteja a pintura do seu carro com nosso serviço de aplicação de proteção cerâmica. Esse revestimento cria uma barreira resistente contra contaminantes, UV, e desgaste, além de oferecer um brilho duradouro. Ideal para quem deseja preservar a beleza e valor do veículo por mais tempo.</div>
                             </div>
+                            <h2>Para conhecer todos os serviços, cadastre-se</h2>
                         </div>
                     </div>
                 </section>
