@@ -10,7 +10,7 @@ const Termos = () => {
             <Header />
 
             <div className={styles.container}>
-                <h1 className={styles.titulo}>Termos e Referências</h1>
+                <h1 className={styles.titulo}>Termos, Políticas e Referências</h1>
 
                 <section className={styles.section}>
                     <h2>Política de Privacidade</h2>

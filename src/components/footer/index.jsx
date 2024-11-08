@@ -84,7 +84,7 @@ export default function Footer() {
 
                 <div className={styles.footerLicense}>
                     <span className={styles.copyright}>Urban © 2024 - Todos os direitos reservados</span>
-                    <Link href="/telas/termos" className={styles.footerTerms}>Termos & Referências</Link>
+                    <Link href="/telas/termos" className={styles.footerTerms}>Termos & Políticas</Link>
                 </div>
             </div>
         </footer >
