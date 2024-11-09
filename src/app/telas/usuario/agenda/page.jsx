@@ -39,10 +39,7 @@ const FullCalendarGeral = () => {
         agend_serv_situ_id: 1
     });
 
-    const handleRightClick = (e) => {
-        e.preventDefault(); // Isso impede a ação padrão de clique direito
-        // alert("Clique direito desabilitado!");
-      };
+    
 
     useEffect(() => {
         const storedData = localStorage.getItem('user');
@@ -70,7 +67,7 @@ const FullCalendarGeral = () => {
 
         ListarAgendamentosUsuario();
         ListarCategoriaServicos();
-        window.addEventListener("contextmenu", handleRightClick);
+      
     }, [userId]);
 
     const ListarAgendamentosUsuario = async () => {
@@ -300,6 +297,10 @@ console.log(eventos);
             locale: ptLocale,
             aspectRatio: 2,
             showNonCurrentDates: false,
+            // expandRows: true,
+            // allDaySlot: false,
+            // eventBackgroundColor: '#ff9d00',
+        //    eventColor: '#ff9d00',
             timeZone: 'local',
             eventOverlap: false,
             selectOverlap: false,
@@ -316,6 +317,11 @@ console.log(eventos);
             eventClick: handleEventClick,
             slotMinTime: '08:00:00',
             slotMaxTime: '18:00:00',
+            eventTimeFormat: {
+                hour: '2-digit',
+                minute: '2-digit',
+                meridiem: false
+              }
         });
 
         setCalendarApi(calendar);

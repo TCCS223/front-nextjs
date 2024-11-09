@@ -45,3 +45,6 @@ table {
 	border-spacing: 0;
 }
 
+.fc-direction-ltr .fc-timegrid-col-events {
+    margin: 0;
+}
