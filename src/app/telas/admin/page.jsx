@@ -1,4 +1,5 @@
 'use client';
+
 import React from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -36,7 +37,9 @@ export default function Home() {
             <div className={styles.header}>
                 <h1 className={styles.title}>Painel Administrativo</h1>
 
-                <Link href="/" className={styles.iconPower}><MdPowerSettingsNew className={styles.power} onClick={clearLocalStorage} /></Link>
+                <Link href="/" className={styles.iconPower}>
+                    <MdPowerSettingsNew className={styles.power} onClick={clearLocalStorage} />
+                </Link>
 
             </div>
             <div className={styles.sidebar}>

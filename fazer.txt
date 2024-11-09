@@ -16,9 +16,6 @@
 
     adicionar funções de editar e visualizar agendamento
 
-- TELA DE USUÁRIO -
-    histórico de SERVIÇOS
-
 - TELA DE CADASTRO
 
 

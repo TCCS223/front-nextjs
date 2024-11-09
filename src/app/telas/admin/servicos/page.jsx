@@ -10,7 +10,7 @@ import ModalNovaCategoria from '@/components/novaCategoria';
 import EditarCategoria from '@/components/editarCategoria';
 
 import { PiListMagnifyingGlassBold } from "react-icons/pi";
-import { MdRemoveRedEye, MdEdit, MdAdd } from "react-icons/md";
+import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 import Swal from 'sweetalert2';
 
 export default function Servicos() {
@@ -410,8 +410,6 @@ export default function Servicos() {
                         isViewing={isViewing}
                         isEditing={isEditing}
                         categoriasServ={categoriasServ}
-                        // listarServicoPorCatergoria={ListarServicoPorCatergoria}
-                        // servicoCat={servicoCat}
                         handleSubmit={handleSubmit}
                         Cancelar={Cancelar}
                     />
@@ -435,7 +433,6 @@ export default function Servicos() {
                                     className={styles.button_newCategory}
                                 >
                                     Nova Categoria
-                                    {/* <MdAdd className={styles.iconAdd} /> */}
                                 </button>
 
                                 <button
@@ -444,7 +441,6 @@ export default function Servicos() {
                                     className={styles.button_editCategory}
                                 >
                                     Editar Categoria
-                                    {/* <MdAdd className={styles.iconAdd} /> */}
                                 </button>
 
                                 <button
@@ -468,7 +464,6 @@ export default function Servicos() {
                                 </button>
                             </>
                         )}
-
                     </div>
                 </>
             )}

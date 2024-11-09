@@ -260,22 +260,22 @@ export default function HistoricoAgendamentos() {
                                             {agendSituacaoMap[agendamento.agend_serv_situ_id] || 'Desconhecido'}
                                         </div>
                                     </td>
-                                        <td>
-                                            <div className={styles.actionIcons}>
-                                                <i>
-                                                    <MdRemoveRedEye
-                                                        title="Visualizar"
-                                                        onClick={() => handleViewUser(usuario)}
-                                                    />
-                                                </i>
-                                                <i>
-                                                    <MdEdit
-                                                        title="Editar"
-                                                        onClick={() => handleEditUser(usuario)}
-                                                    />
-                                                </i>
-                                            </div>
-                                        </td>
+                                    <td>
+                                        <div className={styles.actionIcons}>
+                                            <i>
+                                                <MdRemoveRedEye
+                                                    title="Visualizar"
+                                                    onClick={() => handleViewUser(usuario)}
+                                                />
+                                            </i>
+                                            <i>
+                                                <MdEdit
+                                                    title="Editar"
+                                                    onClick={() => handleEditUser(usuario)}
+                                                />
+                                            </i>
+                                        </div>
+                                    </td>
                                 </tr>
                             ))
                         ) : (
@@ -309,6 +309,5 @@ export default function HistoricoAgendamentos() {
                 </button>
             </div>
         </div>
-
     );
 }

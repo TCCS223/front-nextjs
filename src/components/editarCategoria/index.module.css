@@ -65,6 +65,7 @@
     overflow: hidden;
     flex: 1;
 }
+
 .modalTable_td {
     padding: 12px;
     text-align: left;
@@ -134,11 +135,11 @@
     transition: .4s;
 }
 
-input:checked + .slider {
+input:checked+.slider {
     background-color: #4caf50;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
     transform: translateX(20px);
 }
 

@@ -1,11 +1,3 @@
-// import axios  from "axios";
-
-// const api = axios.create({
-//     baseURL: 'http://0.0.0.0:0'
-// });
-
-// export default api;
-
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -28,6 +20,5 @@ api.interceptors.request.use(
         return Promise.reject(error);
     }
 );
-// console.log(`${apiUrl}:${apiPorta}`);
 
 export default api;

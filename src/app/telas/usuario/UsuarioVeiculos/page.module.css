@@ -1,4 +1,3 @@
-/* Container Principal */
 .container {
     width: 100%;
     height: 80vh;
@@ -14,8 +13,6 @@
 .fundocards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    /*aumentei 50px na largura do card*/
-    /* grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); */
     grid-template-rows: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
     margin: 0;

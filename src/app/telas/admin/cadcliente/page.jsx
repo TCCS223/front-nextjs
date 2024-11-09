@@ -79,15 +79,15 @@ export default function CadCliente() {
     const ListarUsuarios = async () => {
         try {
             const response = await api.get('/usuarios');
-        
-        // Ordena os usuários pelo nome (usu_nome) em ordem alfabética ao carregar
-        const sortedUsers = response.data.dados.sort((a, b) => {
-            if (a.usu_nome < b.usu_nome) return -1;
-            if (a.usu_nome > b.usu_nome) return 1;
-            return 0;
-        });
 
-        setUsuarios(sortedUsers); // Define `usuarios` ordenado
+            // Ordena os usuários pelo nome (usu_nome) em ordem alfabética ao carregar
+            const sortedUsers = response.data.dados.sort((a, b) => {
+                if (a.usu_nome < b.usu_nome) return -1;
+                if (a.usu_nome > b.usu_nome) return 1;
+                return 0;
+            });
+
+            setUsuarios(sortedUsers); // Define `usuarios` ordenado
         } catch (error) {
             console.error("Erro ao buscar os usuários:", error);
             Swal.fire({
@@ -240,7 +240,6 @@ export default function CadCliente() {
         }
     };
 
-
     const validarSenha = (senha) => {
         const minLength = 8;
         const hasUpperCase = /[A-Z]/.test(senha);
@@ -330,7 +329,6 @@ export default function CadCliente() {
         return null;
     };
 
-
     function checkEmail(email) {
         return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
             email
@@ -362,17 +360,17 @@ export default function CadCliente() {
 
     const sortByColumn = (column) => {
         let newIsAsc = true;
-    
+
         if (sortedColumn === column) {
             newIsAsc = !isAsc;
         }
-    
+
         const sortedData = [...filteredUsers].sort((a, b) => {
             if (a[column] < b[column]) return newIsAsc ? -1 : 1;
             if (a[column] > b[column]) return newIsAsc ? 1 : -1;
             return 0;
         });
-    
+
         setFilteredUsers(sortedData);
         setSortedColumn(column);
         setIsAsc(newIsAsc);
@@ -515,12 +513,6 @@ export default function CadCliente() {
                                         Data de Nascimento
                                         {sortedColumn === 'usu_data_nasc' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
-                                    {/* <th
-                                            className={`${styles.tableHeader} ${styles.sexo}`}
-                                            onClick={() => sortByColumn('usu_sexo')}>
-                                            Sexo
-                                            {sortedColumn === 'usu_sexo' ? (isAsc ? '▲' : '▼') : ''}
-                                        </th> */}
                                     <th
                                         className={`${styles.tableHeader} ${styles.telefone}`}
                                         onClick={() => sortByColumn('usu_telefone')}>
@@ -543,9 +535,7 @@ export default function CadCliente() {
                                             <td className={styles.tdId}>{usuario.usu_id}</td>
                                             <td>{usuario.usu_nome}</td>
                                             <td>{usuario.usu_cpf}</td>
-                                            {/* <td>{format(new Date(usuario?.usu_data_nasc), 'dd/MM/yyyy')}</td> */}
                                             <td>{format(parseISO(usuario?.usu_data_nasc), 'dd/MM/yyyy')}</td>
-                                            {/* <td>{sexoMap[usuario.usu_sexo] || 'Desconhecido'}</td> */}
                                             <td>{usuario.usu_telefone}</td>
                                             <td>{usuario.usu_email}</td>
                                             <td>
@@ -593,7 +583,6 @@ export default function CadCliente() {
                 </>
             ) : (
                 <>
-
                     <FormCliente
                         selectedUser={selectedUser}
                         setSelectedUser={setSelectedUser}
@@ -685,7 +674,6 @@ export default function CadCliente() {
                 onClose={() => setModalCategoriaOpen(false)}
                 onCategoriaCriada={handleCategoriaCriada}
             />
-
         </div>
     );
 }

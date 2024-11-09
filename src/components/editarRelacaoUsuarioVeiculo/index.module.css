@@ -55,7 +55,8 @@
     z-index: 1;
 }
 
-.modalTable_th, .modalTable_td {
+.modalTable_th,
+.modalTable_td {
     padding: 12px;
     text-align: left;
     white-space: nowrap;
@@ -73,7 +74,7 @@
     padding: 10px 0;
 }
 
-.headerTable{
+.headerTable {
     background-color: #ff9d00 !important;
 }
 
@@ -107,7 +108,9 @@
     width: 100px;
 }
 
-.btnCancel, .btnSave, .btnEdit {
+.btnCancel,
+.btnSave,
+.btnEdit {
     width: auto;
     padding: 6px 10px;
     font-size: 16px;
@@ -144,7 +147,7 @@
     background-color: #f39200;
 }
 
-.iconModalClose{
+.iconModalClose {
     cursor: pointer;
     position: absolute;
     top: 1rem;
@@ -159,12 +162,15 @@
         padding: 15px;
     }
 
-    .modalTable_th, .modalTable_td {
+    .modalTable_th,
+    .modalTable_td {
         font-size: 14px;
         padding: 8px;
     }
 
-    .btnCancel, .btnSave, .btnEdit {
+    .btnCancel,
+    .btnSave,
+    .btnEdit {
         padding: 8px;
         font-size: 14px;
     }

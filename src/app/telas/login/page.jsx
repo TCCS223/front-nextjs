@@ -46,7 +46,7 @@ export default function LoginUsu() {
 
                 localStorage.clear();
                 localStorage.setItem('user', JSON.stringify(objLogado));
-                
+
                 Cookies.set('token', usuario.usu_id, { expires: 7, path: '/' });
 
                 if (usuario.usu_acesso === 1) {
@@ -54,7 +54,7 @@ export default function LoginUsu() {
                 } else {
                     router.push('/telas/usuario');
                 }
-            } 
+            }
         } catch (error) {
             if (error.response) {
                 const status = error.response.status;
@@ -69,7 +69,7 @@ export default function LoginUsu() {
                         iconColor: '#FFA500',
                         confirmButtonColor: '#FFA500',
                     });
-                } 
+                }
                 else if (status === 403 && tipoErro === 'credenciais') {
                     Swal.fire({
                         icon: 'error',
@@ -79,7 +79,7 @@ export default function LoginUsu() {
                         iconColor: '#d33',
                         confirmButtonColor: '#d33',
                     });
-                } 
+                }
                 else {
                     Swal.fire({
                         icon: 'error',

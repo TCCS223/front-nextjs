@@ -1,17 +1,17 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 
 import api from "@/services/api";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { cpf as cpfValidator } from 'cpf-cnpj-validator';
 import InputMask from "react-input-mask";
 import Swal from "sweetalert2";
-import { cpf as cpfValidator } from 'cpf-cnpj-validator';
 
 export default function Cadastro() {
     const [showPassword, setShowPassword] = useState(false);

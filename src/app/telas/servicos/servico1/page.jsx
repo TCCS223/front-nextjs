@@ -1,12 +1,9 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import styles from './page.module.css';
-
 
 export default function Servico1() {
   return (
-    <>
-      
+    <>      
         <div className={styles.image_servicos}>
 
           <Image

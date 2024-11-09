@@ -1,5 +1,4 @@
 .title_page {
-    
     color: #ff9d00;
     border-bottom: 2px solid #ff9d00;
     padding: 15px;
@@ -56,11 +55,6 @@
     font-size: 18px;
     background-color: transparent;
 }
-
-/* .input_cliente_password:focus{
-      outline: none;
-      border: none;
-  } */
 
 .grid {
     display: contents;

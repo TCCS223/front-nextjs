@@ -9,7 +9,7 @@ import FormVeiculo from '@/components/FormVeiculo';
 import ModalRelacionarUsuario from '@/components/relacionarUsuario';
 import ModalProprietarios from '@/components/editarRelacaoUsuarioVeiculo';
 
-import { MdRemoveRedEye, MdEdit, MdAdd } from "react-icons/md";
+import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import Swal from 'sweetalert2';
 
@@ -570,7 +570,6 @@ export default function Veiculos() {
                                         onClick={handleRelacionarUsuario}
                                     >
                                         Proprietários
-                                        {/* <MdAdd className={styles.iconAdd} /> */}
                                     </button>
                                     <button
                                         type="button"
@@ -578,7 +577,6 @@ export default function Veiculos() {
                                         onClick={handleEditarRelacao}
                                     >
                                         Relacionamento
-                                        {/* <MdAdd className={styles.iconAdd} /> */}
                                     </button>
                                     <button
                                         type="reset"

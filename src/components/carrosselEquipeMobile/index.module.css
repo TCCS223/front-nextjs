@@ -1,57 +1,57 @@
 .sectionHeading {
     text-align: center;
     font-size: 3rem;
-    color: #ff9d00;  
+    color: #ff9d00;
     margin-bottom: 2rem;
-  }
-  
-  .employeeContainer {
+}
+
+.employeeContainer {
     display: grid;
     grid-template-columns: 1fr;
     grid-gap: 20px;
     width: 100%;
     margin: 0 auto;
-  }
-  
-  .employeeCard {
+}
+
+.employeeCard {
     background-color: #fff;
     padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 100%;
-  }
-  
-  .employeeImage {
+}
+
+.employeeImage {
     max-width: 300px;
     max-height: 300px;
     border-radius: 50%;
     margin-bottom: 15px;
-  }
-  
-  .employeeName {
+}
+
+.employeeName {
     font-size: 1.5rem;
     margin-bottom: 10px;
     color: #333;
-  }
-  
-  .employeePosition {
+}
+
+.employeePosition {
     font-size: 1.2rem;
     margin-bottom: 10px;
     color: #777;
-  }
-  
-  .employeeDescription {
+}
+
+.employeeDescription {
     font-size: 1rem;
     color: #666;
-  }
-  
-  .carouselWrapper {
+}
+
+.carouselWrapper {
     width: 100%;
     margin: 0 auto;
-  }
-  
-  .customPrevArrow {
+}
+
+.customPrevArrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -63,9 +63,9 @@
     z-index: 2;
     font-size: 3rem;
     transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  .customNextArrow {
+}
+
+.customNextArrow {
     position: absolute;
     top: 50%;
     right: 0;
@@ -78,16 +78,16 @@
     z-index: 2;
     font-size: 3rem;
     transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  .customPrevArrow:hover,
-  .customNextArrow:hover {
+}
+
+.customPrevArrow:hover,
+.customNextArrow:hover {
     color: #ff9d00;
-  }
-  
-  @media (max-width: 768px) {
+}
+
+@media (max-width: 768px) {
     .employeeCard {
         max-width: 100%;
         margin: 0 auto;
     }
-  }
+}

@@ -48,7 +48,6 @@
     grid-column: span 2;
 }
 
-
 .grid_categoria,
 .grid_marca,
 .grid_ano,
@@ -59,8 +58,8 @@
     grid-column: span 3;
 }
 
-.grid_modelo{
-    grid-column:  span 4;
+.grid_modelo {
+    grid-column: span 4;
 }
 
 .grid_observacoes {
