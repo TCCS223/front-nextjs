@@ -69,6 +69,8 @@ export default function LoginUsu() {
                         iconColor: '#FFA500',
                         confirmButtonColor: '#FFA500',
                     });
+                    setEmail('');
+                    setSenha('');
                 }
                 else if (status === 403 && tipoErro === 'credenciais') {
                     Swal.fire({
@@ -79,6 +81,8 @@ export default function LoginUsu() {
                         iconColor: '#d33',
                         confirmButtonColor: '#d33',
                     });
+                    setEmail('');
+                    setSenha('');
                 }
                 else {
                     Swal.fire({
@@ -89,6 +93,8 @@ export default function LoginUsu() {
                         iconColor: '#d33',
                         confirmButtonColor: '#d33',
                     });
+                    setEmail('');
+                    setSenha('');
                 }
             } else {
                 Swal.fire({
@@ -99,6 +105,8 @@ export default function LoginUsu() {
                     iconColor: '#d33',
                     confirmButtonColor: '#d33',
                 });
+                setEmail('');
+                setSenha('');
             }
         }
     }
