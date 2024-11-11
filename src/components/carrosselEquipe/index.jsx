@@ -105,23 +105,23 @@ export default function CarrosselEquipe() {
                 <div className={styles.employeeContainer}>
                     <div className={styles.employeeCard}>
                         <Image
-                            src='/mecanico.png'
+                            src='/mecanico3.png'
                             alt="Marcos Pereira"
                             width={450}
                             height={450}
                             className={styles.employeeImage}
                         />
-                        <h3 className={styles.employeeName}>Leopoldo Henrique</h3>
+                        <h3 className={styles.employeeName}>Cléber Sampaio</h3>
                         <p className={styles.employeePosition}>Técnico em Eletrônica</p>
                         <p className={styles.employeeDescription}>Especializado em sistemas eletrônicos de veículos.</p>
                     </div>
 
                     <div className={styles.employeeCard}>
                         <Image
-                            src='/mecanico.png'
+                            src='/mecanico4.png'
                             alt="imagem"
-                            width={450}
-                            height={450}
+                            width={650}
+                            height={650}
                             className={styles.employeeImage}
                         />
                         <h3 className={styles.employeeName}>João Silva</h3>

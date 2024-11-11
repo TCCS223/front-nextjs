@@ -39,7 +39,11 @@ const FullCalendarGeral = () => {
         agend_serv_situ_id: 1
     });
 
-    
+    useEffect(() => {
+        if (userId) {
+            ListarVeiculosUsuario(); // Chama a função de listar veículos com o userId atualizado
+        }
+    }, [userId]); 
 
     useEffect(() => {
         const storedData = localStorage.getItem('user');
@@ -51,47 +55,92 @@ const FullCalendarGeral = () => {
     }, []);
 
     useEffect(() => {
-        if (userAcesso == 0) {
+        if (userAcesso === 0) {
             const storedUser = localStorage.getItem('user');
             if (storedUser) {
                 const parsedUser = JSON.parse(storedUser);
                 setUserId(parsedUser?.id || null);
             }
         }
-    }, [userAcesso])
+    }, [userAcesso]);
 
     useEffect(() => {
-        if (userId !== null) {
-            ListarVeiculosUsuario();
+        if (userAcesso === 1 && userId == null) {
+            // Admin: Carrega todos os agendamentos
+            ListarAgendamentosTodos();
+        } else if (userAcesso === 0 && userId !== null) {
+            // Usuário: Carrega apenas os agendamentos do usuário
+            ListarAgendamentosUsuario();
         }
-
-        ListarAgendamentosUsuario();
+    
         ListarCategoriaServicos();
-      
-    }, [userId]);
+    }, [userId, userAcesso]);
 
     const ListarAgendamentosUsuario = async () => {
         try {
-            const response = await api.get(`/agendamentos/usuarios/${userId}`);
-            setAgendamentoUsuario(response.data.dadosUsuario);
+            const response = await api.get(`/agendamentos/usuarios/${userId}/${userAcesso}`);
+            setAgendamentoUsuario(response.data.dadosTodos);
             setEventos(response.data.dadosTodos);
-            
+
         } catch (error) {
             console.error("Erro ao buscar agendamentos:", error);
         }
     };
 
-console.log(eventos);
+    const ListarAgendamentosTodos = async () => {
+        try {
+            const response = await api.get('/agendamentos/todos');
+            console.log("teste: ", response.data.dados);
+
+            setEventos(response.data.dadosTodos);
+        } catch (error) {
+            console.error("Erro ao buscar todos os agendamentos:", error);
+        }
+    };
+
+    console.log("userId: ", userId);
+    console.log("userAcesso: ", userAcesso)
+    console.log("eventos: ", eventos);
 
 
     const BuscarUsuarioPorCpf = async () => {
+        if (!cpfUsuario || cpfUsuario.trim().length === 0) {
+            Swal.fire({
+                title: 'CPF inválido',
+                text: 'Por favor, insira um CPF válido.',
+                icon: 'error',
+                confirmButtonColor: '#d33',
+                iconColor: '#d33'
+            });
+            return;
+        }
+    
         try {
             const response = await api.post('/usuarios/cpf', { usu_cpf: cpfUsuario });
-            setUserId(response.data.dados?.usu_id);
+            
+            if (response.data.dados && response.data.dados.usu_id) {
+                setUserId(response.data.dados.usu_id);
+            } else {
+                Swal.fire({
+                    title: 'Usuário não encontrado',
+                    text: 'Não foi possível encontrar um usuário com este CPF.',
+                    icon: 'warning',
+                    confirmButtonColor: '#ff9d00',
+                    iconColor: '#ff9d00'
+                });
+            }
         } catch (error) {
             console.error("Erro ao buscar usuário:", error);
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Ocorreu um erro ao tentar buscar o usuário. Por favor, tente novamente.',
+                icon: 'error',
+                confirmButtonColor: '#d33',
+                iconColor: '#d33'
+            });
         }
     };
+    
 
     const ListarVeiculosUsuario = async () => {
         if (!userId) return;
@@ -99,7 +148,6 @@ console.log(eventos);
         try {
             const response = await api.get(`/veiculoUsuario/usuario/${userId}`);
             setVeiculos(response.data.dados || []);
-
 
         } catch (error) {
             console.error("Erro ao buscar veículos:", error);
@@ -159,9 +207,33 @@ console.log(eventos);
     };
 
     const handleEventClick = (info) => {
-        setModalEvent(info.event);
+        // Verifique se info.event.extendedProps.userId está corretamente preenchido
+        console.log('userAcesso:', userAcesso);
+        console.log('info.event.extendedProps.userId:', info.event.extendedProps.userId);
+        console.log('userId:', userId);
+        
+        if (userAcesso === 1 || parseInt(info.event.extendedProps.userId) === parseInt(userId)) {
+            // Admin (acesso 1) ou usuário visualizando seu próprio evento (acesso 0)
+            setModalEvent(info.event);
         setShowModal(true);
+        } else {
+            // Evento bloqueado para visualização
+            Swal.fire({
+                icon: 'info',
+                title: 'Acesso restrito',
+                text: 'Você não tem permissão para visualizar os detalhes deste agendamento.',
+                iconColor: '#ff9d00',
+                confirmButtonColor: '#ff9d00',
+            });
+        }
     };
+    
+    
+
+    // const handleEventClick = (info) => {
+    //     setModalEvent(info.event);
+    //     setShowModal(true);
+    // };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -300,7 +372,7 @@ console.log(eventos);
             // expandRows: true,
             // allDaySlot: false,
             // eventBackgroundColor: '#ff9d00',
-        //    eventColor: '#ff9d00',
+            //    eventColor: '#ff9d00',
             timeZone: 'local',
             eventOverlap: false,
             selectOverlap: false,
@@ -321,7 +393,7 @@ console.log(eventos);
                 hour: '2-digit',
                 minute: '2-digit',
                 meridiem: false
-              }
+            }
         });
 
         setCalendarApi(calendar);

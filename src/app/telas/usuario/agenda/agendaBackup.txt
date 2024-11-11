@@ -39,8 +39,6 @@ const FullCalendarGeral = () => {
         agend_serv_situ_id: 1
     });
 
-    
-
     useEffect(() => {
         const storedData = localStorage.getItem('user');
 
@@ -80,9 +78,6 @@ const FullCalendarGeral = () => {
             console.error("Erro ao buscar agendamentos:", error);
         }
     };
-
-console.log(eventos);
-
 
     const BuscarUsuarioPorCpf = async () => {
         try {
@@ -300,7 +295,7 @@ console.log(eventos);
             // expandRows: true,
             // allDaySlot: false,
             // eventBackgroundColor: '#ff9d00',
-        //    eventColor: '#ff9d00',
+            // eventColor: '#ff9d00',
             timeZone: 'local',
             eventOverlap: false,
             selectOverlap: false,
