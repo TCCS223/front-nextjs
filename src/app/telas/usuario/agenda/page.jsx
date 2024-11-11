@@ -41,7 +41,7 @@ const FullCalendarGeral = () => {
 
     useEffect(() => {
         if (userId) {
-            ListarVeiculosUsuario(); // Chama a função de listar veículos com o userId atualizado
+            ListarVeiculosUsuario();
         }
     }, [userId]);
 
@@ -66,10 +66,8 @@ const FullCalendarGeral = () => {
 
     useEffect(() => {
         if (userAcesso === 1 && userId == null) {
-            // Admin: Carrega todos os agendamentos
             ListarAgendamentosTodos();
         } else if (userAcesso === 0 && userId !== null) {
-            // Usuário: Carrega apenas os agendamentos do usuário
             ListarAgendamentosUsuario();
         }
 
@@ -90,18 +88,12 @@ const FullCalendarGeral = () => {
     const ListarAgendamentosTodos = async () => {
         try {
             const response = await api.get('/agendamentos/todos');
-            console.log("teste: ", response.data.dados);
 
             setEventos(response.data.dadosTodos);
         } catch (error) {
             console.error("Erro ao buscar todos os agendamentos:", error);
         }
     };
-
-    console.log("userId: ", userId);
-    console.log("userAcesso: ", userAcesso)
-    console.log("eventos: ", eventos);
-
 
     const BuscarUsuarioPorCpf = async () => {
         if (!cpfUsuario || cpfUsuario.trim().length === 0) {
@@ -228,13 +220,6 @@ const FullCalendarGeral = () => {
         }
     };
 
-
-
-    // const handleEventClick = (info) => {
-    //     setModalEvent(info.event);
-    //     setShowModal(true);
-    // };
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
@@ -260,12 +245,34 @@ const FullCalendarGeral = () => {
         setCpfUsuario(e.target.value);
     };
 
+    // const verificarHorarioDisponivel = async () => {
+    //     const { agend_data, agend_horario } = formValues;
+    //     try {
+    //         const response = await api.post('/agendamentos/verificarhorario', {
+    //             agend_data,
+    //             agend_horario
+    //         });
+
+    //         return response.data.disponivel;
+    //     } catch (error) {
+    //         console.error("Erro ao verificar disponibilidade do horário:", error);
+    //         Swal.fire({
+    //             icon: 'error',
+    //             title: 'Erro ao verificar disponibilidade!',
+    //             text: 'Ocorreu um erro ao tentar verificar o horário. Por favor, tente novamente.',
+    //             iconColor: '#d33',
+    //             confirmButtonColor: '#d33',
+    //         });
+    //         return false;
+    //     }
+    // };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const { cat_serv_id, ...dataToSend } = formValues;
         const horario = formValues.agend_horario;
-        
+
         const [hour, minute] = horario.split(":").map(Number);
 
         if (hour < 8 || (hour === 17 && minute > 0) || hour > 17) {
@@ -278,6 +285,18 @@ const FullCalendarGeral = () => {
             });
             return;
         }
+
+        // const horarioDisponivel = await verificarHorarioDisponivel();
+        // if (!horarioDisponivel) {
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title: 'Horário Indisponível!',
+        //         text: 'Esse horário já está agendado. Por favor, escolha outro horário.',
+        //         iconColor: '#d33',
+        //         confirmButtonColor: '#d33',
+        //     });
+        //     return;
+        // }
 
         const newEvent = {
             id: String(events.length + 1),
