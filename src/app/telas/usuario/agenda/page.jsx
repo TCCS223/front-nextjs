@@ -43,7 +43,7 @@ const FullCalendarGeral = () => {
         if (userId) {
             ListarVeiculosUsuario(); // Chama a função de listar veículos com o userId atualizado
         }
-    }, [userId]); 
+    }, [userId]);
 
     useEffect(() => {
         const storedData = localStorage.getItem('user');
@@ -72,7 +72,7 @@ const FullCalendarGeral = () => {
             // Usuário: Carrega apenas os agendamentos do usuário
             ListarAgendamentosUsuario();
         }
-    
+
         ListarCategoriaServicos();
     }, [userId, userAcesso]);
 
@@ -114,10 +114,10 @@ const FullCalendarGeral = () => {
             });
             return;
         }
-    
+
         try {
             const response = await api.post('/usuarios/cpf', { usu_cpf: cpfUsuario });
-            
+
             if (response.data.dados && response.data.dados.usu_id) {
                 setUserId(response.data.dados.usu_id);
             } else {
@@ -140,7 +140,7 @@ const FullCalendarGeral = () => {
             });
         }
     };
-    
+
 
     const ListarVeiculosUsuario = async () => {
         if (!userId) return;
@@ -211,11 +211,11 @@ const FullCalendarGeral = () => {
         console.log('userAcesso:', userAcesso);
         console.log('info.event.extendedProps.userId:', info.event.extendedProps.userId);
         console.log('userId:', userId);
-        
+
         if (userAcesso === 1 || parseInt(info.event.extendedProps.userId) === parseInt(userId)) {
             // Admin (acesso 1) ou usuário visualizando seu próprio evento (acesso 0)
             setModalEvent(info.event);
-        setShowModal(true);
+            setShowModal(true);
         } else {
             // Evento bloqueado para visualização
             Swal.fire({
@@ -227,8 +227,8 @@ const FullCalendarGeral = () => {
             });
         }
     };
-    
-    
+
+
 
     // const handleEventClick = (info) => {
     //     setModalEvent(info.event);
@@ -264,6 +264,20 @@ const FullCalendarGeral = () => {
         e.preventDefault();
 
         const { cat_serv_id, ...dataToSend } = formValues;
+        const horario = formValues.agend_horario;
+        
+        const [hour, minute] = horario.split(":").map(Number);
+
+        if (hour < 8 || (hour === 17 && minute > 0) || hour > 17) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Horário inválido!',
+                text: 'Por favor, selecione um horário entre 08:00 e 17:00.',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
+            });
+            return;
+        }
 
         const newEvent = {
             id: String(events.length + 1),
@@ -501,6 +515,8 @@ const FullCalendarGeral = () => {
                                         <input
                                             type="time"
                                             name="agend_horario"
+                                            min="08:00"
+                                            max="17:00"
                                             value={formValues.agend_horario}
                                             onChange={handleInputChange}
                                             className={styles.input}
