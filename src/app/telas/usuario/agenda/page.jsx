@@ -39,6 +39,10 @@ const FullCalendarGeral = () => {
         agend_serv_situ_id: 1
     });
 
+    console.log(modalEvent);
+
+
+
     useEffect(() => {
         if (userId) {
             ListarVeiculosUsuario();
@@ -199,17 +203,14 @@ const FullCalendarGeral = () => {
     };
 
     const handleEventClick = (info) => {
-        // Verifique se info.event.extendedProps.userId está corretamente preenchido
-        console.log('userAcesso:', userAcesso);
-        console.log('info.event.extendedProps.userId:', info.event.extendedProps.userId);
-        console.log('userId:', userId);
+        const isOwner = parseInt(info.event.extendedProps.userId) === parseInt(userId);
 
-        if (userAcesso === 1 || parseInt(info.event.extendedProps.userId) === parseInt(userId)) {
-            // Admin (acesso 1) ou usuário visualizando seu próprio evento (acesso 0)
+        if (userAcesso === 1 || isOwner) {
+            // Administrador ou usuário visualizando seu próprio evento
             setModalEvent(info.event);
             setShowModal(true);
         } else {
-            // Evento bloqueado para visualização
+            // Caso o evento seja bloqueado para visualização
             Swal.fire({
                 icon: 'info',
                 title: 'Acesso restrito',
@@ -219,6 +220,25 @@ const FullCalendarGeral = () => {
             });
         }
     };
+
+
+    // const handleEventClick = (info) => {
+
+    //     if (userAcesso === 1 || parseInt(info.event.extendedProps.userId) === parseInt(userId)) {
+    //         // Admin (acesso 1) ou usuário visualizando seu próprio evento (acesso 0)
+    //         setModalEvent(info.event);
+    //         setShowModal(true);
+    //     } else {
+    //         // Evento bloqueado para visualização
+    //         Swal.fire({
+    //             icon: 'info',
+    //             title: 'Acesso restrito',
+    //             text: 'Você não tem permissão para visualizar os detalhes deste agendamento.',
+    //             iconColor: '#ff9d00',
+    //             confirmButtonColor: '#ff9d00',
+    //         });
+    //     }
+    // };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -307,6 +327,8 @@ const FullCalendarGeral = () => {
             textColor: '#000'
         };
 
+
+
         try {
             await api.post('/agendamentos', dataToSend);
             setEvents([...events, newEvent]);
@@ -332,6 +354,7 @@ const FullCalendarGeral = () => {
             });
         }
         ListarAgendamentosUsuario();
+        ListarAgendamentosTodos();
     };
 
     const handleCancel = () => {
@@ -450,10 +473,16 @@ const FullCalendarGeral = () => {
                     <div className={styles.modalContent}>
                         {modalEvent ? (
                             <>
-                                <CalendarEventDetailsModal
+                                {/* <CalendarEventDetailsModal
                                     modalEvent={modalEvent}
                                     onClose={visualizacao}
                                     isEditable={userAcesso === 1}
+                                /> */}
+                                <CalendarEventDetailsModal
+                                    veiculos={veiculos}
+                                    modalEvent={modalEvent}
+                                    onClose={visualizacao}
+                                    isEditable={userAcesso === 1 || parseInt(modalEvent.extendedProps.userId) === parseInt(userId)}
                                 />
                             </>
                         ) : (
@@ -534,8 +563,8 @@ const FullCalendarGeral = () => {
                                         <input
                                             type="time"
                                             name="agend_horario"
-                                            min="08:00"
-                                            max="17:00"
+                                            min="08:00" // verificar 
+                                            max="17:00" // verificar 
                                             value={formValues.agend_horario}
                                             onChange={handleInputChange}
                                             className={styles.input}

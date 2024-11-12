@@ -2,13 +2,17 @@ import React, { useState, useEffect } from 'react';
 import styles from './index.module.css';
 
 import api from '@/services/api';
-
 import { format, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import Swal from 'sweetalert2';
 
-const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable }) => {
+const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable, veiculos }) => {
     const [agendSituacao, setAgendSituacao] = useState(null);
+    const [agendData, setAgendData] = useState('');
+    const [agendHorario, setAgendHorario] = useState('');
+    const [veicUsuId, setVeicUsuId] = useState(''); // Mudança: use veicUsuId para capturar a placa selecionada
+    const [agendObserv, setAgendObserv] = useState('');
+    const [servNome, setServNome] = useState('');
 
     const situacaoMap = {
         1: 'Pendente',
@@ -20,23 +24,30 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable }) => {
     useEffect(() => {
         if (modalEvent) {
             setAgendSituacao(parseInt(modalEvent?._def?.extendedProps?.agend_serv_situ_id, 10));
+            setAgendData(modalEvent._def.extendedProps.agend_data || '');
+            setAgendHorario(modalEvent._def.extendedProps.agend_horario || '');
+            setAgendObserv(modalEvent._def.extendedProps.agend_observ || '');
+            setServNome(modalEvent._def.extendedProps.serv_nome || '');
+            setVeicUsuId(modalEvent._def.extendedProps.veic_usu_id || ''); // Definir veicUsuId ao abrir modal
         }
     }, [modalEvent]);
 
-    const handleSituacaoChange = (e) => {
-        const newSituacao = parseInt(e.target.value, 10);
-        setAgendSituacao(newSituacao);
-    };
+    const handleSituacaoChange = (e) => setAgendSituacao(parseInt(e.target.value, 10));
+    const handleInputChange = (setter) => (e) => setter(e.target.value);
+    const handleVeicPlacaChange = (e) => setVeicUsuId(e.target.value); // Atualizar veicUsuId ao selecionar
 
     const editarSituacaoDoAgendamento = async () => {
         try {
-            await api.patch(`/agendamentos/situacao/${modalEvent?._def?.extendedProps?.agend_id}`, {
-                agend_serv_situ_id: agendSituacao
+            await api.patch(`/agendamentos/${modalEvent?._def?.extendedProps?.agend_id}`, {
+                veic_usu_id: veicUsuId, // Usar veicUsuId do estado aqui
+                agend_data: agendData,
+                agend_horario: agendHorario,
+                agend_serv_situ_id: agendSituacao,
+                agend_observ: agendObserv,
             });
             Swal.fire({
                 icon: 'success',
-                title: 'Situação atualizada!',
-                text: `A situação foi alterada para ${situacaoMap[agendSituacao]}.`,
+                title: 'Agendamento atualizado!',
                 confirmButtonText: 'OK',
                 iconColor: "rgb(40, 167, 69)",
                 confirmButtonColor: "rgb(40, 167, 69)",
@@ -46,11 +57,10 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable }) => {
                 }
             });
         } catch (error) {
-            console.error('Erro ao atualizar situação do agendamento:', error);
             Swal.fire({
                 icon: 'error',
                 title: 'Erro',
-                text: 'Não foi possível atualizar a situação do agendamento.',
+                text: 'Não foi possível atualizar o agendamento.',
                 confirmButtonText: 'OK',
                 iconColor: '#d33',
                 confirmButtonColor: '#d33',
@@ -62,34 +72,68 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable }) => {
         <div className={styles.modal}>
             <div className={styles.modalContent}>
                 <h2>Detalhes do Agendamento {modalEvent?._def?.extendedProps?.agend_id}</h2>
-
                 <div className={styles.detailsContainer}>
+                    
                     <div className={styles.detailsItem}>
                         <span className={styles.detailsLabel}>Data:</span>
-                        <span>
-                            {modalEvent?._def?.extendedProps?.agend_data
-                                ? format(parseISO(modalEvent._def.extendedProps.agend_data), 'dd/MM/yyyy', { locale: ptBR })
-                                : ''}
-                        </span>
+                        {isEditable ? (
+                            <input
+                                type="date"
+                                value={agendData}
+                                onChange={handleInputChange(setAgendData)}
+                                className={styles.detailsInput}
+                            />
+                        ) : (
+                            <span>
+                                {modalEvent?._def?.extendedProps?.agend_data
+                                    ? format(parseISO(modalEvent._def.extendedProps.agend_data), 'dd/MM/yyyy', { locale: ptBR })
+                                    : ''}
+                            </span>
+                        )}
                     </div>
                     <div className={styles.detailsItem}>
                         <span className={styles.detailsLabel}>Horário:</span>
-                        <span>
-                            {modalEvent?._def?.extendedProps?.agend_horario
-                                ? format(parseISO(`1970-01-01T${modalEvent._def.extendedProps.agend_horario}`), 'HH:mm')
-                                : ''}
-                        </span>
+                        {isEditable ? (
+                            <input
+                                type="time"
+                                value={agendHorario}
+                                onChange={handleInputChange(setAgendHorario)}
+                                className={styles.detailsInput}
+                            />
+                        ) : (
+                            <span>
+                                {modalEvent?._def?.extendedProps?.agend_horario
+                                    ? format(parseISO(`1970-01-01T${modalEvent._def.extendedProps.agend_horario}`), 'HH:mm')
+                                    : ''}
+                            </span>
+                        )}
                     </div>
                     <div className={styles.detailsItem}>
                         <span className={styles.detailsLabel}>Placa:</span>
-                        <span>{modalEvent?._def?.extendedProps?.veic_placa}</span>
+                        {isEditable ? (
+                            <select
+                                value={veicUsuId} // Usar veicUsuId como valor atual
+                                onChange={handleVeicPlacaChange}
+                                className={styles.detailsInput}
+                            >
+                                {veiculos.length > 0 ? (
+                                    veiculos.map((veiculo) => (
+                                        <option key={veiculo.veic_usu_id} value={veiculo.veic_usu_id}>
+                                            {veiculo.veic_placa}
+                                        </option>
+                                    ))
+                                ) : (
+                                    <option disabled>Nenhum veículo disponível</option>
+                                )}
+                            </select>
+                        ) : (
+                            <span>{veiculos.find(v => v.veic_usu_id === veicUsuId)?.veic_placa || 'Não especificado'}</span>
+                        )}
                     </div>
-
                     <div className={styles.detailsItem}>
                         <span className={styles.detailsLabel}>Serviço:</span>
-                        <span>{modalEvent?._def?.extendedProps?.serv_nome || 'Não especificado'}</span>
+                        <span>{servNome || 'Não especificado'}</span>
                     </div>
-
                     <div className={styles.detailsItem}>
                         <span className={styles.detailsLabel}>Situação:</span>
                         {isEditable ? (
@@ -98,29 +142,34 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable }) => {
                                 onChange={handleSituacaoChange}
                                 className={styles.detailsSelect}
                             >
-                                <option value='1'>Pendente</option>
-                                <option value='2'>Em andamento</option>
-                                <option value='3'>Concluído</option>
-                                <option value='4'>Cancelado</option>
+                                {Object.entries(situacaoMap).map(([id, situacao]) => (
+                                    <option key={id} value={id}>{situacao}</option>
+                                ))}
                             </select>
                         ) : (
                             <span>{situacaoMap[agendSituacao]}</span>
                         )}
                     </div>
-
                     <div className={styles.detailsItem}>
                         <span className={styles.detailsLabel}>Observação:</span>
-                        <span>{modalEvent?._def?.extendedProps?.agend_observ}</span>
+                        {isEditable ? (
+                            <textarea
+                                value={agendObserv}
+                                onChange={handleInputChange(setAgendObserv)}
+                                className={styles.detailsTextarea}
+                            />
+                        ) : (
+                            <span>{agendObserv}</span>
+                        )}
                     </div>
-                </div>
-
-                <div className={styles.buttons_form}>
-                    <button className={styles.button_cancel} onClick={onClose}>Fechar</button>
-                    {isEditable && (
-                        <button className={styles.button_submit} onClick={editarSituacaoDoAgendamento}>
-                            Salvar
-                        </button>
-                    )}
+                    <div className={styles.buttons_form}>
+                        <button className={styles.button_cancel} onClick={onClose}>Fechar</button>
+                        {isEditable && (
+                            <button className={styles.button_submit} onClick={editarSituacaoDoAgendamento}>
+                                Salvar
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

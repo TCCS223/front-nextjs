@@ -31,7 +31,7 @@ export default function DadosDoUsuario() {
         if (userId) {
             listarDadosUsuario();
         }
-    }, [userId]); // Só chama a função listarDadosUsuario se o userId estiver disponível
+    }, [userId]); 
 
     const listarDadosUsuario = async () => {
         if (!userId) return;
@@ -40,11 +40,9 @@ export default function DadosDoUsuario() {
             const response = await api.get(`/usuarios/dadosUsuario/${userId}`);
             setMeusDados(response.data.dados);
 
-            // Armazena os valores originais ao carregar os dados
             setOriginalCpf(response.data.dados.usu_cpf);
             setOriginalEmail(response.data.dados.usu_email);
 
-            console.log("Usuários:", response.data.dados);
         } catch (error) {
             console.error("Erro ao buscar dados do usuário:", error);
         }
@@ -56,8 +54,6 @@ export default function DadosDoUsuario() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-
-        // Converter valor do sexo em número inteiro se for o campo "usu_sexo"
         const newValue = name === 'usu_sexo' ? parseInt(value) : value;
 
         setMeusDados((prevState) => ({
@@ -185,7 +181,6 @@ export default function DadosDoUsuario() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Verifica se o CPF foi alterado
         if (meusDados.usu_cpf !== originalCpf) {
             const cpfError = await validarCPF(meusDados.usu_cpf);
             if (cpfError) {
@@ -194,7 +189,7 @@ export default function DadosDoUsuario() {
                     title: "Erro",
                     text: cpfError,
                 });
-                return; // Para o envio do formulário
+                return; 
             }
         }
 
@@ -207,12 +202,11 @@ export default function DadosDoUsuario() {
                     title: "Erro",
                     text: emailError,
                 });
-                return; // Para o envio do formulário
+                return;
             }
         }
 
         try {
-            // Enviar os dados para o backend
             const response = await api.patch(`/usuarios/${meusDados.usu_id}`, meusDados);
 
             if (response.data.sucesso) {
@@ -222,7 +216,7 @@ export default function DadosDoUsuario() {
                     icon: "success",
                     confirmButtonColor: "rgb(40, 167, 69)",
                 });
-                setIsEditing(false); // Desativa o modo de edição
+                setIsEditing(false); 
             } else {
                 Swal.fire({
                     title: "Erro",
@@ -435,7 +429,7 @@ export default function DadosDoUsuario() {
 
                     </form>
                     <div className={styles.footer_form}>
-                        {!isEditing ? ( // Exibe o botão Editar quando não estiver editando
+                        {!isEditing ? ( 
                             <button type="button" onClick={handleEdit} className={styles.button_edit}>Editar</button>
                         ) : (
                             <>

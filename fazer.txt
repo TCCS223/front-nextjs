@@ -12,14 +12,13 @@
 
 - TELA DE ADMIN -
 
-    adicionar funções de editar e visualizar agendamento
 
 - TELA DE CADASTRO
 
 
 - GERAL -
     pegar backup do banco (inserts)
-
+    sempre que fecha o modal, ele reseta o padrao de visualização da agenda para o monthGrid
 
 
 
