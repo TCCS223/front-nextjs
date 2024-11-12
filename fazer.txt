@@ -20,7 +20,10 @@
     pegar backup do banco (inserts)
     sempre que fecha o modal, ele reseta o padrao de visualização da agenda para o monthGrid
 
+    abrir o modal apenas mostrando as informações e colocar botao pra tornar editavel
+    (se é editavel mostra o campo com o type responsavel, exemplo select, se for so visuazalição mostra input com o valor)
 
+    verificar se o horario ja ta ocupado 
 
 
 
