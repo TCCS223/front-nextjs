@@ -27,7 +27,7 @@
 
 
 
-
+(criar outro repositório pra entregar o tcc)
 
     SELECT * FROM VEICULO_USUARIO
 
