@@ -68,8 +68,49 @@
     color: #555;
 }
 
+.detailsTextarea{
+     width: calc(100% - 20px);
+    max-width: max-content;
+    padding: 10px;
+    margin-top: 5px;
+    border: 3px solid #8d8c8c;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 18px;
+    background-color: #f9f9f9;
+}
+
 .detailsSelect {
-    width: 100%;
+    width: calc(100% - 20px);
+    max-width: max-content;
+    padding: 10px;
+    margin-top: 5px;
+    border: 3px solid #8d8c8c;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 18px;
+    background-color: #f9f9f9;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M7 10l5 5 5-5H7z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    cursor: pointer;
+
+
+    /* max-width: 250px; */
+    /* width: calc(100% - 20px);
+    max-width: max-content;
+    padding: 10px;
+    margin-top: 5px;
+    border: 3px solid #8d8c8c;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 18px;
+    background-color: #f9f9f9; */
+    
+    /* width: 100%;
     max-width: 180px;
     padding: 8px;
     border: 2px solid #8d8c8c;
@@ -84,7 +125,7 @@
     background-repeat: no-repeat;
     background-position: right 10px top 50%;
     cursor: pointer;
-    transition: border-color 0.3s;
+    transition: border-color 0.3s; */
 }
 
 .detailsSelect:hover,
@@ -133,3 +174,4 @@
     background-color: #d18100fc;
     color: #333;
 }
+

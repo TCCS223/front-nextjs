@@ -73,7 +73,7 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable, veiculos }
             <div className={styles.modalContent}>
                 <h2>Detalhes do Agendamento {modalEvent?._def?.extendedProps?.agend_id}</h2>
                 <div className={styles.detailsContainer}>
-                    
+
                     <div className={styles.detailsItem}>
                         <span className={styles.detailsLabel}>Data:</span>
                         {isEditable ? (
@@ -114,7 +114,7 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable, veiculos }
                             <select
                                 value={veicUsuId} // Usar veicUsuId como valor atual
                                 onChange={handleVeicPlacaChange}
-                                className={styles.detailsInput}
+                                className={styles.detailsSelect}
                             >
                                 {veiculos.length > 0 ? (
                                     veiculos.map((veiculo) => (
@@ -153,13 +153,17 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable, veiculos }
                     <div className={styles.detailsItem}>
                         <span className={styles.detailsLabel}>Observação:</span>
                         {isEditable ? (
-                            <textarea
+                            <input
                                 value={agendObserv}
                                 onChange={handleInputChange(setAgendObserv)}
                                 className={styles.detailsTextarea}
                             />
                         ) : (
-                            <span>{agendObserv}</span>
+                            <span
+                                className={styles.teste}
+                            >
+                                {agendObserv}
+                            </span>
                         )}
                     </div>
                     <div className={styles.buttons_form}>
