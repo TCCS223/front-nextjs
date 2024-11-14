@@ -137,6 +137,7 @@ const FullCalendarGeral = () => {
         }
     };
 
+
     const ListarVeiculosUsuario = async () => {
         if (!userId) return;
 
@@ -201,18 +202,15 @@ const FullCalendarGeral = () => {
         }
     };
 
-    const handleEventClick = async (info) => {
+    const handleEventClick = (info) => {
         const isOwner = parseInt(info.event.extendedProps.userId) === parseInt(userId);
-    
+
         if (userAcesso === 1 || isOwner) {
-            if (userAcesso === 1) {
-                const userIdAgendamento = info?.event?.extendedProps?.userId;
-                setUserId(userIdAgendamento);
-                await ListarVeiculosUsuario();  // Aguarda o carregamento dos veículos
-            }
+            // Administrador ou usuário visualizando seu próprio evento
             setModalEvent(info.event);
-            setShowModal(true);  // Só exibe o modal após o carregamento dos veículos
+            setShowModal(true);
         } else {
+            // Caso o evento seja bloqueado para visualização
             Swal.fire({
                 icon: 'info',
                 title: 'Acesso restrito',
@@ -222,7 +220,6 @@ const FullCalendarGeral = () => {
             });
         }
     };
-    
 
 
     // const handleEventClick = (info) => {
