@@ -39,10 +39,6 @@ const FullCalendarGeral = () => {
         agend_serv_situ_id: 1
     });
 
-    console.log(modalEvent);
-
-
-
     useEffect(() => {
         if (userId) {
             ListarVeiculosUsuario();
@@ -136,7 +132,6 @@ const FullCalendarGeral = () => {
             });
         }
     };
-
 
     const ListarVeiculosUsuario = async () => {
         if (!userId) return;
@@ -473,16 +468,12 @@ const FullCalendarGeral = () => {
                     <div className={styles.modalContent}>
                         {modalEvent ? (
                             <>
-                                {/* <CalendarEventDetailsModal
-                                    modalEvent={modalEvent}
-                                    onClose={visualizacao}
-                                    isEditable={userAcesso === 1}
-                                /> */}
                                 <CalendarEventDetailsModal
                                     veiculos={veiculos}
                                     modalEvent={modalEvent}
                                     onClose={visualizacao}
-                                    isEditable={userAcesso === 1 || parseInt(modalEvent.extendedProps.userId) === parseInt(userId)}
+                                    isEditable={parseInt(modalEvent.extendedProps.userId) === parseInt(userId)}
+                                    isAdmin={userAcesso === 1 ? 1 : ''}
                                 />
                             </>
                         ) : (
