@@ -39,6 +39,9 @@ const FullCalendarGeral = () => {
         agend_serv_situ_id: 1
     });
 
+console.log(modalEvent);
+
+
     useEffect(() => {
         if (userId) {
             ListarVeiculosUsuario();
@@ -64,21 +67,17 @@ const FullCalendarGeral = () => {
         }
     }, [userAcesso]);
 
+    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1); // Janeiro é 0, então somamos 1
+    const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+
     useEffect(() => {
         ListarAgendamentosUsuario();
-
-        // if (userAcesso === 1 && userId == null) {
-        //     ListarAgendamentosTodos();
-        // } else if (userAcesso === 0 && userId !== null) {
-        //     ListarAgendamentosUsuario();
-        // }
-
         ListarCategoriaServicos();
-    }, [userId, userAcesso]);
+    }, [currentMonth, currentYear, userId, userAcesso]);
 
     const ListarAgendamentosUsuario = async () => {
         try {
-            const response = await api.get(`/agendamentos/usuarios/${userId}/${userAcesso}`);
+            const response = await api.get(`/agendamentos/usuarios/${userId}/${userAcesso}/${currentMonth}/${currentYear}}`);
             setAgendamentoUsuario(response.data.dadosTodos);
             setEventos(response.data.dadosTodos);
             console.log(response.data.dadosTodos);
@@ -88,15 +87,29 @@ const FullCalendarGeral = () => {
         }
     };
 
-    // const ListarAgendamentosTodos = async () => {
-    //     try {
-    //         const response = await api.get('/agendamentos/todos');
-
-    //         setEventos(response.data.dadosTodos);
-    //     } catch (error) {
-    //         console.error("Erro ao buscar todos os agendamentos:", error);
-    //     }
-    // };
+      
+    const handleDatesSet = (datesInfo) => {
+        if (datesInfo.start) {
+            // Recupera o mês e ano
+            const startDate = datesInfo.start;
+            const newMonth = startDate.getMonth() + 1; // Adiciona 1 para exibir corretamente
+            const newYear = startDate.getFullYear();
+    
+            // Atualiza o estado com as novas datas
+            setCurrentMonth(newMonth);
+            setCurrentYear(newYear);
+    
+            console.log("Mês Atual:", newMonth, "Ano Atual:", newYear);
+        } else {
+            console.error("Data de início não disponível!");
+        }
+    };
+    
+    
+      console.log(currentMonth);
+      console.log(currentYear);
+      
+      
 
     const BuscarUsuarioPorCpf = async () => {
         if (!cpfUsuario || cpfUsuario.trim().length === 0) {
@@ -219,25 +232,6 @@ const FullCalendarGeral = () => {
         // }
     };
 
-
-    // const handleEventClick = (info) => {
-
-    //     if (userAcesso === 1 || parseInt(info.event.extendedProps.userId) === parseInt(userId)) {
-    //         // Admin (acesso 1) ou usuário visualizando seu próprio evento (acesso 0)
-    //         setModalEvent(info.event);
-    //         setShowModal(true);
-    //     } else {
-    //         // Evento bloqueado para visualização
-    //         Swal.fire({
-    //             icon: 'info',
-    //             title: 'Acesso restrito',
-    //             text: 'Você não tem permissão para visualizar os detalhes deste agendamento.',
-    //             iconColor: '#ff9d00',
-    //             confirmButtonColor: '#ff9d00',
-    //         });
-    //     }
-    // };
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
@@ -352,7 +346,7 @@ const FullCalendarGeral = () => {
             });
         }
         ListarAgendamentosUsuario();
-        ListarAgendamentosTodos();
+        // ListarAgendamentosTodos();
     };
 
     const handleCancel = () => {
@@ -392,18 +386,6 @@ const FullCalendarGeral = () => {
         });
     };
 
-    // const excluirAgendamento = async () => {
-    //     try {
-    //         const confirmacao = window.confirm("Tem certeza que deseja excluir este agendamento?");
-    //         if (confirmacao) {
-    //             await axios.delete(`/agendamentos/${selectedEvent.agend_id}`);
-    //             setShowModal(false); // Fecha o modal
-    //         }
-    //     } catch (error) {
-    //         console.error("Erro ao excluir o agendamento:", error);
-    //     }
-    // };
-
     const clearFields = () => {
         setFormValues({
             veic_usu_id: '',
@@ -416,47 +398,87 @@ const FullCalendarGeral = () => {
         });
     };
 
+    // useEffect(() => {
+    //     const calendar = new Calendar(calendarRef.current, {
+    //         contentHeight: 600,
+    //         selectable: true,
+    //         locale: ptLocale,
+    //         aspectRatio: 2,
+    //         showNonCurrentDates: false,
+
+    //         timeZone: 'local',
+    //         eventOverlap: false,
+    //         selectOverlap: false,
+    //         expandRows: true,
+    //         plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
+    //         initialView: 'dayGridMonth',
+    //         headerToolbar: {
+    //             left: 'dayGridMonth,timeGridWeek,timeGridDay',
+    //             center: 'title',
+    //             right: 'today prev,next'
+    //         },
+    //         events: eventos,
+    //         datesSet: handleDatesSet, // Atualiza mês e ano ao mudar visão
+    //         dateClick: handleDateClick,
+    //         eventClick: handleEventClick,
+    //         slotMinTime: '08:00:00',
+    //         slotMaxTime: '18:00:00',
+    //         eventTimeFormat: {
+    //             hour: '2-digit',
+    //             minute: '2-digit',
+    //             meridiem: false
+    //         }
+    //     });
+
+    //     setCalendarApi(calendar);
+    //     calendar.render();
+
+    //     return () => {
+    //         calendar.destroy();
+    //     };
+    // }, [eventos]);
+
     useEffect(() => {
-        const calendar = new Calendar(calendarRef.current, {
-            contentHeight: 600,
-            selectable: true,
-            locale: ptLocale,
-            aspectRatio: 2,
-            showNonCurrentDates: false,
-            // expandRows: true,
-            // allDaySlot: false,
-            // eventBackgroundColor: '#ff9d00',
-            //    eventColor: '#ff9d00',
-            timeZone: 'local',
-            eventOverlap: false,
-            selectOverlap: false,
-            expandRows: true,
-            plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
-            initialView: 'dayGridMonth',
-            headerToolbar: {
-                left: 'dayGridMonth,timeGridWeek,timeGridDay',
-                center: 'title',
-                right: 'today prev,next'
-            },
-            events: eventos,
-            dateClick: handleDateClick,
-            eventClick: handleEventClick,
-            slotMinTime: '08:00:00',
-            slotMaxTime: '18:00:00',
-            eventTimeFormat: {
-                hour: '2-digit',
-                minute: '2-digit',
-                meridiem: false
-            }
-        });
-
-        setCalendarApi(calendar);
-        calendar.render();
-
-        return () => {
-            calendar.destroy();
-        };
-    }, [eventos]);
+        if (currentMonth && currentYear) {
+            const initialDate = `${currentYear}-${String(currentMonth).padStart(2, '0')}-01`; // Formata a data corretamente para o FullCalendar
+    
+            const calendar = new Calendar(calendarRef.current, {
+                contentHeight: 600,
+                selectable: true,
+                locale: ptLocale,
+                aspectRatio: 2,
+                showNonCurrentDates: false,
+                timeZone: 'local',
+                eventOverlap: false,
+                selectOverlap: false,
+                expandRows: true,
+                plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
+                initialView: 'dayGridMonth',
+                initialDate: initialDate, // Usa a data formatada corretamente
+                headerToolbar: {
+                    left: 'dayGridMonth,timeGridWeek,timeGridDay',
+                    center: 'title',
+                    right: 'today prev,next'
+                },
+                events: eventos,
+                datesSet: handleDatesSet,
+                dateClick: handleDateClick,
+                eventClick: handleEventClick,
+                slotMinTime: '08:00:00',
+                slotMaxTime: '18:00:00',
+                eventTimeFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    meridiem: false
+                }
+            });
+    
+            calendar.render();
+        } else {
+            console.error("currentMonth ou currentYear não estão definidos corretamente");
+        }
+    }, [eventos, currentMonth, currentYear]);
+    
 
     const visualizacao = () => {
         setShowModal(false);
