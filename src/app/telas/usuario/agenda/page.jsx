@@ -65,11 +65,13 @@ const FullCalendarGeral = () => {
     }, [userAcesso]);
 
     useEffect(() => {
-        if (userAcesso === 1 && userId == null) {
-            ListarAgendamentosTodos();
-        } else if (userAcesso === 0 && userId !== null) {
-            ListarAgendamentosUsuario();
-        }
+        ListarAgendamentosUsuario();
+
+        // if (userAcesso === 1 && userId == null) {
+        //     ListarAgendamentosTodos();
+        // } else if (userAcesso === 0 && userId !== null) {
+        //     ListarAgendamentosUsuario();
+        // }
 
         ListarCategoriaServicos();
     }, [userId, userAcesso]);
@@ -79,21 +81,22 @@ const FullCalendarGeral = () => {
             const response = await api.get(`/agendamentos/usuarios/${userId}/${userAcesso}`);
             setAgendamentoUsuario(response.data.dadosTodos);
             setEventos(response.data.dadosTodos);
+            console.log(response.data.dadosTodos);
 
         } catch (error) {
             console.error("Erro ao buscar agendamentos:", error);
         }
     };
 
-    const ListarAgendamentosTodos = async () => {
-        try {
-            const response = await api.get('/agendamentos/todos');
+    // const ListarAgendamentosTodos = async () => {
+    //     try {
+    //         const response = await api.get('/agendamentos/todos');
 
-            setEventos(response.data.dadosTodos);
-        } catch (error) {
-            console.error("Erro ao buscar todos os agendamentos:", error);
-        }
-    };
+    //         setEventos(response.data.dadosTodos);
+    //     } catch (error) {
+    //         console.error("Erro ao buscar todos os agendamentos:", error);
+    //     }
+    // };
 
     const BuscarUsuarioPorCpf = async () => {
         if (!cpfUsuario || cpfUsuario.trim().length === 0) {
@@ -200,20 +203,20 @@ const FullCalendarGeral = () => {
     const handleEventClick = (info) => {
         const isOwner = parseInt(info.event.extendedProps.userId) === parseInt(userId);
 
-        if (userAcesso === 1 || isOwner) {
-            // Administrador ou usuário visualizando seu próprio evento
-            setModalEvent(info.event);
-            setShowModal(true);
-        } else {
-            // Caso o evento seja bloqueado para visualização
-            Swal.fire({
-                icon: 'info',
-                title: 'Acesso restrito',
-                text: 'Você não tem permissão para visualizar os detalhes deste agendamento.',
-                iconColor: '#ff9d00',
-                confirmButtonColor: '#ff9d00',
-            });
-        }
+        setModalEvent(info.event);
+        setShowModal(true);
+        // if (userAcesso === 1 || isOwner) {
+        //     // Administrador ou usuário visualizando seu próprio evento
+        // } else {
+        //     // Caso o evento seja bloqueado para visualização
+        //     Swal.fire({
+        //         icon: 'info',
+        //         title: 'Acesso restrito',
+        //         text: 'Você não tem permissão para visualizar os detalhes deste agendamento.',
+        //         iconColor: '#ff9d00',
+        //         confirmButtonColor: '#ff9d00',
+        //     });
+        // }
     };
 
 
