@@ -80,14 +80,13 @@ export default function CadCliente() {
         try {
             const response = await api.get('/usuarios');
 
-            // Ordena os usuários pelo nome (usu_nome) em ordem alfabética ao carregar
             const sortedUsers = response.data.dados.sort((a, b) => {
                 if (a.usu_nome < b.usu_nome) return -1;
                 if (a.usu_nome > b.usu_nome) return 1;
                 return 0;
             });
 
-            setUsuarios(sortedUsers); // Define `usuarios` ordenado
+            setUsuarios(sortedUsers);
         } catch (error) {
             console.error("Erro ao buscar os usuários:", error);
             Swal.fire({
@@ -315,7 +314,6 @@ export default function CadCliente() {
         if (resto !== parseInt(numbersOnly.substring(10, 11))) {
             return 'CPF inválido.';
         }
-
         try {
             const response = await api.post('/usuarios/verificarCpf', { usu_cpf: cpf });
             if (response.data.sucesso && response.data.dados) {
@@ -325,7 +323,6 @@ export default function CadCliente() {
             console.error('Erro na verificação do CPF:', error);
             return 'Erro na verificação do CPF. Por favor, tente novamente.';
         }
-
         return null;
     };
 
@@ -344,7 +341,6 @@ export default function CadCliente() {
         } else if (!checkEmail(email)) {
             return 'Insira um e-mail válido.';
         }
-
         try {
             const response = await api.post('/usuarios/verificarEmail', { usu_email: email, usu_id: id });
             if (response.data.sucesso && response.data.dados) {
@@ -354,7 +350,6 @@ export default function CadCliente() {
             console.error('Erro na verificação do email:', error);
             return 'Erro na verificação do email. Por favor, tente novamente.';
         }
-
         return null;
     };
 

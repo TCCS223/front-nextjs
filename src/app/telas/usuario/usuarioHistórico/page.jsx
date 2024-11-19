@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 import { parseISO, format } from 'date-fns';
 import Swal from 'sweetalert2';
+import FormAgendamentos from '@/components/FormAgendamentos';
 
 export default function UsuarioHistorico() {
     const [agendamentos, setAgendamentos] = useState([]);
@@ -18,16 +19,39 @@ export default function UsuarioHistorico() {
     const [isAsc, setIsAsc] = useState(true);
     const [situacaoDoAgendamento, setSituacaoDoAgendamento] = useState([])
     const [userId, setUserId] = useState(null);
+    const [showForm, setShowForm] = useState(false);
+    const [isViewing, setIsViewing] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+
+
+    console.log(agendamentos);
+
+    const [selectedAgend, setSelectedAgend] = useState({
+        agend_data: '',
+        agend_horario: '',
+        agend_id: '',
+        agend_observ: '',
+        agend_serv_situ_id: '',
+        serv_nome: '',
+        usu_id: '',
+        usu_nome: '',
+        veic_ano: '',
+        veic_cor: '',
+        veic_placa: '',
+        veic_usu_id: '',
+        cat_serv_id: '',
+        cat_serv_nome: '',
+        mod_nome: '',
+        mar_nome: ''
+    });
 
     const agendamentosPerPage = 15;
 
     useEffect(() => {
-
         if (userId) {
             ListarAgendamentos();
             ListarSituacaoDoAgendamento();
         }
-
     }, [userId]);
 
     useEffect(() => {
@@ -59,7 +83,6 @@ export default function UsuarioHistorico() {
     }, []);
 
     const ListarAgendamentos = async () => {
-
         try {
             const response = await api.get(`/agendamentos/${userId}`);
             const agendamentosOrdenados = response.data.dados.sort((a, b) => a.agend_id - b.agend_id);
@@ -109,6 +132,89 @@ export default function UsuarioHistorico() {
         applyFilters(searchText, startDate, endDate, status);
     };
 
+    const handleEditAgend = (agendamentos) => {
+        setShowForm(true)
+        setSelectedAgend(agendamentos);
+        setIsViewing(false);
+        setIsEditing(true);
+    };
+
+    const handleViewAgend = (agendamentos) => {
+        setSelectedAgend(agendamentos);
+        setShowForm(true);
+        setIsViewing(true);
+        setIsEditing(false);
+    };
+
+    const Cancelar = () => {
+        Swal.fire({
+            title: "Deseja Cancelar?",
+            text: "As informações não serão salvas",
+            icon: "warning",
+            iconColor: "orange",
+            showCancelButton: true,
+            cancelButtonColor: "#d33",
+            confirmButtonColor: "rgb(40, 167, 69)",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Confirmar",
+            reverseButtons: true,
+            backdrop: "rgba(0,0,0,0.7)",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Cancelado!",
+                    text: "As alterações foram canceladas.",
+                    icon: "success",
+                    iconColor: "rgb(40, 167, 69)",
+                    confirmButtonColor: "rgb(40, 167, 69)",
+                }).then(() => {
+                    setShowForm(false);
+                    setSelectedAgend({
+                        agend_data: '',
+                        agend_horario: '',
+                        agend_id: '',
+                        agend_observ: '',
+                        agend_serv_situ_id: '',
+                        serv_nome: '',
+                        usu_id: '',
+                        usu_nome: '',
+                        veic_ano: '',
+                        veic_cor: '',
+                        veic_placa: '',
+                        veic_usu_id: '',
+                        cat_serv_id: '',
+                        cat_serv_nome: ''
+                    });
+                    setIsViewing(false);
+                    setIsEditing(false);
+                });
+            }
+        });
+    }
+
+    const handleExit = () => {
+        setShowForm(false);
+        setSelectedAgend({
+            agend_data: '',
+            agend_horario: '',
+            agend_id: '',
+            agend_observ: '',
+            agend_serv_situ_id: '',
+            serv_nome: '',
+            usu_id: '',
+            usu_nome: '',
+            veic_ano: '',
+            veic_cor: '',
+            veic_placa: '',
+            veic_usu_id: '',
+            cat_serv_id: '',
+            cat_serv_nome: ''
+        });
+        setIsViewing(false);
+        setIsEditing(false);
+    };
+
+
     const applyFilters = (text, start, end, status) => {
         const result = agendamentos.filter((agendamento) => {
             const matchesText = agendamento.agend_observ.toLowerCase().includes(text.toLowerCase()) ||
@@ -152,180 +258,253 @@ export default function UsuarioHistorico() {
     return (
         <div id="clientes" className={styles.content_section}>
             <h2 className={styles.title_page}>Gerenciamento de Agendamentos</h2>
+            {!showForm ? (
+                <>
+                    <div className={styles.contentSearch}>
+                        <div className={styles.search}>
+                            <div className={styles.searchInput}>
+                                <input
+                                    type="text"
+                                    placeholder="Digite aqui..."
+                                    className={styles.inputSearch}
+                                    value={searchText}
+                                    onChange={(e) => handleSearch(e.target.value)}
+                                />
+                                <PiListMagnifyingGlassBold className={styles.lupa} />
+                            </div>
+                        </div>
 
-            <div className={styles.contentSearch}>
-                <div className={styles.search}>
-                    <div className={styles.searchInput}>
-                        <input
-                            type="text"
-                            placeholder="Digite aqui..."
-                            className={styles.inputSearch}
-                            value={searchText}
-                            onChange={(e) => handleSearch(e.target.value)}
-                        />
-                        <PiListMagnifyingGlassBold className={styles.lupa} />
+                        <div className={styles.filterButtons}>
+                            <div className={styles.filterGroup}>
+                                <label htmlFor="startDate" className={styles.labelFilter}>Data Início</label>
+                                <input
+
+                                    type="date"
+                                    id="startDate"
+                                    className={styles.filterSelect}
+                                    value={startDate}
+                                    onChange={(e) => handleDateChange(e.target.value, endDate)}
+                                />
+                            </div>
+
+                            <div className={styles.filterGroup}>
+                                <label htmlFor="endDate" className={styles.labelFilter}>Data Fim</label>
+                                <input
+                                    type="date"
+                                    id="endDate"
+                                    className={styles.filterSelect}
+                                    value={endDate}
+                                    onChange={(e) => handleDateChange(startDate, e.target.value)}
+                                />
+                            </div>
+
+                            <div className={styles.filterGroup}>
+                                <label htmlFor="status" className={styles.labelFilter}>Situação</label>
+                                <select
+                                    id="status"
+                                    className={styles.filterSelect}
+                                    value={statusFilter}
+                                    onChange={(e) => handleStatusFilterChange(e.target.value)}
+                                >
+                                    <option value="todos">Todos</option>
+                                    {situacaoDoAgendamento.map((agendSitu) => (
+                                        <option key={agendSitu.agend_serv_situ_id} value={agendSitu.agend_serv_situ_id}>
+                                            {agendSitu.agend_serv_situ_nome}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <div className={styles.filterButtons}>
-                    <div className={styles.filterGroup}>
-                        <label htmlFor="startDate" className={styles.labelFilter}>Data Início</label>
-                        <input
-
-                            type="date"
-                            id="startDate"
-                            className={styles.filterSelect}
-                            value={startDate}
-                            onChange={(e) => handleDateChange(e.target.value, endDate)}
-                        />
-                    </div>
-
-                    <div className={styles.filterGroup}>
-                        <label htmlFor="endDate" className={styles.labelFilter}>Data Fim</label>
-                        <input
-                            type="date"
-                            id="endDate"
-                            className={styles.filterSelect}
-                            value={endDate}
-                            onChange={(e) => handleDateChange(startDate, e.target.value)}
-                        />
-                    </div>
-
-                    <div className={styles.filterGroup}>
-                        <label htmlFor="status" className={styles.labelFilter}>Situação</label>
-                        <select
-                            id="status"
-                            className={styles.filterSelect}
-                            value={statusFilter}
-                            onChange={(e) => handleStatusFilterChange(e.target.value)}
-                        >
-                            <option value="todos">Todos</option>
-                            {situacaoDoAgendamento.map((agendSitu) => (
-                                <option key={agendSitu.agend_serv_situ_id} value={agendSitu.agend_serv_situ_id}>
-                                    {agendSitu.agend_serv_situ_nome}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div className={styles.resultTableContainer}>
-                <table className={styles.resultTable}>
-                    <thead className={styles.tableHead}>
-                        <tr>
-                            <th
-                                className={`${styles.tableHeader} ${styles.id}`}
-                                onClick={() => sortByColumn('agend_id')}>
-                                ID
-                                {sortedColumn === 'agend_id' ? (isAsc ? '▲' : '▼') : ''}
-                            </th>
-                            <th
-                                className={`${styles.tableHeader} ${styles.placa}`}
-                                onClick={() => sortByColumn('veic_placa')}>
-                                Placa
-                                {sortedColumn === 'veic_placa' ? (isAsc ? '▲' : '▼') : ''}
-                            </th>
-                            <th
-                                className={`${styles.tableHeader} ${styles.data}`}
-                                onClick={() => sortByColumn('agend_data')}>
-                                Data
-                                {sortedColumn === 'agend_data' ? (isAsc ? '▲' : '▼') : ''}
-                            </th>
-                            <th
-                                className={`${styles.tableHeader} ${styles.horario}`}
-                                onClick={() => sortByColumn('agend_horario')}>
-                                Horário
-                                {sortedColumn === 'agend_horario' ? (isAsc ? '▲' : '▼') : ''}
-                            </th>
-                            <th
-                                className={`${styles.tableHeader} ${styles.observ}`}
-                                onClick={() => sortByColumn('serv_nome')}>
-                                Serviço
-                                {sortedColumn === 'serv_nome' ? (isAsc ? '▲' : '▼') : ''}
-                            </th>
-                            <th
-                                className={`${styles.tableHeader} ${styles.cliente}`}
-                                onClick={() => sortByColumn('usu_nome')}>
-                                Cliente
-                                {sortedColumn === 'usu_nome' ? (isAsc ? '▲' : '▼') : ''}
-                            </th>
-                            <th
-                                className={`${styles.tableHeader} ${styles.situacao}`}
-                                onClick={() => sortByColumn('agend_situacao')}>
-                                Situação
-                                {sortedColumn === 'agend_situacao' ? (isAsc ? '▲' : '▼') : ''}
-                            </th>
-                            <th className={`${styles.tableHeader} ${styles.acao}`}>Ações</th>
-                        </tr>
-                    </thead>
-
-                    <tbody className={styles.tableBody}>
-                        {currentAgendamentos.length > 0 ? (
-                            currentAgendamentos.map((agendamento) => (
-                                <tr key={agendamento.agend_id} className={styles.tableRow}>
-                                    <td className={styles.tdId}>{agendamento.agend_id}</td>
-                                    <td>{agendamento.veic_placa}</td>
-                                    <td>{format(parseISO(agendamento?.agend_data), 'dd/MM/yyyy')}</td>
-                                    <td>{agendamento.agend_horario}</td>
-                                    <td>{agendamento.serv_nome}</td>
-                                    <td>{agendamento.usu_nome}</td>
-
-                                    <td>
-                                        <div
-                                            className={styles.corSituacao}
-                                            style={{ backgroundColor: colorMap[agendamento.agend_serv_situ_id] || '#ccc' }}
-                                        >
-                                            {agendSituacaoMap[agendamento.agend_serv_situ_id] || 'Desconhecido'}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className={styles.actionIcons}>
-                                            <i>
-                                                <MdRemoveRedEye
-                                                    title="Visualizar"
-                                                    onClick={() => handleViewUser(usuario)}
-                                                />
-                                            </i>
-                                            <i>
-                                                <MdEdit
-                                                    title="Editar"
-                                                    onClick={() => handleEditUser(usuario)}
-                                                />
-                                            </i>
-                                        </div>
-                                    </td>
+                    <div className={styles.resultTableContainer}>
+                        <table className={styles.resultTable}>
+                            <thead className={styles.tableHead}>
+                                <tr>
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.id}`}
+                                        onClick={() => sortByColumn('agend_id')}>
+                                        ID
+                                        {sortedColumn === 'agend_id' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.placa}`}
+                                        onClick={() => sortByColumn('veic_placa')}>
+                                        Placa
+                                        {sortedColumn === 'veic_placa' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.data}`}
+                                        onClick={() => sortByColumn('agend_data')}>
+                                        Data
+                                        {sortedColumn === 'agend_data' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.horario}`}
+                                        onClick={() => sortByColumn('agend_horario')}>
+                                        Horário
+                                        {sortedColumn === 'agend_horario' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.observ}`}
+                                        onClick={() => sortByColumn('serv_nome')}>
+                                        Serviço
+                                        {sortedColumn === 'serv_nome' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.cliente}`}
+                                        onClick={() => sortByColumn('usu_nome')}>
+                                        Cliente
+                                        {sortedColumn === 'usu_nome' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th
+                                        className={`${styles.tableHeader} ${styles.situacao}`}
+                                        onClick={() => sortByColumn('agend_situacao')}>
+                                        Situação
+                                        {sortedColumn === 'agend_situacao' ? (isAsc ? '▲' : '▼') : ''}
+                                    </th>
+                                    <th className={`${styles.tableHeader} ${styles.acao}`}>Ações</th>
                                 </tr>
-                            ))
-                        ) : (
-                            <tr className={styles.tableRow}>
-                                <td colSpan="8">Nenhum agendamento encontrado</td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-            </div>
+                            </thead>
 
-            <div className={styles.pagination}>
-                <button
-                    className={`${styles.buttonPrev} ${styles.paginationButton}`}
-                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                    disabled={currentPage === 1}
-                >
-                    Anterior
-                </button>
-                <span className={styles.paginationText}>Página {currentPage}</span>
-                <button
-                    className={`${styles.buttonNext} ${styles.paginationButton}`}
-                    onClick={() =>
-                        setCurrentPage((prev) =>
-                            filteredAgendamentos.length > indexOfLastAgendamento ? prev + 1 : prev
-                        )
-                    }
-                    disabled={filteredAgendamentos.length <= indexOfLastAgendamento}
-                >
-                    Próxima
-                </button>
-            </div>
+                            <tbody className={styles.tableBody}>
+                                {currentAgendamentos.length > 0 ? (
+                                    currentAgendamentos.map((agendamento) => (
+                                        <tr key={agendamento.agend_id} className={styles.tableRow}>
+                                            <td className={styles.tdId}>{agendamento.agend_id}</td>
+                                            <td>{agendamento.veic_placa}</td>
+                                            <td>{format(parseISO(agendamento?.agend_data), 'dd/MM/yyyy')}</td>
+                                            <td>{agendamento.agend_horario}</td>
+                                            <td>{agendamento.serv_nome}</td>
+                                            <td>{agendamento.usu_nome}</td>
+                                            <td>
+                                                <div
+                                                    className={styles.corSituacao}
+                                                    style={{ backgroundColor: colorMap[agendamento.agend_serv_situ_id] || '#ccc' }}
+                                                >
+                                                    {agendSituacaoMap[agendamento.agend_serv_situ_id] || 'Desconhecido'}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className={styles.actionIcons}>
+                                                    <i>
+                                                        <MdRemoveRedEye
+                                                            title="Visualizar"
+                                                            onClick={() => handleViewAgend(agendamento)}
+                                                        />
+                                                    </i>
+                                                    <i>
+                                                        <MdEdit
+                                                            title="Editar"
+                                                            onClick={() => handleEditAgend(agendamento)}
+                                                        />
+                                                    </i>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr className={styles.tableRow}>
+                                        <td colSpan="8">Nenhum agendamento encontrado</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div className={styles.pagination}>
+                        <button
+                            className={`${styles.buttonPrev} ${styles.paginationButton}`}
+                            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
+                        >
+                            Anterior
+                        </button>
+                        <span className={styles.paginationText}>Página {currentPage}</span>
+                        <button
+                            className={`${styles.buttonNext} ${styles.paginationButton}`}
+                            onClick={() =>
+                                setCurrentPage((prev) =>
+                                    filteredAgendamentos.length > indexOfLastAgendamento ? prev + 1 : prev
+                                )
+                            }
+                            disabled={filteredAgendamentos.length <= indexOfLastAgendamento}
+                        >
+                            Próxima
+                        </button>
+                    </div>
+                </>
+            ) : (
+                <>
+                    <FormAgendamentos
+                        selectedAgend={selectedAgend}
+                        setSelectedAgend={setSelectedAgend}
+                        Cancelar={Cancelar}
+                        isViewing={isViewing}
+                        isEditing={isEditing}
+                        // veiculos={veiculos}
+                    />
+
+                    <div className={styles.footer_form}>
+
+                        {isViewing ? (
+
+                            <button
+                                type="button"
+                                className={styles.button_exit}
+                                onClick={handleExit}
+                            >
+                                Voltar
+                            </button>
+                        ) : (
+                            <>
+                                {isEditing ? (
+                                    <>
+                                        <button
+                                            type="reset"
+                                            onClick={Cancelar}
+                                            className={styles.button_cancel}
+                                        >
+                                            Cancelar
+                                        </button>
+
+                                        <button
+                                            type="submit"
+                                            className={styles.button_submit}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleSubmit(selectedAgend);
+                                            }}
+                                        >
+                                            Salvar
+                                        </button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <button
+                                            type="reset"
+                                            onClick={Cancelar}
+                                            className={styles.button_cancel}
+                                        >
+                                            Cancelar
+                                        </button>
+
+                                        <button
+                                            type="submit"
+                                            className={styles.button_submit}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleSubmit(selectedAgend);
+                                            }}
+                                        >
+                                            Salvar
+                                        </button>
+                                    </>
+                                )}
+                            </>
+                        )}
+                    </div>
+                </>
+            )}
         </div>
     );
 }

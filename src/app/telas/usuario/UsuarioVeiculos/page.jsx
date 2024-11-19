@@ -64,7 +64,7 @@ export default function UsuarioVeiculos() {
         if (selectedVehicle.cat_id) {
             ListarMarcas();
         }
-    }, [selectedVehicle.cat_id]); // possivel erro nessa linha 
+    }, [selectedVehicle.cat_id]);
 
     useEffect(() => {
         if (selectedVehicle.mar_id) {
@@ -139,7 +139,6 @@ export default function UsuarioVeiculos() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 const dataAtual = format(new Date(), 'yyyy-MM-dd');
-
                 try {
                     const response = await api.patch(`/veiculoUsuario/${veic_usu_id}/data_final`, {
                         data_final: dataAtual
@@ -215,8 +214,8 @@ export default function UsuarioVeiculos() {
             veic_cor: selectedVehicle.veic_cor || veiculos.veic_cor,
             veic_combustivel: selectedVehicle.veic_combustivel || veiculos.veic_combustivel,
             veic_observ: selectedVehicle.veic_observ || veiculos.veic_observ,
-            veic_situacao: selectedVehicle.veic_situacao
-        };
+            // veic_situacao: selectedVehicle.veic_situacao
+                };
 
         const UpdateVeiculoUsuario = {
             veic_usu_id: selectedVehicle.veic_usu_id || veiculos.veic_usu_id,
@@ -251,7 +250,8 @@ export default function UsuarioVeiculos() {
                     throw new Error("Falha ao criar veículo: " + responseVehicle.data.mensagem);
                 }
             } else {
-                responseVehicle = await api.patch(`/veiculos/${selectedVehicle.veic_id}`, UpdateVeiculo);
+                console.log("UpdateVeiculo", UpdateVeiculo);
+                responseVehicle = await api.patch(`/veiculos/usuario/${selectedVehicle.veic_id}`, UpdateVeiculo);
                 if (!responseVehicle.data.sucesso) {
                     throw new Error("Falha ao atualizar veículo: " + responseVehicle.data.mensagem);
                 }
@@ -357,7 +357,7 @@ export default function UsuarioVeiculos() {
         setIsCreate(true);
         setIsEditing(false);
         setIsViewing(false);
-    }
+    };
 
     const handleReturn = () => {
         setShowForm(false)
@@ -398,7 +398,6 @@ export default function UsuarioVeiculos() {
         const anoMax = anoAtual + 1;
         const anoNum = parseInt(ano, 10);
     
-        // Valida se o ano é um número válido dentro do intervalo permitido
         if (isNaN(anoNum) || anoNum < 1886 || anoNum > anoMax) {
             return false;
         }
@@ -448,7 +447,6 @@ export default function UsuarioVeiculos() {
                                         <Link href="#" onClick={() => handleExcluirVeiculo(veiculo.veic_usu_id)} className={styles.link}>
                                             <span className={styles.iconeExcluir}></span>
                                         </Link>
-
 
                                     </div>
 

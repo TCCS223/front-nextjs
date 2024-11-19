@@ -39,9 +39,6 @@ const FullCalendarGeral = () => {
         agend_serv_situ_id: 1
     });
 
-console.log(modalEvent);
-
-
     useEffect(() => {
         if (userId) {
             ListarVeiculosUsuario();
@@ -80,36 +77,24 @@ console.log(modalEvent);
             const response = await api.get(`/agendamentos/usuarios/${userId}/${userAcesso}/${currentMonth}/${currentYear}}`);
             setAgendamentoUsuario(response.data.dadosTodos);
             setEventos(response.data.dadosTodos);
-            console.log(response.data.dadosTodos);
-
         } catch (error) {
             console.error("Erro ao buscar agendamentos:", error);
         }
     };
 
-      
     const handleDatesSet = (datesInfo) => {
         if (datesInfo.start) {
-            // Recupera o mês e ano
             const startDate = datesInfo.start;
-            const newMonth = startDate.getMonth() + 1; // Adiciona 1 para exibir corretamente
+            const newMonth = startDate.getMonth() + 1;
             const newYear = startDate.getFullYear();
-    
-            // Atualiza o estado com as novas datas
+
             setCurrentMonth(newMonth);
             setCurrentYear(newYear);
-    
-            console.log("Mês Atual:", newMonth, "Ano Atual:", newYear);
+
         } else {
             console.error("Data de início não disponível!");
         }
     };
-    
-    
-      console.log(currentMonth);
-      console.log(currentYear);
-      
-      
 
     const BuscarUsuarioPorCpf = async () => {
         if (!cpfUsuario || cpfUsuario.trim().length === 0) {
@@ -216,20 +201,18 @@ console.log(modalEvent);
     const handleEventClick = (info) => {
         const isOwner = parseInt(info.event.extendedProps.userId) === parseInt(userId);
 
-        setModalEvent(info.event);
-        setShowModal(true);
-        // if (userAcesso === 1 || isOwner) {
-        //     // Administrador ou usuário visualizando seu próprio evento
-        // } else {
-        //     // Caso o evento seja bloqueado para visualização
-        //     Swal.fire({
-        //         icon: 'info',
-        //         title: 'Acesso restrito',
-        //         text: 'Você não tem permissão para visualizar os detalhes deste agendamento.',
-        //         iconColor: '#ff9d00',
-        //         confirmButtonColor: '#ff9d00',
-        //     });
-        // }
+        if (userAcesso === 1 || isOwner) {
+            setModalEvent(info.event);
+            setShowModal(true);
+        } else {
+            Swal.fire({
+                icon: 'info',
+                title: 'Acesso restrito',
+                text: 'Você não tem permissão para visualizar os detalhes deste agendamento.',
+                iconColor: '#ff9d00',
+                confirmButtonColor: '#ff9d00',
+            });
+        }
     };
 
     const handleInputChange = (e) => {
@@ -264,7 +247,6 @@ console.log(modalEvent);
     //             agend_data,
     //             agend_horario
     //         });
-
     //         return response.data.disponivel;
     //     } catch (error) {
     //         console.error("Erro ao verificar disponibilidade do horário:", error);
@@ -398,50 +380,10 @@ console.log(modalEvent);
         });
     };
 
-    // useEffect(() => {
-    //     const calendar = new Calendar(calendarRef.current, {
-    //         contentHeight: 600,
-    //         selectable: true,
-    //         locale: ptLocale,
-    //         aspectRatio: 2,
-    //         showNonCurrentDates: false,
-
-    //         timeZone: 'local',
-    //         eventOverlap: false,
-    //         selectOverlap: false,
-    //         expandRows: true,
-    //         plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
-    //         initialView: 'dayGridMonth',
-    //         headerToolbar: {
-    //             left: 'dayGridMonth,timeGridWeek,timeGridDay',
-    //             center: 'title',
-    //             right: 'today prev,next'
-    //         },
-    //         events: eventos,
-    //         datesSet: handleDatesSet, // Atualiza mês e ano ao mudar visão
-    //         dateClick: handleDateClick,
-    //         eventClick: handleEventClick,
-    //         slotMinTime: '08:00:00',
-    //         slotMaxTime: '18:00:00',
-    //         eventTimeFormat: {
-    //             hour: '2-digit',
-    //             minute: '2-digit',
-    //             meridiem: false
-    //         }
-    //     });
-
-    //     setCalendarApi(calendar);
-    //     calendar.render();
-
-    //     return () => {
-    //         calendar.destroy();
-    //     };
-    // }, [eventos]);
-
     useEffect(() => {
         if (currentMonth && currentYear) {
-            const initialDate = `${currentYear}-${String(currentMonth).padStart(2, '0')}-01`; // Formata a data corretamente para o FullCalendar
-    
+            const initialDate = `${currentYear}-${String(currentMonth).padStart(2, '0')}-01`;
+
             const calendar = new Calendar(calendarRef.current, {
                 contentHeight: 600,
                 selectable: true,
@@ -454,7 +396,7 @@ console.log(modalEvent);
                 expandRows: true,
                 plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
                 initialView: 'dayGridMonth',
-                initialDate: initialDate, // Usa a data formatada corretamente
+                initialDate: initialDate,
                 headerToolbar: {
                     left: 'dayGridMonth,timeGridWeek,timeGridDay',
                     center: 'title',
@@ -472,13 +414,13 @@ console.log(modalEvent);
                     meridiem: false
                 }
             });
-    
+
             calendar.render();
         } else {
             console.error("currentMonth ou currentYear não estão definidos corretamente");
         }
     }, [eventos, currentMonth, currentYear]);
-    
+
 
     const visualizacao = () => {
         setShowModal(false);
@@ -579,8 +521,8 @@ console.log(modalEvent);
                                         <input
                                             type="time"
                                             name="agend_horario"
-                                            min="08:00" // verificar 
-                                            max="17:00" // verificar 
+                                            min="08:00"
+                                            max="17:00"
                                             value={formValues.agend_horario}
                                             onChange={handleInputChange}
                                             className={styles.input}
