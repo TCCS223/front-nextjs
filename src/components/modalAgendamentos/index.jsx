@@ -30,16 +30,15 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable, veiculos, 
             setAgendObserv(modalEvent?._def?.extendedProps?.agend_observ || '');
             setServNome(modalEvent?._def?.extendedProps?.serv_nome || '');
             setVeicPlaca(modalEvent?._def?.extendedProps?.veic_placa || '');
-            setVeicUsuId(modalEvent?._def?.extendedProps?.veic_usu_id || ''); // Definir veicUsuId ao abrir modal
+            setVeicUsuId(modalEvent?._def?.extendedProps?.veic_usu_id || '');
         }
     }, [modalEvent]);
 
     const handleSituacaoChange = (e) => setAgendSituacao(parseInt(e.target.value, 10));
-    const handleInputChange = (setter) => (e) => setter(e.target.value);
-    const handleVeicPlacaChange = (e) => setVeicUsuId(e.target.value); // Atualizar veicUsuId ao selecionar
+    // const handleInputChange = (setter) => (e) => setter(e.target.value);
+    // const handleVeicPlacaChange = (e) => setVeicUsuId(e.target.value); 
 
     const editarSituacaoDoAgendamento = async () => {
-
         try {
             await api.patch(`/agendamentos/${modalEvent?._def?.extendedProps?.agend_id}`, {
                 veic_usu_id: veicUsuId,
@@ -108,7 +107,6 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable, veiculos, 
                     <div className={styles.detailsItem}>
                         <span className={styles.detailsLabel}>Situação:</span>
                         {(!isEditable || isAdmin) ? (
-                            // {(isEditable && isAdmin) || (!isAdmin && isEditable) ? (
                             <select
                                 value={agendSituacao || ''}
                                 onChange={handleSituacaoChange}
