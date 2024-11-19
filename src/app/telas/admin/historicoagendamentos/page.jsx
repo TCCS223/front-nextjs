@@ -6,7 +6,9 @@ import api from '@/services/api';
 import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 import { parseISO, format } from 'date-fns';
+import { IoMdTrash } from "react-icons/io";
 import Swal from 'sweetalert2';
+import FormAgendamentos from '@/components/FormAgendamentos';
 
 export default function HistoricoAgendamentos() {
     const [agendamentos, setAgendamentos] = useState([]);
@@ -19,6 +21,8 @@ export default function HistoricoAgendamentos() {
     const [sortedColumn, setSortedColumn] = useState(null);
     const [isAsc, setIsAsc] = useState(true);
     const [situacaoDoAgendamento, setSituacaoDoAgendamento] = useState([])
+
+
 
     const agendamentosPerPage = 15;
 
@@ -40,6 +44,208 @@ export default function HistoricoAgendamentos() {
         3: '#26a426',  // Concluído - Verde
         4: '#c3290e'   // Cancelado - Vermelho
     };
+
+// ---------------------------------------------------------------
+const [selectedAgend, setSelectedAgend] = useState({
+    agend_data: '',
+    agend_horario: '',
+    agend_id: '',
+    agend_observ: '',
+    agend_serv_situ_id: '',
+    serv_nome: '',
+    usu_id: '',
+    usu_nome: '',
+    veic_ano: '',
+    veic_cor: '',
+    veic_placa: '',
+    veic_usu_id: '',
+    cat_serv_id: '',
+    cat_serv_nome: '',
+    mod_nome: '',
+    mar_nome: ''
+});
+
+const [showForm, setShowForm] = useState(false);
+const [isViewing, setIsViewing] = useState(false);
+const [isEditing, setIsEditing] = useState(false);
+
+const handleSubmit = async (agendamentos) => {
+    try {
+        let response;
+
+        if (isEditing) {
+            response = await api.patch(`/agendamentos/${agendamentos.agend_id}`, selectedAgend)
+        }
+    
+        Swal.fire({
+            title: 'Sucesso!',
+            text: response.data.mensagem,
+            icon: 'success',
+            iconColor: "rgb(40, 167, 69)",
+            confirmButtonColor: "rgb(40, 167, 69)",
+        });
+
+        setShowForm(false);
+        setIsEditing(false);
+        setIsViewing(false);
+        ListarAgendamentos();
+    } catch (error) {
+        console.error('Erro ao salvar o agendamento:', error);
+        alert('Erro ao salvar o agendamento. Tente novamente.');
+    }
+}
+
+const handleEditAgend = (agendamentos) => {
+    setShowForm(true)
+    setSelectedAgend(agendamentos);
+    setIsViewing(false);
+    setIsEditing(true);
+};
+
+const handleViewAgend = (agendamentos) => {
+    setSelectedAgend(agendamentos);
+    setShowForm(true);
+    setIsViewing(true);
+    setIsEditing(false);
+};
+
+const CancelarAgendamento = async (agendamentos) => {
+    Swal.fire({
+        title: "Tem certeza?",
+        text: "Você deseja realmente excluir este veículo? Esta ação não pode ser desfeita.",
+        icon: "warning",
+        iconColor: "#ff9d00",
+        showCancelButton: true,
+        confirmButtonColor: "rgb(40, 167, 69)",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sim, excluir!",
+        cancelButtonText: "Cancelar",
+        reverseButtons: true,
+        backdrop: "rgba(0,0,0,0.7)"
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+           
+            try {
+                
+                const situacao = 0;
+                const servSituacaoId = 4; 
+                
+                const dados = {
+                    agend_situacao: parseInt(situacao, 10),
+                    agend_serv_situ_id: parseInt(servSituacaoId, 10)
+                };
+                
+                const response = await api.patch(`/agendamentos/cancelar/${agendamentos.agend_id}`, dados);
+
+                if (response.data.sucesso) {
+                    Swal.fire({
+                        title: 'Sucesso!',
+                        text: 'Veículo excluído com sucesso.',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        iconColor: "rgb(40, 167, 69)",
+                        confirmButtonColor: "rgb(40, 167, 69)",
+                    });
+                   ListarAgendamentos();
+                } else {
+                    Swal.fire({
+                        title: 'Erro!',
+                        text: response.data.mensagem || 'Ocorreu um erro ao excluir o veículo.',
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        iconColor: '#d33',
+                        confirmButtonColor: '#d33',
+                    });
+                }
+            } catch (error) {
+                Swal.fire({
+                    title: 'Erro!',
+                    text: `Erro na exclusão do veículo: ${error.message}`,
+                    icon: 'error',
+                    confirmButtonText: 'Ok',
+                    iconColor: '#d33',
+                    confirmButtonColor: '#d33',
+                });
+            }
+        }
+    });
+};
+
+
+const Cancelar = () => {
+    Swal.fire({
+        title: "Deseja Cancelar?",
+        text: "As informações não serão salvas",
+        icon: "warning",
+        iconColor: "orange",
+        showCancelButton: true,
+        cancelButtonColor: "#d33",
+        confirmButtonColor: "rgb(40, 167, 69)",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Confirmar",
+        reverseButtons: true,
+        backdrop: "rgba(0,0,0,0.7)",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: "Cancelado!",
+                text: "As alterações foram canceladas.",
+                icon: "success",
+                iconColor: "rgb(40, 167, 69)",
+                confirmButtonColor: "rgb(40, 167, 69)",
+            }).then(() => {
+                setShowForm(false);
+                setSelectedAgend({
+                    agend_data: '',
+                    agend_horario: '',
+                    agend_id: '',
+                    agend_observ: '',
+                    agend_serv_situ_id: '',
+                    serv_nome: '',
+                    usu_id: '',
+                    usu_nome: '',
+                    veic_ano: '',
+                    veic_cor: '',
+                    veic_placa: '',
+                    veic_usu_id: '',
+                    cat_serv_id: '',
+                    cat_serv_nome: ''
+                });
+                setIsViewing(false);
+                setIsEditing(false);
+            });
+        }
+    });
+}
+
+const handleExit = () => {
+    setShowForm(false);
+    setSelectedAgend({
+        agend_data: '',
+        agend_horario: '',
+        agend_id: '',
+        agend_observ: '',
+        agend_serv_situ_id: '',
+        serv_nome: '',
+        usu_id: '',
+        usu_nome: '',
+        veic_ano: '',
+        veic_cor: '',
+        veic_placa: '',
+        veic_usu_id: '',
+        cat_serv_id: '',
+        cat_serv_nome: ''
+    });
+    setIsViewing(false);
+    setIsEditing(false);
+};
+
+
+
+// ---------------------------------------------------------------
+
+
+
 
     const ListarAgendamentos = async () => {
         try {
@@ -135,6 +341,8 @@ export default function HistoricoAgendamentos() {
         <div id="clientes" className={styles.content_section}>
             <h2 className={styles.title_page}>Gerenciamento de Agendamentos</h2>
 
+            {!showForm ? (
+                <>
             <div className={styles.contentSearch}>
                 <div className={styles.search}>
                     <div className={styles.searchInput}>
@@ -265,13 +473,20 @@ export default function HistoricoAgendamentos() {
                                             <i>
                                                 <MdRemoveRedEye
                                                     title="Visualizar"
-                                                    onClick={() => handleViewUser(usuario)}
+                                                    onClick={() => handleViewAgend(agendamento)}
                                                 />
                                             </i>
                                             <i>
                                                 <MdEdit
                                                     title="Editar"
-                                                    onClick={() => handleEditUser(usuario)}
+                                                    onClick={() => handleEditAgend(agendamento)}
+                                                />
+                                            </i>
+
+                                            <i>
+                                                <IoMdTrash
+                                                    title='excluir'
+                                                    onClick={() => CancelarAgendamento(agendamento)}
                                                 />
                                             </i>
                                         </div>
@@ -308,6 +523,80 @@ export default function HistoricoAgendamentos() {
                     Próxima
                 </button>
             </div>
+            </>
+            ) : (
+                <>
+                <FormAgendamentos
+                        selectedAgend={selectedAgend}
+                        setSelectedAgend={setSelectedAgend}
+                        Cancelar={Cancelar}
+                        isViewing={isViewing}
+                        isEditing={isEditing}
+                        handleSubmit={handleSubmit}
+                    // veiculos={veiculos}
+                    />
+
+                    <div className={styles.footer_form}>
+
+                        {isViewing ? (
+
+                            <button
+                                type="button"
+                                className={styles.button_exit}
+                                onClick={handleExit}
+                            >
+                                Voltar
+                            </button>
+                        ) : (
+                            <>
+                                {isEditing ? (
+                                    <>
+                                        <button
+                                            type="reset"
+                                            onClick={Cancelar}
+                                            className={styles.button_cancel}
+                                        >
+                                            Cancelar
+                                        </button>
+
+                                        <button
+                                            type="submit"
+                                            className={styles.button_submit}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleSubmit(selectedAgend);
+                                            }}
+                                        >
+                                            Salvar
+                                        </button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <button
+                                            type="reset"
+                                            onClick={Cancelar}
+                                            className={styles.button_cancel}
+                                        >
+                                            Cancelar
+                                        </button>
+
+                                        <button
+                                            type="submit"
+                                            className={styles.button_submit}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                handleSubmit(selectedAgend);
+                                            }}
+                                        >
+                                            Salvar
+                                        </button>
+                                    </>
+                                )}
+                            </>
+                        )}
+                    </div>
+                    </>
+            )}
         </div>
     );
 }

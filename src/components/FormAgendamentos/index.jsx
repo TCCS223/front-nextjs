@@ -37,7 +37,7 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
 
     return (
         <form id="clienteForm" className={styles.form} onSubmit={handleSubmit}>
-            <input type="hidden" id="clienteId" value={selectedAgend ? selectedAgend.usu_id : ''} className={styles.input_cliente} />
+            <input type="hidden" id="clienteId" value={selectedAgend ? selectedAgend.usu_id : ''} className={styles.input_agend} />
 
             <div className={styles.grid}>
                 <div className={`${styles.grid_item} ${styles.grid_codigo}`}>
@@ -47,49 +47,8 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
                         id="agend_id"
                         name="agend_id"
                         value={selectedAgend ? selectedAgend.agend_id : ''}
-                        className={styles.input_cliente}
+                        className={styles.input_agend}
                         disabled
-                        required
-                    />
-                </div>
-
-                <div className={`${styles.grid_item} ${styles.grid_cpf}`}>
-                    <label htmlFor="usu_nome" className={styles.label_cliente}>Cliente</label>
-                    <input
-                        type="text"
-                        id="usu_nome"
-                        name="usu_nome"
-                        value={selectedAgend ? selectedAgend.usu_nome : ''}
-                        disabled={isDisabled}
-                        className={styles.input_cliente}
-                        required
-                    />
-                </div>
-
-                <div className={`${styles.grid_item} ${styles.grid_nome}`}>
-                    <label htmlFor="cat_serv_nome" className={styles.label_cliente}>Categoria do Serviço</label>
-                    <input
-                        type="text"
-                        id="cat_serv_nome"
-                        name="cat_serv_nome"
-                        value={selectedAgend ? selectedAgend.cat_serv_nome : ''}
-                        onChange={(e) => setSelectedAgend({ ...selectedAgend, cat_serv_nome: e.target.value })}
-                        disabled={!isEditing}
-                        className={styles.input_cliente}
-                        required
-                    />
-                </div>
-
-                <div className={`${styles.grid_item} ${styles.grid_nome}`}>
-                    <label htmlFor="serv_nome" className={styles.label_cliente}>Serviço</label>
-                    <input
-                        type="text"
-                        id="serv_nome"
-                        name="serv_nome"
-                        value={selectedAgend ? selectedAgend.serv_nome : ''}
-                        onChange={(e) => setSelectedAgend({ ...selectedAgend, serv_nome: e.target.value })}
-                        disabled={!isEditing}
-                        className={styles.input_cliente}
                         required
                     />
                 </div>
@@ -103,12 +62,53 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
                         value={selectedAgend ? selectedAgend.agend_data : ''}
                         onChange={(e) => setSelectedAgend({ ...selectedAgend, agend_data: e.target.value })}
                         disabled={!isEditing}
-                        className={styles.input_cliente}
+                        className={styles.input_agend}
                         required
                     />
                 </div>
 
-                <div className={`${styles.grid_item} ${styles.grid_data}`}>
+                <div className={`${styles.grid_item} ${styles.grid_cliente}`}>
+                    <label htmlFor="usu_nome" className={styles.label_cliente}>Cliente</label>
+                    <input
+                        type="text"
+                        id="usu_nome"
+                        name="usu_nome"
+                        value={selectedAgend ? selectedAgend.usu_nome : ''}
+                        disabled={isDisabled}
+                        className={styles.input_agend}
+                        required
+                    />
+                </div>
+
+                <div className={`${styles.grid_item} ${styles.grid_catserv}`}>
+                    <label htmlFor="cat_serv_nome" className={styles.label_cliente}>Categoria do Serviço</label>
+                    <input
+                        type="text"
+                        id="cat_serv_nome"
+                        name="cat_serv_nome"
+                        value={selectedAgend ? selectedAgend.cat_serv_nome : ''}
+                        onChange={(e) => setSelectedAgend({ ...selectedAgend, cat_serv_nome: e.target.value })}
+                        disabled={!isEditing}
+                        className={styles.input_agend}
+                        required
+                    />
+                </div>
+
+                <div className={`${styles.grid_item} ${styles.grid_nomeserv}`}>
+                    <label htmlFor="serv_nome" className={styles.label_cliente}>Serviço</label>
+                    <input
+                        type="text"
+                        id="serv_nome"
+                        name="serv_nome"
+                        value={selectedAgend ? selectedAgend.serv_nome : ''}
+                        onChange={(e) => setSelectedAgend({ ...selectedAgend, serv_nome: e.target.value })}
+                        disabled={!isEditing}
+                        className={styles.input_agend}
+                        required
+                    />
+                </div>
+
+                <div className={`${styles.grid_item} ${styles.grid_horario}`}>
                     <label htmlFor="agend_horario" className={styles.label_cliente}>Horário</label>
                     <input
                         type="time"
@@ -117,76 +117,12 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
                         value={selectedAgend ? selectedAgend.agend_horario : ''}
                         onChange={(e) => setSelectedAgend({ ...selectedAgend, agend_horario: e.target.value })}
                         disabled={!isEditing}
-                        className={styles.input_cliente}
+                        className={styles.input_agend}
                         required
                     />
                 </div>
 
-                {isViewing && (
-                <div className={`${styles.grid_item} ${styles.grid_telefone}`}>
-                    <label htmlFor="veic_ano" className={styles.label_cliente}>Ano</label>
-                    <input
-                        type="text"
-                        id="veic_ano"
-                        name="veic_ano"
-                        value={selectedAgend ? selectedAgend.veic_ano : ''}
-                        onChange={(e) => setSelectedAgend({ ...selectedAgend, veic_ano: e.target.value })}
-                        disabled={isViewing}
-                        className={`${styles.input_cliente}`}
-                        required
-                    />
-                </div>
-                )}
-
-                {isViewing && (
-                    <div className={`${styles.grid_item} ${styles.grid_telefone}`}>
-                    <label htmlFor="veic_cor" className={styles.label_cliente}>Cor</label>
-                    <input
-                        type="text"
-                        id="veic_cor"
-                        name="veic_cor"
-                        value={selectedAgend ? selectedAgend.veic_cor : ''}
-                        onChange={(e) => setSelectedAgend({ ...selectedAgend, veic_cor: e.target.value })}
-                        disabled={isViewing}
-                        className={`${styles.input_cliente}`}
-                        required
-                        />
-                </div>
-                    )}
-
-                {isViewing && (
-                    <div className={`${styles.grid_item} ${styles.grid_telefone}`}>
-                        <label htmlFor="mar_nome" className={styles.label_cliente}>Marca</label>
-                        <input
-                            type="text"
-                            id="mar_nome"
-                            name="mar_nome"
-                            value={selectedAgend ? selectedAgend.mar_nome : ''}
-                            onChange={(e) => setSelectedAgend({ ...selectedAgend, mar_nome: e.target.value })}
-                            disabled={isViewing}
-                            className={`${styles.input_cliente}`}
-                            required
-                        />
-                    </div>
-                )}
-
-                {isViewing && (
-                    <div className={`${styles.grid_item} ${styles.grid_telefone}`}>
-                        <label htmlFor="mod_nome" className={styles.label_cliente}>Modelo</label>
-                        <input
-                            type="text"
-                            id="mod_nome"
-                            name="mod_nome"
-                            value={selectedAgend ? selectedAgend.mod_nome : ''}
-                            onChange={(e) => setSelectedAgend({ ...selectedAgend, mod_nome: e.target.value })}
-                            disabled={isViewing}
-                            className={`${styles.input_cliente}`}
-                            required
-                        />
-                    </div>
-                )}
-
-                <div className={`${styles.grid_item} ${styles.grid_telefone}`}>
+                <div className={`${styles.grid_item} ${styles.grid_placa}`}>
                     <label htmlFor="veic_placa" className={styles.label_cliente}>Placa</label>
                     {isViewing ? (
                         <>
@@ -197,7 +133,7 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
                                 value={selectedAgend ? selectedAgend.veic_placa : ''}
                                 onChange={(e) => setSelectedAgend({ ...selectedAgend, veic_placa: e.target.value })}
                                 disabled={isViewing}
-                                className={`${styles.input_cliente}`}
+                                className={`${styles.input_agend}`}
                                 required
                             />
                         </>
@@ -206,9 +142,9 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
                             <select
                                 id="veiculo"
                                 name="veiculo"
-                                className={styles.input_cliente}
+                                className={styles.input_agend}
                                 value={selectedAgend?.veic_usu_id || ''}
-                                onChange={(e) => setSelectedAgend({ ...selectedAgend, veic_id: e.target.value })}
+                                onChange={(e) => setSelectedAgend({ ...selectedAgend, veic_usu_id: e.target.value })}
                                 disabled={isViewing}
                                 required
                             >
@@ -222,20 +158,6 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
                     )}
                 </div>
 
-                <div className={`${styles.grid_item} ${styles.grid_observacoes}`}>
-                    <label htmlFor="agend_observ" className={styles.label_cliente}>Observações</label>
-                    <input
-                        type="text"
-                        id="agend_observ"
-                        name="agend_observ"
-                        value={selectedAgend ? selectedAgend.agend_observ : ''}
-                        onChange={(e) => setSelectedAgend({ ...selectedAgend, agend_observ: e.target.value })}
-                        disabled={isViewing}
-                        className={styles.input_cliente}
-                        required
-                    />
-                </div>
-
                 <div className={`${styles.grid_item} ${styles.grid_situacao}`}>
                     <label htmlFor="agend_serv_situ_id" className={styles.label_cliente}>Situação</label>
                     <input
@@ -247,10 +169,74 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
                             : ''}
                         onChange={(e) => setSelectedAgend({ ...selectedAgend, agend_serv_situ_id: parseInt(e.target.value) })}
                         disabled
-                        className={styles.input_cliente}
+                        className={styles.input_agend}
                         required
                     />
                 </div>
+
+                {isViewing && ( 
+                    <div className={`${styles.grid_item} ${styles.grid_modelo}`}>
+                        <label htmlFor="mod_nome" className={styles.label_cliente}>Modelo</label>
+                        <input
+                            type="text"
+                            id="mod_nome"
+                            name="mod_nome"
+                            value={selectedAgend ? selectedAgend.mod_nome : ''}
+                            onChange={(e) => setSelectedAgend({ ...selectedAgend, mod_nome: e.target.value })}
+                            disabled={isViewing}
+                            className={`${styles.input_agend}`}
+                            required
+                        />
+                    </div>
+                 )}
+
+                {isViewing && (
+                    <div className={`${styles.grid_item} ${styles.grid_cor}`}>
+                        <label htmlFor="veic_cor" className={styles.label_cliente}>Cor</label>
+                        <input
+                            type="text"
+                            id="veic_cor"
+                            name="veic_cor"
+                            value={selectedAgend ? selectedAgend.veic_cor : ''}
+                            onChange={(e) => setSelectedAgend({ ...selectedAgend, veic_cor: e.target.value })}
+                            disabled={isViewing}
+                            className={`${styles.input_agend}`}
+                            required
+                        />
+                    </div>
+                )}
+
+                {isViewing && (
+                    <div className={`${styles.grid_item} ${styles.grid_marca}`}>
+                        <label htmlFor="mar_nome" className={styles.label_cliente}>Marca</label>
+                        <input
+                            type="text"
+                            id="mar_nome"
+                            name="mar_nome"
+                            value={selectedAgend ? selectedAgend.mar_nome : ''}
+                            onChange={(e) => setSelectedAgend({ ...selectedAgend, mar_nome: e.target.value })}
+                            disabled={isViewing}
+                            className={`${styles.input_agend}`}
+                            required
+                        />
+                    </div>
+                )}
+
+                <div className={`${styles.grid_item} ${styles.grid_observacoes}`}>
+                    <label htmlFor="agend_observ" className={styles.label_cliente}>Observações</label>
+                    <input
+                        type="text"
+                        id="agend_observ"
+                        name="agend_observ"
+                        value={selectedAgend ? selectedAgend.agend_observ : ''}
+                        onChange={(e) => setSelectedAgend({ ...selectedAgend, agend_observ: e.target.value })}
+                        disabled={isViewing}
+                        className={styles.input_agend}
+                        required
+                    />
+                </div>
+
+                
             </div>
         </form>
     )

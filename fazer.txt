@@ -9,8 +9,43 @@
     colocar estrutura do formAgendamentos no ADMIN
 
 
-    (criar outro repositório pra entregar o tcc)
-
+    colocar icone lixeira, quando o usuario clicar, aparece modal de confirmação (passar função que apenas edita a situação para cancelado, usu_situação=4)
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ SELECT TOP 1 1
+      FROM Vaga            Vag
+INNER JOIN VagaItem        Vit ON Vag.IdVaga = Vit.IdVaga
+INNER JOIN VagaItemDetalhe Vid ON Vid.IdVagaItem = Vit.IdVagaItem  
+     WHERE Vag.DataVaga = :DataVaga
+	   AND (Vag.IdOcupacaoProfissional = :IdOcupacaoProfissional OR Vag.IdAgrupaProfissional = :IdAgrupaProfissional)
+       AND CAST(Vid.Horario AS Time) BETWEEN CAST(:HorarioDe AS Time) AND CAST(:HorarioAte AS Time)
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
     SELECT * FROM VEICULO_USUARIO
 
 INSERT INTO VEICULO_USUARIO (veic_id, usu_id, ehproprietario, data_inicial, data_final)

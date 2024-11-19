@@ -9,7 +9,7 @@ import CadCliente from "./cadcliente/page";
 import Veiculos from "./veiculos/page";
 import Servicos from "./servicos/page";
 import FullCalendarGeral from "../usuario/agenda/page";
-import HistoricoAgendamentos from "./agendamentos/page";
+import HistoricoAgendamentos from "./historicoagendamentos/page";
 
 import { MdPowerSettingsNew } from "react-icons/md";
 import Cookies from "js-cookie";

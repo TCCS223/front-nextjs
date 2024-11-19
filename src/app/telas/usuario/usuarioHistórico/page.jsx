@@ -7,6 +7,8 @@ import { parseISO, format } from 'date-fns';
 import Swal from 'sweetalert2';
 import FormAgendamentos from '@/components/FormAgendamentos';
 
+import { IoMdTrash } from "react-icons/io";
+
 export default function UsuarioHistorico() {
     const [agendamentos, setAgendamentos] = useState([]);
     const [filteredAgendamentos, setFilteredAgendamentos] = useState([]);
@@ -22,9 +24,6 @@ export default function UsuarioHistorico() {
     const [showForm, setShowForm] = useState(false);
     const [isViewing, setIsViewing] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-
-
-    console.log(agendamentos);
 
     const [selectedAgend, setSelectedAgend] = useState({
         agend_data: '',
@@ -44,6 +43,9 @@ export default function UsuarioHistorico() {
         mod_nome: '',
         mar_nome: ''
     });
+
+    console.log(selectedAgend);
+
 
     const agendamentosPerPage = 15;
 
@@ -116,6 +118,32 @@ export default function UsuarioHistorico() {
         }
     }
 
+    const handleSubmit = async (agendamentos) => {
+        try {
+            let response;
+
+            if (isEditing) {
+                response = await api.patch(`/agendamentos/${agendamentos.agend_id}`, selectedAgend)
+            }
+        
+            Swal.fire({
+                title: 'Sucesso!',
+                text: response.data.mensagem,
+                icon: 'success',
+                iconColor: "rgb(40, 167, 69)",
+                confirmButtonColor: "rgb(40, 167, 69)",
+            });
+
+            setShowForm(false);
+            setIsEditing(false);
+            setIsViewing(false);
+            ListarAgendamentos();
+        } catch (error) {
+            console.error('Erro ao salvar o agendamento:', error);
+            alert('Erro ao salvar o agendamento. Tente novamente.');
+        }
+    }
+
     const handleSearch = (text) => {
         setSearchText(text);
         applyFilters(text, startDate, endDate, statusFilter);
@@ -144,6 +172,68 @@ export default function UsuarioHistorico() {
         setShowForm(true);
         setIsViewing(true);
         setIsEditing(false);
+    };
+    
+    const CancelarAgendamento = async (agendamentos) => {
+        Swal.fire({
+            title: "Tem certeza?",
+            text: "Você deseja realmente excluir este veículo? Esta ação não pode ser desfeita.",
+            icon: "warning",
+            iconColor: "#ff9d00",
+            showCancelButton: true,
+            confirmButtonColor: "rgb(40, 167, 69)",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sim, excluir!",
+            cancelButtonText: "Cancelar",
+            reverseButtons: true,
+            backdrop: "rgba(0,0,0,0.7)"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+               
+                try {
+                    
+                    const situacao = 0;
+                    const servSituacaoId = 4; 
+                    
+                    const dados = {
+                        agend_situacao: parseInt(situacao, 10),
+                        agend_serv_situ_id: parseInt(servSituacaoId, 10)
+                    };
+                    
+                    const response = await api.patch(`/agendamentos/cancelar/${agendamentos.agend_id}`, dados);
+
+                    if (response.data.sucesso) {
+                        Swal.fire({
+                            title: 'Sucesso!',
+                            text: 'Veículo excluído com sucesso.',
+                            icon: 'success',
+                            confirmButtonText: 'OK',
+                            iconColor: "rgb(40, 167, 69)",
+                            confirmButtonColor: "rgb(40, 167, 69)",
+                        });
+                       ListarAgendamentos();
+                    } else {
+                        Swal.fire({
+                            title: 'Erro!',
+                            text: response.data.mensagem || 'Ocorreu um erro ao excluir o veículo.',
+                            icon: 'error',
+                            confirmButtonText: 'OK',
+                            iconColor: '#d33',
+                            confirmButtonColor: '#d33',
+                        });
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        title: 'Erro!',
+                        text: `Erro na exclusão do veículo: ${error.message}`,
+                        icon: 'error',
+                        confirmButtonText: 'Ok',
+                        iconColor: '#d33',
+                        confirmButtonColor: '#d33',
+                    });
+                }
+            }
+        });
     };
 
     const Cancelar = () => {
@@ -214,7 +304,6 @@ export default function UsuarioHistorico() {
         setIsEditing(false);
     };
 
-
     const applyFilters = (text, start, end, status) => {
         const result = agendamentos.filter((agendamento) => {
             const matchesText = agendamento.agend_observ.toLowerCase().includes(text.toLowerCase()) ||
@@ -278,7 +367,6 @@ export default function UsuarioHistorico() {
                             <div className={styles.filterGroup}>
                                 <label htmlFor="startDate" className={styles.labelFilter}>Data Início</label>
                                 <input
-
                                     type="date"
                                     id="startDate"
                                     className={styles.filterSelect}
@@ -398,6 +486,13 @@ export default function UsuarioHistorico() {
                                                             onClick={() => handleEditAgend(agendamento)}
                                                         />
                                                     </i>
+                                                    
+                                                    <i>
+                                                    <IoMdTrash 
+                                                        title='excluir'
+                                                        onClick={() => CancelarAgendamento(agendamento)}
+                                                    />
+                                                    </i>
                                                 </div>
                                             </td>
                                         </tr>
@@ -441,7 +536,8 @@ export default function UsuarioHistorico() {
                         Cancelar={Cancelar}
                         isViewing={isViewing}
                         isEditing={isEditing}
-                        // veiculos={veiculos}
+                        handleSubmit={handleSubmit}
+                    // veiculos={veiculos}
                     />
 
                     <div className={styles.footer_form}>

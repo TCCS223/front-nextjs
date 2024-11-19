@@ -35,8 +35,6 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable, veiculos, 
     }, [modalEvent]);
 
     const handleSituacaoChange = (e) => setAgendSituacao(parseInt(e.target.value, 10));
-    // const handleInputChange = (setter) => (e) => setter(e.target.value);
-    // const handleVeicPlacaChange = (e) => setVeicUsuId(e.target.value); 
 
     const editarSituacaoDoAgendamento = async () => {
         try {

@@ -115,7 +115,6 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
 
                 <div className={`${styles.grid_item} ${styles.grid_sexo}`}>
                     <label htmlFor="usu_sexo" className={styles.label_cliente}>Sexo</label>
-
                     {isViewing ? (
                         <input
                             type="text"
@@ -143,7 +142,6 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
                             <option value="2">Outro</option>
                         </select>
                     )}
-
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_telefone}`}>
@@ -199,8 +197,6 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
                         ) : (
                             <IoMdEyeOff onClick={togglePasswordVisibility} className={styles.mdEye} />
                         )}
-
-
                     </div>
 
                     {focused && Array.isArray(senhaErro) && senhaErro.length > 0 && (
@@ -212,7 +208,6 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
                             </ul>
                         </div>
                     )}
-
                     {!focused && senhaErro.length > 0 && (
                         <div className={styles.error_message_simples}>
                             Senha inválida.
@@ -254,7 +249,6 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
                             className={`${styles.select_cliente} ${styles.input_acesso}`}
                             value={selectedUser ? selectedUser.usu_acesso : ''}
                             onChange={(e) => setSelectedUser({ ...selectedUser, usu_acesso: parseInt(e.target.value) })}
-
                         >
                             <option value="0">Usuário</option>
                             <option value="1">Administrador</option>
@@ -264,9 +258,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
 
                 <div className={`${styles.grid_item} ${styles.grid_situacao}`}>
                     <label htmlFor="usu_situacao" className={styles.label_cliente}>Situação</label>
-
                     {isEditing ? (
-
                         <select
                             id="usu_situacao"
                             name="usu_situacao"
@@ -274,7 +266,6 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
                             value={selectedUser ? selectedUser.usu_situacao : ''}
                             onChange={(e) => setSelectedUser({ ...selectedUser, usu_situacao: parseInt(e.target.value) })}
                         >
-
                             <option value="1" className={styles.option}>Ativo</option>
                             <option value="0" className={styles.option}>Inativo</option>
                         </select>

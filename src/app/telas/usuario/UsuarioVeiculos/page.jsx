@@ -45,7 +45,7 @@ export default function UsuarioVeiculos() {
         ehproprietario: "",
         veic_situacao: 1,
     });
-
+    
     useEffect(() => {
         const storedUserId = localStorage.getItem('user');
         if (storedUserId) {
@@ -147,7 +147,7 @@ export default function UsuarioVeiculos() {
                     if (response.data.sucesso) {
                         Swal.fire({
                             title: 'Sucesso!',
-                            text: 'Data final do veículo-usuário foi atualizada com sucesso.',
+                            text: 'Veículo excluído com sucesso.',
                             icon: 'success',
                             confirmButtonText: 'OK',
                             iconColor: "rgb(40, 167, 69)",
@@ -250,7 +250,6 @@ export default function UsuarioVeiculos() {
                     throw new Error("Falha ao criar veículo: " + responseVehicle.data.mensagem);
                 }
             } else {
-                console.log("UpdateVeiculo", UpdateVeiculo);
                 responseVehicle = await api.patch(`/veiculos/usuario/${selectedVehicle.veic_id}`, UpdateVeiculo);
                 if (!responseVehicle.data.sucesso) {
                     throw new Error("Falha ao atualizar veículo: " + responseVehicle.data.mensagem);
@@ -272,8 +271,8 @@ export default function UsuarioVeiculos() {
             });
 
             setShowForm(false);
-
             ListarVeiculosUsuario();
+
         } catch (error) {
             console.error("Erro completo na requisição:", error);
             let errorMessage;
