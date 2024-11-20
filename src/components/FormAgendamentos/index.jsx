@@ -9,22 +9,12 @@ import api from '@/services/api';
 export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isViewing, handleSubmit, isEditing, catServicos, servicos, onCategoriaChange, onServicoChange, }) {
 
     const [veiculos, setVeiculos] = useState([]);
-    // const [loading, setLoading] = useState(false);
-    // const [errors, setErrors] = useState('');
-
-    console.log(selectedAgend);
-    console.log(servicos);
-    
-
-
 
     const handleCategoriaSelect = (e) => {
         const selectedCatId = e.target.value;
         setSelectedAgend({ ...selectedAgend, cat_serv_id: selectedCatId }); // Atualiza localmente
         onCategoriaChange(selectedCatId); // Envia para o pai
     };
-
-
 
     useEffect(() => {
         const ListarVeiculosUsuario = async () => {
@@ -226,7 +216,7 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
                                 required
                             >
                                 {veiculos.map((veiculo) => (
-                                    <option key={veiculo.veic_id} value={veiculo.veic_usu_id}>
+                                    <option key={veiculo.veic_usu_id} value={veiculo.veic_usu_id}>
                                         {veiculo.veic_placa}
                                     </option>
                                 ))}
