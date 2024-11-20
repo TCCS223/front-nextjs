@@ -3,14 +3,28 @@ import styles from './index.module.css';
 import { useEffect } from 'react';
 import api from '@/services/api';
 
-import InputMask from "react-input-mask";
-import { IoMdEyeOff, IoMdEye } from "react-icons/io";
+// import InputMask from "react-input-mask";
+// import { IoMdEyeOff, IoMdEye } from "react-icons/io";
 
-export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isViewing, handleSubmit, isEditing }) {
+export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isViewing, handleSubmit, isEditing, catServicos, servicos, onCategoriaChange, onServicoChange, }) {
 
     const [veiculos, setVeiculos] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [errors, setErrors] = useState('');
+    // const [loading, setLoading] = useState(false);
+    // const [errors, setErrors] = useState('');
+
+    console.log(selectedAgend);
+    console.log(servicos);
+    
+
+
+
+    const handleCategoriaSelect = (e) => {
+        const selectedCatId = e.target.value;
+        setSelectedAgend({ ...selectedAgend, cat_serv_id: selectedCatId }); // Atualiza localmente
+        onCategoriaChange(selectedCatId); // Envia para o pai
+    };
+
+
 
     useEffect(() => {
         const ListarVeiculosUsuario = async () => {
@@ -82,30 +96,93 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
 
                 <div className={`${styles.grid_item} ${styles.grid_catserv}`}>
                     <label htmlFor="cat_serv_nome" className={styles.label_cliente}>Categoria do Serviço</label>
-                    <input
-                        type="text"
-                        id="cat_serv_nome"
-                        name="cat_serv_nome"
-                        value={selectedAgend ? selectedAgend.cat_serv_nome : ''}
-                        onChange={(e) => setSelectedAgend({ ...selectedAgend, cat_serv_nome: e.target.value })}
-                        disabled={!isEditing}
-                        className={styles.input_agend}
-                        required
-                    />
+                    {isViewing ? (
+                        <>
+                            <input
+                                type="text"
+                                id="cat_serv_nome"
+                                name="cat_serv_nome"
+                                value={selectedAgend?.cat_serv_nome || ''}
+                                onChange={(e) => setSelectedAgend({ ...selectedAgend, cat_serv_nome: e.target.value })}
+                                disabled={!isEditing}
+                                className={styles.input_agend}
+                                required
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <select
+                                id="cat_serv_nome"
+                                name="cat_serv_nome"
+                                className={styles.input_agend}
+                                value={selectedAgend?.cat_serv_id || ''} // Usar o ID da categoria, caso seja o valor esperado
+                                onChange={handleCategoriaSelect}
+                                disabled={isViewing}
+                                required
+                            >
+                                {catServicos.map((catServ) => (
+                                    <option key={catServ.cat_serv_id} value={catServ.cat_serv_id}>
+                                        {catServ.cat_serv_nome}
+                                    </option>
+                                ))}
+                            </select>
+
+                        </>
+                    )}
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_nomeserv}`}>
                     <label htmlFor="serv_nome" className={styles.label_cliente}>Serviço</label>
-                    <input
-                        type="text"
-                        id="serv_nome"
-                        name="serv_nome"
-                        value={selectedAgend ? selectedAgend.serv_nome : ''}
-                        onChange={(e) => setSelectedAgend({ ...selectedAgend, serv_nome: e.target.value })}
-                        disabled={!isEditing}
-                        className={styles.input_agend}
-                        required
-                    />
+
+                    {isViewing ? (
+                        <>
+                            <input
+                                type="text"
+                                id="serv_nome"
+                                name="serv_nome"
+                                value={selectedAgend ? selectedAgend.serv_nome : ''}
+                                onChange={(e) => setSelectedAgend({ ...selectedAgend, serv_nome: e.target.value })}
+                                disabled={!isEditing}
+                                className={styles.input_agend}
+                                required
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <select
+                                id="serv_nome"
+                                name="serv_nome"
+                                value={selectedAgend?.serv_id || ''}  // Certifique-se que é o mesmo tipo dos options
+                                onChange={(e) => setSelectedAgend({ ...selectedAgend, serv_id: parseInt(e.target.value) })}
+                                className={styles.input_agend}
+                                disabled={isViewing}
+                                required
+                            >
+                                {servicos.map((serv) => (
+                                        <option key={serv.serv_id} value={serv.serv_id}>
+                                            {serv.serv_nome}
+                                        </option>
+                                    ))}
+                            </select>
+
+
+                            {/* <select
+                                id="serv_nome"
+                                name="serv_nome"
+                                className={styles.input_agend}
+                                value={selectedAgend?.serv_id || ''}
+                                onChange={(e) => setSelectedAgend({ ...selectedAgend, serv_id: e.target.value })}
+                                disabled={isViewing}
+                                required
+                            >
+                                {servicos.map((serv) => (
+                                    <option key={serv.serv_id} value={serv.serv_id}>
+                                        {serv.serv_nome}
+                                    </option>
+                                ))}
+                            </select> */}
+                        </>
+                    )}
                 </div>
 
                 <div className={`${styles.grid_item} ${styles.grid_horario}`}>
@@ -174,7 +251,7 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
                     />
                 </div>
 
-                {isViewing && ( 
+                {isViewing && (
                     <div className={`${styles.grid_item} ${styles.grid_modelo}`}>
                         <label htmlFor="mod_nome" className={styles.label_cliente}>Modelo</label>
                         <input
@@ -188,7 +265,7 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
                             required
                         />
                     </div>
-                 )}
+                )}
 
                 {isViewing && (
                     <div className={`${styles.grid_item} ${styles.grid_cor}`}>
@@ -236,7 +313,7 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
                     />
                 </div>
 
-                
+
             </div>
         </form>
     )

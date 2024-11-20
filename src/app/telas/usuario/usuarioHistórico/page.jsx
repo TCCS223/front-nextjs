@@ -43,8 +43,72 @@ export default function UsuarioHistorico() {
         mod_nome: '',
         mar_nome: ''
     });
+    // -----------------------------------------------------------
+    const [catServicos, setCatServicos] = useState([])
+    const [servicos, setServicos] = useState([])
 
-    console.log(selectedAgend);
+    const [selectedCategoria, setSelectedCategoria] = useState(null); // Categoria selecionada
+
+    const ListarCategoriasServAtivas = async () => {
+        try {
+            const response = await api.get('/categoriasServicosAtivas');
+            setCatServicos(response.data.dados);
+        } catch (error) {
+            console.error("Erro ao buscar as categorias:", error);
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Não foi possível buscar as categorias.',
+                icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
+            });
+        }
+    }
+
+    const ListarServicos = async (catServId) => {
+        try {
+            const response = await api.get(`/servicos/categoria/${selectedAgend.cat_serv_id}`);
+            setServicos(response.data.dados || []);
+        } catch (error) {
+            console.error("Erro ao buscar os serviços:", error);
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Não foi possível carregar os serviços.',
+                icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
+            });
+        }
+    };
+
+    // Callback para receber a categoria selecionada do componente filho
+    const handleCategoriaChange = (catServId) => {
+        setSelectedAgend({ ...selectedAgend, serv_id: null }); // Limpa o serviço selecionado
+        setSelectedCategoria(catServId);
+        ListarServicos(catServId);
+    };
+
+    useEffect(() => {
+        ListarCategoriasServAtivas();
+        if(selectedAgend.cat_serv_id){
+            
+            ListarServicos()
+        }
+    }, [selectedAgend.cat_serv_id])
+
+
+    useEffect(() => {
+        if (selectedCategoria) {
+            ListarServicos(selectedCategoria);
+        }
+    }, [selectedCategoria]); // Atualiza a busca quando a categoria mudar
+
+    
+    
+    // -----------------------------------------------------------
+
+
+
 
 
     const agendamentosPerPage = 15;
@@ -53,6 +117,7 @@ export default function UsuarioHistorico() {
         if (userId) {
             ListarAgendamentos();
             ListarSituacaoDoAgendamento();
+
         }
     }, [userId]);
 
@@ -125,7 +190,7 @@ export default function UsuarioHistorico() {
             if (isEditing) {
                 response = await api.patch(`/agendamentos/${agendamentos.agend_id}`, selectedAgend)
             }
-        
+
             Swal.fire({
                 title: 'Sucesso!',
                 text: response.data.mensagem,
@@ -173,7 +238,7 @@ export default function UsuarioHistorico() {
         setIsViewing(true);
         setIsEditing(false);
     };
-    
+
     const CancelarAgendamento = async (agendamentos) => {
         Swal.fire({
             title: "Tem certeza?",
@@ -189,17 +254,15 @@ export default function UsuarioHistorico() {
             backdrop: "rgba(0,0,0,0.7)"
         }).then(async (result) => {
             if (result.isConfirmed) {
-               
                 try {
-                    
                     const situacao = 0;
-                    const servSituacaoId = 4; 
-                    
+                    const servSituacaoId = 4;
+
                     const dados = {
                         agend_situacao: parseInt(situacao, 10),
                         agend_serv_situ_id: parseInt(servSituacaoId, 10)
                     };
-                    
+
                     const response = await api.patch(`/agendamentos/cancelar/${agendamentos.agend_id}`, dados);
 
                     if (response.data.sucesso) {
@@ -211,7 +274,7 @@ export default function UsuarioHistorico() {
                             iconColor: "rgb(40, 167, 69)",
                             confirmButtonColor: "rgb(40, 167, 69)",
                         });
-                       ListarAgendamentos();
+                        ListarAgendamentos();
                     } else {
                         Swal.fire({
                             title: 'Erro!',
@@ -486,12 +549,12 @@ export default function UsuarioHistorico() {
                                                             onClick={() => handleEditAgend(agendamento)}
                                                         />
                                                     </i>
-                                                    
+
                                                     <i>
-                                                    <IoMdTrash 
-                                                        title='excluir'
-                                                        onClick={() => CancelarAgendamento(agendamento)}
-                                                    />
+                                                        <IoMdTrash
+                                                            title='excluir'
+                                                            onClick={() => CancelarAgendamento(agendamento)}
+                                                        />
                                                     </i>
                                                 </div>
                                             </td>
@@ -537,6 +600,9 @@ export default function UsuarioHistorico() {
                         isViewing={isViewing}
                         isEditing={isEditing}
                         handleSubmit={handleSubmit}
+                        catServicos={catServicos}
+                        servicos={servicos}
+                        onCategoriaChange={handleCategoriaChange} // Passar a callback
                     // veiculos={veiculos}
                     />
 
