@@ -19,10 +19,6 @@ export default function FormVeiculo({
     handlePlacaChange
 }) {
 
-
-
-
-
     const isDisabled = isViewing || isEditing;
 
     const handlePlacaInputChange = (e) => {

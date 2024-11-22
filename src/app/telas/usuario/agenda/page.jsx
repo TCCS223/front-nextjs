@@ -261,6 +261,90 @@ const FullCalendarGeral = () => {
     //     }
     // };
 
+    
+            // const horarioDisponivel = await verificarHorarioDisponivel();
+            // if (!horarioDisponivel) {
+            //     Swal.fire({
+            //         icon: 'error',
+            //         title: 'Horário Indisponível!',
+            //         text: 'Esse horário já está agendado. Por favor, escolha outro horário.',
+            //         iconColor: '#d33',
+            //         confirmButtonColor: '#d33',
+            //     });
+            //     return;
+            // }
+
+
+            
+            // const handleSubmit = async (e) => {
+            //     e.preventDefault();
+            
+            //     const { cat_serv_id, ...dataToSend } = formValues;
+            //     const horario = formValues.agend_horario;
+            
+            //     const [hour, minute] = horario.split(":").map(Number);
+            
+            //     if (hour < 8 || (hour === 17 && minute > 0) || hour > 17) {
+            //         Swal.fire({
+            //             icon: 'error',
+            //             title: 'Horário inválido!',
+            //             text: 'Por favor, selecione um horário entre 08:00 e 17:00.',
+            //             iconColor: '#d33',
+            //             confirmButtonColor: '#d33',
+            //         });
+            //         return;
+            //     }
+            
+            //     try {
+            //         const response = await api.post('/agendamentos', dataToSend);
+            
+            //         if (response.data.sucesso) {
+            //             const newEvent = {
+            //                 id: String(events.length + 1),
+            //                 title: `Veículo: ${dataToSend.veic_usu_id}`,
+            //                 start: `${dataToSend.agend_data}T${dataToSend.agend_horario}`,
+            //                 allDay: false,
+            //                 backgroundColor: '#FF9D00',
+            //                 textColor: '#000',
+            //             };
+            
+            //             setEvents([...events, newEvent]);
+            //             clearFields();
+            //             setShowModal(false);
+            
+            //             Swal.fire({
+            //                 icon: 'success',
+            //                 title: 'Agendamento realizado com sucesso!',
+            //                 text: response.data.mensagem,
+            //                 iconColor: "rgb(40, 167, 69)",
+            //                 confirmButtonColor: "rgb(40, 167, 69)",
+            //             });
+            //         }
+            //     } catch (error) {
+            //         if (error.response && error.response.status === 409) {
+            //             Swal.fire({
+            //                 icon: 'error',
+            //                 title: 'Conflito de horário!',
+            //                 text: 'O horário escolhido está indisponível. Por favor, selecione outro horário.',
+            //                 iconColor: '#d33',
+            //                 confirmButtonColor: '#d33',
+            //             });
+            //         } else {
+            //             Swal.fire({
+            //                 icon: 'error',
+            //                 title: 'Erro no servidor!',
+            //                 text: 'Ocorreu um erro ao tentar salvar o agendamento. Por favor, tente novamente mais tarde.',
+            //                 iconColor: '#d33',
+            //                 confirmButtonColor: '#d33',
+            //             });
+            //         }
+            //     }
+            //     ListarAgendamentosUsuario();
+            // };
+            
+            
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -280,18 +364,6 @@ const FullCalendarGeral = () => {
             return;
         }
 
-        // const horarioDisponivel = await verificarHorarioDisponivel();
-        // if (!horarioDisponivel) {
-        //     Swal.fire({
-        //         icon: 'error',
-        //         title: 'Horário Indisponível!',
-        //         text: 'Esse horário já está agendado. Por favor, escolha outro horário.',
-        //         iconColor: '#d33',
-        //         confirmButtonColor: '#d33',
-        //     });
-        //     return;
-        // }
-
         const newEvent = {
             id: String(events.length + 1),
             title: `Veículo: ${dataToSend.veic_usu_id}`,
@@ -304,6 +376,8 @@ const FullCalendarGeral = () => {
 
 
         try {
+            console.log(dataToSend);
+            
             await api.post('/agendamentos', dataToSend);
             setEvents([...events, newEvent]);
             clearFields();
