@@ -180,24 +180,21 @@ const FullCalendarGeral = () => {
 
       
 
-    const handleDateClick = (arg) => {
-        if (calendarApi) {
-            calendarApi.changeView('timeGridDay', arg.date);
+    const handleDateClick = (info) => {
+
+        if (info?.dateStr) {
+            const formattedDate = format(parseISO(info.dateStr), 'yyyy-MM-dd');
+            const formattedTime = format(info.date, 'HH:mm');
+
+            setFormValues({
+                ...formValues,
+                agend_data: formattedDate,
+                agend_horario: formattedTime
+            });
+            setShowModal(true);
+        } else {
+            console.error("Data inválida no evento.");
         }
-
-        // if (arg?.dateStr) {
-        //     const formattedDate = format(parseISO(arg.dateStr), 'yyyy-MM-dd');
-        //     const formattedTime = format(arg.date, 'HH:mm');
-
-        //     setFormValues({
-        //         ...formValues,
-        //         agend_data: formattedDate,
-        //         agend_horario: formattedTime
-        //     });
-        //     setShowModal(true);
-        // } else {
-        //     console.error("Data inválida no evento.");
-        // }
     };
 
 
@@ -237,35 +234,22 @@ const FullCalendarGeral = () => {
     //     }
     // }
 
-    const handleEventClick = (arg) => {
+    const handleEventClick = (info) => {
+        const isOwner = parseInt(info.event.extendedProps.userId) === parseInt(userId);
 
-        if (arg?.dateStr) {
-            const formattedDate = format(parseISO(arg.dateStr), 'yyyy-MM-dd');
-            const formattedTime = format(arg.date, 'HH:mm');
 
-            setFormValues({
-                ...formValues,
-                agend_data: formattedDate,
-                agend_horario: formattedTime
-            });
+        if (userAcesso === 1 || isOwner) {
+            setModalEvent(info.event);
             setShowModal(true);
         } else {
-            console.error("Data inválida no evento.");
+            Swal.fire({
+                icon: 'info',
+                title: 'Acesso restrito',
+                text: 'Você não tem permissão para visualizar os detalhes deste agendamento.',
+                iconColor: '#ff9d00',
+                confirmButtonColor: '#ff9d00',
+            });
         }
-        // const isOwner = parseInt(info.event.extendedProps.userId) === parseInt(userId);
-
-        // if (userAcesso === 1 || isOwner) {
-        //     setModalEvent(info.event);
-        //     setShowModal(true);
-        // } else {
-        //     Swal.fire({
-        //         icon: 'info',
-        //         title: 'Acesso restrito',
-        //         text: 'Você não tem permissão para visualizar os detalhes deste agendamento.',
-        //         iconColor: '#ff9d00',
-        //         confirmButtonColor: '#ff9d00',
-        //     });
-        // }
     };
 
     const handleInputChange = (e) => {
@@ -315,7 +299,7 @@ const FullCalendarGeral = () => {
     // };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault();   
 
         const { cat_serv_id, ...dataToSend } = formValues;
         const horario = formValues.agend_horario;
@@ -333,18 +317,6 @@ const FullCalendarGeral = () => {
             return;
         }
 
-        // const horarioDisponivel = await verificarHorarioDisponivel();
-        // if (!horarioDisponivel) {
-        //     Swal.fire({
-        //         icon: 'error',
-        //         title: 'Horário Indisponível!',
-        //         text: 'Esse horário já está agendado. Por favor, escolha outro horário.',
-        //         iconColor: '#d33',
-        //         confirmButtonColor: '#d33',
-        //     });
-        //     return;
-        // }
-
         const newEvent = {
             id: String(events.length + 1),
             title: `Veículo: ${dataToSend.veic_usu_id}`,
@@ -353,8 +325,6 @@ const FullCalendarGeral = () => {
             backgroundColor: '#FF9D00',
             textColor: '#000'
         };
-
-
 
         try {
             await api.post('/agendamentos', dataToSend);
@@ -369,19 +339,32 @@ const FullCalendarGeral = () => {
                 iconColor: "rgb(40, 167, 69)",
                 confirmButtonColor: "rgb(40, 167, 69)",
             });
-        } catch (error) {
-            console.error("Erro ao salvar agendamento:", error);
 
-            Swal.fire({
-                icon: 'error',
-                title: 'Erro ao salvar agendamento!',
-                text: 'Ocorreu um erro ao tentar salvar o agendamento. Por favor, tente novamente.',
-                iconColor: '#d33',
-                confirmButtonColor: '#d33',
-            });
+        } catch (error) {
+            if (error.response && error.response.status === 400 && error.response.data.mensagem === 'Horário indisponível') {
+                clearFields();
+                
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Horário indisponível',
+                    text: 'O horário selecionado não está disponível para o serviço escolhido. Por favor, selecione outro horário.',
+                    iconColor: '#ff9d00',
+                    confirmButtonColor: '#ff9d00',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        setShowModal(false);
+                }});
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro ao salvar agendamento!',
+                    text: 'Ocorreu um erro ao tentar salvar o agendamento. Por favor, tente novamente.',
+                    iconColor: '#d33',
+                    confirmButtonColor: '#d33',
+                });
+            }
         }
         ListarAgendamentosUsuario();
-        // ListarAgendamentosTodos();
     };
 
     const handleCancel = () => {
@@ -453,10 +436,9 @@ const FullCalendarGeral = () => {
     
     }
    
-
     useEffect(() => {
         if (currentMonth && currentYear) {
-            const initialDate = `${currentYear}-${String(currentMonth).padStart(2, '0')}-01`;
+            // const initialDate = `${currentYear}-${String(currentMonth).padStart(2, '0')}-04`;
     
             const calendar = new Calendar(calendarRef.current, {
                 contentHeight: 600,
@@ -470,7 +452,7 @@ const FullCalendarGeral = () => {
                 expandRows: true,
                 plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
                 initialView: 'dayGridMonth',
-                initialDate: initialDate,
+                // initialDate: initialDate,
                 headerToolbar: {
                     left: 'dayGridMonth,timeGridWeek,timeGridDay',
                     center: 'title',
@@ -478,16 +460,17 @@ const FullCalendarGeral = () => {
                 },
                 events: eventos,
                 datesSet: handleDatesSet,
-                dateClick:  function (info, arg){
+                dateClick: function (info) {
+                    const clickedDate = info.dateStr; // Obtém a data clicada no formato ISO
+    
                     if (info.view.type === "dayGridMonth") {
-                        if (calendarApi) {
-                            calendarApi.changeView('timeGridDay' );
+                        if (calendar) {
+                            calendar.changeView('timeGridDay', clickedDate); // Altera para a visualização diária na data clicada
                         }
-                      } else {
-                        teste(arg)
-                      }
+                    } else {
+                        handleDateClick(info); // Configura o clique nos horários
+                    }
                 },
-                slotClick: teste, // Configura o clique nos horários
                 eventClick: handleEventClick,
                 slotMinTime: '08:00:00',
                 slotMaxTime: '18:00:00',
@@ -504,6 +487,58 @@ const FullCalendarGeral = () => {
             console.error("currentMonth ou currentYear não estão definidos corretamente");
         }
     }, [eventos, currentMonth, currentYear]);
+    
+
+    // useEffect(() => {
+    //     if (currentMonth && currentYear) {
+    //         const initialDate = `${currentYear}-${String(currentMonth).padStart(2, '0')}-04`;
+    
+    //         const calendar = new Calendar(calendarRef.current, {
+    //             contentHeight: 600,
+    //             selectable: true,
+    //             locale: ptLocale,
+    //             aspectRatio: 2,
+    //             showNonCurrentDates: false,
+    //             timeZone: 'local',
+    //             eventOverlap: false,
+    //             selectOverlap: false,
+    //             expandRows: true,
+    //             plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
+    //             initialView: 'dayGridMonth',
+    //             initialDate: initialDate,
+    //             headerToolbar: {
+    //                 left: 'dayGridMonth,timeGridWeek,timeGridDay',
+    //                 center: 'title',
+    //                 right: 'today prev,next'
+    //             },
+    //             events: eventos,
+    //             datesSet: handleDatesSet,
+    //             dateClick:  function (info){
+    //                 if (info.view.type === "dayGridMonth") {
+    //                     if (calendarApi) {
+    //                         calendarApi.changeView('timeGridDay' );
+    //                     }
+    //                   } else {
+    //                     handleDateClick(info); // Configura o clique nos horários
+    //                   }
+    //             },
+    //             slotClick: teste, // Configura o clique nos horários
+    //             eventClick: handleEventClick,
+    //             slotMinTime: '08:00:00',
+    //             slotMaxTime: '18:00:00',
+    //             eventTimeFormat: {
+    //                 hour: '2-digit',
+    //                 minute: '2-digit',
+    //                 meridiem: false
+    //             }
+    //         });
+    
+    //         calendar.render();
+    //         setCalendarApi(calendar); // Armazena o calendário na referência
+    //     } else {
+    //         console.error("currentMonth ou currentYear não estão definidos corretamente");
+    //     }
+    // }, [eventos, currentMonth, currentYear]);
 
 
     const visualizacao = () => {

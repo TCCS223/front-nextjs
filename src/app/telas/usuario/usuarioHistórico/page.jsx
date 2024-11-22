@@ -30,7 +30,7 @@ export default function UsuarioHistorico() {
         agend_horario: '',
         agend_id: '',
         agend_observ: '',
-        agend_serv_situ_id: '',
+        agend_serv_situ_id: 1,
         serv_nome: '',
         usu_id: '',
         usu_nome: '',
@@ -44,64 +44,65 @@ export default function UsuarioHistorico() {
         mar_nome: ''
     });
     // -----------------------------------------------------------
-    const [catServicos, setCatServicos] = useState([])
-    const [servicos, setServicos] = useState([])
+    // const [catServicos, setCatServicos] = useState([])
+    // const [servicos, setServicos] = useState([])
 
     const [selectedCategoria, setSelectedCategoria] = useState(null); // Categoria selecionada
 
-    const ListarCategoriasServAtivas = async () => {
-        try {
-            const response = await api.get('/categoriasServicosAtivas');
-            setCatServicos(response.data.dados);
-        } catch (error) {
-            console.error("Erro ao buscar as categorias:", error);
-            Swal.fire({
-                title: 'Erro!',
-                text: 'Não foi possível buscar as categorias.',
-                icon: 'error',
-                iconColor: '#d33',
-                confirmButtonColor: '#d33',
-            });
-        }
-    }
+    // const ListarCategoriasServAtivas = async () => {
+    //     try {
+    //         const response = await api.get('/categoriasServicosAtivas');
+    //         setCatServicos(response.data.dados);
+    //     } catch (error) {
+    //         console.error("Erro ao buscar as categorias:", error);
+    //         Swal.fire({
+    //             title: 'Erro!',
+    //             text: 'Não foi possível buscar as categorias.',
+    //             icon: 'error',
+    //             iconColor: '#d33',
+    //             confirmButtonColor: '#d33',
+    //         });
+    //     }
+    // }
 
-    const ListarServicos = async (catServId) => {
-        try {
-            const response = await api.get(`/servicos/categoria/${selectedAgend.cat_serv_id}`);
-            setServicos(response.data.dados || []);
-        } catch (error) {
-            console.error("Erro ao buscar os serviços:", error);
-            Swal.fire({
-                title: 'Erro!',
-                text: 'Não foi possível carregar os serviços.',
-                icon: 'error',
-                iconColor: '#d33',
-                confirmButtonColor: '#d33',
-            });
-        }
-    };
+    // const ListarServicos = async (catServId) => {
+    //     try {
+    //         const response = await api.get(`/servicos/categoria/${selectedAgend.cat_serv_id}`);
+    //         setServicos(response.data.dados || []);
+    //     } catch (error) {
+    //         console.error("Erro ao buscar os serviços:", error);
+    //         Swal.fire({
+    //             title: 'Erro!',
+    //             text: 'Não foi possível carregar os serviços.',
+    //             icon: 'error',
+    //             iconColor: '#d33',
+    //             confirmButtonColor: '#d33',
+    //         });
+    //     }
+    // };
 
-    // Callback para receber a categoria selecionada do componente filho
-    const handleCategoriaChange = (catServId) => {
-        setSelectedAgend({ ...selectedAgend, serv_id: null }); // Limpa o serviço selecionado
-        setSelectedCategoria(catServId);
-        ListarServicos(catServId);
-    };
+    // // Callback para receber a categoria selecionada do componente filho
+    // const handleCategoriaChange = (catServId) => {
+    //     setSelectedAgend({ ...selectedAgend, serv_id: null }); // Limpa o serviço selecionado
+    //     setSelectedCategoria(catServId);
+    //     ListarServicos(catServId);
+    // };
 
-    useEffect(() => {
-        ListarCategoriasServAtivas();
-        if(selectedAgend.cat_serv_id){
+    // useEffect(() => {
+    //     ListarCategoriasServAtivas();
+
+    //     if(selectedAgend.cat_serv_id){
             
-            ListarServicos()
-        }
-    }, [selectedAgend.cat_serv_id])
+    //         ListarServicos()
+    //     }
+    // }, [selectedAgend.cat_serv_id])
 
 
-    useEffect(() => {
-        if (selectedCategoria) {
-            ListarServicos(selectedCategoria);
-        }
-    }, [selectedCategoria]); // Atualiza a busca quando a categoria mudar
+    // useEffect(() => {
+    //     if (selectedCategoria) {
+    //         ListarServicos(selectedCategoria);
+    //     }
+    // }, [selectedCategoria]); // Atualiza a busca quando a categoria mudar
 
     
     
@@ -184,13 +185,23 @@ export default function UsuarioHistorico() {
     }
 
     const handleSubmit = async (agendamentos) => {
+        const dados = {
+            veic_usu_id: selectedAgend.veic_usu_id,
+            agend_data: selectedAgend.agend_data,
+            agend_horario: selectedAgend.agend_horario,
+            serv_id: selectedAgend.serv_id,
+            agend_serv_situ_id: selectedAgend.agend_serv_situ_id,
+            agend_observ: selectedAgend.agend_observ,
+            agend_id: selectedAgend.agend_id,
+        };
+    
         try {
             let response;
-
+    
             if (isEditing) {
-                response = await api.patch(`/agendamentos/${agendamentos.agend_id}`, selectedAgend)
+                response = await api.patch(`/agendamentos/${agendamentos.agend_id}`, dados);
             }
-
+    
             Swal.fire({
                 title: 'Sucesso!',
                 text: response.data.mensagem,
@@ -198,16 +209,23 @@ export default function UsuarioHistorico() {
                 iconColor: "rgb(40, 167, 69)",
                 confirmButtonColor: "rgb(40, 167, 69)",
             });
-
+    
             setShowForm(false);
             setIsEditing(false);
             setIsViewing(false);
             ListarAgendamentos();
         } catch (error) {
             console.error('Erro ao salvar o agendamento:', error);
-            alert('Erro ao salvar o agendamento. Tente novamente.');
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Ocorreu um erro ao salvar o agendamento. Tente novamente.',
+                icon: 'error',
+                iconColor: "rgb(255, 69, 58)",
+                confirmButtonColor: "rgb(255, 69, 58)",
+            });
         }
-    }
+    };
+    
 
     const handleSearch = (text) => {
         setSearchText(text);
@@ -600,9 +618,9 @@ export default function UsuarioHistorico() {
                         isViewing={isViewing}
                         isEditing={isEditing}
                         handleSubmit={handleSubmit}
-                        catServicos={catServicos}
-                        servicos={servicos}
-                        onCategoriaChange={handleCategoriaChange} // Passar a callback
+                        // catServicos={catServicos}
+                        // // servicos={servicos}
+                        // onCategoriaChange={handleCategoriaChange} // Passar a callback
                     // veiculos={veiculos}
                     />
 

@@ -38,9 +38,7 @@ const FullCalendarGeral = () => {
         serv_id: '',
         agend_serv_situ_id: 1
     });
-    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1); // Janeiro é 0, então somamos 1
-    const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
-    
+
     useEffect(() => {
         if (userId) {
             ListarVeiculosUsuario();
@@ -66,6 +64,8 @@ const FullCalendarGeral = () => {
         }
     }, [userAcesso]);
 
+    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1); // Janeiro é 0, então somamos 1
+    const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
 
     useEffect(() => {
         ListarAgendamentosUsuario();
@@ -107,6 +107,7 @@ const FullCalendarGeral = () => {
             });
             return;
         }
+
         try {
             const response = await api.post('/usuarios/cpf', { usu_cpf: cpfUsuario });
 
@@ -177,10 +178,14 @@ const FullCalendarGeral = () => {
         }
     };
 
-    const handleDateClick = (info) => {
-        if (info?.dateStr) {
-            const formattedDate = format(parseISO(info.dateStr), 'yyyy-MM-dd');
-            const formattedTime = format(info.date, 'HH:mm');
+    const handleDateClick = (arg) => {
+        if (calendarApi) {
+            calendarApi.changeView('timeGridDay', arg.date);
+        }
+
+        if (arg?.dateStr) {
+            const formattedDate = format(parseISO(arg.dateStr), 'yyyy-MM-dd');
+            const formattedTime = format(arg.date, 'HH:mm');
 
             setFormValues({
                 ...formValues,
@@ -192,6 +197,7 @@ const FullCalendarGeral = () => {
             console.error("Data inválida no evento.");
         }
     };
+
     const handleEventClick = (info) => {
         const isOwner = parseInt(info.event.extendedProps.userId) === parseInt(userId);
 
@@ -234,76 +240,187 @@ const FullCalendarGeral = () => {
         setCpfUsuario(e.target.value);
     };
 
+    // const verificarHorarioDisponivel = async () => {
+    //     const { agend_data, agend_horario } = formValues;
+    //     try {
+    //         const response = await api.post('/agendamentos/verificarhorario', {
+    //             agend_data,
+    //             agend_horario
+    //         });
+    //         return response.data.disponivel;
+    //     } catch (error) {
+    //         console.error("Erro ao verificar disponibilidade do horário:", error);
+    //         Swal.fire({
+    //             icon: 'error',
+    //             title: 'Erro ao verificar disponibilidade!',
+    //             text: 'Ocorreu um erro ao tentar verificar o horário. Por favor, tente novamente.',
+    //             iconColor: '#d33',
+    //             confirmButtonColor: '#d33',
+    //         });
+    //         return false;
+    //     }
+    // };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();   
+    
+            // const horarioDisponivel = await verificarHorarioDisponivel();
+            // if (!horarioDisponivel) {
+            //     Swal.fire({
+            //         icon: 'error',
+            //         title: 'Horário Indisponível!',
+            //         text: 'Esse horário já está agendado. Por favor, escolha outro horário.',
+            //         iconColor: '#d33',
+            //         confirmButtonColor: '#d33',
+            //     });
+            //     return;
+            // }
 
-        const { cat_serv_id, ...dataToSend } = formValues;
-        const horario = formValues.agend_horario;
 
-        const [hour, minute] = horario.split(":").map(Number);
 
-        if (hour < 8 || (hour === 17 && minute > 0) || hour > 17) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Horário inválido!',
-                text: 'Por favor, selecione um horário entre 08:00 e 17:00.',
-                iconColor: '#d33',
-                confirmButtonColor: '#d33',
-            });
-            return;
-        }
+            // const handleSubmit = async (e) => {
+            //     e.preventDefault();
+            
+            //     const { cat_serv_id, ...dataToSend } = formValues;
+            //     const horario = formValues.agend_horario;
+            
+            //     const [hour, minute] = horario.split(":").map(Number);
+            
+            //     if (hour < 8 || (hour === 17 && minute > 0) || hour > 17) {
+            //         Swal.fire({
+            //             icon: 'error',
+            //             title: 'Horário inválido!',
+            //             text: 'Por favor, selecione um horário entre 08:00 e 17:00.',
+            //             iconColor: '#d33',
+            //             confirmButtonColor: '#d33',
+            //         });
+            //         return;
+            //     }
+            
+            //     try {
+            //         const response = await api.post('/agendamentos', dataToSend);
+            
+            //         if (response.data.sucesso) {
+            //             const newEvent = {
+            //                 id: String(events.length + 1),
+            //                 title: `Veículo: ${dataToSend.veic_usu_id}`,
+            //                 start: `${dataToSend.agend_data}T${dataToSend.agend_horario}`,
+            //                 allDay: false,
+            //                 backgroundColor: '#FF9D00',
+            //                 textColor: '#000',
+            //             };
+            
+            //             setEvents([...events, newEvent]);
+            //             clearFields();
+            //             setShowModal(false);
+            
+            //             Swal.fire({
+            //                 icon: 'success',
+            //                 title: 'Agendamento realizado com sucesso!',
+            //                 text: response.data.mensagem,
+            //                 iconColor: "rgb(40, 167, 69)",
+            //                 confirmButtonColor: "rgb(40, 167, 69)",
+            //             });
+            //         }
+            //     } catch (error) {
+            //         if (error.response && error.response.status === 409) {
+            //             Swal.fire({
+            //                 icon: 'error',
+            //                 title: 'Conflito de horário!',
+            //                 text: 'O horário escolhido está indisponível. Por favor, selecione outro horário.',
+            //                 iconColor: '#d33',
+            //                 confirmButtonColor: '#d33',
+            //             });
+            //         } else {
+            //             Swal.fire({
+            //                 icon: 'error',
+            //                 title: 'Erro no servidor!',
+            //                 text: 'Ocorreu um erro ao tentar salvar o agendamento. Por favor, tente novamente mais tarde.',
+            //                 iconColor: '#d33',
+            //                 confirmButtonColor: '#d33',
+            //             });
+            //         }
+            //     }
+            //     ListarAgendamentosUsuario();
+            // };
+            
+            
 
-        const newEvent = {
-            id: String(events.length + 1),
-            title: `Veículo: ${dataToSend.veic_usu_id}`,
-            start: `${dataToSend.agend_data}T${dataToSend.agend_horario}`,
-            allDay: false,
-            backgroundColor: '#FF9D00',
-            textColor: '#000'
-        };
 
-        try {
-            await api.post('/agendamentos', dataToSend);
-            setEvents([...events, newEvent]);
-            clearFields();
-            setShowModal(false);
-
-            Swal.fire({
-                icon: 'success',
-                title: 'Agendamento realizado com sucesso!',
-                text: 'O agendamento foi salvo com sucesso',
-                iconColor: "rgb(40, 167, 69)",
-                confirmButtonColor: "rgb(40, 167, 69)",
-            });
-
-        } catch (error) {
-            if (error.response && error.response.status === 400 && error.response.data.mensagem === 'Horário indisponível') {
-                clearFields();
-                
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Horário indisponível',
-                    text: 'O horário selecionado não está disponível para o serviço escolhido. Por favor, selecione outro horário.',
-                    iconColor: '#ff9d00',
-                    confirmButtonColor: '#ff9d00',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        setShowModal(false);
-                }});
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Erro ao salvar agendamento!',
-                    text: 'Ocorreu um erro ao tentar salvar o agendamento. Por favor, tente novamente.',
-                    iconColor: '#d33',
-                    confirmButtonColor: '#d33',
-                });
-            }
-        }
-        ListarAgendamentosUsuario();
-    };
-
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+            
+                const { cat_serv_id, ...dataToSend } = formValues;
+                const horario = formValues.agend_horario;
+            
+                const [hour, minute] = horario.split(":").map(Number);
+            
+                // Validação de horário no frontend
+                if (hour < 8 || (hour === 17 && minute > 0) || hour > 17) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Horário inválido!',
+                        text: 'Por favor, selecione um horário entre 08:00 e 17:00.',
+                        iconColor: '#d33',
+                        confirmButtonColor: '#d33',
+                    });
+                    return;
+                }
+            
+                const newEvent = {
+                    id: String(events.length + 1),
+                    title: `Veículo: ${dataToSend.veic_usu_id}`,
+                    start: `${dataToSend.agend_data}T${dataToSend.agend_horario}`,
+                    allDay: false,
+                    backgroundColor: '#FF9D00',
+                    textColor: '#000'
+                };
+            
+                try {
+                    console.log(dataToSend);
+            
+                    // Envio da requisição
+                    await api.post('/agendamentos', dataToSend);
+            
+                    setEvents([...events, newEvent]);
+                    clearFields();
+                    setShowModal(false);
+            
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Agendamento realizado com sucesso!',
+                        text: 'O agendamento foi salvo com sucesso.',
+                        iconColor: "rgb(40, 167, 69)",
+                        confirmButtonColor: "rgb(40, 167, 69)",
+                    });
+                } catch (error) {
+                    // Captura o erro da API
+                    if (error.response && error.response.status === 400) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Horário indisponível!',
+                            text: 'Este horário já está ocupado. Por favor, escolha outro horário.',
+                            iconColor: '#ff9d00',
+                            confirmButtonColor: '#ff9d00',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                setShowModal(false);
+                                  }
+                        });;
+                    } else {
+                        console.error("Erro ao salvar agendamento:", error);
+            
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro ao salvar agendamento!',
+                            text: 'Ocorreu um erro ao tentar salvar o agendamento. Por favor, tente novamente.',
+                            iconColor: '#d33',
+                            confirmButtonColor: '#d33',
+                        });
+                    }
+                }
+            
+                ListarAgendamentosUsuario();
+            };
+            
     const handleCancel = () => {
         Swal.fire({
             title: "Deseja Cancelar esse agendamento?",
@@ -326,7 +443,15 @@ const FullCalendarGeral = () => {
                     iconColor: "rgb(40, 167, 69)",
                     confirmButtonColor: "rgb(40, 167, 69)",
                 }).then(() => {
-                    clearFields();
+                    setFormValues({
+                        veic_usu_id: '',
+                        agend_data: '',
+                        agend_horario: '',
+                        agend_situacao: 1,
+                        agend_observ: '',
+                        serv_id: '',
+                        agend_serv_situ_id: 1
+                    });
                     setShowModal(false);
                 });
             }
@@ -347,7 +472,8 @@ const FullCalendarGeral = () => {
 
     useEffect(() => {
         if (currentMonth && currentYear) {
-    
+            const initialDate = `${currentYear}-${String(currentMonth).padStart(2, '0')}-01`;
+
             const calendar = new Calendar(calendarRef.current, {
                 contentHeight: 600,
                 selectable: true,
@@ -360,6 +486,7 @@ const FullCalendarGeral = () => {
                 expandRows: true,
                 plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
                 initialView: 'dayGridMonth',
+                initialDate: initialDate,
                 headerToolbar: {
                     left: 'dayGridMonth,timeGridWeek,timeGridDay',
                     center: 'title',
@@ -367,16 +494,7 @@ const FullCalendarGeral = () => {
                 },
                 events: eventos,
                 datesSet: handleDatesSet,
-                dateClick: function (info) {
-                    const clickedDate = info.dateStr;  
-                    if (info.view.type === "dayGridMonth") {
-                        if (calendar) {
-                            calendar.changeView('timeGridDay', clickedDate); 
-                        }
-                    } else {
-                        handleDateClick(info); 
-                    }
-                },
+                dateClick: handleDateClick,
                 eventClick: handleEventClick,
                 slotMinTime: '08:00:00',
                 slotMaxTime: '18:00:00',
@@ -386,13 +504,13 @@ const FullCalendarGeral = () => {
                     meridiem: false
                 }
             });
-    
+
             calendar.render();
-            setCalendarApi(calendar); 
         } else {
             console.error("currentMonth ou currentYear não estão definidos corretamente");
         }
     }, [eventos, currentMonth, currentYear]);
+
 
     const visualizacao = () => {
         setShowModal(false);

@@ -1,18 +1,16 @@
 - GERAL -
     pegar backup do banco (inserts)
 
-    verificar se o horario ja ta ocupado 
-
     - IMPORTANTE
     | ajustar a estilização total, mudando o nome das classes do formAgendamentos(ajustar no jsx e no css)
     
     colocar estrutura do formAgendamentos no ADMIN
 
-
-    colocar icone lixeira, quando o usuario clicar, aparece modal de confirmação (passar função que apenas edita a situação para cancelado, usu_situação=4)
- 
- 
- 
+    
+   + PRA FINALIZAR ----------------------------------------------------------------------------------------------+
+   | atualizar a estrutura do historico de agendamentos do admin (fazer seguindo o padro do historico do usuario)|
+   | padronizar css do historico do agendamentos do admin igual o do usuario                                     |
+   + ------------------------------------------------------------------------------------------------------------+
  
  
  
