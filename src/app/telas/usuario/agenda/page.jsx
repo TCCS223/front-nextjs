@@ -234,7 +234,6 @@ const FullCalendarGeral = () => {
         setCpfUsuario(e.target.value);
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();   
 
@@ -264,6 +263,9 @@ const FullCalendarGeral = () => {
         };
 
         try {
+
+            console.log(dataToSend);
+
             await api.post('/agendamentos', dataToSend);
             setEvents([...events, newEvent]);
             clearFields();
@@ -384,7 +386,8 @@ const FullCalendarGeral = () => {
                     hour: '2-digit',
                     minute: '2-digit',
                     meridiem: false
-                }
+                },
+                allDaySlot: false,
             });
     
             calendar.render();

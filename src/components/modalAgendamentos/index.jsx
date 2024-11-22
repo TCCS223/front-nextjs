@@ -38,12 +38,12 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable, veiculos, 
 
     const editarSituacaoDoAgendamento = async () => {
         try {
-            await api.patch(`/agendamentos/${modalEvent?._def?.extendedProps?.agend_id}`, {
-                veic_usu_id: veicUsuId,
-                agend_data: agendData,
-                agend_horario: agendHorario,
+            await api.patch(`/agendamentos/situacao/${modalEvent?._def?.extendedProps?.agend_id}`, {
+                // veic_usu_id: veicUsuId,
+                // agend_data: agendData,
+                // agend_horario: agendHorario,
                 agend_serv_situ_id: agendSituacao,
-                agend_observ: agendObserv,
+                // agend_observ: agendObserv,
             });
             Swal.fire({
                 icon: 'success',

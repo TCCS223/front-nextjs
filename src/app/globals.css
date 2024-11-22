@@ -48,3 +48,7 @@ table {
 .fc-direction-ltr .fc-timegrid-col-events {
     margin: 0;
 }
+
+.fc-timegrid-allday {
+    display: none !important;
+}
