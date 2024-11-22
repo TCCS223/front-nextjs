@@ -4,16 +4,10 @@ import { useEffect } from 'react';
 import api from '@/services/api';
 import Swal from 'sweetalert2';
 
-// import InputMask from "react-input-mask";
-// import { IoMdEyeOff, IoMdEye } from "react-icons/io";
-
 export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isViewing, handleSubmit, isEditing, }) {
 
     const [veiculos, setVeiculos] = useState([]);
 
-
-
-    //-------------------------------------------------------------------
     const [servicos, setServicos] = useState([])
     const [catServicos, setCatServicos] = useState([])
     const [selectedCategoria, setSelectedCategoria] = useState(selectedAgend?.cat_serv_id);
@@ -31,33 +25,24 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
         }
     }, [selectedCategoria])
 
-
     useEffect(() => {
-        // Sincroniza o estado inicial com a categoria selecionada do agendamento
         if (selectedAgend) {
-          setSelectedCategoria(selectedAgend.cat_serv_id || "");
+            setSelectedCategoria(selectedAgend.cat_serv_id || "");
         }
-      }, [selectedAgend]);
-
-    // const handleCategoryChange = (e) => {
-    //     const selectedCategoryId = parseInt(e.target.value, 10);
-    //     setSelectedCategoria(selectedCategoryId); // Atualiza o estado da categoria
-    //   };
+    }, [selectedAgend]);
 
     const handleCategoryChange = (e) => {
         const newCategoryId = e.target.value;
-    
-        // Atualiza o estado local
+
         setSelectedCategoria(newCategoryId);
-    
-        // Atualiza o estado pai, se necessário
+
         if (setSelectedAgend) {
-          setSelectedAgend((prevAgend) => ({
-            ...prevAgend,
-            cat_serv_id: newCategoryId,
-          }));
+            setSelectedAgend((prevAgend) => ({
+                ...prevAgend,
+                cat_serv_id: newCategoryId,
+            }));
         }
-      };
+    };
 
     const ListarCategoriasServAtivas = async () => {
         try {
@@ -73,21 +58,17 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
                 confirmButtonColor: '#d33',
             });
         }
-    }
+    };
 
     const ListarServicos = async (selectedCategoria) => {
         console.log("passando por aqui:", selectedCategoria);
-    
+
         try {
-            // Realizando a requisição à API
             const response = await api.get(`/servicos/categoria/${selectedCategoria}`);
-            
-            // Exibe no console o que veio na resposta
+
             console.log("Resposta da API:", response);
-    
-            // Verificar se a resposta indica "Nenhum serviço encontrado"
+
             if (response.data.sucesso === false && response.data.status === 200) {
-                // Mostrar um alerta de warning
                 Swal.fire({
                     title: 'Atenção!',
                     text: 'Nenhum serviço encontrado para essa categoria.',
@@ -95,35 +76,28 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
                     iconColor: '#f39c12',
                     confirmButtonColor: '#f39c12',
                 });
-    
-                // Desabilitar o campo de serviços
-                setServicos([]);              // Limpa a lista de serviços
-                setServicoSelecionado(null);  // Reseta o valor selecionado, se necessário
-                setIsServicoDisabled(true);   // Desabilita o campo de seleção de serviços
-                
+
+                setServicos([]);
+                setServicoSelecionado(null);
+                setIsServicoDisabled(true);
+
             } else {
-                // Caso contrário, lista os serviços
                 setServicos(response.data.dados || []);
                 console.log("Serviços encontrados:", response.data.dados);
-                setIsServicoDisabled(false);  // Habilita o campo de serviços
+                setIsServicoDisabled(false);
             }
         } catch (error) {
             console.error("Erro ao buscar os serviços:", error);
-    
-            // Verifica a resposta do erro (em caso de falha na requisição)
+
             if (error.response) {
-                // Se a resposta da API tiver status e dados, imprime detalhes
                 console.error("Status da resposta:", error.response.status);
                 console.error("Dados da resposta:", error.response.data);
             } else if (error.request) {
-                // Se não há resposta da API (erro de rede ou de servidor)
                 console.error("Erro na requisição (sem resposta):", error.request);
             } else {
-                // Outro tipo de erro
                 console.error("Erro desconhecido:", error.message);
             }
-    
-            // Caso ocorra erro de requisição
+
             Swal.fire({
                 title: 'Erro!',
                 text: 'Não foi possível carregar os serviços.',
@@ -133,14 +107,11 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
             });
         }
     };
-    
-    
-    
 
     // const ListarServicos = async (selectedCategoria) => {
 
     //         console.log("passando por aqui:", selectedCategoria);
-        
+
     //         try {
     //             const response = await api.get(`/servicos/categoria/${selectedCategoria}`);
     //             setServicos(response.data.dados || []);
@@ -156,20 +127,7 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
     //                 confirmButtonColor: '#d33',
     //             });
     //         }
-        
     // };
-
-
-    console.log("catServicos:", catServicos);
-    console.log("servicos:", servicos);
-    console.log("teste: ", selectedCategoria);
-
-
-    //-------------------------------------------------------------------
-
-
-
-    console.log(selectedAgend);
 
     useEffect(() => {
         const ListarVeiculosUsuario = async () => {
@@ -197,8 +155,6 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
     return (
         <form id="clienteForm" className={styles.form} onSubmit={handleSubmit}>
             <input type="hidden" id="clienteId" value={selectedAgend ? selectedAgend.usu_id : ''} className={styles.input_agend} />
-        
-
 
             <div className={styles.grid}>
                 <div className={`${styles.grid_item} ${styles.grid_codigo}`}>
@@ -258,13 +214,13 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
                         </>
                     ) : (
                         <>
-                         
+
                             <select
                                 id="cat_serv_nome"
                                 name="cat_serv_nome"
                                 className={styles.input_agend}
-                                value={selectedCategoria} // Controlado pelo estado local
-                                // value={selectedAgend ? selectedAgend.cat_serv_id : ''} // Usar o ID da categoria, caso seja o valor esperado
+                                value={selectedCategoria}
+                                // value={selectedAgend ? selectedAgend.cat_serv_id : ''}
                                 onChange={handleCategoryChange}
                                 // onChange={(e) => setSelectedCategoria(e.target.value)}
                                 // onChange={(e) => setSelectedAgend({ ...selectedAgend, cat_serv_nome: e.target.value })}
@@ -277,7 +233,6 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
                                     </option>
                                 ))}
                             </select>
-
                         </>
                     )}
                 </div>
@@ -321,7 +276,6 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
                                     </option>
                                 ))} */}
                             </select>
-
 
                             {/* <select
                                 id="serv_nome"
@@ -469,8 +423,6 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
                         required
                     />
                 </div>
-
-
             </div>
         </form>
     )

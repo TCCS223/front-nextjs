@@ -178,8 +178,6 @@ const FullCalendarGeral = () => {
         }
     };
 
-      
-
     const handleDateClick = (info) => {
 
         if (info?.dateStr) {
@@ -196,7 +194,6 @@ const FullCalendarGeral = () => {
             console.error("Data inválida no evento.");
         }
     };
-
 
     const teste = (arg) => {
           if (arg?.dateStr) {

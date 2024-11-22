@@ -43,11 +43,10 @@ export default function UsuarioHistorico() {
         mod_nome: '',
         mar_nome: ''
     });
-    // -----------------------------------------------------------
     // const [catServicos, setCatServicos] = useState([])
     // const [servicos, setServicos] = useState([])
 
-    const [selectedCategoria, setSelectedCategoria] = useState(null); // Categoria selecionada
+    const [selectedCategoria, setSelectedCategoria] = useState(null);
 
     // const ListarCategoriasServAtivas = async () => {
     //     try {
@@ -104,21 +103,12 @@ export default function UsuarioHistorico() {
     //     }
     // }, [selectedCategoria]); // Atualiza a busca quando a categoria mudar
 
-    
-    
-    // -----------------------------------------------------------
-
-
-
-
-
     const agendamentosPerPage = 15;
 
     useEffect(() => {
         if (userId) {
             ListarAgendamentos();
             ListarSituacaoDoAgendamento();
-
         }
     }, [userId]);
 
@@ -182,7 +172,7 @@ export default function UsuarioHistorico() {
                 confirmButtonColor: '#d33',
             });
         }
-    }
+    };
 
     const handleSubmit = async (agendamentos) => {
         const dados = {
@@ -226,7 +216,6 @@ export default function UsuarioHistorico() {
         }
     };
     
-
     const handleSearch = (text) => {
         setSearchText(text);
         applyFilters(text, startDate, endDate, statusFilter);
@@ -361,7 +350,7 @@ export default function UsuarioHistorico() {
                 });
             }
         });
-    }
+    };
 
     const handleExit = () => {
         setShowForm(false);
