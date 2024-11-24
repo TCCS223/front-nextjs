@@ -42,14 +42,14 @@ const FullCalendarGeral = () => {
         serv_id: '',
         agend_serv_situ_id: 1
     });
-    
+
     useEffect(() => {
         if (userId) {
             ListarVeiculosUsuario();
         }
     }, [userId]);
 
-    
+
 
     useEffect(() => {
         const storedData = localStorage.getItem('user');
@@ -76,8 +76,20 @@ const FullCalendarGeral = () => {
     }, [currentMonth, currentYear, userId, userAcesso]);
 
     useEffect(() => {
-        if (currentMonth && currentYear) {
-    
+        if (currentMonth && currentYear && userId !== null) {
+            ListarAgendamentosUsuario();
+        }
+    }, [currentMonth, currentYear, userId]);
+
+    useEffect(() => {
+        if (calendarApi) {
+            calendarApi.removeAllEvents();
+            calendarApi.addEventSource(eventos);
+        }
+    }, [eventos, calendarApi]);
+
+    useEffect(() => {
+        if (!calendarApi) {
             const calendar = new Calendar(calendarRef.current, {
                 contentHeight: 600,
                 selectable: true,
@@ -93,18 +105,16 @@ const FullCalendarGeral = () => {
                 headerToolbar: {
                     left: 'dayGridMonth,timeGridWeek,timeGridDay',
                     center: 'title',
-                    right: 'today prev,next'
+                    right: 'today prev,next',
                 },
                 events: eventos,
                 datesSet: handleDatesSet,
                 dateClick: function (info) {
-                    const clickedDate = info.dateStr;  
+                    const clickedDate = info.dateStr;
                     if (info.view.type === "dayGridMonth") {
-                        if (calendar) {
-                            calendar.changeView('timeGridDay', clickedDate); 
-                        }
+                        calendar.changeView('timeGridDay', clickedDate);
                     } else {
-                        handleDateClick(info); 
+                        handleDateClick(info);
                     }
                 },
                 eventClick: handleEventClick,
@@ -113,22 +123,17 @@ const FullCalendarGeral = () => {
                 eventTimeFormat: {
                     hour: '2-digit',
                     minute: '2-digit',
-                    meridiem: false
+                    meridiem: false,
                 },
                 allDaySlot: false,
             });
-    
+
             calendar.render();
-            setCalendarApi(calendar); 
-        } else {
-            console.error("currentMonth ou currentYear não estão definidos corretamente");
+            setCalendarApi(calendar);
         }
-    }, [eventos, currentMonth, currentYear]);
+    }, []);
 
     const ListarAgendamentosUsuario = async () => {
-        console.log(currentMonth, currentYear);
-        
-
         try {
             const response = await api.get(`/agendamentos/usuarios/${userId}/${userAcesso}/${currentMonth}/${currentYear}}`);
             setAgendamentoUsuario(response.data.dadosTodos);
@@ -143,32 +148,14 @@ const FullCalendarGeral = () => {
             const startDate = datesInfo.start;
             const newMonth = startDate.getMonth() + 1;
             const newYear = startDate.getFullYear();
-    
-            if (newMonth !== currentMonth || newYear !== currentYear) {
-                setCurrentMonth(newMonth);
-                setCurrentYear(newYear);
-            }
+
+            setCurrentMonth(newMonth);
+            setCurrentYear(newYear);
+
         } else {
             console.error("Data de início não disponível!");
         }
     };
-    
-
-    // const handleDatesSet = (datesInfo) => {
-    //     if (datesInfo.start) {
-    //         const startDate = datesInfo.start;
-    //         const newMonth = startDate.getMonth() + 1;
-    //         const newYear = startDate.getFullYear();
-
-    //         setCurrentMonth(newMonth);
-    //         setCurrentYear(newYear);
-
-    //         console.log(`Mês: ${newMonth}, Ano: ${newYear}`);  
-
-    //     } else {
-    //         console.error("Data de início não disponível!");
-    //     }
-    // };
 
     const BuscarUsuarioPorCpf = async () => {
         if (!cpfUsuario || cpfUsuario.trim().length === 0) {
@@ -310,7 +297,7 @@ const FullCalendarGeral = () => {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();   
+        e.preventDefault();
 
         const { cat_serv_id, ...dataToSend } = formValues;
         const horario = formValues.agend_horario;
@@ -354,7 +341,7 @@ const FullCalendarGeral = () => {
         } catch (error) {
             if (error.response && error.response.status === 400 && error.response.data.mensagem === 'Horário indisponível') {
                 clearFields();
-                
+
                 Swal.fire({
                     icon: 'warning',
                     title: 'Horário indisponível',
@@ -364,7 +351,8 @@ const FullCalendarGeral = () => {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         setShowModal(false);
-                }});
+                    }
+                });
             } else {
                 Swal.fire({
                     icon: 'error',
