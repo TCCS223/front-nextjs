@@ -6,7 +6,7 @@ import { format, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import Swal from 'sweetalert2';
 
-const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable, veiculos, isAdmin }) => {
+const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable, veiculos, isAdmin, agendamentosUsuario }) => {
     const [agendSituacao, setAgendSituacao] = useState(null);
     const [agendData, setAgendData] = useState('');
     const [agendHorario, setAgendHorario] = useState('');
@@ -22,6 +22,12 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable, veiculos, 
         4: 'Cancelado'
     };
 
+    console.log("teste: ", agendamentosUsuario);
+    
+//----------------------------------------------------------------------------
+if (!modalEvent?._def?.extendedProps) {
+    return null; // Não renderiza nada enquanto as props não estão disponíveis
+}
     useEffect(() => {
         if (modalEvent) {
             setAgendSituacao(parseInt(modalEvent?._def?.extendedProps?.agend_serv_situ_id, 10));
@@ -34,16 +40,26 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable, veiculos, 
         }
     }, [modalEvent]);
 
+// ----------------------------------------------------------------------------
+
+    // useEffect(() => {
+    //     if (modalEvent) {
+    //         setAgendSituacao(parseInt(modalEvent?._def?.extendedProps?.agend_serv_situ_id, 10));
+    //         setAgendData(modalEvent?._def?.extendedProps?.agend_data || '');
+    //         setAgendHorario(modalEvent?._def?.extendedProps?.agend_horario || '');
+    //         setAgendObserv(modalEvent?._def?.extendedProps?.agend_observ || '');
+    //         setServNome(modalEvent?._def?.extendedProps?.serv_nome || '');
+    //         setVeicPlaca(modalEvent?._def?.extendedProps?.veic_placa || '');
+    //         setVeicUsuId(modalEvent?._def?.extendedProps?.veic_usu_id || '');
+    //     }
+    // }, [modalEvent]);
+
     const handleSituacaoChange = (e) => setAgendSituacao(parseInt(e.target.value, 10));
 
     const editarSituacaoDoAgendamento = async () => {
         try {
             await api.patch(`/agendamentos/situacao/${modalEvent?._def?.extendedProps?.agend_id}`, {
-                // veic_usu_id: veicUsuId,
-                // agend_data: agendData,
-                // agend_horario: agendHorario,
                 agend_serv_situ_id: agendSituacao,
-                // agend_observ: agendObserv,
             });
             Swal.fire({
                 icon: 'success',
@@ -76,11 +92,11 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable, veiculos, 
 
                     <div className={styles.detailsItem}>
                         <span className={styles.detailsLabel}>Data:</span>
-                            <span>
-                                {modalEvent?._def?.extendedProps?.agend_data
-                                    ? format(parseISO(modalEvent._def.extendedProps.agend_data), 'dd/MM/yyyy', { locale: ptBR })
-                                    : ''}
-                            </span>
+                        <span>
+                            {modalEvent?._def?.extendedProps?.agend_data
+                                ? format(parseISO(modalEvent._def.extendedProps.agend_data), 'dd/MM/yyyy', { locale: ptBR })
+                                : ''}
+                        </span>
                     </div>
 
                     <div className={styles.detailsItem}>
@@ -127,7 +143,7 @@ const CalendarEventDetailsModal = ({ modalEvent, onClose, isEditable, veiculos, 
 
                     <div className={styles.buttons_form}>
                         <button className={styles.button_cancel} onClick={onClose}>Fechar</button>
-                        { (!isEditable && isAdmin) && (
+                        {(!isEditable && isAdmin) && (
                             <button className={styles.button_submit} onClick={editarSituacaoDoAgendamento}>
                                 Salvar
                             </button>

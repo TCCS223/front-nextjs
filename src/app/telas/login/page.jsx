@@ -5,9 +5,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
-
 import api from "@/services/api";
-
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
 
@@ -109,7 +107,7 @@ export default function LoginUsu() {
                 setSenha('');
             }
         }
-    }
+    };
 
     return (
         <>

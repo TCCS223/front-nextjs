@@ -2,13 +2,10 @@ import React from "react";
 import Link from "next/link";
 import { useState, useEffect } from 'react';
 import styles from "./page.module.css";
-
 import api from "@/services/api";
-
 import Swal from "sweetalert2";
 import InputMask from "react-input-mask";
 import { parseISO, format } from "date-fns";
-
 import { MdAdd, MdOutlineQuestionMark, MdRemoveRedEye } from "react-icons/md";
 import { IoCarSport } from "react-icons/io5";
 import { FaMotorcycle, FaTruckFront } from "react-icons/fa6";
@@ -81,7 +78,7 @@ export default function UsuarioVeiculos() {
         } catch (error) {
             console.error("Erro ao buscar veículos:", error);
         }
-    }
+    };
 
     const ListarCategorias = async () => {
         try {
@@ -90,7 +87,7 @@ export default function UsuarioVeiculos() {
         } catch (error) {
             console.error("Erro ao buscar as categorias:", error);
         }
-    }
+    };
 
     const ListarMarcas = async () => {
         try {
@@ -99,7 +96,7 @@ export default function UsuarioVeiculos() {
         } catch (error) {
             console.error("Erro ao buscar as marcas:", error);
         }
-    }
+    };
 
     const ListarModelos = async () => {
         try {
@@ -108,7 +105,7 @@ export default function UsuarioVeiculos() {
         } catch (error) {
             console.error("Erro ao buscar as marcas:", error);
         }
-    }
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -214,8 +211,7 @@ export default function UsuarioVeiculos() {
             veic_cor: selectedVehicle.veic_cor || veiculos.veic_cor,
             veic_combustivel: selectedVehicle.veic_combustivel || veiculos.veic_combustivel,
             veic_observ: selectedVehicle.veic_observ || veiculos.veic_observ,
-            // veic_situacao: selectedVehicle.veic_situacao
-                };
+            };
 
         const UpdateVeiculoUsuario = {
             veic_usu_id: selectedVehicle.veic_usu_id || veiculos.veic_usu_id,
@@ -453,7 +449,6 @@ export default function UsuarioVeiculos() {
                                         <span className={styles.placa}>{veiculo.veic_placa}</span>
                                         <span className={styles.marca}>{veiculo.mar_nome}</span>
                                         <span className={styles.modelo}>{veiculo.mod_nome}</span>
-                                        {/* <span className={styles.ano}>Ano: {veiculo.veic_ano}</span> */}
                                         {veiculo.ehproprietario === 1 ? (
                                             <span className={styles.proprietario}>Proprietário</span>
                                         ) : (
@@ -470,7 +465,6 @@ export default function UsuarioVeiculos() {
                                 />
                             </li>
                         </ol>
-
                     </>
                 ) : (
                     <>
@@ -590,7 +584,6 @@ export default function UsuarioVeiculos() {
                                             className={styles.input_veiculos}
                                         />
                                     )}
-
                                 </div>
 
                                 <div className={`${styles.grid_item} ${styles.grid_placa}`}>
@@ -620,7 +613,6 @@ export default function UsuarioVeiculos() {
                                         onBlur={() => validarAno(ano)}
                                         className={styles.input_veiculos}
                                         required
-                                        // disabled
                                         disabled={!isCreate}
                                     />
                                     {anoErro && <span className={styles.error_message}>{anoErro}</span>}
@@ -628,7 +620,6 @@ export default function UsuarioVeiculos() {
 
                                 <div className={`${styles.grid_item} ${styles.grid_cor}`}>
                                     <label htmlFor="veic_cor" className={styles.label_veiculos}>Cor</label>
-
                                     {isViewing ? (
                                         <>
                                             <input
@@ -644,7 +635,6 @@ export default function UsuarioVeiculos() {
                                         </>
                                     ) : (
                                         <>
-
                                             <select
                                                 id="veic_cor"
                                                 name="veic_cor"

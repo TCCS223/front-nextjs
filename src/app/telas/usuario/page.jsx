@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { MdPowerSettingsNew } from "react-icons/md";
 import Cookies from "js-cookie";
-
 import styles from "./page.module.css";
 import UsuarioVeiculos from "./UsuarioVeiculos/page";
 import UsuarioDados from "./UsuarioDados/page";

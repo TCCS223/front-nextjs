@@ -2,12 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import styles from './page.module.css';
-
 import api from '@/services/api';
-
 import FormCliente from '@/components/FormCliente';
 import ModalRelacionarVeiculo from '@/components/relacionarVeiculo';
-
 import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 import { parseISO, format } from 'date-fns';
@@ -74,7 +71,7 @@ export default function CadCliente() {
             usu_situacao: 1,
         });
         setShowForm(true);
-    }
+    };
 
     const ListarUsuarios = async () => {
         try {
@@ -330,7 +327,7 @@ export default function CadCliente() {
         return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
             email
         );
-    }
+    };
 
     const validaEmail = async (usuario) => {
         const email = usuario.usu_email.trim();
@@ -411,7 +408,7 @@ export default function CadCliente() {
                 });
             }
         });
-    }
+    };
 
     const handleNovaCategoria = () => {
         setModalCategoriaOpen(true);
@@ -661,7 +658,7 @@ export default function CadCliente() {
                         )}
                     </div>
                 </>
-            )}
+            )};
 
             <ModalRelacionarVeiculo
                 isOpen={modalCategoriaOpen}

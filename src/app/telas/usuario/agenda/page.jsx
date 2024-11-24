@@ -38,7 +38,7 @@ const FullCalendarGeral = () => {
         serv_id: '',
         agend_serv_situ_id: 1
     });
-    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1); // Janeiro é 0, então somamos 1
+    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
     
     useEffect(() => {
@@ -81,6 +81,9 @@ const FullCalendarGeral = () => {
             console.error("Erro ao buscar agendamentos:", error);
         }
     };
+
+    console.log("agendamentosUsuario:",agendamentosUsuario);
+    
 
     const handleDatesSet = (datesInfo) => {
         if (datesInfo.start) {
@@ -197,7 +200,9 @@ const FullCalendarGeral = () => {
 
         if (userAcesso === 1 || isOwner) {
             setModalEvent(info.event);
+            
             setShowModal(true);
+
         } else {
             Swal.fire({
                 icon: 'info',
@@ -400,7 +405,7 @@ const FullCalendarGeral = () => {
     const visualizacao = () => {
         setShowModal(false);
         ListarAgendamentosUsuario();
-    }
+    };
 
     return (
         <div>
@@ -413,6 +418,7 @@ const FullCalendarGeral = () => {
                                 <CalendarEventDetailsModal
                                     veiculos={veiculos}
                                     modalEvent={modalEvent}
+                                    agendamentosUsuario={agendamentosUsuario}
                                     onClose={visualizacao}
                                     isEditable={parseInt(modalEvent.extendedProps.userId) === parseInt(userId)}
                                     isAdmin={userAcesso === 1 ? 1 : ''}

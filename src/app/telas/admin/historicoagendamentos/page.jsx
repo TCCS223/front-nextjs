@@ -7,6 +7,7 @@ import { parseISO, format } from 'date-fns';
 import { IoMdTrash } from "react-icons/io";
 import Swal from 'sweetalert2';
 import FormAgendamentos from '@/components/FormAgendamentos';
+import FormAgendamentosAdmin from '@/components/FormAgendamentosAdmin';
 
 export default function HistoricoAgendamentos() {
     const [agendamentos, setAgendamentos] = useState([]);
@@ -19,7 +20,17 @@ export default function HistoricoAgendamentos() {
     const [sortedColumn, setSortedColumn] = useState(null);
     const [isAsc, setIsAsc] = useState(true);
     const [situacaoDoAgendamento, setSituacaoDoAgendamento] = useState([])
+    const [userAcesso, setUserAcesso] = useState(null);
     const agendamentosPerPage = 15;
+
+    useEffect(() => {
+        const storedData = localStorage.getItem('user');
+
+        if (storedData) {
+            const parsedUser = JSON.parse(storedData);
+            setUserAcesso(parsedUser?.acesso !== undefined ? parsedUser.acesso : null);
+        }
+    }, []);
 
     useEffect(() => {
         ListarAgendamentos();
@@ -64,11 +75,21 @@ export default function HistoricoAgendamentos() {
     const [isEditing, setIsEditing] = useState(false);
 
     const handleSubmit = async (agendamentos) => {
+        const dados = {
+            veic_usu_id: selectedAgend.veic_usu_id,
+            agend_data: selectedAgend.agend_data,
+            agend_horario: selectedAgend.agend_horario,
+            serv_id: selectedAgend.serv_id,
+            agend_serv_situ_id: selectedAgend.agend_serv_situ_id,
+            agend_observ: selectedAgend.agend_observ,
+            agend_id: selectedAgend.agend_id,
+        };
+
         try {
             let response;
 
             if (isEditing) {
-                response = await api.patch(`/agendamentos/${agendamentos.agend_id}`, selectedAgend)
+                response = await api.patch(`/agendamentos/${agendamentos.agend_id}`, dados);
             }
 
             Swal.fire({
@@ -83,10 +104,15 @@ export default function HistoricoAgendamentos() {
             setIsEditing(false);
             setIsViewing(false);
             ListarAgendamentos();
-            
         } catch (error) {
             console.error('Erro ao salvar o agendamento:', error);
-            alert('Erro ao salvar o agendamento. Tente novamente.');
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Ocorreu um erro ao salvar o agendamento. Tente novamente.',
+                icon: 'error',
+                iconColor: "rgb(255, 69, 58)",
+                confirmButtonColor: "rgb(255, 69, 58)",
+            });
         }
     };
 
@@ -209,7 +235,7 @@ export default function HistoricoAgendamentos() {
                 });
             }
         });
-    }
+    };
 
     const handleExit = () => {
         setShowForm(false);
@@ -236,7 +262,13 @@ export default function HistoricoAgendamentos() {
     const ListarAgendamentos = async () => {
         try {
             const response = await api.get('/agendamentos');
-            const agendamentosOrdenados = response.data.dados.sort((a, b) => a.agend_id - b.agend_id);
+
+            const agendamentosOrdenados = response.data.dados.sort((a, b) => {
+                const dateTimeA = new Date(`${a.agend_data}T${a.agend_horario}`);
+                const dateTimeB = new Date(`${b.agend_data}T${b.agend_horario}`);
+                return dateTimeB - dateTimeA;
+            });
+
             setAgendamentos(agendamentosOrdenados);
             setFilteredAgendamentos(agendamentosOrdenados);
         } catch (error) {
@@ -427,10 +459,8 @@ export default function HistoricoAgendamentos() {
                                         {sortedColumn === 'usu_nome' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
                                     <th
-                                        className={`${styles.tableHeader} ${styles.situacao}`}
-                                        onClick={() => sortByColumn('agend_situacao')}>
+                                        className={`${styles.tableHeader} ${styles.situacao}`}>
                                         Situação
-                                        {sortedColumn === 'agend_situacao' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
                                     <th className={`${styles.tableHeader} ${styles.acao}`}>Ações</th>
                                 </tr>
@@ -513,14 +543,14 @@ export default function HistoricoAgendamentos() {
                 </>
             ) : (
                 <>
-                    <FormAgendamentos
+                    <FormAgendamentosAdmin
                         selectedAgend={selectedAgend}
                         setSelectedAgend={setSelectedAgend}
                         Cancelar={Cancelar}
                         isViewing={isViewing}
                         isEditing={isEditing}
                         handleSubmit={handleSubmit}
-                        // veiculos={veiculos}
+                        isAdmin={userAcesso === 1 ? 1 : ''}
                     />
 
                     <div className={styles.footer_form}>

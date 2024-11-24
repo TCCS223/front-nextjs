@@ -4,13 +4,15 @@ import { useEffect } from 'react';
 import api from '@/services/api';
 import Swal from 'sweetalert2';
 
-export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isViewing, handleSubmit, isEditing, }) {
+export default function FormAgendamentosAdmin({ selectedAgend, setSelectedAgend, isViewing, handleSubmit, isEditing }) {
 
-    const [veiculos, setVeiculos] = useState([]);
-    const [servicos, setServicos] = useState([])
-    const [catServicos, setCatServicos] = useState([])
+    const [veiculosUsuario, setVeiculosUsuario] = useState([]);
+    const [servicos, setServicos] = useState([]);
+    const [catServicos, setCatServicos] = useState([]);
     const [selectedCategoria, setSelectedCategoria] = useState(selectedAgend?.cat_serv_id);
     const [isServicoDisabled, setIsServicoDisabled] = useState(false);
+    const [agendServSituId, setAgendServSituId] = useState([]);
+    const [situServicoSelected, setSituServicoSelected] = useState(selectedAgend?.agend_serv_situ_id || '');
 
     const isDisabled = isViewing || isEditing;
 
@@ -23,61 +25,18 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
 
     useEffect(() => {
         ListarCategoriasServAtivas();
+        ListarAgendServSituId();
     }, [])
+
+    useEffect(() => {
+        ListarVeiculosUsuario();
+    }, [selectedAgend?.usu_id])
 
     useEffect(() => {
         if (selectedCategoria) {
             ListarServicos(selectedCategoria);
         }
     }, [selectedCategoria])
-
-    useEffect(() => {
-        if (selectedAgend) {
-            setSelectedCategoria(selectedAgend.cat_serv_id || "");
-        }
-    }, [selectedAgend]);
-
-    useEffect(() => {
-        const ListarVeiculosUsuario = async () => {
-            if (selectedAgend?.usu_id) {
-                try {
-                    const response = await api.get(`/veiculoUsuario/usuario/${selectedAgend.usu_id}`);
-                    setVeiculos(response.data.dados || []);
-                } catch (error) {
-                    console.error("Erro ao buscar veículos:", error);
-                }
-            }
-        };
-        ListarVeiculosUsuario();
-    }, [selectedAgend?.usu_id]);
-
-    const handleCategoryChange = (e) => {
-        const newCategoryId = e.target.value;
-        setSelectedCategoria(newCategoryId);
-
-        if (setSelectedAgend) {
-            setSelectedAgend((prevAgend) => ({
-                ...prevAgend,
-                cat_serv_id: newCategoryId,
-            }));
-        }
-    };
-
-    const ListarCategoriasServAtivas = async () => {
-        try {
-            const response = await api.get('/categoriasServicosAtivas');
-            setCatServicos(response.data.dados);
-        } catch (error) {
-            console.error("Erro ao buscar as categorias:", error);
-            Swal.fire({
-                title: 'Erro!',
-                text: 'Não foi possível buscar as categorias.',
-                icon: 'error',
-                iconColor: '#d33',
-                confirmButtonColor: '#d33',
-            });
-        }
-    };
 
     const ListarServicos = async (selectedCategoria) => {
         try {
@@ -102,7 +61,6 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
             }
         } catch (error) {
             console.error("Erro ao buscar os serviços:", error);
-
             if (error.response) {
                 console.error("Status da resposta:", error.response.status);
                 console.error("Dados da resposta:", error.response.data);
@@ -111,6 +69,7 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
             } else {
                 console.error("Erro desconhecido:", error.message);
             }
+
             Swal.fire({
                 title: 'Erro!',
                 text: 'Não foi possível carregar os serviços.',
@@ -120,6 +79,74 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
             });
         }
     };
+
+    const ListarVeiculosUsuario = async () => {
+        if (selectedAgend?.usu_id) {
+            try {
+                const response = await api.get(`/veiculoUsuario/usuario/${selectedAgend?.usu_id}`);
+                setVeiculosUsuario(response.data.dados || []);
+            } catch (error) {
+                console.error("Erro ao buscar veículos:", error);
+            }
+        }
+    };
+
+    const ListarAgendServSituId = async () => {
+        try {
+            const response = await api.get('/agendaServicosSituacao');
+            setAgendServSituId(response.data.dados);
+        } catch (error) {
+            console.error("Erro ao buscar as categorias:", error);
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Não foi possível buscar as categorias.',
+                icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
+            });
+        }
+    }
+
+    const ListarCategoriasServAtivas = async () => {
+        try {
+            const response = await api.get('/categoriasServicosAtivas');
+            setCatServicos(response.data.dados);
+        } catch (error) {
+            console.error("Erro ao buscar as categorias:", error);
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Não foi possível buscar as categorias.',
+                icon: 'error',
+                iconColor: '#d33',
+                confirmButtonColor: '#d33',
+            });
+        }
+    };
+
+    const handleCategoryChange = (e) => {
+        const newCategoryId = e.target.value;
+        setSelectedCategoria(newCategoryId);
+
+        if (setSelectedAgend) {
+            setSelectedAgend((prevAgend) => ({
+                ...prevAgend,
+                cat_serv_id: newCategoryId,
+            }));
+        }
+    };
+
+    const handleSituacaoServico = (e) => {
+        const newSituacaoId = parseInt(e.target.value);
+
+        setSituServicoSelected(newSituacaoId);
+
+        if (setSelectedAgend) {
+            setSelectedAgend((prevAgend) => ({
+                ...prevAgend,
+                agend_serv_situ_id: newSituacaoId,
+            }));
+        }
+    }
 
     return (
         <form id="agendForm" className={styles.form} onSubmit={handleSubmit}>
@@ -278,7 +305,7 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
                                 disabled={isViewing}
                                 required
                             >
-                                {veiculos.map((veiculo) => (
+                                {veiculosUsuario.map((veiculo) => (
                                     <option key={veiculo.veic_usu_id} value={veiculo.veic_usu_id}>
                                         {veiculo.veic_placa}
                                     </option>
@@ -290,18 +317,38 @@ export default function FormAgendamentos({ selectedAgend, setSelectedAgend, isVi
 
                 <div className={`${styles.grid_item} ${styles.grid_situacao}`}>
                     <label htmlFor="agend_serv_situ_id" className={styles.label_agend}>Situação</label>
-                    <input
-                        type="text"
-                        id="agend_serv_situ_id"
-                        name="agend_serv_situ_id"
-                        value={selectedAgend
-                            ? agendSituacaoMap[selectedAgend.agend_serv_situ_id] || ''
-                            : ''}
-                        onChange={(e) => setSelectedAgend({ ...selectedAgend, agend_serv_situ_id: parseInt(e.target.value) })}
-                        disabled
-                        className={styles.input_agend}
-                        required
-                    />
+                    {isViewing ? (
+                        <input
+                            type="text"
+                            id="agend_serv_situ_id"
+                            name="agend_serv_situ_id"
+                            value={selectedAgend
+                                ? agendSituacaoMap[selectedAgend.agend_serv_situ_id] || ''
+                                : ''}
+                            onChange={(e) => setSelectedAgend({ ...selectedAgend, agend_serv_situ_id: parseInt(e.target.value) })}
+                            disabled
+                            className={styles.input_agend}
+                            required
+                        />
+                    ) : (
+                        <>
+                            <select
+                                id="agend_serv_situ_id"
+                                name="agend_serv_situ_id"
+                                className={styles.input_agend}
+                                value={situServicoSelected}
+                                onChange={handleSituacaoServico}
+                                disabled={isViewing}
+                                required
+                            >
+                                {agendServSituId.map((situacao) => (
+                                    <option key={situacao.agend_serv_situ_id} value={situacao.agend_serv_situ_id}>
+                                        {situacao.agend_serv_situ_nome}
+                                    </option>
+                                ))}
+                            </select>
+                        </>
+                    )}
                 </div>
 
                 {isViewing && (

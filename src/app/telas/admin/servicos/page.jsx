@@ -2,13 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import styles from './page.module.css';
-
 import api from '@/services/api';
-
 import FormServicos from '@/components/FormServicos';
 import ModalNovaCategoria from '@/components/novaCategoria';
 import EditarCategoria from '@/components/editarCategoria';
-
 import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 import Swal from 'sweetalert2';
@@ -77,23 +74,7 @@ export default function Servicos() {
                 confirmButtonColor: '#d33',
             });
         }
-    }
-
-    // NAO TIRAR
-    // const ListarServicoPorCatergoria = async (catServId) => {
-    //     try {
-    //         const response = await api.get(`/servicos/categoria/${catServId}`);
-    //         setServicoCat(response.data.dados);
-    //         console.log(response.data.dados);
-    //     } catch (error) {
-    //         console.error("Erro ao buscar as categorias:", error);
-    //         Swal.fire({
-    //             title: "Erro!",
-    //             text: "Não foi possível carregar os serviços por categoria.",
-    //             icon: "error",
-    //         });
-    //     }
-    // }
+    };
 
     const handleSearch = () => {
         setSortedColumn(null);
@@ -197,7 +178,7 @@ export default function Servicos() {
         })
         setShowForm(true);
         ListarCategoriasServAtivas();
-    }
+    };
 
     const sortByColumn = (column) => {
         let newIsAsc = true;
@@ -258,7 +239,7 @@ export default function Servicos() {
 
     const handleEditCategoria = () => {
         setEditarCategoriaOpen(true);
-    }
+    };
 
     const handleCategoriaExcluida = () => {
         ListarCategoriasServAtivas();

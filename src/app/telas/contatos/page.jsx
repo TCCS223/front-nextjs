@@ -1,7 +1,6 @@
 
 import Link from 'next/link';
 import styles from './page.module.css';
-
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 
@@ -12,7 +11,6 @@ export default function Contato() {
             <main className={styles.main}>
                 <div className={styles.container}>
                     <div className={styles.title}>Fale conosco</div>
-
                     <div className={styles.info}>
                         <div className={styles.card}>
                             <div className={styles.infoDuvidas}>
@@ -35,7 +33,6 @@ export default function Contato() {
                                 <span className={styles.infoParceriasTitulo}>Parcerias</span>
                                 <div className={styles.infos}>
                                     <span className={styles.informacao}>Email: parcerias@urbanestetica.com</span>
-                                    {/* <span className={styles.informacao}>Email: urban_rh@teste.com</span> */}
                                     <span className={styles.informacao}>Obrigado pela preferência!</span>
                                 </div>
                             </div>

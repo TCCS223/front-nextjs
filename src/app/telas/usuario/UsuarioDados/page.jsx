@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-// import { UserContext } from "@/app/context/UserContext";
 import { IoMdEyeOff, IoMdEye } from "react-icons/io";
 import Swal from "sweetalert2";
 import { format } from 'date-fns';
@@ -8,15 +7,11 @@ import InputMask from "react-input-mask";
 import styles from "./page.module.css";
 
 export default function DadosDoUsuario() {
-    // const { userId } = useContext(UserContext);
     const [meusDados, setMeusDados] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-
     const [originalCpf, setOriginalCpf] = useState('');
     const [originalEmail, setOriginalEmail] = useState('');
-
-
     const [userId, setUserId] = useState(null);
 
     useEffect(() => {
@@ -100,7 +95,7 @@ export default function DadosDoUsuario() {
                 });
             }
         });
-    }
+    };
 
     const validarCPF = async (cpf) => {
         const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;
@@ -139,7 +134,6 @@ export default function DadosDoUsuario() {
         try {
             const response = await api.post('/usuarios/verificarCpf', { usu_cpf: cpf });
             if (response.data.sucesso && response.data.dados) {
-                // return 'CPF já está cadastrado.';
                 return 'CPF indisponível';
             }
         } catch (error) {
@@ -193,7 +187,6 @@ export default function DadosDoUsuario() {
             }
         }
 
-        // Verifica se o email foi alterado
         if (meusDados.usu_email !== originalEmail) {
             const emailError = await validaEmail(meusDados);
             if (emailError) {
@@ -288,7 +281,6 @@ export default function DadosDoUsuario() {
                                     value={meusDados?.usu_cpf || ''}
                                     onChange={handleChange}
                                     disabled
-                                    // disabled={!isEditing}
                                 />
                             </div>
 
@@ -302,7 +294,6 @@ export default function DadosDoUsuario() {
                                     value={meusDados?.usu_data_nasc ? new Date(meusDados.usu_data_nasc).toISOString().split("T")[0] : ''}
                                     onChange={handleChange}
                                     disabled
-                                    // disabled={!isEditing}
                                 />
                             </div>
 
@@ -421,11 +412,10 @@ export default function DadosDoUsuario() {
                                     className={`${styles.input_cliente} ${styles.input_situacao}`}
                                     value={meusDados?.usu_situacao === 1 ? "Ativo" : "Inativo" || '1'}
                                     onChange={handleChange}
-                                    disabled // Desabilita se não estiver editando
+                                    disabled
                                 />
                             </div>
                         </div>
-
 
                     </form>
                     <div className={styles.footer_form}>

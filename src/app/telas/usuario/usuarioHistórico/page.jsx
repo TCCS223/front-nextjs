@@ -43,65 +43,6 @@ export default function UsuarioHistorico() {
         mod_nome: '',
         mar_nome: ''
     });
-    // const [catServicos, setCatServicos] = useState([])
-    // const [servicos, setServicos] = useState([])
-
-    const [selectedCategoria, setSelectedCategoria] = useState(null);
-
-    // const ListarCategoriasServAtivas = async () => {
-    //     try {
-    //         const response = await api.get('/categoriasServicosAtivas');
-    //         setCatServicos(response.data.dados);
-    //     } catch (error) {
-    //         console.error("Erro ao buscar as categorias:", error);
-    //         Swal.fire({
-    //             title: 'Erro!',
-    //             text: 'Não foi possível buscar as categorias.',
-    //             icon: 'error',
-    //             iconColor: '#d33',
-    //             confirmButtonColor: '#d33',
-    //         });
-    //     }
-    // }
-
-    // const ListarServicos = async (catServId) => {
-    //     try {
-    //         const response = await api.get(`/servicos/categoria/${selectedAgend.cat_serv_id}`);
-    //         setServicos(response.data.dados || []);
-    //     } catch (error) {
-    //         console.error("Erro ao buscar os serviços:", error);
-    //         Swal.fire({
-    //             title: 'Erro!',
-    //             text: 'Não foi possível carregar os serviços.',
-    //             icon: 'error',
-    //             iconColor: '#d33',
-    //             confirmButtonColor: '#d33',
-    //         });
-    //     }
-    // };
-
-    // // Callback para receber a categoria selecionada do componente filho
-    // const handleCategoriaChange = (catServId) => {
-    //     setSelectedAgend({ ...selectedAgend, serv_id: null }); // Limpa o serviço selecionado
-    //     setSelectedCategoria(catServId);
-    //     ListarServicos(catServId);
-    // };
-
-    // useEffect(() => {
-    //     ListarCategoriasServAtivas();
-
-    //     if(selectedAgend.cat_serv_id){
-            
-    //         ListarServicos()
-    //     }
-    // }, [selectedAgend.cat_serv_id])
-
-
-    // useEffect(() => {
-    //     if (selectedCategoria) {
-    //         ListarServicos(selectedCategoria);
-    //     }
-    // }, [selectedCategoria]); // Atualiza a busca quando a categoria mudar
 
     const agendamentosPerPage = 15;
 
@@ -111,12 +52,6 @@ export default function UsuarioHistorico() {
             ListarSituacaoDoAgendamento();
         }
     }, [userId]);
-
-    useEffect(() => {
-        if (agendamentos.length > 0) {
-            sortByColumn('agend_data');
-        }
-    }, [agendamentos]);
 
     const agendSituacaoMap = {
         1: 'Pendente',
@@ -143,7 +78,13 @@ export default function UsuarioHistorico() {
     const ListarAgendamentos = async () => {
         try {
             const response = await api.get(`/agendamentos/${userId}`);
-            const agendamentosOrdenados = response.data.dados.sort((a, b) => a.agend_id - b.agend_id);
+            
+            const agendamentosOrdenados = response.data.dados.sort((a, b) => {
+                const dateTimeA = new Date(`${a.agend_data}T${a.agend_horario}`);
+                const dateTimeB = new Date(`${b.agend_data}T${b.agend_horario}`);
+                return dateTimeB - dateTimeA;
+            });
+    
             setAgendamentos(agendamentosOrdenados);
             setFilteredAgendamentos(agendamentosOrdenados);
         } catch (error) {
@@ -515,10 +456,8 @@ export default function UsuarioHistorico() {
                                         {sortedColumn === 'usu_nome' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
                                     <th
-                                        className={`${styles.tableHeader} ${styles.situacao}`}
-                                        onClick={() => sortByColumn('agend_situacao')}>
+                                        className={`${styles.tableHeader} ${styles.situacao}`}>
                                         Situação
-                                        {sortedColumn === 'agend_situacao' ? (isAsc ? '▲' : '▼') : ''}
                                     </th>
                                     <th className={`${styles.tableHeader} ${styles.acao}`}>Ações</th>
                                 </tr>
@@ -607,10 +546,6 @@ export default function UsuarioHistorico() {
                         isViewing={isViewing}
                         isEditing={isEditing}
                         handleSubmit={handleSubmit}
-                        // catServicos={catServicos}
-                        // // servicos={servicos}
-                        // onCategoriaChange={handleCategoriaChange} // Passar a callback
-                    // veiculos={veiculos}
                     />
 
                     <div className={styles.footer_form}>

@@ -9,10 +9,8 @@ const Termos = () => {
     return (
         <>
             <header className={styles.header}>
-                        <span className={styles.logo}></span>
+                <span className={styles.logo}></span>
             </header>
-
-            {/* <Header /> */}
 
             <div className={styles.container}>
                 <h1 className={styles.titulo}>Termos, Políticas e Referências</h1>
@@ -56,10 +54,9 @@ const Termos = () => {
                     </p>
                 </section>
             </div>
-            {/* <Footer /> */}
+
         </>
     );
 };
-
 
 export default Termos;

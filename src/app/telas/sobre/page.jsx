@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import styles from './page.module.css';
-
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 
@@ -112,8 +111,7 @@ export default function Sobre() {
                 </section>
             </main>
 
-
-            {/* MAIN MOBILE ----------------------------------------------- */}
+            {/* MOBILE ----------------------------------------------- */}
 
             <main className={styles.mainMobile}>
                 <section className={styles.sectionMobile}>
