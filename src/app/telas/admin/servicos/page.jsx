@@ -2,10 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import styles from './page.module.css';
+
 import api from '@/services/api';
+
 import FormServicos from '@/components/FormServicos';
 import ModalNovaCategoria from '@/components/novaCategoria';
 import EditarCategoria from '@/components/editarCategoria';
+
 import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 import Swal from 'sweetalert2';
@@ -118,7 +121,6 @@ export default function Servicos() {
                 confirmButtonColor: '#d33',
             });
         }
-
     };
 
     const handleEditServicos = (servicos) => {

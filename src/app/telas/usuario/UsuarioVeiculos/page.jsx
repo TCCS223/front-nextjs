@@ -1,8 +1,10 @@
 import React from "react";
+import styles from "./page.module.css";
 import Link from "next/link";
 import { useState, useEffect } from 'react';
-import styles from "./page.module.css";
+
 import api from "@/services/api";
+
 import Swal from "sweetalert2";
 import InputMask from "react-input-mask";
 import { parseISO, format } from "date-fns";
@@ -58,16 +60,17 @@ export default function UsuarioVeiculos() {
     }, [userId]);
 
     useEffect(() => {
-        if (selectedVehicle.cat_id) {
+        if (selectedVehicle?.cat_id) {
             ListarMarcas();
         }
-    }, [selectedVehicle.cat_id]);
+    }, [selectedVehicle?.cat_id]);
+    
 
     useEffect(() => {
-        if (selectedVehicle.mar_id) {
+        if (selectedVehicle?.mar_id) {
             ListarModelos();
         }
-    }, [selectedVehicle.mar_id]);
+    }, [selectedVehicle?.mar_id]);
 
     const ListarVeiculosUsuario = async () => {
         if (!userId) return;
@@ -107,9 +110,58 @@ export default function UsuarioVeiculos() {
         }
     };
 
+    // const handleInputChange = (e) => {
+    //     const { name, value } = e.target;
+
+    //     setSelectedVehicle((prevVehicle) => ({
+    //         ...prevVehicle,
+    //         [name]: (name === 'cat_id' || name === 'mar_id' || name === 'mod_id' || name === 'ehproprietario')
+    //             ? parseInt(value, 10)
+    //             : name === 'veic_placa'
+    //                 ? value.toUpperCase()
+    //                 : value
+    //     }));
+    // };
+
+    //const handleInputChange = (e) => {
+    //     const { name, value } = e.target;
+    
+    //     // Validação para campos do tipo "date"
+    //     if (name === 'data_inicial') {
+    //         // Permite apenas valores no formato "yyyy-MM-dd"
+    //         if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    //             return;
+    //         }
+    //     }
+    
+    //     setSelectedVehicle((prevVehicle) => ({
+    //         ...prevVehicle,
+    //         [name]: (name === 'cat_id' || name === 'mar_id' || name === 'mod_id' || name === 'ehproprietario')
+    //             ? parseInt(value, 10)
+    //             : name === 'veic_placa'
+    //                 ? value.toUpperCase()
+    //                 : value
+    //     }));
+    // };
+    
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-
+    
+        if (name === 'data_inicial') {
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+                return;
+            }
+            const inputDate = new Date(value);
+            const currentDate = new Date();
+    
+            currentDate.setHours(0, 0, 0, 0);
+    
+            if (inputDate > currentDate) {
+                alert("A data não pode ser maior que a data atual.");
+                return;
+            }
+        }
+    
         setSelectedVehicle((prevVehicle) => ({
             ...prevVehicle,
             [name]: (name === 'cat_id' || name === 'mar_id' || name === 'mod_id' || name === 'ehproprietario')
@@ -119,6 +171,7 @@ export default function UsuarioVeiculos() {
                     : value
         }));
     };
+    
 
     const handleExcluirVeiculo = async (veic_usu_id) => {
         Swal.fire({
@@ -449,6 +502,7 @@ export default function UsuarioVeiculos() {
                                         <span className={styles.placa}>{veiculo.veic_placa}</span>
                                         <span className={styles.marca}>{veiculo.mar_nome}</span>
                                         <span className={styles.modelo}>{veiculo.mod_nome}</span>
+                                        {/* <span className={styles.ano}>Ano: {veiculo.veic_ano}</span> */}
                                         {veiculo.ehproprietario === 1 ? (
                                             <span className={styles.proprietario}>Proprietário</span>
                                         ) : (
@@ -465,6 +519,7 @@ export default function UsuarioVeiculos() {
                                 />
                             </li>
                         </ol>
+
                     </>
                 ) : (
                     <>
@@ -554,7 +609,6 @@ export default function UsuarioVeiculos() {
 
                                 <div className={`${styles.grid_item} ${styles.grid_modelo}`}>
                                     <label htmlFor="mod_nome" className={styles.label_veiculos}>Modelo</label>
-
                                     {isCreate ? (
                                         <select
                                             name="mod_id"
@@ -584,6 +638,7 @@ export default function UsuarioVeiculos() {
                                             className={styles.input_veiculos}
                                         />
                                     )}
+
                                 </div>
 
                                 <div className={`${styles.grid_item} ${styles.grid_placa}`}>
@@ -707,6 +762,7 @@ export default function UsuarioVeiculos() {
                                         name="data_inicial"
                                         value={selectedVehicle?.data_inicial ? format(parseISO(selectedVehicle.data_inicial), 'yyyy-MM-dd') : ''}
                                         onChange={handleInputChange}
+                                        // max={new Date().toISOString().split('T')[0]} // Limita até hoje
                                         className={styles.input_veiculos}
                                         required
                                         disabled={!isCreate && !isEditing}

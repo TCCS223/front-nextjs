@@ -14,7 +14,6 @@ import CarrosselEquipe from "@/components/carrosselEquipe";
 import CarrosselEquipeMobile from "@/components/carrosselEquipeMobile";
 
 export default function Home() {
-
     return (
         <html>
             <body>

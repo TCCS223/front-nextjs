@@ -13,6 +13,12 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
     const [errors, setErrors] = useState('');
     const isDisabled = isViewing || isEditing;
 
+    const sexoMap = {
+        0: 'Feminino',
+        1: 'Masculino',
+        2: 'Outro'
+    };
+
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
@@ -25,12 +31,6 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
             const erros = validarSenha(novaSenha);
             setSenhaErro(erros);
         }
-    };
-
-    const sexoMap = {
-        0: 'Feminino',
-        1: 'Masculino',
-        2: 'Outro'
     };
 
     const handleCPFChange = (e) => {

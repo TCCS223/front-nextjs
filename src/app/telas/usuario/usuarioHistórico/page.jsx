@@ -1,12 +1,14 @@
-import api from '@/services/api';
 import styles from './page.module.css';
-import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import { useState, useEffect } from 'react';
-import { MdRemoveRedEye, MdEdit } from "react-icons/md";
-import { parseISO, format } from 'date-fns';
-import Swal from 'sweetalert2';
+
+import api from '@/services/api';
+
 import FormAgendamentos from '@/components/FormAgendamentos';
 
+import Swal from 'sweetalert2';
+import { PiListMagnifyingGlassBold } from "react-icons/pi";
+import { MdRemoveRedEye, MdEdit } from "react-icons/md";
+import { parseISO, format } from 'date-fns';
 import { IoMdTrash } from "react-icons/io";
 
 export default function UsuarioHistorico() {
@@ -24,7 +26,6 @@ export default function UsuarioHistorico() {
     const [showForm, setShowForm] = useState(false);
     const [isViewing, setIsViewing] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-
     const [selectedAgend, setSelectedAgend] = useState({
         agend_data: '',
         agend_horario: '',
@@ -43,15 +44,7 @@ export default function UsuarioHistorico() {
         mod_nome: '',
         mar_nome: ''
     });
-
     const agendamentosPerPage = 15;
-
-    useEffect(() => {
-        if (userId) {
-            ListarAgendamentos();
-            ListarSituacaoDoAgendamento();
-        }
-    }, [userId]);
 
     const agendSituacaoMap = {
         1: 'Pendente',
@@ -66,6 +59,13 @@ export default function UsuarioHistorico() {
         3: '#26a426',  // Concluído - Verde
         4: '#c3290e'   // Cancelado - Vermelho
     };
+
+    useEffect(() => {
+        if (userId) {
+            ListarAgendamentos();
+            ListarSituacaoDoAgendamento();
+        }
+    }, [userId]);
 
     useEffect(() => {
         const storedUserId = localStorage.getItem('user');
@@ -132,7 +132,6 @@ export default function UsuarioHistorico() {
             if (isEditing) {
                 response = await api.patch(`/agendamentos/${agendamentos.agend_id}`, dados);
             }
-    
             Swal.fire({
                 title: 'Sucesso!',
                 text: response.data.mensagem,

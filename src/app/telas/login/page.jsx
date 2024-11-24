@@ -1,11 +1,13 @@
 "use client";
 
-import { useRouter } from 'next/navigation';
-import { useState } from "react";
+import styles from "./page.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import styles from "./page.module.css";
+import { useRouter } from 'next/navigation';
+import { useState } from "react";
+
 import api from "@/services/api";
+
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
 

@@ -4,11 +4,13 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./page.module.css";
+
 import CadCliente from "./cadcliente/page";
 import Veiculos from "./veiculos/page";
 import Servicos from "./servicos/page";
 import FullCalendarGeral from "../usuario/agenda/page";
 import HistoricoAgendamentos from "./historicoagendamentos/page";
+
 import { MdPowerSettingsNew } from "react-icons/md";
 import Cookies from "js-cookie";
 
@@ -48,7 +50,6 @@ export default function Home() {
                 <button data-target="#historico" onClick={() => setTela(5)}>Histórico</button>
             </div>
             <div className={styles.main_content}>
-
                 {
                     tela === 1 ?
                         <CadCliente />

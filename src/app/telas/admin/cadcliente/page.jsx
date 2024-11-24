@@ -1,32 +1,35 @@
-'use client';
+'use client'; // Identifica o código como client-side no Next.js.
 
-import { useState, useEffect } from 'react';
-import styles from './page.module.css';
-import api from '@/services/api';
-import FormCliente from '@/components/FormCliente';
-import ModalRelacionarVeiculo from '@/components/relacionarVeiculo';
-import { PiListMagnifyingGlassBold } from "react-icons/pi";
-import { MdRemoveRedEye, MdEdit } from "react-icons/md";
-import { parseISO, format } from 'date-fns';
-import Swal from 'sweetalert2';
+import { useState, useEffect } from 'react'; // Hooks do React para estado e efeito.
+import styles from './page.module.css'; // Importa estilos específicos da página.
+
+import api from '@/services/api'; // Serviço para chamadas à API.
+
+import { PiListMagnifyingGlassBold } from "react-icons/pi"; // Ícones de lista e pesquisa.
+import { MdRemoveRedEye, MdEdit } from "react-icons/md"; // Ícones para visualizar e editar.
+import { parseISO, format } from 'date-fns'; // Biblioteca para manipulação de datas.
+import Swal from 'sweetalert2'; // Biblioteca para exibir alertas.
+
+import FormCliente from '@/components/FormCliente'; // Componente do formulário de cliente.
+import ModalRelacionarVeiculo from '@/components/relacionarVeiculo'; // Modal para associar veículos aos clientes.
 
 export default function CadCliente() {
-    const [usuarios, setUsuarios] = useState([]);
-    const [filteredUsers, setFilteredUsers] = useState([]);
-    const [statusFilter, setStatusFilter] = useState('todos');
-    const [tipoUsuarioFilter, setTipoUsuarioFilter] = useState('todos');
-    const [searchText, setSearchText] = useState('');
-    const [showForm, setShowForm] = useState(false);
-    const [isViewing, setIsViewing] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
-    const [sortedColumn, setSortedColumn] = useState(null);
-    const [isAsc, setIsAsc] = useState(true);
-    const [senhaErro, setSenhaErro] = useState([]);
-    const [focused, setFocused] = useState(false);
-    const [senha, setSenha] = useState('');
-    const [modalCategoriaOpen, setModalCategoriaOpen] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [selectedUser, setSelectedUser] = useState({
+    const [usuarios, setUsuarios] = useState([]); // Estado para armazenar a lista de usuários.
+    const [filteredUsers, setFilteredUsers] = useState([]); // Usuários filtrados com base em critérios.
+    const [statusFilter, setStatusFilter] = useState('todos'); // Filtro para status dos usuários.
+    const [tipoUsuarioFilter, setTipoUsuarioFilter] = useState('todos'); // Filtro para tipo de usuário (admin/usuário).
+    const [searchText, setSearchText] = useState(''); // Texto de busca.
+    const [showForm, setShowForm] = useState(false); // Controla a exibição do formulário.
+    const [isViewing, setIsViewing] = useState(false); // Modo de visualização de usuário.
+    const [isEditing, setIsEditing] = useState(false); // Modo de edição de usuário.
+    const [sortedColumn, setSortedColumn] = useState(null); // Coluna atualmente ordenada.
+    const [isAsc, setIsAsc] = useState(true); // Ordem de classificação (ascendente/descendente).
+    const [senhaErro, setSenhaErro] = useState([]); // Armazena erros relacionados à senha.
+    const [focused, setFocused] = useState(false); // Indica se o campo de senha está focado.
+    const [senha, setSenha] = useState(''); // Estado para senha.
+    const [modalCategoriaOpen, setModalCategoriaOpen] = useState(false); // Controla a abertura do modal de categorias.
+    const [currentPage, setCurrentPage] = useState(1); // Página atual para paginação.
+    const [selectedUser, setSelectedUser] = useState({ // Objeto do usuário atualmente selecionado.
         usu_nome: '',
         usu_cpf: '',
         usu_data_nasc: '',
@@ -39,25 +42,27 @@ export default function CadCliente() {
         usu_situacao: 1,
     });
 
-    const usersPerPage = 15;
+    const usersPerPage = 15; // Define o número de usuários exibidos por página.
 
+    // Calcula os índices para exibição da página atual.
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
+    const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser); // Lista os usuários da página atual.
 
     useEffect(() => {
-        ListarUsuarios();
+        ListarUsuarios(); // Chamada inicial para carregar usuários.
     }, []);
 
     useEffect(() => {
-        setFilteredUsers(usuarios);
+        setFilteredUsers(usuarios); // Atualiza os usuários filtrados quando a lista muda.
     }, [usuarios]);
 
     useEffect(() => {
-        handleSearch();
+        handleSearch(); // Aplica a lógica de busca ao alterar filtros ou texto de busca.
     }, [usuarios, statusFilter, tipoUsuarioFilter, searchText]);
 
     const Create = () => {
+        // Limpa o estado do usuário selecionado e abre o formulário.
         setSelectedUser({
             usu_nome: '',
             usu_cpf: '',
@@ -75,16 +80,18 @@ export default function CadCliente() {
 
     const ListarUsuarios = async () => {
         try {
-            const response = await api.get('/usuarios');
+            const response = await api.get('/usuarios'); // Busca usuários da API.
 
+            // Ordena os usuários por nome em ordem alfabética.
             const sortedUsers = response.data.dados.sort((a, b) => {
                 if (a.usu_nome < b.usu_nome) return -1;
                 if (a.usu_nome > b.usu_nome) return 1;
                 return 0;
             });
 
-            setUsuarios(sortedUsers);
+            setUsuarios(sortedUsers); // Atualiza o estado com os usuários ordenados.
         } catch (error) {
+            // Exibe alerta em caso de erro ao buscar usuários.
             console.error("Erro ao buscar os usuários:", error);
             Swal.fire({
                 title: "Erro!",
@@ -97,9 +104,11 @@ export default function CadCliente() {
     };
 
     const handleSearch = () => {
+        // Reseta a ordenação ao realizar uma nova busca.
         setSortedColumn(null);
         setIsAsc(true);
 
+        // Filtra os usuários com base nos critérios selecionados.
         const result = usuarios.filter((usuario) => {
             const statusMatch =
                 statusFilter === 'todos' ||
@@ -118,8 +127,8 @@ export default function CadCliente() {
             return statusMatch && tipoMatch && searchTextMatch;
         });
 
-        setFilteredUsers(result);
-        setCurrentPage(1);
+        setFilteredUsers(result); // Atualiza a lista de usuários filtrados.
+        setCurrentPage(1); // Reseta para a primeira página.
     };
 
     const handleViewUser = (usuario) => {

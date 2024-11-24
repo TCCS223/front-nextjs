@@ -1,55 +1,35 @@
 import { useState, useEffect } from 'react';
 import styles from './page.module.css';
+
 import api from '@/services/api';
+
+import FormAgendamentosAdmin from '@/components/FormAgendamentosAdmin';
+
 import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import { MdRemoveRedEye, MdEdit } from "react-icons/md";
 import { parseISO, format } from 'date-fns';
 import { IoMdTrash } from "react-icons/io";
 import Swal from 'sweetalert2';
-import FormAgendamentos from '@/components/FormAgendamentos';
-import FormAgendamentosAdmin from '@/components/FormAgendamentosAdmin';
+
 
 export default function HistoricoAgendamentos() {
-    const [agendamentos, setAgendamentos] = useState([]);
-    const [filteredAgendamentos, setFilteredAgendamentos] = useState([]);
-    const [searchText, setSearchText] = useState('');
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const [statusFilter, setStatusFilter] = useState('todos');
-    const [currentPage, setCurrentPage] = useState(1);
-    const [sortedColumn, setSortedColumn] = useState(null);
-    const [isAsc, setIsAsc] = useState(true);
-    const [situacaoDoAgendamento, setSituacaoDoAgendamento] = useState([])
-    const [userAcesso, setUserAcesso] = useState(null);
-    const agendamentosPerPage = 15;
-
-    useEffect(() => {
-        const storedData = localStorage.getItem('user');
-
-        if (storedData) {
-            const parsedUser = JSON.parse(storedData);
-            setUserAcesso(parsedUser?.acesso !== undefined ? parsedUser.acesso : null);
-        }
-    }, []);
-
-    useEffect(() => {
-        ListarAgendamentos();
-        ListarSituacaoDoAgendamento();
-    }, []);
-
-    const agendSituacaoMap = {
-        1: 'Pendente',
-        2: 'Em andamento',
-        3: 'Concluído',
-        4: "Cancelado"
-    };
-
-    const colorMap = {
-        1: '#e69500f3',  // Pendente - Dourado
-        2: '#1b77d4',  // Em andamento - Azul
-        3: '#26a426',  // Concluído - Verde
-        4: '#c3290e'   // Cancelado - Vermelho
-    };
+     // Estados para armazenar agendamentos e informações relacionadas
+     const [agendamentos, setAgendamentos] = useState([]); // Lista completa de agendamentos
+     const [filteredAgendamentos, setFilteredAgendamentos] = useState([]); // Agendamentos filtrados
+     const [searchText, setSearchText] = useState(''); // Texto da barra de busca
+     const [startDate, setStartDate] = useState(''); // Data inicial para filtro
+     const [endDate, setEndDate] = useState(''); // Data final para filtro
+     const [statusFilter, setStatusFilter] = useState('todos'); // Filtro de status
+     const [currentPage, setCurrentPage] = useState(1); // Página atual na paginação
+     const [sortedColumn, setSortedColumn] = useState(null); // Coluna sendo ordenada
+     const [isAsc, setIsAsc] = useState(true); // Direção da ordenação (ascendente ou descendente)
+     const [situacaoDoAgendamento, setSituacaoDoAgendamento] = useState([]); // Lista de situações dos agendamentos
+     const [userAcesso, setUserAcesso] = useState(null); // Tipo de acesso do usuário
+     const agendamentosPerPage = 15; // Quantidade de agendamentos por página
+     
+     const [showForm, setShowForm] = useState(false);
+     const [isViewing, setIsViewing] = useState(false);
+     const [isEditing, setIsEditing] = useState(false);
 
     const [selectedAgend, setSelectedAgend] = useState({
         agend_data: '',
@@ -70,9 +50,33 @@ export default function HistoricoAgendamentos() {
         mar_nome: ''
     });
 
-    const [showForm, setShowForm] = useState(false);
-    const [isViewing, setIsViewing] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
+    const agendSituacaoMap = {
+        1: 'Pendente',
+        2: 'Em andamento',
+        3: 'Concluído',
+        4: "Cancelado"
+    };
+
+    const colorMap = {
+        1: '#e69500f3',  // Pendente - Dourado
+        2: '#1b77d4',  // Em andamento - Azul
+        3: '#26a426',  // Concluído - Verde
+        4: '#c3290e'   // Cancelado - Vermelho
+    };
+
+    useEffect(() => {
+        const storedData = localStorage.getItem('user');
+
+        if (storedData) {
+            const parsedUser = JSON.parse(storedData);
+            setUserAcesso(parsedUser?.acesso !== undefined ? parsedUser.acesso : null);
+        }
+    }, []);
+
+    useEffect(() => {
+        ListarAgendamentos();
+        ListarSituacaoDoAgendamento();
+    }, []);
 
     const handleSubmit = async (agendamentos) => {
         const dados = {

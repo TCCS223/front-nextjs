@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import styles from './page.module.css';
+
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';

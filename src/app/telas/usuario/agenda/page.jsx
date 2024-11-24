@@ -1,17 +1,21 @@
 "use client";
 
 import React, { useRef, useEffect, useState, Fragment } from 'react';
-import InputMask from "react-input-mask";
-import { Calendar } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import ptLocale from '@fullcalendar/core/locales/pt-br';
-import api from '@/services/api';
-import { parseISO, format, set } from "date-fns";
 import styles from './page.module.css';
-import Swal from 'sweetalert2';
+
+import api from '@/services/api';
+
 import CalendarEventDetailsModal from '@/components/modalAgendamentos';
+
+import { Calendar } from '@fullcalendar/core';
+import ptLocale from '@fullcalendar/core/locales/pt-br';
+import interactionPlugin from '@fullcalendar/interaction';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+
+import { parseISO, format } from "date-fns";
+import InputMask from "react-input-mask";
+import Swal from 'sweetalert2';
 
 const FullCalendarGeral = () => {
     const calendarRef = useRef(null);
@@ -20,15 +24,15 @@ const FullCalendarGeral = () => {
     const [userAcesso, setUserAcesso] = useState(null);
     const [events, setEvents] = useState([]);
     const [showModal, setShowModal] = useState(false);
-    const [showModalVisual, setShowModalVisual] = useState(false);
     const [modalEvent, setModalEvent] = useState(null);
     const [veiculos, setVeiculos] = useState([]);
     const [cpfUsuario, setCpfUsuario] = useState([]);
     const [agendamentosUsuario, setAgendamentoUsuario] = useState([]);
-    const [agendamentosTodos, setAgendamentoTodos] = useState([]);
     const [eventos, setEventos] = useState([]);
     const [categoriaServicos, setCategoriaServicos] = useState([]);
     const [servicos, setServicos] = useState([]);
+    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
+    const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
     const [formValues, setFormValues] = useState({
         veic_usu_id: '',
         agend_data: '',
@@ -38,14 +42,14 @@ const FullCalendarGeral = () => {
         serv_id: '',
         agend_serv_situ_id: 1
     });
-    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1);
-    const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
     
     useEffect(() => {
         if (userId) {
             ListarVeiculosUsuario();
         }
     }, [userId]);
+
+    
 
     useEffect(() => {
         const storedData = localStorage.getItem('user');
@@ -66,13 +70,65 @@ const FullCalendarGeral = () => {
         }
     }, [userAcesso]);
 
-
     useEffect(() => {
         ListarAgendamentosUsuario();
         ListarCategoriaServicos();
     }, [currentMonth, currentYear, userId, userAcesso]);
 
+    useEffect(() => {
+        if (currentMonth && currentYear) {
+    
+            const calendar = new Calendar(calendarRef.current, {
+                contentHeight: 600,
+                selectable: true,
+                locale: ptLocale,
+                aspectRatio: 2,
+                showNonCurrentDates: false,
+                timeZone: 'local',
+                eventOverlap: false,
+                selectOverlap: false,
+                expandRows: true,
+                plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'dayGridMonth,timeGridWeek,timeGridDay',
+                    center: 'title',
+                    right: 'today prev,next'
+                },
+                events: eventos,
+                datesSet: handleDatesSet,
+                dateClick: function (info) {
+                    const clickedDate = info.dateStr;  
+                    if (info.view.type === "dayGridMonth") {
+                        if (calendar) {
+                            calendar.changeView('timeGridDay', clickedDate); 
+                        }
+                    } else {
+                        handleDateClick(info); 
+                    }
+                },
+                eventClick: handleEventClick,
+                slotMinTime: '08:00:00',
+                slotMaxTime: '18:00:00',
+                eventTimeFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    meridiem: false
+                },
+                allDaySlot: false,
+            });
+    
+            calendar.render();
+            setCalendarApi(calendar); 
+        } else {
+            console.error("currentMonth ou currentYear não estão definidos corretamente");
+        }
+    }, [eventos, currentMonth, currentYear]);
+
     const ListarAgendamentosUsuario = async () => {
+        console.log(currentMonth, currentYear);
+        
+
         try {
             const response = await api.get(`/agendamentos/usuarios/${userId}/${userAcesso}/${currentMonth}/${currentYear}}`);
             setAgendamentoUsuario(response.data.dadosTodos);
@@ -82,22 +138,37 @@ const FullCalendarGeral = () => {
         }
     };
 
-    console.log("agendamentosUsuario:",agendamentosUsuario);
-    
-
     const handleDatesSet = (datesInfo) => {
         if (datesInfo.start) {
             const startDate = datesInfo.start;
             const newMonth = startDate.getMonth() + 1;
             const newYear = startDate.getFullYear();
-
-            setCurrentMonth(newMonth);
-            setCurrentYear(newYear);
-
+    
+            if (newMonth !== currentMonth || newYear !== currentYear) {
+                setCurrentMonth(newMonth);
+                setCurrentYear(newYear);
+            }
         } else {
             console.error("Data de início não disponível!");
         }
     };
+    
+
+    // const handleDatesSet = (datesInfo) => {
+    //     if (datesInfo.start) {
+    //         const startDate = datesInfo.start;
+    //         const newMonth = startDate.getMonth() + 1;
+    //         const newYear = startDate.getFullYear();
+
+    //         setCurrentMonth(newMonth);
+    //         setCurrentYear(newYear);
+
+    //         console.log(`Mês: ${newMonth}, Ano: ${newYear}`);  
+
+    //     } else {
+    //         console.error("Data de início não disponível!");
+    //     }
+    // };
 
     const BuscarUsuarioPorCpf = async () => {
         if (!cpfUsuario || cpfUsuario.trim().length === 0) {
@@ -195,14 +266,13 @@ const FullCalendarGeral = () => {
             console.error("Data inválida no evento.");
         }
     };
+
     const handleEventClick = (info) => {
         const isOwner = parseInt(info.event.extendedProps.userId) === parseInt(userId);
 
         if (userAcesso === 1 || isOwner) {
             setModalEvent(info.event);
-            
             setShowModal(true);
-
         } else {
             Swal.fire({
                 icon: 'info',
@@ -268,9 +338,6 @@ const FullCalendarGeral = () => {
         };
 
         try {
-
-            console.log(dataToSend);
-
             await api.post('/agendamentos', dataToSend);
             setEvents([...events, newEvent]);
             clearFields();
@@ -352,56 +419,6 @@ const FullCalendarGeral = () => {
         });
     };
 
-    useEffect(() => {
-        if (currentMonth && currentYear) {
-    
-            const calendar = new Calendar(calendarRef.current, {
-                contentHeight: 600,
-                selectable: true,
-                locale: ptLocale,
-                aspectRatio: 2,
-                showNonCurrentDates: false,
-                timeZone: 'local',
-                eventOverlap: false,
-                selectOverlap: false,
-                expandRows: true,
-                plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
-                initialView: 'dayGridMonth',
-                headerToolbar: {
-                    left: 'dayGridMonth,timeGridWeek,timeGridDay',
-                    center: 'title',
-                    right: 'today prev,next'
-                },
-                events: eventos,
-                datesSet: handleDatesSet,
-                dateClick: function (info) {
-                    const clickedDate = info.dateStr;  
-                    if (info.view.type === "dayGridMonth") {
-                        if (calendar) {
-                            calendar.changeView('timeGridDay', clickedDate); 
-                        }
-                    } else {
-                        handleDateClick(info); 
-                    }
-                },
-                eventClick: handleEventClick,
-                slotMinTime: '08:00:00',
-                slotMaxTime: '18:00:00',
-                eventTimeFormat: {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    meridiem: false
-                },
-                allDaySlot: false,
-            });
-    
-            calendar.render();
-            setCalendarApi(calendar); 
-        } else {
-            console.error("currentMonth ou currentYear não estão definidos corretamente");
-        }
-    }, [eventos, currentMonth, currentYear]);
-
     const visualizacao = () => {
         setShowModal(false);
         ListarAgendamentosUsuario();
@@ -418,7 +435,6 @@ const FullCalendarGeral = () => {
                                 <CalendarEventDetailsModal
                                     veiculos={veiculos}
                                     modalEvent={modalEvent}
-                                    agendamentosUsuario={agendamentosUsuario}
                                     onClose={visualizacao}
                                     isEditable={parseInt(modalEvent.extendedProps.userId) === parseInt(userId)}
                                     isAdmin={userAcesso === 1 ? 1 : ''}

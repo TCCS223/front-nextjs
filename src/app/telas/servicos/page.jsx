@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './page.module.css';
+
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 
@@ -53,8 +54,6 @@ export default function Servicos() {
                             <Link href='' className={`${styles.link_button} ${tela === 6 ? styles.active : ''}`} onClick={() => setTela(6)}>
                                 Proteção Cerâmica
                             </Link>
-
-                            <h2>Para conhecer todos os serviços, cadastre-se</h2>
 
                         </div>
 

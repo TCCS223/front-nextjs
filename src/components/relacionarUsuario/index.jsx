@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styles from './index.module.css';
+
 import api from "@/services/api";
+
 import InputMask from "react-input-mask";
 import Swal from "sweetalert2";
 
@@ -16,20 +18,20 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
 
             try {
                 const response = await api.post(`/usuarios/cpf`, { usu_cpf: cpfDigitado });
-                setUsuarios(response.data.dados); // Armazena o resultado da busca no estado
+                setUsuarios(response.data.dados); 
                 console.log("meus usuarios: ", response.data.dados);
             } catch (error) {
                 console.error("Erro ao buscar usuários:", error);
-                setUsuarios([]); // Limpa a lista em caso de erro
+                setUsuarios([]);
             }
         } else {
-            setUsuarios([]); // Limpa a lista se o CPF tiver menos de 3 dígitos
+            setUsuarios([]);
         }
     };
 
     const handleBuscarClick = (e) => {
         e.preventDefault();
-        buscarUsuarios(cpf); // Chama a função passando o CPF atual
+        buscarUsuarios(cpf);
     };
 
     const handleSelectUsuario = (usu_id) => {

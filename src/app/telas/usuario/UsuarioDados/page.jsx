@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
-import { IoMdEyeOff, IoMdEye } from "react-icons/io";
-import Swal from "sweetalert2";
-import { format } from 'date-fns';
-import api from "@/services/api";
-import InputMask from "react-input-mask";
 import styles from "./page.module.css";
+
+import api from "@/services/api";
+
+import { IoMdEyeOff, IoMdEye } from "react-icons/io";
+import { format } from 'date-fns';
+import Swal from "sweetalert2";
+import InputMask from "react-input-mask";
 
 export default function DadosDoUsuario() {
     const [meusDados, setMeusDados] = useState([]);
@@ -13,6 +15,12 @@ export default function DadosDoUsuario() {
     const [originalCpf, setOriginalCpf] = useState('');
     const [originalEmail, setOriginalEmail] = useState('');
     const [userId, setUserId] = useState(null);
+
+    const sexoMap = {
+        0: 'Feminino',
+        1: 'Masculino',
+        2: 'Outro'
+    };
 
     useEffect(() => {
         const storedUserId = localStorage.getItem('user');
@@ -56,13 +64,7 @@ export default function DadosDoUsuario() {
             [name]: newValue,
         }));
     };
-
-    const sexoMap = {
-        0: 'Feminino',
-        1: 'Masculino',
-        2: 'Outro'
-    };
-
+    
     const handleEdit = () => {
         setIsEditing(true);
     };
@@ -168,7 +170,6 @@ export default function DadosDoUsuario() {
             console.error('Erro na verificação do email:', error);
             return 'Ocorreu um erro ao verificar o email. Por favor, tente novamente.';
         }
-
         return null;
     };
 
