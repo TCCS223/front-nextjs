@@ -37,24 +37,17 @@ export default function ModalProprietarios({ isOpen, onClose, veiculoId }) {
         }
     };
 
-    console.log("testando aqui: ", proprietarios);
-
     const handleEditar = (proprietario) => {
         setEditId(proprietario.veic_usu_id);
         setEditStartDate(format(new Date(proprietario.data_inicial), 'yyyy-MM-dd'));
         setEditEndDate(proprietario.data_final ? format(new Date(proprietario.data_final), 'yyyy-MM-dd') : '');
     };
-
-    console.log("edit: ", editId);
     
     const handleSalvar = async (proprietarioId) => {
         const dados = {
             data_inicial: editStartDate,
             data_final: editEndDate
         };
-
-        console.log(dados);
-        
 
         try {
             const response = await api.patch(`/veiculoUsuario/${editId}`, dados);

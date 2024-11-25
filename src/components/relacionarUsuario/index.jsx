@@ -15,11 +15,10 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
 
     const buscarUsuarios = async (cpfDigitado) => {
         if (cpfDigitado.trim().length >= 3) {
-
             try {
                 const response = await api.post(`/usuarios/cpf`, { usu_cpf: cpfDigitado });
-                setUsuarios(response.data.dados); 
-                console.log("meus usuarios: ", response.data.dados);
+                const dados = response.data.dados;
+                setUsuarios(Array.isArray(dados) ? dados : [dados]);
             } catch (error) {
                 console.error("Erro ao buscar usuários:", error);
                 setUsuarios([]);
@@ -40,7 +39,13 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
 
     const handleSalvar = async () => {
         if (!usuarioSelecionado || !dataInicial) {
-            Swal.fire('Atenção', 'Selecione um usuário e uma data inicial.', 'warning');
+            Swal.fire({
+                title: 'Aviso',
+                text: 'Selecione uma data!',
+                icon: 'warning',
+                iconColor: '#ff9d00',
+                confirmButtonColor: '#ff9d00',
+            });
             return;
         }
 
@@ -111,7 +116,7 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
                             <span>CPF</span>
                             <span>Nome</span>
                         </li>
-                        {usuarios.length > 0 ? (
+                        {Array.isArray(usuarios) && usuarios.length > 0 ? (
                             usuarios.map((usuario) => (
                                 <li key={usuario.usu_id} className={styles.item}>
                                     <span>

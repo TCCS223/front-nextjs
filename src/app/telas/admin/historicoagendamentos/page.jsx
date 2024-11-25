@@ -64,7 +64,6 @@ export default function HistoricoAgendamentos() {
         4: '#c3290e'   // Cancelado - Vermelho
     };
 
-
     useEffect(() => {
         // Recupera os dados do usuário armazenados no localStorage
         const storedData = localStorage.getItem('user');
@@ -152,7 +151,7 @@ export default function HistoricoAgendamentos() {
         // Exibe um alerta de confirmação antes de cancelar o agendamento
         Swal.fire({
             title: "Tem certeza?",
-            text: "Você deseja realmente excluir este veículo? Esta ação não pode ser desfeita.",
+            text: "Você deseja realmente excluir este agendamento? Esta ação não pode ser desfeita.",
             icon: "warning",
             iconColor: "#ff9d00",
             showCancelButton: true,
@@ -181,7 +180,7 @@ export default function HistoricoAgendamentos() {
                         // Exibe uma mensagem de sucesso se o cancelamento foi concluído
                         Swal.fire({
                             title: 'Sucesso!',
-                            text: 'Veículo excluído com sucesso.',
+                            text: 'Agendamento excluído com sucesso.',
                             icon: 'success',
                             confirmButtonText: 'OK',
                             iconColor: "rgb(40, 167, 69)",
@@ -194,7 +193,7 @@ export default function HistoricoAgendamentos() {
                         // Exibe uma mensagem de erro personalizada
                         Swal.fire({
                             title: 'Erro!',
-                            text: response.data.mensagem || 'Ocorreu um erro ao excluir o veículo.',
+                            text: response.data.mensagem || 'Ocorreu um erro ao excluir o agendamento.',
                             icon: 'error',
                             confirmButtonText: 'OK',
                             iconColor: '#d33',
@@ -205,7 +204,7 @@ export default function HistoricoAgendamentos() {
                     // Exibe uma mensagem de erro genérica em caso de falha
                     Swal.fire({
                         title: 'Erro!',
-                        text: `Erro na exclusão do veículo: ${error.message}`,
+                        text: `Erro na exclusão do agendamento: ${error.message}`,
                         icon: 'error',
                         confirmButtonText: 'Ok',
                         iconColor: '#d33',
