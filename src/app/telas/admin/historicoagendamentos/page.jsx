@@ -336,7 +336,15 @@ export default function HistoricoAgendamentos() {
     // Atualiza os filtros com base no texto digitado
     const handleSearch = (text) => {
         setSearchText(text); // Atualiza o texto de busca
-        applyFilters(text, startDate, endDate, statusFilter); // Aplica os filtros
+        const lowerText = text.toLowerCase(); // Normaliza o texto para comparação
+    
+        const filtered = agendamentos.filter((agendamento) => {
+            const clienteMatch = agendamento.usu_nome.toLowerCase().includes(lowerText); // Verifica correspondência no nome do cliente
+            const servicoMatch = agendamento.serv_nome.toLowerCase().includes(lowerText); // Verifica correspondência no nome do serviço
+            return clienteMatch || servicoMatch; // Retorna verdadeiro se qualquer uma das condições for verdadeira
+        });
+    
+        setFilteredAgendamentos(filtered); // Atualiza os agendamentos filtrados
     };
 
     // Atualiza os filtros com base nas datas

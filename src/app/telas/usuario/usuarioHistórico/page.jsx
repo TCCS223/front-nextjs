@@ -157,8 +157,20 @@ export default function UsuarioHistorico() {
     };
     
     const handleSearch = (text) => {
-        setSearchText(text);
-        applyFilters(text, startDate, endDate, statusFilter);
+        setSearchText(text); // Atualiza o texto de busca
+        const lowerText = text.toLowerCase(); // Normaliza o texto para comparação
+    
+        const filtered = agendamentos.filter((agendamento) => {
+            const idMatch = agendamento.agend_id.toString().includes(lowerText); // Verifica ID
+            const placaMatch = agendamento.veic_placa.toLowerCase().includes(lowerText); // Verifica placa
+            const dataMatch = format(parseISO(agendamento.agend_data), 'dd/MM/yyyy').includes(lowerText); // Verifica data
+            const horarioMatch = agendamento.agend_horario.includes(lowerText); // Verifica horário
+            const servicoMatch = agendamento.serv_nome.toLowerCase().includes(lowerText); // Verifica nome do serviço
+    
+            return idMatch || placaMatch || dataMatch || horarioMatch || servicoMatch; // Combina todas as condições
+        });
+    
+        setFilteredAgendamentos(filtered); // Atualiza os agendamentos filtrados
     };
 
     const handleDateChange = (start, end) => {
