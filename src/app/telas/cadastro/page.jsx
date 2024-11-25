@@ -24,6 +24,9 @@ export default function Cadastro() {
     const [senhaErro, setSenhaErro] = useState([]);  // Estado para armazenar erros relacionados à senha
     const [focused, setFocused] = useState(false);  // Estado que controla se o campo de senha está focado
     const [senha, setSenha] = useState('');  // Estado que armazena o valor da senha
+    const [valida, setValida] = useState({
+        nascimento: { validado: true, mensagem: [] },
+    });
     const [usuario, setUsuario] = useState({  // Estado que armazena os dados do usuário
         usu_nome: '',
         usu_cpf: '',
@@ -89,7 +92,46 @@ export default function Cadastro() {
         return errorMessage; // Retorna a mensagem de erro ou null caso não haja erro
     };
 
-   
+    const validaNascimento = () => {
+        const hoje = new Date();
+        const anoAtual = hoje.getFullYear();
+        const dataNascimentoObj = new Date(usuario.usu_data_nasc);
+
+        let objTemp = {
+            validado: true,
+            mensagem: [],
+        };
+
+        if (usuario.usu_data_nasc.trim() === '') {
+            objTemp.validado = false;
+            objTemp.mensagem.push('O preenchimento da data é obrigatório.');
+        } else if (isNaN(dataNascimentoObj)) {
+            objTemp.validado = false;
+            objTemp.mensagem.push('Data de nascimento inválida.');
+        } else if (dataNascimentoObj > hoje) {
+            objTemp.validado = false;
+            objTemp.mensagem.push('A data de nascimento não pode ser futura.');
+        } else {
+            const anoNascimento = dataNascimentoObj.getFullYear();
+            const idade = anoAtual - anoNascimento;
+
+            if (idade > 100) {
+                objTemp.validado = false;
+                objTemp.mensagem.push('A idade não pode ser superior a 100 anos.');
+            }
+            if (idade < 18) {
+                objTemp.validado = false;
+                objTemp.mensagem.push('A idade não pode ser inferior a 18 anos.');
+            }
+        }
+
+        setValida(prevState => ({
+            ...prevState,
+            nascimento: objTemp,
+        }));
+
+        return objTemp.validado ? 1 : 0;
+    };
 
 
     const validateCPF = async () => {
@@ -189,6 +231,11 @@ export default function Cadastro() {
         e.preventDefault(); // Previne o comportamento padrão de envio do formulário
 
         const errors = []; // Cria um array para armazenar erros de validação
+
+        const nascimentoValido = validaNascimento();
+        if (nascimentoValido === 0) {
+            errors.push('Corrija os erros na data de nascimento.');
+        }
 
         // Valida CPF e adiciona erro
         const cpfValidationError = await validateCPF();
@@ -397,18 +444,22 @@ export default function Cadastro() {
                             </div>
 
                             <div className={styles.doubleInputGroup}>
-                                <div className={styles.inputGroup}>
-                                    <label htmlFor="dataNascimento" className={styles.labelCadastro}>Data de Nascimento</label>
+                                <div className={`${styles.inputGroup} ${valida?.nascimento?.mensagem.length ? styles.errorActive : ''}`}>
+                                    <label htmlFor="nascimento" className={styles.labelCadastro}>Data de Nascimento</label>
                                     <input
                                         type="date"
-                                        id="dataNascimento"
+                                        id="nascimento"
                                         name="usu_data_nasc"
-                                        className={styles.inputCadastro}
+                                        className={`${styles.inputCadastro} ${valida?.nascimento?.mensagem.length ? styles.errorActive : ''}`}
                                         value={usuario.usu_data_nasc}
                                         onChange={handleChange}
                                         required
                                     />
+                                    {valida?.nascimento?.mensagem.length > 0 && (
+                                        <span className={styles.error}>{valida.nascimento.mensagem.join(' ')}</span>
+                                    )}
                                 </div>
+
 
                                 <div className={styles.inputGroup}>
                                     <label htmlFor="sexo" className={styles.labelCadastro}>Sexo</label>
