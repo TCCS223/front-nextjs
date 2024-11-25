@@ -264,6 +264,10 @@ export default function UsuarioVeiculos() {
             veic_cor: selectedVehicle.veic_cor || veiculos.veic_cor,
             veic_combustivel: selectedVehicle.veic_combustivel || veiculos.veic_combustivel,
             veic_observ: selectedVehicle.veic_observ || veiculos.veic_observ,
+            ehproprietario: selectedVehicle.ehproprietario !== undefined
+                ? parseInt(selectedVehicle.ehproprietario, 10)
+                : parseInt(veiculos.ehproprietario, 10)
+            // veic_situacao: selectedVehicle.veic_situacao || veiculos.veic_situacao, // Alterado
             };
 
         const UpdateVeiculoUsuario = {
@@ -303,7 +307,7 @@ export default function UsuarioVeiculos() {
                 if (!responseVehicle.data.sucesso) {
                     throw new Error("Falha ao atualizar veículo: " + responseVehicle.data.mensagem);
                 }
-
+                 
                 const responseUsuario = await api.patch(`/veiculoUsuario/${selectedVehicle.veic_usu_id}`, UpdateVeiculoUsuario);
                 if (!responseUsuario.data.sucesso) {
                     throw new Error("Falha ao atualizar veículo-usuário: " + responseUsuario.data.mensagem);

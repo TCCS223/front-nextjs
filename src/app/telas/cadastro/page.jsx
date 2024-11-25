@@ -59,19 +59,19 @@ export default function Cadastro() {
     const validateEmail = async () => {
         const email = usuario.usu_email.trim(); // Obtém o email do usuário e remove espaços em branco no início e no fim
         let errorMessage = null; // Variável para armazenar a mensagem de erro, caso haja
-    
+
         // Verifica se o email é válido utilizando a função isValidEmail
         if (!isValidEmail(email)) {
             errorMessage = 'Email inválido.'; // Define a mensagem de erro se o email for inválido
             setEmailError(errorMessage); // Exibe a mensagem de erro no estado de erro do email
             return errorMessage; // Retorna a mensagem de erro e sai da função
         }
-    
+
         setIsCheckingEmail(true); // Define que a verificação de email está em andamento
         try {
             // Realiza uma requisição à API para verificar se o email já está cadastrado
             const response = await api.post('/usuarios/verificarEmail', { usu_email: email });
-    
+
             // Verifica se a resposta da API indica que o email já está cadastrado
             if (response.data.sucesso && response.data.dados) {
                 errorMessage = 'Email já está cadastrado.'; // Define a mensagem de erro se o email já existir
@@ -85,33 +85,36 @@ export default function Cadastro() {
         } finally {
             setIsCheckingEmail(false); // Define que a verificação de email foi concluída
         }
-    
+
         return errorMessage; // Retorna a mensagem de erro ou null caso não haja erro
     };
+
+   
+
 
     const validateCPF = async () => {
         const cpfNumbers = usuario.usu_cpf.trim(); // Obtém o CPF do usuário e remove espaços em branco
         let errorMessage = null; // Variável para armazenar a mensagem de erro, caso haja
-    
+
         // Verifica se o CPF tem exatamente 14 caracteres
         if (cpfNumbers.length !== 14) {
             errorMessage = 'CPF deve conter 11 dígitos numéricos.'; // Define a mensagem de erro para CPF inválido
             setCpfError(errorMessage); // Exibe a mensagem de erro no estado de erro do CPF
             return errorMessage; // Retorna a mensagem de erro e sai da função
         }
-    
+
         // Verifica se o CPF é válido usando a biblioteca cpfValidator
         if (!cpfValidator.isValid(cpfNumbers)) {
             errorMessage = 'CPF inválido.'; // Define a mensagem de erro se o CPF não for válido
             setCpfError(errorMessage); // Exibe a mensagem de erro
             return errorMessage; // Retorna a mensagem de erro
         }
-    
+
         setIsCheckingCpf(true); // Define que a verificação de CPF está em andamento
         try {
             // Realiza uma requisição à API para verificar se o CPF já está cadastrado
             const response = await api.post('/usuarios/verificarCpf', { usu_cpf: cpfNumbers });
-    
+
             // Verifica se a resposta da API indica que o CPF já está cadastrado
             if (response.data.sucesso && response.data.dados) {
                 errorMessage = 'CPF já está cadastrado.'; // Define a mensagem de erro se o CPF já existir
@@ -125,21 +128,22 @@ export default function Cadastro() {
         } finally {
             setIsCheckingCpf(false); // Define que a verificação de CPF foi concluída
         }
-    
+
         return errorMessage; // Retorna a mensagem de erro ou null caso não haja erro
     };
+
 
     const handleChangeSenha = (event) => {
         const novaSenha = event.target.value; // Obtém o valor da nova senha digitada
         setSenha(novaSenha); // Atualiza o estado da senha
         setUsuario({ ...usuario, usu_senha: novaSenha }); // Atualiza o objeto 'usuario' com a nova senha
-    
+
         if (focused) { // Se o campo de senha estiver focado, valida a senha
             const erros = validarSenha(novaSenha); // Valida a senha
             setSenhaErro(erros); // Exibe os erros de validação no estado da senha
         }
     };
-    
+
     const validarSenha = (senha) => {
         const minLength = 8; // Tamanho mínimo da senha
         const hasUpperCase = /[A-Z]/.test(senha); // Verifica se a senha contém letra maiúscula
@@ -147,9 +151,9 @@ export default function Cadastro() {
         const hasNumber = /\d/.test(senha); // Verifica se a senha contém número
         const hasSpecialChar = /[!@#$%^&*]/.test(senha); // Verifica se a senha contém caractere especial
         const hasSpaces = /\s/.test(senha); // Verifica se a senha contém espaços em branco
-    
+
         let errorMessage = []; // Array para armazenar as mensagens de erro
-    
+
         // Valida os requisitos da senha e adiciona as mensagens de erro correspondentes
         if (senha.length < minLength) {
             errorMessage.push(`Pelo menos ${minLength} caracteres.`); // Mensagem de erro se a senha for muito curta
@@ -169,46 +173,47 @@ export default function Cadastro() {
         if (hasSpaces) {
             errorMessage.push('Sem espaços em branco.'); // Mensagem de erro se houver espaços em branco
         }
-    
+
         return errorMessage.length > 0 ? errorMessage : []; // Retorna as mensagens de erro ou um array vazio se não houver erros
     };
 
     const handleFocus = () => {
         setFocused(true); // Define o estado "focused" como verdadeiro quando o campo ganha o foco
     };
-    
+
     const handleBlur = () => {
         setFocused(false); // Define o estado "focused" como falso quando o campo perde o foco
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault(); // Previne o comportamento padrão de envio do formulário
-    
+
         const errors = []; // Cria um array para armazenar erros de validação
-    
+
         // Valida CPF e adiciona erro
         const cpfValidationError = await validateCPF();
         if (cpfValidationError) {
             errors.push(cpfValidationError);
         }
-    
+
         // Valida e-mail e adiciona erro,
         const emailValidationError = await validateEmail();
         if (emailValidationError) {
             errors.push(emailValidationError);
         }
-    
+
         // Valida a senha e adiciona erro, se houver
         const senhaError = validarSenha(senha);
         if (senhaError.length > 0) {
             errors.push(senhaError.join(' ')); // Junta os erros de senha em uma string
         }
-    
+
+
         // Se houver erros, exibe uma mensagem de erro
         if (errors.length > 0) {
             Swal.fire({
                 title: 'Dados Incorretos',
-                html: errors.join('<br/>'), 
+                html: errors.join('<br/>'),
                 icon: 'error',
                 confirmButtonText: 'OK',
                 iconColor: '#d33',
@@ -223,7 +228,7 @@ export default function Cadastro() {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex para validar o formato de e-mail
         return emailRegex.test(email); // Retorna verdadeiro se o e-mail for válido
     };
-    
+
     const clearInputs = () => {
         // Limpa todos os campos do formulário
         setUsuario({
@@ -245,10 +250,10 @@ export default function Cadastro() {
     async function cadastrar() {
         try {
             const response = await api.post('/usuarios', usuario); // Envia a solicitação POST para criar um usuário
-    
+
             if (response.data.sucesso === true) { // Verifica se o cadastro foi bem-sucedido
                 const usu_id = response.data.dados; // Obtém o ID do usuário
-    
+
                 clearInputs(); // Limpa os campos do formulário após o cadastro
                 localStorage.clear(); // Limpa o localStorage
                 localStorage.setItem('user', JSON.stringify({
@@ -261,7 +266,7 @@ export default function Cadastro() {
                     cpf: usuario.usu_cpf,
                     telefone: usuario.usu_telefone,
                 })); // Armazena os dados do usuário no localStorage
-    
+
                 toast.success('Cadastrado com sucesso!', { // Exibe uma notificação de sucesso
                     position: "top-right",
                     autoClose: 3000,
@@ -272,11 +277,11 @@ export default function Cadastro() {
                     progress: undefined,
                     theme: "colored",
                 });
-    
+
                 setTimeout(() => {
                     router.push('/telas/login'); // Redireciona para a página de login após 1,5 segundos
                 }, 1500);
-    
+
             } else {
                 console.error('Erro no cadastro:', response.data.mensagem, response.data.dados); // Loga o erro no console
                 if (response.data.mensagem.includes('CPF já cadastrado')) {
