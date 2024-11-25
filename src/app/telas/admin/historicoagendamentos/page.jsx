@@ -13,23 +13,23 @@ import Swal from 'sweetalert2';
 
 
 export default function HistoricoAgendamentos() {
-     // Estados para armazenar agendamentos e informações relacionadas
-     const [agendamentos, setAgendamentos] = useState([]); // Lista completa de agendamentos
-     const [filteredAgendamentos, setFilteredAgendamentos] = useState([]); // Agendamentos filtrados
-     const [searchText, setSearchText] = useState(''); // Texto da barra de busca
-     const [startDate, setStartDate] = useState(''); // Data inicial para filtro
-     const [endDate, setEndDate] = useState(''); // Data final para filtro
-     const [statusFilter, setStatusFilter] = useState('todos'); // Filtro de status
-     const [currentPage, setCurrentPage] = useState(1); // Página atual na paginação
-     const [sortedColumn, setSortedColumn] = useState(null); // Coluna sendo ordenada
-     const [isAsc, setIsAsc] = useState(true); // Direção da ordenação (ascendente ou descendente)
-     const [situacaoDoAgendamento, setSituacaoDoAgendamento] = useState([]); // Lista de situações dos agendamentos
-     const [userAcesso, setUserAcesso] = useState(null); // Tipo de acesso do usuário
-     const agendamentosPerPage = 15; // Quantidade de agendamentos por página
-     
-     const [showForm, setShowForm] = useState(false);
-     const [isViewing, setIsViewing] = useState(false);
-     const [isEditing, setIsEditing] = useState(false);
+    // Estados para armazenar agendamentos e informações relacionadas
+    const [agendamentos, setAgendamentos] = useState([]); // Lista completa de agendamentos
+    const [filteredAgendamentos, setFilteredAgendamentos] = useState([]); // Agendamentos filtrados
+    const [searchText, setSearchText] = useState(''); // Texto da barra de busca
+    const [startDate, setStartDate] = useState(''); // Data inicial para filtro
+    const [endDate, setEndDate] = useState(''); // Data final para filtro
+    const [statusFilter, setStatusFilter] = useState('todos'); // Filtro de status
+    const [currentPage, setCurrentPage] = useState(1); // Página atual na paginação
+    const [sortedColumn, setSortedColumn] = useState(null); // Coluna sendo ordenada
+    const [isAsc, setIsAsc] = useState(true); // Direção da ordenação (ascendente ou descendente)
+    const [situacaoDoAgendamento, setSituacaoDoAgendamento] = useState([]); // Lista de situações dos agendamentos
+    const [userAcesso, setUserAcesso] = useState(null); // Tipo de acesso do usuário
+    const agendamentosPerPage = 15; // Quantidade de agendamentos por página
+
+    const [showForm, setShowForm] = useState(false);
+    const [isViewing, setIsViewing] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
 
     const [selectedAgend, setSelectedAgend] = useState({
         agend_data: '',
@@ -64,21 +64,27 @@ export default function HistoricoAgendamentos() {
         4: '#c3290e'   // Cancelado - Vermelho
     };
 
+
     useEffect(() => {
+        // Recupera os dados do usuário armazenados no localStorage
         const storedData = localStorage.getItem('user');
 
         if (storedData) {
+            // Se houver dados armazenados, faz o parsing do JSON e define o acesso do usuário
             const parsedUser = JSON.parse(storedData);
             setUserAcesso(parsedUser?.acesso !== undefined ? parsedUser.acesso : null);
         }
-    }, []);
+    }, []); // Executa apenas uma vez ao montar o componente
 
     useEffect(() => {
+        // Lista os agendamentos e a situação dos agendamentos ao montar o componente
         ListarAgendamentos();
         ListarSituacaoDoAgendamento();
-    }, []);
+    }, []); // Executa apenas uma vez ao montar o componente
+
 
     const handleSubmit = async (agendamentos) => {
+        // Prepara os dados para envio, baseando-se nos valores selecionados
         const dados = {
             veic_usu_id: selectedAgend.veic_usu_id,
             agend_data: selectedAgend.agend_data,
@@ -93,9 +99,11 @@ export default function HistoricoAgendamentos() {
             let response;
 
             if (isEditing) {
+                // Se estiver editando, realiza uma requisição PATCH para atualizar os dados
                 response = await api.patch(`/agendamentos/${agendamentos.agend_id}`, dados);
             }
 
+            // Exibe uma mensagem de sucesso
             Swal.fire({
                 title: 'Sucesso!',
                 text: response.data.mensagem,
@@ -104,11 +112,15 @@ export default function HistoricoAgendamentos() {
                 confirmButtonColor: "rgb(40, 167, 69)",
             });
 
+            // Reseta os estados do formulário
             setShowForm(false);
             setIsEditing(false);
             setIsViewing(false);
+
+            // Atualiza a lista de agendamentos
             ListarAgendamentos();
         } catch (error) {
+            // Exibe uma mensagem de erro em caso de falha
             console.error('Erro ao salvar o agendamento:', error);
             Swal.fire({
                 title: 'Erro!',
@@ -121,13 +133,15 @@ export default function HistoricoAgendamentos() {
     };
 
     const handleEditAgend = (agendamentos) => {
-        setShowForm(true)
+        // Prepara o estado para edição de um agendamento específico
+        setShowForm(true);
         setSelectedAgend(agendamentos);
         setIsViewing(false);
         setIsEditing(true);
     };
 
     const handleViewAgend = (agendamentos) => {
+        // Prepara o estado para visualização de um agendamento específico
         setSelectedAgend(agendamentos);
         setShowForm(true);
         setIsViewing(true);
@@ -135,6 +149,7 @@ export default function HistoricoAgendamentos() {
     };
 
     const CancelarAgendamento = async (agendamentos) => {
+        // Exibe um alerta de confirmação antes de cancelar o agendamento
         Swal.fire({
             title: "Tem certeza?",
             text: "Você deseja realmente excluir este veículo? Esta ação não pode ser desfeita.",
@@ -148,9 +163,9 @@ export default function HistoricoAgendamentos() {
             reverseButtons: true,
             backdrop: "rgba(0,0,0,0.7)"
         }).then(async (result) => {
-
             if (result.isConfirmed) {
                 try {
+                    // Define a situação de cancelamento e monta os dados para envio
                     const situacao = 0;
                     const servSituacaoId = 4;
 
@@ -159,9 +174,11 @@ export default function HistoricoAgendamentos() {
                         agend_serv_situ_id: parseInt(servSituacaoId, 10)
                     };
 
+                    // Envia a requisição para cancelar o agendamento
                     const response = await api.patch(`/agendamentos/cancelar/${agendamentos.agend_id}`, dados);
 
                     if (response.data.sucesso) {
+                        // Exibe uma mensagem de sucesso se o cancelamento foi concluído
                         Swal.fire({
                             title: 'Sucesso!',
                             text: 'Veículo excluído com sucesso.',
@@ -170,8 +187,11 @@ export default function HistoricoAgendamentos() {
                             iconColor: "rgb(40, 167, 69)",
                             confirmButtonColor: "rgb(40, 167, 69)",
                         });
+
+                        // Atualiza a lista de agendamentos
                         ListarAgendamentos();
                     } else {
+                        // Exibe uma mensagem de erro personalizada
                         Swal.fire({
                             title: 'Erro!',
                             text: response.data.mensagem || 'Ocorreu um erro ao excluir o veículo.',
@@ -182,6 +202,7 @@ export default function HistoricoAgendamentos() {
                         });
                     }
                 } catch (error) {
+                    // Exibe uma mensagem de erro genérica em caso de falha
                     Swal.fire({
                         title: 'Erro!',
                         text: `Erro na exclusão do veículo: ${error.message}`,
@@ -196,29 +217,33 @@ export default function HistoricoAgendamentos() {
     };
 
     const Cancelar = () => {
+        // Exibe um alerta de confirmação para cancelar as alterações
         Swal.fire({
-            title: "Deseja Cancelar?",
-            text: "As informações não serão salvas",
-            icon: "warning",
-            iconColor: "orange",
-            showCancelButton: true,
-            cancelButtonColor: "#d33",
-            confirmButtonColor: "rgb(40, 167, 69)",
-            cancelButtonText: "Cancelar",
-            confirmButtonText: "Confirmar",
-            reverseButtons: true,
-            backdrop: "rgba(0,0,0,0.7)",
+            title: "Deseja Cancelar?", // Título do alerta
+            text: "As informações não serão salvas", // Mensagem informativa
+            icon: "warning", // Ícone de alerta
+            iconColor: "orange", // Cor do ícone
+            showCancelButton: true, // Exibe o botão de cancelamento
+            cancelButtonColor: "#d33", // Cor do botão de cancelar
+            confirmButtonColor: "rgb(40, 167, 69)", // Cor do botão de confirmação
+            cancelButtonText: "Cancelar", // Texto do botão de cancelar
+            confirmButtonText: "Confirmar", // Texto do botão de confirmação
+            reverseButtons: true, // Inverte a ordem dos botões
+            backdrop: "rgba(0,0,0,0.7)", // Fundo semitransparente
         }).then((result) => {
+            // Verifica se o botão de confirmação foi clicado
             if (result.isConfirmed) {
+                // Exibe uma mensagem de sucesso ao cancelar as alterações
                 Swal.fire({
-                    title: "Cancelado!",
-                    text: "As alterações foram canceladas.",
-                    icon: "success",
-                    iconColor: "rgb(40, 167, 69)",
-                    confirmButtonColor: "rgb(40, 167, 69)",
+                    title: "Cancelado!", // Título da mensagem
+                    text: "As alterações foram canceladas.", // Mensagem informativa
+                    icon: "success", // Ícone de sucesso
+                    iconColor: "rgb(40, 167, 69)", // Cor do ícone
+                    confirmButtonColor: "rgb(40, 167, 69)", // Cor do botão de confirmação
                 }).then(() => {
-                    setShowForm(false);
-                    setSelectedAgend({
+                    // Reseta os estados ao cancelar
+                    setShowForm(false); // Esconde o formulário
+                    setSelectedAgend({ // Limpa os dados do agendamento
                         agend_data: '',
                         agend_horario: '',
                         agend_id: '',
@@ -234,16 +259,17 @@ export default function HistoricoAgendamentos() {
                         cat_serv_id: '',
                         cat_serv_nome: ''
                     });
-                    setIsViewing(false);
-                    setIsEditing(false);
+                    setIsViewing(false); // Reseta o estado de visualização
+                    setIsEditing(false); // Reseta o estado de edição
                 });
             }
         });
     };
 
     const handleExit = () => {
-        setShowForm(false);
-        setSelectedAgend({
+        // Função para fechar o formulário e resetar os estados
+        setShowForm(false); // Esconde o formulário
+        setSelectedAgend({ // Limpa os dados do agendamento
             agend_data: '',
             agend_horario: '',
             agend_id: '',
@@ -259,105 +285,122 @@ export default function HistoricoAgendamentos() {
             cat_serv_id: '',
             cat_serv_nome: ''
         });
-        setIsViewing(false);
-        setIsEditing(false);
+        setIsViewing(false); // Reseta o estado de visualização
+        setIsEditing(false); // Reseta o estado de edição
     };
 
     const ListarAgendamentos = async () => {
         try {
+            // Requisição para buscar os agendamentos
             const response = await api.get('/agendamentos');
 
+            // Ordena os agendamentos por data e horário em ordem decrescente
             const agendamentosOrdenados = response.data.dados.sort((a, b) => {
                 const dateTimeA = new Date(`${a.agend_data}T${a.agend_horario}`);
                 const dateTimeB = new Date(`${b.agend_data}T${b.agend_horario}`);
                 return dateTimeB - dateTimeA;
             });
 
-            setAgendamentos(agendamentosOrdenados);
-            setFilteredAgendamentos(agendamentosOrdenados);
+            setAgendamentos(agendamentosOrdenados); // Atualiza os agendamentos
+            setFilteredAgendamentos(agendamentosOrdenados); // Atualiza os agendamentos filtrados
         } catch (error) {
+            // Exibe um alerta caso ocorra erro na requisição
             console.error("Erro ao buscar os agendamentos:", error);
             Swal.fire({
-                title: "Erro!",
-                text: "Não foi possível carregar os agendamentos.",
-                icon: "error",
-                iconColor: '#d33',
-                confirmButtonColor: '#d33',
+                title: "Erro!", // Título do alerta
+                text: "Não foi possível carregar os agendamentos.", // Mensagem de erro
+                icon: "error", // Ícone de erro
+                iconColor: '#d33', // Cor do ícone
+                confirmButtonColor: '#d33', // Cor do botão de confirmação
             });
         }
     };
 
     const ListarSituacaoDoAgendamento = async () => {
         try {
+            // Requisição para buscar as situações de agendamento
             const responde = await api.get('/agendaServicosSituacao');
-            setSituacaoDoAgendamento(responde.data.dados);
+            setSituacaoDoAgendamento(responde.data.dados); // Atualiza as situações
         } catch (error) {
+            // Exibe um alerta caso ocorra erro na requisição
             console.error("Erro ao buscar os situações dos agendamentos:", error);
             Swal.fire({
-                title: "Erro!",
-                text: "Não foi possível carregar os agendamentos.",
-                icon: "error",
-                iconColor: '#d33',
-                confirmButtonColor: '#d33',
+                title: "Erro!", // Título do alerta
+                text: "Não foi possível carregar os agendamentos.", // Mensagem de erro
+                icon: "error", // Ícone de erro
+                iconColor: '#d33', // Cor do ícone
+                confirmButtonColor: '#d33', // Cor do botão de confirmação
             });
         }
     };
 
+    // Atualiza os filtros com base no texto digitado
     const handleSearch = (text) => {
-        setSearchText(text);
-        applyFilters(text, startDate, endDate, statusFilter);
+        setSearchText(text); // Atualiza o texto de busca
+        applyFilters(text, startDate, endDate, statusFilter); // Aplica os filtros
     };
 
+    // Atualiza os filtros com base nas datas
     const handleDateChange = (start, end) => {
-        setStartDate(start);
-        setEndDate(end);
-        applyFilters(searchText, start, end, statusFilter);
+        setStartDate(start); // Atualiza a data inicial
+        setEndDate(end); // Atualiza a data final
+        applyFilters(searchText, start, end, statusFilter); // Aplica os filtros
     };
 
+    // Atualiza os filtros com base no status selecionado
     const handleStatusFilterChange = (status) => {
-        setStatusFilter(status);
-        applyFilters(searchText, startDate, endDate, status);
+        setStatusFilter(status); // Atualiza o status
+        applyFilters(searchText, startDate, endDate, status); // Aplica os filtros
     };
 
+
+    // Aplica os filtros nos agendamentos
     const applyFilters = (text, start, end, status) => {
         const result = agendamentos.filter((agendamento) => {
+            // Verifica se o texto corresponde ao agendamento
             const matchesText = agendamento.agend_observ.toLowerCase().includes(text.toLowerCase()) ||
                 agendamento.veic_placa.toLowerCase().includes(text.toLowerCase()) ||
                 agendamento.agend_id.toString().includes(text);
 
+            // Calcula as datas de início e fim do filtro
             const agendamentoData = new Date(agendamento.agend_data).setUTCHours(0, 0, 0, 0);
             const startDate = start ? new Date(start).setUTCHours(0, 0, 0, 0) : null;
             const endDate = end ? new Date(end).setUTCHours(23, 59, 59, 999) : null;
 
+            // Verifica se as datas correspondem ao filtro
             const matchesDate = (!startDate || agendamentoData >= startDate) &&
                 (!endDate || agendamentoData <= endDate);
 
+            // Verifica se o status corresponde ao filtro
             const matchesStatus = status === 'todos' || agendamento.agend_serv_situ_id === parseInt(status);
 
-            return matchesText && matchesDate && matchesStatus;
+            return matchesText && matchesDate && matchesStatus; // Retorna o resultado final do filtro
         });
-        setFilteredAgendamentos(result);
-        setCurrentPage(1);
+        setFilteredAgendamentos(result); // Atualiza os agendamentos filtrados
+        setCurrentPage(1); // Reseta a página atual
     };
 
+    // Ordena os agendamentos por coluna
     const sortByColumn = (column) => {
-        let newIsAsc = true;
-        if (sortedColumn === column) newIsAsc = !isAsc;
+        let newIsAsc = true; // Define a direção de ordenação inicial
+        if (sortedColumn === column) newIsAsc = !isAsc; // Inverte a direção se a coluna for a mesma
 
         const sortedData = [...filteredAgendamentos].sort((a, b) => {
+            // Compara os valores da coluna para ordenação
             if (a[column] < b[column]) return newIsAsc ? -1 : 1;
             if (a[column] > b[column]) return newIsAsc ? 1 : -1;
             return 0;
         });
 
-        setFilteredAgendamentos(sortedData);
-        setSortedColumn(column);
-        setIsAsc(newIsAsc);
+        setFilteredAgendamentos(sortedData); // Atualiza os agendamentos ordenados
+        setSortedColumn(column); // Atualiza a coluna ordenada
+        setIsAsc(newIsAsc); // Atualiza a direção de ordenação
     };
 
-    const indexOfLastAgendamento = currentPage * agendamentosPerPage;
-    const indexOfFirstAgendamento = indexOfLastAgendamento - agendamentosPerPage;
-    const currentAgendamentos = filteredAgendamentos.slice(indexOfFirstAgendamento, indexOfLastAgendamento);
+    // Determina os índices para a paginação
+    const indexOfLastAgendamento = currentPage * agendamentosPerPage; // Índice do último agendamento na página atual
+    const indexOfFirstAgendamento = indexOfLastAgendamento - agendamentosPerPage; // Índice do primeiro agendamento na página atual
+    const currentAgendamentos = filteredAgendamentos.slice(indexOfFirstAgendamento, indexOfLastAgendamento); // Lista de agendamentos exibidos na página atual
 
     return (
         <div id="clientes" className={styles.content_section}>

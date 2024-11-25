@@ -164,29 +164,33 @@ export default function CadCliente() {
     };
 
     const handleSubmit = async (usuario) => {
+        const errors = []; // Array para armazenar mensagens de erro
 
-        const errors = [];
-
+        // Valida o CPF do usuário e, se inválido, adiciona o erro ao array
         const cpfError = await validarCPF(usuario.usu_cpf);
         if (cpfError) {
             errors.push(cpfError);
         }
 
+        // Valida o email do usuário e, se inválido, adiciona o erro ao array
         const emailError = await validaEmail(usuario);
         if (emailError) {
             errors.push(emailError);
         }
 
+        // Valida a senha do usuário; se houver erros, adiciona ao array, senão limpa o erro
         const senhaError = validarSenha(usuario.usu_senha);
         if (senhaError.length > 0) {
-            errors.push(senhaError.join(' '));
+            errors.push(senhaError.join(' ')); // Junta os erros de senha em uma única string
         } else {
-            setSenhaErro('');
+            setSenhaErro(''); // Limpa o erro de senha se não houver
         }
+
+        // Se houver erros, exibe um alerta ao usuário e encerra a execução
         if (errors.length > 0) {
             Swal.fire({
                 title: 'Dados Incorretos',
-                html: errors.join('<br/>'),
+                html: errors.join('<br/>'), // Exibe os erros como uma lista HTML
                 icon: 'error',
                 confirmButtonText: 'OK',
                 iconColor: '#d33',
@@ -198,12 +202,14 @@ export default function CadCliente() {
         try {
             let response;
 
+            // Verifica se é uma edição (usu_id existente) ou criação de novo usuário
             if (usuario.usu_id) {
-                response = await api.patch(`/usuarios/${usuario.usu_id}`, usuario);
+                response = await api.patch(`/usuarios/${usuario.usu_id}`, usuario); // Atualiza o usuário
             } else {
-                response = await api.post('/usuarios', usuario);
+                response = await api.post('/usuarios', usuario); // Cria um novo usuário
             }
 
+            // Exibe mensagem de sucesso e atualiza a lista de usuários
             Swal.fire({
                 title: 'Sucesso!',
                 text: response.data.mensagem,
@@ -212,19 +218,21 @@ export default function CadCliente() {
                 confirmButtonColor: "rgb(40, 167, 69)",
             });
 
-            ListarUsuarios();
-            setShowForm(false);
+            ListarUsuarios(); // Atualiza a lista de usuários
+            setShowForm(false); // Fecha o formulário
         } catch (error) {
             const backendErrors = [];
 
+            // Processa os erros retornados pelo backend
             if (error.response && error.response.data) {
                 if (error.response.data.erros && Array.isArray(error.response.data.erros)) {
-                    backendErrors.push(...error.response.data.erros);
+                    backendErrors.push(...error.response.data.erros); // Adiciona múltiplos erros
                 } else if (error.response.data.mensagem) {
-                    backendErrors.push(error.response.data.mensagem);
+                    backendErrors.push(error.response.data.mensagem); // Adiciona mensagem de erro única
                 }
             }
 
+            // Exibe os erros do backend ou uma mensagem genérica de erro
             if (backendErrors.length > 0) {
                 Swal.fire({
                     title: 'Erro!',
@@ -246,14 +254,14 @@ export default function CadCliente() {
     };
 
     const validarSenha = (senha) => {
-        const minLength = 8;
-        const hasUpperCase = /[A-Z]/.test(senha);
-        const hasLowerCase = /[a-z]/.test(senha);
-        const hasNumber = /\d/.test(senha);
-        const hasSpecialChar = /[!@#$%^&*]/.test(senha);
-        const hasSpaces = /\s/.test(senha);
+        const minLength = 8; // Tamanho mínimo para a senha
+        const hasUpperCase = /[A-Z]/.test(senha); // Verifica se há letras maiúsculas
+        const hasLowerCase = /[a-z]/.test(senha); // Verifica se há letras minúsculas
+        const hasNumber = /\d/.test(senha); // Verifica se há números
+        const hasSpecialChar = /[!@#$%^&*]/.test(senha); // Verifica se há caracteres especiais
+        const hasSpaces = /\s/.test(senha); // Verifica se há espaços em branco
 
-        let errorMessage = [];
+        let errorMessage = []; // Array para armazenar mensagens de erro
 
         if (senha.length < minLength) {
             errorMessage.push(`Pelo menos ${minLength} caracteres.`);
@@ -274,31 +282,33 @@ export default function CadCliente() {
             errorMessage.push('Sem espaços em branco.');
         }
 
-        return errorMessage.length > 0 ? errorMessage : [];
+        return errorMessage.length > 0 ? errorMessage : []; // Retorna os erros ou uma lista vazia
     };
 
     const handleFocus = () => {
-        setFocused(true);
+        setFocused(true); // Define que o campo está focado
     };
 
     const handleBlur = () => {
-        setFocused(false);
-        validarSenha(senha);
+        setFocused(false); // Remove o foco do campo
+        validarSenha(senha); // Valida a senha quando o foco é removido
     };
 
     const validarCPF = async (cpf) => {
-        const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/;
+        const cpfRegex = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/; // Valida o formato do CPF (ex: 123.456.789-00)
 
         if (!cpfRegex.test(cpf)) {
             return 'CPF inválido.';
         }
 
-        const numbersOnly = cpf.replace(/[^\d]/g, '');
+        const numbersOnly = cpf.replace(/[^\d]/g, ''); // Remove caracteres não numéricos
 
+        // Valida o tamanho e se todos os dígitos são iguais
         if (numbersOnly.length !== 11 || /^(\d)\1+$/.test(numbersOnly)) {
             return 'CPF inválido.';
         }
 
+        // Validação matemática dos dígitos verificadores
         let soma = 0;
         let resto;
 
@@ -320,6 +330,8 @@ export default function CadCliente() {
         if (resto !== parseInt(numbersOnly.substring(10, 11))) {
             return 'CPF inválido.';
         }
+
+        // Verifica se o CPF já está cadastrado no backend
         try {
             const response = await api.post('/usuarios/verificarCpf', { usu_cpf: cpf });
             if (response.data.sucesso && response.data.dados) {
@@ -329,9 +341,10 @@ export default function CadCliente() {
             console.error('Erro na verificação do CPF:', error);
             return 'Erro na verificação do CPF. Por favor, tente novamente.';
         }
-        return null;
+        return null; // Retorna nulo se não houver erros
     };
 
+    // Função para verificar o formato do email
     function checkEmail(email) {
         return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
             email
@@ -339,14 +352,17 @@ export default function CadCliente() {
     };
 
     const validaEmail = async (usuario) => {
-        const email = usuario.usu_email.trim();
-        const id = usuario.usu_id;
+        const email = usuario.usu_email.trim(); // Remove espaços em branco do email
+        const id = usuario.usu_id; // ID do usuário (se existir)
 
+        // Valida se o email está vazio ou é inválido
         if (!email) {
             return 'O e-mail do usuário é obrigatório.';
         } else if (!checkEmail(email)) {
             return 'Insira um e-mail válido.';
         }
+
+        // Verifica se o email já está cadastrado no backend
         try {
             const response = await api.post('/usuarios/verificarEmail', { usu_email: email, usu_id: id });
             if (response.data.sucesso && response.data.dados) {
@@ -356,25 +372,27 @@ export default function CadCliente() {
             console.error('Erro na verificação do email:', error);
             return 'Erro na verificação do email. Por favor, tente novamente.';
         }
-        return null;
+        return null; // Retorna nulo se não houver erros
     };
 
     const sortByColumn = (column) => {
-        let newIsAsc = true;
+        let newIsAsc = true; // Define a ordem como ascendente inicialmente
 
+        // Inverte a ordem caso a coluna seja a mesma
         if (sortedColumn === column) {
             newIsAsc = !isAsc;
         }
 
+        // Ordena os dados da tabela com base na coluna e ordem
         const sortedData = [...filteredUsers].sort((a, b) => {
             if (a[column] < b[column]) return newIsAsc ? -1 : 1;
             if (a[column] > b[column]) return newIsAsc ? 1 : -1;
             return 0;
         });
 
-        setFilteredUsers(sortedData);
-        setSortedColumn(column);
-        setIsAsc(newIsAsc);
+        setFilteredUsers(sortedData); // Atualiza os dados filtrados
+        setSortedColumn(column); // Define a coluna como a coluna atual
+        setIsAsc(newIsAsc); // Atualiza a ordem de classificação
     };
 
     const Cancelar = () => {

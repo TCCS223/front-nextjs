@@ -1,74 +1,75 @@
 'use client'
 
-import { useState, useEffect } from 'react';
-import styles from './page.module.css';
+import { useState, useEffect } from 'react'; // Importa hooks do React para gerenciar estado e efeitos colaterais.
+import styles from './page.module.css'; // Importa o arquivo CSS para estilização.
 
-import api from '@/services/api';
+import api from '@/services/api'; // Importa a configuração da API.
 
-import FormServicos from '@/components/FormServicos';
-import ModalNovaCategoria from '@/components/novaCategoria';
-import EditarCategoria from '@/components/editarCategoria';
+import FormServicos from '@/components/FormServicos'; // Componente para o formulário de serviços.
+import ModalNovaCategoria from '@/components/novaCategoria'; // Componente para modal de criação de nova categoria.
+import EditarCategoria from '@/components/editarCategoria'; // Componente para edição de categoria.
 
-import { PiListMagnifyingGlassBold } from "react-icons/pi";
-import { MdRemoveRedEye, MdEdit } from "react-icons/md";
-import Swal from 'sweetalert2';
+import { PiListMagnifyingGlassBold } from "react-icons/pi"; // Importa ícone para a lista com lupa.
+import { MdRemoveRedEye, MdEdit } from "react-icons/md"; // Importa ícones para visualização e edição.
+import Swal from 'sweetalert2'; // Biblioteca para exibição de alertas e notificações.
 
 export default function Servicos() {
-    const [servicos, setServicos] = useState([]);
-    const [selectedServico, setSelectedServico] = useState(null);
-    const [isViewing, setIsViewing] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
-    const [statusFilter, setStatusFilter] = useState('todos');
-    const [searchText, setSearchText] = useState('');
-    const [showForm, setShowForm] = useState(false);
-    const [filteredServicos, setFilteredServicos] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [sortedColumn, setSortedColumn] = useState(null);
-    const [isAsc, setIsAsc] = useState(true);
-    const [categoriasServ, setCategoriasServ] = useState([]);
-    const [modalCategoriaOpen, setModalCategoriaOpen] = useState(false);
-    const [editarCategoriaOpen, setEditarCategoriaOpen] = useState(false);
+    const [servicos, setServicos] = useState([]); // Estado para armazenar a lista de serviços.
+    const [selectedServico, setSelectedServico] = useState(null); // Serviço selecionado para visualização ou edição.
+    const [isViewing, setIsViewing] = useState(false); // Controle de visualização de um serviço.
+    const [isEditing, setIsEditing] = useState(false); // Controle de edição de um serviço.
+    const [statusFilter, setStatusFilter] = useState('todos'); // Filtro de status aplicado à lista.
+    const [searchText, setSearchText] = useState(''); // Texto da busca no campo de pesquisa.
+    const [showForm, setShowForm] = useState(false); // Controle de exibição do formulário de serviços.
+    const [filteredServicos, setFilteredServicos] = useState([]); // Lista de serviços filtrados.
+    const [currentPage, setCurrentPage] = useState(1); // Página atual da paginação.
+    const [sortedColumn, setSortedColumn] = useState(null); // Coluna atualmente ordenada.
+    const [isAsc, setIsAsc] = useState(true); // Ordem de ordenação (ascendente ou descendente).
+    const [categoriasServ, setCategoriasServ] = useState([]); // Lista de categorias de serviços.
+    const [modalCategoriaOpen, setModalCategoriaOpen] = useState(false); // Controle do estado do modal para nova categoria.
+    const [editarCategoriaOpen, setEditarCategoriaOpen] = useState(false); // Controle do estado do modal para editar categoria.
 
-    const usersPerPage = 15;
+    const usersPerPage = 15; // Quantidade de serviços exibidos por página.
 
-    const indexOfLastUser = currentPage * usersPerPage;
-    const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    const currentServicos = filteredServicos.slice(indexOfFirstUser, indexOfLastUser);
+    const indexOfLastUser = currentPage * usersPerPage; // Índice do último serviço da página atual.
+    const indexOfFirstUser = indexOfLastUser - usersPerPage; // Índice do primeiro serviço da página atual.
+    const currentServicos = filteredServicos.slice(indexOfFirstUser, indexOfLastUser); // Serviços exibidos na página atual.
 
     useEffect(() => {
-        ListarServicos();
+        ListarServicos(); // Chama a função para listar serviços ao montar o componente.
     }, []);
 
     useEffect(() => {
-        setFilteredServicos(servicos);
+        setFilteredServicos(servicos); // Atualiza a lista de serviços filtrados sempre que a lista original muda.
     }, [servicos]);
 
     useEffect(() => {
-        handleSearch();
+        handleSearch(); // Realiza busca sempre que o texto de pesquisa ou o filtro de status mudam.
     }, [searchText, statusFilter]);
 
     const ListarServicos = async () => {
         try {
-            const response = await api.get('/servicos');
-            setServicos(response.data.dados);
+            const response = await api.get('/servicos'); // Faz uma requisição para buscar os serviços.
+            setServicos(response.data.dados); // Armazena os serviços retornados no estado.
         } catch (error) {
-            console.error("Erro ao buscar os serviços:", error);
+            console.error("Erro ao buscar os serviços:", error); // Loga o erro no console.
             Swal.fire({
                 title: 'Erro!',
-                text: 'Não foi possível carregar os serviços.',
-                icon: 'error',
-                iconColor: '#d33',
-                confirmButtonColor: '#d33',
+                text: 'Não foi possível carregar os serviços.', // Exibe uma mensagem de erro para o usuário.
+                icon: 'error', // Ícone de erro no alerta.
+                iconColor: '#d33', // Cor do ícone do alerta.
+                confirmButtonColor: '#d33', // Cor do botão de confirmação.
             });
         }
     };
 
     const ListarCategoriasServAtivas = async () => {
         try {
-            const response = await api.get('/categoriasServicosAtivas');
-            setCategoriasServ(response.data.dados);
+            const response = await api.get('/categoriasServicosAtivas'); // Faz uma requisição à API para obter as categorias de serviços ativas
+            setCategoriasServ(response.data.dados);  // Atualiza o estado com os dados das categorias recebidas
         } catch (error) {
-            console.error("Erro ao buscar as categorias:", error);
+            console.error("Erro ao buscar as categorias:", error); // Loga o erro no console para depuração
+            // Exibe um alerta indicando que houve um erro ao buscar as categorias
             Swal.fire({
                 title: 'Erro!',
                 text: 'Não foi possível buscar as categorias.',
@@ -80,39 +81,52 @@ export default function Servicos() {
     };
 
     const handleSearch = () => {
+        // Reseta a coluna de ordenação para o estado inicial
         setSortedColumn(null);
+        // Define a ordenação como ascendente
         setIsAsc(true);
 
+        // Filtra os serviços com base no status e no texto de busca
         const result = servicos.filter((servico) => {
+            // Verifica se o status do serviço corresponde ao filtro aplicado
             const statusMatch = statusFilter === 'todos' ||
                 (statusFilter === 'ativo' && servico.serv_situacao === 'Ativo') ||
                 (statusFilter === 'inativo' && servico.serv_situacao === 'Inativo');
 
+            // Verifica se o nome do serviço ou da categoria inclui o texto pesquisado
             const searchTextMatch = searchText === '' ||
                 servico.serv_nome.toLowerCase().includes(searchText.toLowerCase()) ||
                 servico.cat_serv_nome.toLowerCase().includes(searchText.toLowerCase());
 
+            // Retorna true se o serviço atender aos dois critérios de filtro
             return statusMatch && searchTextMatch;
         });
 
+        // Atualiza o estado com os serviços filtrados
         setFilteredServicos(result);
+        // Redefine a página atual para a primeira
         setCurrentPage(1);
     };
 
     const handleViewServicos = async (servicos) => {
         try {
+            // Faz uma requisição à API para obter os detalhes de um serviço específico
             const response = await api.get(`/servicos/${servicos.serv_id}`);
 
             if (response.data.sucesso) {
+                // Se a requisição for bem-sucedida, atualiza os estados relevantes
                 setSelectedServico(response.data.dados);
-                setShowForm(true);
-                setIsViewing(true);
-                setIsEditing(false);
+                setShowForm(true); // Exibe o formulário
+                setIsViewing(true); // Modo de visualização ativado
+                setIsEditing(false); // Modo de edição desativado
             } else {
+                // Lança um erro caso a resposta indique falha
                 throw new Error(response.data.mensagem);
             }
         } catch (error) {
+            // Loga o erro no console para depuração
             console.error("Erro ao visualizar serviço:", error);
+            // Exibe um alerta indicando o erro ao visualizar o serviço
             Swal.fire({
                 title: 'Erro!',
                 text: error.response ? error.response.data.mensagem : 'Erro desconhecido ao buscar serviço.',
@@ -124,17 +138,19 @@ export default function Servicos() {
     };
 
     const handleEditServicos = (servicos) => {
+        // Define o serviço selecionado para edição
         setSelectedServico(servicos);
-        setShowForm(true);
-        setIsViewing(false);
-        setIsEditing(true);
+        setShowForm(true); // Exibe o formulário
+        setIsViewing(false); // Modo de visualização desativado
+        setIsEditing(true); // Modo de edição ativado
     };
 
     const handleExit = () => {
-        setShowForm(false);
-        setSelectedServico(null);
-        setIsViewing(false);
-        setIsEditing(false);
+        // Restaura os estados ao sair do formulário
+        setShowForm(false); // Oculta o formulário
+        setSelectedServico(null); // Remove o serviço selecionado
+        setIsViewing(false); // Desativa o modo de visualização
+        setIsEditing(false); // Desativa o modo de edição
     };
 
     const handleSubmit = async (servico) => {
@@ -142,11 +158,14 @@ export default function Servicos() {
             let response;
 
             if (servico.serv_id) {
+                // Atualiza um serviço existente
                 response = await api.patch(`/servicos/${servico.serv_id}`, servico);
             } else {
+                // Cria um novo serviço
                 response = await api.post('/servicos', servico);
             }
 
+            // Exibe um alerta de sucesso após salvar o serviço
             Swal.fire({
                 title: 'Sucesso!',
                 text: response.data.mensagem,
@@ -155,10 +174,13 @@ export default function Servicos() {
                 iconColor: 'rgb(40, 167, 69)',
             });
 
+            // Atualiza a lista de serviços e fecha o formulário
             ListarServicos();
             setShowForm(false);
         } catch (error) {
+            // Loga o erro no console para depuração
             console.error("Erro ao salvar serviço:", error);
+            // Exibe um alerta indicando o erro ao salvar o serviço
             Swal.fire({
                 title: 'Erro!',
                 text: error.response ? error.response.data.mensagem : 'Erro ao salvar serviço.',
@@ -170,37 +192,47 @@ export default function Servicos() {
     };
 
     const Create = () => {
+        // Inicializa o objeto "selectedServico" com valores padrão
         setSelectedServico({
-            cat_serv_id: '',
-            serv_descricao: '',
-            serv_duracao: '',
-            serv_nome: '',
-            serv_preco: '',
-            serv_situacao: 1
-        })
+            cat_serv_id: '',        // ID da categoria do serviço (vazio por padrão)
+            serv_descricao: '',     // Descrição do serviço (vazio por padrão)
+            serv_duracao: '',       // Duração do serviço (vazio por padrão)
+            serv_nome: '',          // Nome do serviço (vazio por padrão)
+            serv_preco: '',         // Preço do serviço (vazio por padrão)
+            serv_situacao: 1        // Situação do serviço (ativo por padrão)
+        });
+
+        // Exibe o formulário de criação de serviço
         setShowForm(true);
+
+        // Carrega a lista de categorias de serviço ativas
         ListarCategoriasServAtivas();
     };
 
     const sortByColumn = (column) => {
-        let newIsAsc = true;
+        let newIsAsc = true; // Define a ordenação como ascendente por padrão
 
+        // Se a coluna já estiver ordenada, inverte a direção da ordenação
         if (sortedColumn === column) {
             newIsAsc = !isAsc;
         }
 
+        // Ordena os dados com base na coluna selecionada e na direção da ordenação
         const sortedData = [...filteredServicos].sort((a, b) => {
-            if (a[column] < b[column]) return newIsAsc ? -1 : 1;
+            if (a[column] < b[column]) return newIsAsc ? -1 : 1; // Comparação para ordenação ascendente/descendente
             if (a[column] > b[column]) return newIsAsc ? 1 : -1;
-            return 0;
+            return 0; // Elementos iguais não mudam de posição
         });
 
+        // Atualiza os dados filtrados e os estados de coluna ordenada e direção
         setFilteredServicos(sortedData);
         setSortedColumn(column);
         setIsAsc(newIsAsc);
     };
 
+
     const Cancelar = () => {
+        // Exibe um alerta de confirmação para cancelar alterações
         Swal.fire({
             title: "Deseja Cancelar?",
             text: "As informações não serão salvas",
@@ -214,7 +246,8 @@ export default function Servicos() {
             reverseButtons: true,
             backdrop: "rgba(0,0,0,0.7)",
         }).then((result) => {
-            if (result.isConfirmed) {
+            if (result.isConfirmed) { // Se o botão de confirmação for clicado
+                // Exibe um alerta informando que o cancelamento foi realizado
                 Swal.fire({
                     title: "Cancelado!",
                     text: "As alterações foram canceladas.",
@@ -222,6 +255,7 @@ export default function Servicos() {
                     iconColor: "rgb(40, 167, 69)",
                     confirmButtonColor: "rgb(40, 167, 69)",
                 }).then(() => {
+                    // Fecha o formulário e redefine os estados relacionados
                     setShowForm(false);
                     setSelectedServico(null);
                     setIsViewing(false);
@@ -232,19 +266,19 @@ export default function Servicos() {
     };
 
     const handleNovaCategoria = () => {
-        setModalCategoriaOpen(true);
+        setModalCategoriaOpen(true); // Abre o modal para criação de uma nova categoria
     };
 
     const handleCategoriaCriada = () => {
-        ListarCategoriasServAtivas();
+        ListarCategoriasServAtivas(); // Atualiza a lista de categorias após a criação de uma nova categoria
     };
 
     const handleEditCategoria = () => {
-        setEditarCategoriaOpen(true);
+        setEditarCategoriaOpen(true); // Abre o modal para editar uma categoria existente
     };
 
     const handleCategoriaExcluida = () => {
-        ListarCategoriasServAtivas();
+        ListarCategoriasServAtivas(); // Atualiza a lista de categorias após a exclusão de uma categoria
     };
 
     return (
