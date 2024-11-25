@@ -49,8 +49,6 @@ const FullCalendarGeral = () => {
         }
     }, [userId]);
 
-
-
     useEffect(() => {
         const storedData = localStorage.getItem('user');
 
@@ -74,22 +72,11 @@ const FullCalendarGeral = () => {
         ListarAgendamentosUsuario();
         ListarCategoriaServicos();
     }, [currentMonth, currentYear, userId, userAcesso]);
-
+    
     useEffect(() => {
-        if (currentMonth && currentYear && userId !== null) {
-            ListarAgendamentosUsuario();
-        }
-    }, [currentMonth, currentYear, userId]);
+        if (currentMonth && currentYear) {
+            const initialDate = `${currentYear}-${String(currentMonth).padStart(2, '0')}-01`;
 
-    useEffect(() => {
-        if (calendarApi) {
-            calendarApi.removeAllEvents();
-            calendarApi.addEventSource(eventos);
-        }
-    }, [eventos, calendarApi]);
-
-    useEffect(() => {
-        if (!calendarApi) {
             const calendar = new Calendar(calendarRef.current, {
                 contentHeight: 600,
                 selectable: true,
@@ -103,16 +90,19 @@ const FullCalendarGeral = () => {
                 plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
                 initialView: 'dayGridMonth',
                 headerToolbar: {
-                    left: 'dayGridMonth,timeGridWeek,timeGridDay',
+                    left: 'dayGridMonth,timeGridWeek',
                     center: 'title',
-                    right: 'today prev,next',
+                    right: 'today prev,next'
                 },
+                initialDate: initialDate,
                 events: eventos,
                 datesSet: handleDatesSet,
                 dateClick: function (info) {
                     const clickedDate = info.dateStr;
                     if (info.view.type === "dayGridMonth") {
-                        calendar.changeView('timeGridDay', clickedDate);
+                        if (calendar) {
+                            calendar.changeView('timeGridDay', clickedDate);
+                        }
                     } else {
                         handleDateClick(info);
                     }
@@ -123,15 +113,16 @@ const FullCalendarGeral = () => {
                 eventTimeFormat: {
                     hour: '2-digit',
                     minute: '2-digit',
-                    meridiem: false,
-                },
-                allDaySlot: false,
+                    meridiem: false
+                }
             });
 
             calendar.render();
             setCalendarApi(calendar);
+        } else {
+            console.error("currentMonth ou currentYear não estão definidos corretamente");
         }
-    }, []);
+    }, [eventos, currentMonth, currentYear]);
 
     const ListarAgendamentosUsuario = async () => {
         try {
