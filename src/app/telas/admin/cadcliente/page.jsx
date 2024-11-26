@@ -685,7 +685,7 @@ export default function CadCliente() {
                         )}
                     </div>
                 </>
-            )};
+            )}
 
             <ModalRelacionarVeiculo
                 isOpen={modalCategoriaOpen}

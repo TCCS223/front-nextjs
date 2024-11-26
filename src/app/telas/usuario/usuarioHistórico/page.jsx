@@ -201,13 +201,13 @@ export default function UsuarioHistorico() {
     const CancelarAgendamento = async (agendamentos) => {
         Swal.fire({
             title: "Tem certeza?",
-            text: "Você deseja realmente excluir este veículo? Esta ação não pode ser desfeita.",
+            text: "Você deseja realmente cancelar este agendamento? Esta ação não pode ser desfeita.",
             icon: "warning",
             iconColor: "#ff9d00",
             showCancelButton: true,
             confirmButtonColor: "rgb(40, 167, 69)",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Sim, excluir!",
+            confirmButtonText: "Sim, cancelar!",
             cancelButtonText: "Cancelar",
             reverseButtons: true,
             backdrop: "rgba(0,0,0,0.7)"
@@ -227,7 +227,7 @@ export default function UsuarioHistorico() {
                     if (response.data.sucesso) {
                         Swal.fire({
                             title: 'Sucesso!',
-                            text: 'Veículo excluído com sucesso.',
+                            text: 'Agendamento cancelado com sucesso.',
                             icon: 'success',
                             confirmButtonText: 'OK',
                             iconColor: "rgb(40, 167, 69)",
@@ -237,7 +237,7 @@ export default function UsuarioHistorico() {
                     } else {
                         Swal.fire({
                             title: 'Erro!',
-                            text: response.data.mensagem || 'Ocorreu um erro ao excluir o veículo.',
+                            text: response.data.mensagem || 'Ocorreu um erro ao cancelar o agendamento.',
                             icon: 'error',
                             confirmButtonText: 'OK',
                             iconColor: '#d33',
@@ -247,7 +247,7 @@ export default function UsuarioHistorico() {
                 } catch (error) {
                     Swal.fire({
                         title: 'Erro!',
-                        text: `Erro na exclusão do veículo: ${error.message}`,
+                        text: `Erro no cancelamento do agendamento: ${error.message}`,
                         icon: 'error',
                         confirmButtonText: 'Ok',
                         iconColor: '#d33',
@@ -509,7 +509,7 @@ export default function UsuarioHistorico() {
 
                                                     <i>
                                                         <IoMdTrash
-                                                            title='excluir'
+                                                            title="Cancelar"
                                                             onClick={() => CancelarAgendamento(agendamento)}
                                                         />
                                                     </i>

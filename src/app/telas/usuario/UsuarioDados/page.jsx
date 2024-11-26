@@ -152,17 +152,42 @@ export default function DadosDoUsuario() {
         );
     }
 
+    // const validaEmail = async (usuario) => {
+    //     const email = usuario.usu_email.trim();
+
+    //     if (!email) {
+    //         return 'O e-mail do usuário é obrigatório.';
+    //     } else if (!checkEmail(email)) {
+    //         return 'Insira um e-mail válido.';
+    //     }
+
+    //     try {
+    //         const response = await api.post('/usuarios/verificarEmail', { usu_email: email });
+    //         if (response.data.sucesso && response.data.dados) {
+    //             return 'Email já está cadastrado.';
+    //         }
+    //     } catch (error) {
+    //         console.error('Erro na verificação do email:', error);
+    //         return 'Ocorreu um erro ao verificar o email. Por favor, tente novamente.';
+    //     }
+    //     return null;
+    // };
+
     const validaEmail = async (usuario) => {
         const email = usuario.usu_email.trim();
-
+    
         if (!email) {
             return 'O e-mail do usuário é obrigatório.';
         } else if (!checkEmail(email)) {
             return 'Insira um e-mail válido.';
         }
-
+    
         try {
-            const response = await api.post('/usuarios/verificarEmail', { usu_email: email });
+            const response = await api.post('/usuarios/verificarEmail', { 
+                usu_email: email, 
+                usu_id: usuario.usu_id // Enviar o ID do usuário
+            });
+    
             if (response.data.sucesso && response.data.dados) {
                 return 'Email já está cadastrado.';
             }
@@ -182,18 +207,20 @@ export default function DadosDoUsuario() {
                 Swal.fire({
                     icon: "error",
                     title: "Erro",
+                    iconColor: "#d33",
                     text: cpfError,
                 });
                 return; 
             }
         }
-
+        
         if (meusDados.usu_email !== originalEmail) {
             const emailError = await validaEmail(meusDados);
             if (emailError) {
                 Swal.fire({
                     icon: "error",
                     title: "Erro",
+                    iconColor: "#d33",
                     text: emailError,
                 });
                 return;
@@ -209,6 +236,7 @@ export default function DadosDoUsuario() {
                     text: "Dados salvos com sucesso!",
                     icon: "success",
                     confirmButtonColor: "rgb(40, 167, 69)",
+                    iconColor: "rgb(40, 167, 69)",
                 });
                 setIsEditing(false); 
             } else {
@@ -310,7 +338,7 @@ export default function DadosDoUsuario() {
                                         className={`${styles.select_cliente} ${styles.input_sexo}`}
                                         required
                                     >
-                                        <option value="">Selecionar</option>
+                                        {/* <option value="">Selecionar</option> */}
                                         <option value="0">Feminino</option>
                                         <option value="1">Masculino</option>
                                         <option value="2">Outro</option>

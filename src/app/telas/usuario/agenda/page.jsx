@@ -331,7 +331,7 @@ const FullCalendarGeral = () => {
             });
 
         } catch (error) {
-            if (error.response && error.response.status === 400 && error.response.data.mensagem === 'Horário indisponível') {
+            if (error.response && error.response.status === 400 && error.response.data.mensagem === 'Horário indisponível ou data inválida.') {
                 clearFields();
 
                 Swal.fire({

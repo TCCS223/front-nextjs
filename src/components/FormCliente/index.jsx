@@ -134,7 +134,7 @@ export default function FormCliente({ selectedUser, setSelectedUser, senhaErro, 
                             className={`${styles.select_cliente} ${styles.input_sexo}`}
                             required
                         >
-                            <option value="">Selecionar</option>
+                            <option value="" disabled>Selecionar</option>
                             <option value="0">Feminino</option>
                             <option value="1">Masculino</option>
                             <option value="2">Outro</option>

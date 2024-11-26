@@ -255,12 +255,12 @@ export default function Cadastro() {
             errors.push(senhaError.join(' ')); // Junta os erros de senha em uma string
         }
 
-
         // Se houver erros, exibe uma mensagem de erro
         if (errors.length > 0) {
             Swal.fire({
                 title: 'Dados Incorretos',
-                html: errors.join('<br/>'),
+                text: 'Verifique novamente seus dados',
+                // html: errors.join('<br/>'),
                 icon: 'error',
                 confirmButtonText: 'OK',
                 iconColor: '#d33',
@@ -379,7 +379,7 @@ export default function Cadastro() {
                 });
             }
         }
-    }
+    };
 
     return (
         <>
@@ -471,10 +471,10 @@ export default function Cadastro() {
                                         onChange={handleChange}
                                         required
                                     >
-                                        <option value="" disabled>Selecione</option>
+                                        <option value="" hidden>Selecione</option>
+                                        <option value="0">Feminino</option>
                                         <option value="1">Masculino</option>
-                                        <option value="2">Feminino</option>
-                                        <option value="3">Outro</option>
+                                        <option value="2">Outro</option>
                                     </select>
                                 </div>
                             </div>
