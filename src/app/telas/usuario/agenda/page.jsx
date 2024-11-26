@@ -90,7 +90,7 @@ const FullCalendarGeral = () => {
                 plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
                 initialView: 'dayGridMonth',
                 headerToolbar: {
-                    left: 'dayGridMonth,timeGridWeek',
+                    left: 'dayGridMonth',
                     center: 'title',
                     right: 'today prev,next'
                 },
