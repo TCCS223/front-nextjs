@@ -114,7 +114,8 @@ const FullCalendarGeral = () => {
                     hour: '2-digit',
                     minute: '2-digit',
                     meridiem: false
-                }
+                },
+                allDaySlot: false,
             });
 
             calendar.render();
