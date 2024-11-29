@@ -13,20 +13,37 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
     const [ehProprietario, setEhProprietario] = useState(false);
     const [dataInicial, setDataInicial] = useState('');
 
+    // const buscarUsuarios = async (cpfDigitado) => {
+    //     if (cpfDigitado.trim().length >= 3) {
+    //         try {
+    //             const response = await api.post(`/usuarios/cpf`, { usu_cpf: cpfDigitado });
+    //             const dados = response.data.dados;
+    //             setUsuarios(Array.isArray(dados) ? dados : [dados]);
+    //         } catch (error) {
+    //             console.error("Erro ao buscar usuários:", error);
+    //             setUsuarios([]);
+    //         }
+    //     } else {
+    //         setUsuarios([]);
+    //     }
+    // };
     const buscarUsuarios = async (cpfDigitado) => {
         if (cpfDigitado.trim().length >= 3) {
             try {
                 const response = await api.post(`/usuarios/cpf`, { usu_cpf: cpfDigitado });
-                const dados = response.data.dados;
-                setUsuarios(Array.isArray(dados) ? dados : [dados]);
+                
+                // Define os usuários diretamente, pois a API já retorna um array
+                setUsuarios(response.data.dados || []); 
             } catch (error) {
                 console.error("Erro ao buscar usuários:", error);
-                setUsuarios([]);
+                setUsuarios([]); // Garante que a lista estará vazia em caso de erro
             }
         } else {
-            setUsuarios([]);
+            setUsuarios([]); // Limpa a lista se o CPF for muito curto
         }
     };
+    
+
 
     const handleBuscarClick = (e) => {
         e.preventDefault();
@@ -118,20 +135,22 @@ export default function ModalRelacionarUsuario({ isOpen, onClose, veiculoId }) {
                         </li>
                         {Array.isArray(usuarios) && usuarios.length > 0 ? (
                             usuarios.map((usuario) => (
-                                <li key={usuario.usu_id} className={styles.item}>
-                                    <span>
-                                        <input
-                                            type="radio"
-                                            name="usuario"
-                                            onChange={() => handleSelectUsuario(usuario.usu_id)}
-                                            checked={usuarioSelecionado === usuario.usu_id}
-                                            className={styles.radio}
-                                        />
-                                    </span>
-                                    <span className={styles.spanId}>{usuario.usu_id}</span>
-                                    <span>{usuario.usu_cpf}</span>
-                                    <span>{usuario.usu_nome}</span>
-                                </li>
+                                usuario && ( // Verificação para garantir que `usuario` não seja nulo ou indefinido
+                                    <li key={usuario.usu_id || Math.random()} className={styles.item}>
+                                        <span>
+                                            <input
+                                                type="radio"
+                                                name="usuario"
+                                                onChange={() => handleSelectUsuario(usuario.usu_id)}
+                                                checked={usuarioSelecionado !== null && usuarioSelecionado === usuario.usu_id}
+                                                className={styles.radio}
+                                            />
+                                        </span>
+                                        <span className={styles.spanId}>{usuario.usu_id || "N/A"}</span>
+                                        <span>{usuario.usu_cpf || "N/A"}</span>
+                                        <span>{usuario.usu_nome || "N/A"}</span>
+                                    </li>
+                                )
                             ))
                         ) : (
                             <li className={styles.noResults}>Nenhum usuário encontrado</li>
