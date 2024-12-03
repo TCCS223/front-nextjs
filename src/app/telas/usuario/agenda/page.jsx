@@ -49,6 +49,9 @@ const FullCalendarGeral = () => {
         }
     }, [userId]);
 
+console.log(userId);
+
+
     useEffect(() => {
         const storedData = localStorage.getItem('user');
 
@@ -163,7 +166,7 @@ const FullCalendarGeral = () => {
         try {
             const response = await api.post('/usuarios/cpf', { usu_cpf: cpfUsuario });
 
-            if (response.data.dados && response.data.dados.usu_id) {
+            if (response.data.dados) {
                 setUserId(response.data.dados.usu_id);
             } else {
                 Swal.fire({
